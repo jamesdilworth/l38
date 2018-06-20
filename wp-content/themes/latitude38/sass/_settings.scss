@@ -1,0 +1,36 @@
+$copy-on-white: #777;
+$copy-on-dark: #E2E3E9;
+$base-color: #254a71; // Dark Blue
+$background-grey: #f3f3f3;
+$super-light-grey: #f6f6f6;
+$soft-link: #b4e7f8;
+
+$accent1: #79d6f4; // #79E6E0;
+$accent2: #029ecf; // Darker Blue
+$accent3: #c4e223;
+$accent4: #203230; // Dark Green
+$accent5: #00b8d6;
+$accent6: #f03059;
+
+$radius:3px;
+
+$fonts-path:        "../fonts";
+$arrow-path:        "../fonts/arrow-font";
+$header-font:       "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+$base-font:         "Open Sans", Helvetica, Arial, sans-serif;
+$quote-font:        "Roboto Slab", serif;
+$base-font-size:    16px;
+
+// $Breakpoints
+// small and Up
+$small-screen:      emCalc( 480px ) !default;
+$medium-screen:     emCalc( 767px ) !default;
+$desktop-screen:    emCalc( 992px ) !default;
+$large-screen:      emCalc( 1200px ) !default;
+
+// $Media Queries - Used in breakpoint mixin
+$screen:            "only screen" !default;
+$small:             "#{$screen} and (min-width: #{$small-screen})" !default;
+$medium:            "#{$screen} and (min-width: #{$medium-screen})" !default;
+$desktop:           "#{$screen} and (min-width: #{$desktop-screen})" !default;
+$large:             "#{$screen} and (min-width: #{$large-screen})" !default;

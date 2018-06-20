@@ -76,10 +76,6 @@ class csstidy_print {
 		$this->namespace = & $css->namespace;
 	}
 
-	function csstidy_print(&$css) {
-		$this->__construct($css);
-	}
-
 	/**
 	 * Resets output_css and output_css_plain (new css code)
 	 * @access private

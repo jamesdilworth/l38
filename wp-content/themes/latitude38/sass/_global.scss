@@ -1,0 +1,223 @@
+/* SITE WIDE STYLE HACKS */
+ul.wide,
+ol.wide 		{ margin:10px 0;
+	li 			{ margin-bottom: 10px;
+		& > b 	{ display: block; }
+	}
+}
+ul.nodots 			{ list-style-type:none; padding-left:0;  }
+ul.noindent			{ padding-left:20px; }
+ul.noindent.nodots  { padding-left:0; }
+
+a 					{ color:$accent2; }
+
+
+h1+.subtitle,
+h2+.subtitle 		{ font-size:125%; color:#aba7bd; }
+
+.btn 				{ background-color:rgba(24,90,148,0.6); border-radius:2px; font-weight:bold; color:#fff;
+	&:hover,
+	& a:hover		{ background-color:$accent3; color:#fff; }
+	& a:visited		{ color:#fff; }
+	&.large			{ font-size:130%; }
+	&.wide 			{ width:100%; }
+}
+
+.hitter		 		{ text-align:center;
+	.large.icon 	{ font-size:500%; color:$accent1;}
+	h3 		 		{ text-transform:uppercase; margin-bottom:10px; font-weight:500; font-size:125%; margin-top:0;}
+}
+
+/* Page styles */
+h1					{ font-size:35px;  font-weight:900;
+	@media (min-width: 992px) { font-size:45px; }
+}
+h2 					{ font-weight:900;}
+h3 					{ font-weight:900; margin-top:30px; }
+h4 					{ font-weight:900; margin-top:30px; }
+
+.section-heading 	{ font-weight:bold; height:24px; line-height:1.6; text-transform:uppercase; padding:0; margin:20px 0 20px; background-size:49px 50px; background-repeat:repeat; background-color:$accent2; background-image:url(/wp-content/themes/latitude38/images/section-header-bg.png);
+	.title 			{ background-color:$accent2; color:#fff; height:24px; padding:0 10px; width:196px; display:inline-block; }
+} // Striped white
+
+/* Fix to enable deep-linking within the doc... otherwise the part jumped to is hidden by the menu. */
+/* h3:before,  h4:before,  h5:before  {  display:block; content:" ";  margin-top:-110px;  height:110px;  visibility:hidden; }
+*/
+
+.std_panel			{
+	h1 				{ text-align:center; }
+	h2 				{ text-align:center; font-size:250%;}
+
+	h1 .highlight	{ font-weight:bold;}
+	h1+.subtitle,
+	h2+.subtitle 	{ text-align:center;  }
+
+	.big_copy 		{
+		p 			{ font-size:125%; margin-top:3rem; }
+	}
+}
+
+.on_dark 			{ color:#e2e3e9; background-color:$accent4; font-weight:400;
+	h1 				{ color:#fff; }
+	h2 				{ color:#fff; }
+	h3 				{ color:#fff; }
+
+	a 				{ color:#fff; }
+	.caption	 	{ color:#d4d1e1; }
+
+	.btn 			{ background-color:$accent1; color:#fff;
+		&:hover 	{ background-color:$accent2; }
+	}
+
+	.white-btn 		{ padding:8px 15px; border:1px solid #fff; color:#fff; text-decoration:none; text-transform:uppercase;
+		&:hover		{ background-color:#fff; color:#333; }
+	}
+}
+
+.on_accent1 		{ color:#fff; background-color:$accent2; font-weight: 400;
+	h1 				{ color:#fff; }
+	h2 				{ color:#fff; }
+	h3 				{ color:#fff; }
+
+	a 				{ color:#fff; text-decoration: underline; }
+	.subtitle 		{ color:#fff; }
+	.caption	 	{ color:#fff; }
+	.btn 			{ background-color:$accent1; color:#fff; font-weight:400; text-decoration:none; margin-top:-3px;
+		&:hover 	{ background-color:#fff; }
+	}
+}
+
+.on_grey			{ background-color:$background-grey;
+	.subtitle 		{ color:#a8a4bd; }
+	.section-heading { background-image:url(/wp-content/themes/latitude38/images/section-header-ongrey-bg.png)}
+}
+
+.on_white			{ background-color:#fff; }
+
+/* Sidebar */
+.fl-sidebar-right					{  }
+.fl-sidebar-right .module			{ border:4px solid $super-light-grey; margin-bottom:20px;  }
+.fl-sidebar-right .module h3		{ margin:0; padding:5px 10px; background-color:$super-light-grey; }
+.fl-sidebar-right .module>div		{ margin:5px; padding:5px; }
+
+/* Captions below photos */
+.caption,
+.fl-photo-caption 				{ font-size:90%; color:#999;  text-overflow:default;}
+.fl-photo-caption-hover 		{ color:#fff; }
+
+.single-post 						{
+	.fl-post 						{ max-width: 800px; margin: auto; }
+	.fl-post-content img			{ width:100%; }
+	.fl-comments					{ max-width:800px; margin:auto; }
+}
+
+/* Category Link Treatment */
+.post-categories 		{ list-style-type:none; font-size:85%; position:relative; left:-5px; padding:0;
+	li 					{ display:inline-block; background-color:$background-grey; padding:1px 8px;  }
+	a 					{ color:#999; }
+}
+
+/* Edit Link - Usually used to give Admins the ability to edit a chunk of content */
+.edit_link,
+.edit_link a,
+a.edit_link,
+.ssba-sharecount 					{ display:none; }
+
+.admin-bar .edit_link 				{ display:initial; }
+.admin-bar .edit_link a,
+.admin-bar a.edit_link,
+.admin-bar a.post-edit-link 		{ display:initial; color:$accent6; font-size: 13px !important; text-decoration: none !important; font-weight: normal !important; text-transform: none !important; }
+.admin-bar .ssba-sharecount 		{ display:block; }
+
+.callout 							{ background-color:$background-grey; padding:10px 20px 10px 60px; margin:20px 0 20px;
+	p 								{ margin:0; }
+	p:first-child:before			{ display:block; font-size:200%; color:#878196; float:left; margin-left:-45px; margin-top:-5px; font-family: 'FontAwesome'; content: '\f05a';  }
+	&.advice p:first-child:before 	{ content: '\f1cd'; }
+
+	&.warning 						{ background-color:#fff4db; color:#cc9001; }
+	&.warning p:first-child:before	{ content: '\f071'; color:#f5ad00;}
+
+	&.success 						{ background-color:#edfbed; color:#476747; }
+	&.success p:first-child:before	{ content: '\f046'; color:#476747;}
+
+}
+
+/* Notes to self */
+.jz_note 							{ display:none; background-color:#f6f600; color:#553; position:relative; padding:0 5px; font-size:90%; border:1px dashed #d9da66; }
+.admin-bar .jz_note 				{ display:none;  }
+
+/* In the footer of the page? */
+.social-icons						{ margin-left:5px; font-size: 20px; display:inline-block;
+	a 							{ color:#fff; text-align:right; }
+	i 							{ padding-left:8px;  }
+}
+
+.avatar 						{ background: #fff; border: 4px solid #ededef; border-radius: 5px;
+	img							{ display: block; width: 110px; height: 110px;}
+}
+
+.kin-breadcrumb 				{ text-transform:uppercase; }
+
+.intro-para						{ font-size:125%; margin-bottom:20px; }
+
+
+
+/* Layout for an image with a video click handler */
+a.vidoverlay					{ position:relative; font-size:700%; }
+a.vidoverlay:before				{ position:absolute; top:0; text-align:center; width:100%;  z-index:5; content:'\F01D'; font-family: "FontAwesome"; opacity:0.6; color:#71698a; }
+a.vidoverlay.dark:before 		{ color:#fff; }
+a.vidoverlay:hover:before 		{ opacity:0.9;  }
+
+/* Hide some content from public viewing */
+.hide-from-public 				{ display:none; }
+.insider .hide-from-public,
+.admin-bar .hide-from-public 	{ display:block; }
+
+/* Content Tables are used to display information in the body of the content */
+.data-table  				{ width:100%; background-color:#fff;
+	th                      { color:#fff; background-color:#271759; padding:2px 5px; border:1px solid #fff; }
+	td                      { padding:2px 5px; border:1px solid #fff; }
+	tr:nth-child(odd)       { background-color:$background-grey;
+		td:first-child      { background-color:$background-grey; font-weight:500; }
+	}
+	tr:nth-child(even)      { background-color:$super-light-grey;
+		td:first-child      { background-color:$super-light-grey; font-weight:500; }
+	}
+}
+
+.pullquote 					{ font-style: normal; color: #000000; border-left: 8px solid $accent4;  padding-left: 30px; margin:20px 0;
+	.quote 					{ color:#4d4a56; display: block; position: relative; margin-bottom: 10px; font-size: 180%; font-weight: 500; font-family: "Helvetica Neue", "Helvetica", Roboto, Arial, sans-serif; line-height: 1.3em;}
+	.quote:before 			{ padding-top: 5px; content: '“'; color: $accent4; font-size: 250%; display: block; height: 0.55em; }
+	.attribution			{ font-size:75%; display:block; }
+}
+
+/* Style the warning for private pages */
+h1 .private_notice			{ background-color:#c00; font-size:10px; color:#fff; padding:3px 8px; border-radius:2px; vertical-align: text-top;}
+
+/* Results of forms... this would be inserted into the header of the page.  - GF Handles it differently . FadeIn will be faded in */
+.response 					{ border-left: 5px solid #666; background-color: #f6f6f6; padding: 5px 10px; font-size: 90%; margin: 10px 0px 20px; }
+.response .title 			{ font-size: 120%; font-weight: 700; }
+
+.response.success 			{ border-left: 5px solid #69be28; background-color: #e6f2df; color: #69be28; }
+.response.success a 		{ color: #3d7215; }
+.response.success .title 	{ color: #69be28; font-weight: bold; }
+
+.response.fail 				{ border-left: 5px solid #c00; background-color: #fcc; }
+.response.fail .title 		{ color: #c00; }
+.response.fail .title a 	{ color: #800; }
+
+.tabs						{ padding-left:0; border-bottom:1px solid #ccc; margin-top:20px;
+	.tab					{ background-color:#f6f6f6; top:1px; position:relative; display:inline-block; list-style-type:none; border-radius:$radius; padding:3px 10px 3px; border:1px solid #ccc;  margin-right:5px;
+		&.active			{ background-color:#fff;  box-shadow:0 -4px 8px rgba(0,0,0,0.1); font-weight:bold; border-bottom-color: #fff; }
+	}
+
+}
+.tabbed 						{
+	.section 					{ display:none;
+		&.active				{ display:block; }
+	}
+}
+.new 							{ vertical-align: super; font-size: 70%; font-weight: normal; color: #933; padding: 0 3px;}
+
+/* Bootstrap Overrides */
+.breadcrumb 					{ background-color:initial; font-size:90%; text-transform:uppercase; padding:0; margin-left:5px; }

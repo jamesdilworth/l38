@@ -148,7 +148,6 @@ class Jetpack_JSON_API_Sync_Object extends Jetpack_JSON_API_Sync_Endpoint {
 
 		return array(
 			'objects' => $objects,
-			'codec' => $codec->name(),
 		);
 	}
 }

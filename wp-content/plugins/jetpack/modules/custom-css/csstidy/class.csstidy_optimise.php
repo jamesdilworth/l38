@@ -40,6 +40,7 @@
  * @version 1.0
  */
 class csstidy_optimise {
+
 	/**
 	 * Constructor
 	 * @param array $css contains the class csstidy
@@ -54,10 +55,6 @@ class csstidy_optimise {
 		$this->selector = & $css->selector;
 		$this->property = & $css->property;
 		$this->value = & $css->value;
-	}
-
-	function csstidy_optimise(&$css) {
-		$this->__construct($css);
 	}
 
 	/**
@@ -217,7 +214,7 @@ class csstidy_optimise {
 	 * @return string
 	 * @version 1.0
 	 */
-	static function shorthand($value) {
+	function shorthand($value) {
 		$important = '';
 		if (csstidy::is_important($value)) {
 			$values = csstidy::gvw_important($value);
@@ -503,7 +500,7 @@ class csstidy_optimise {
 	 * @version 1.0
 	 * @see merge_4value_shorthands()
 	 */
-	static function dissolve_4value_shorthands($property, $value) {
+	function dissolve_4value_shorthands($property, $value) {
 		$shorthands = & $GLOBALS['csstidy']['shorthands'];
 		if (!is_array($shorthands[$property])) {
 			$return[$property] = $value;
@@ -548,7 +545,7 @@ class csstidy_optimise {
 	 * @return array
 	 * @version 1.0
 	 */
-	static function explode_ws($sep, $string) {
+	function explode_ws($sep, $string) {
 		$status = 'st';
 		$to = '';
 
@@ -591,7 +588,7 @@ class csstidy_optimise {
 	 * @version 1.2
 	 * @see dissolve_4value_shorthands()
 	 */
-	static function merge_4value_shorthands($array) {
+	function merge_4value_shorthands($array) {
 		$return = $array;
 		$shorthands = & $GLOBALS['csstidy']['shorthands'];
 
@@ -625,7 +622,7 @@ class csstidy_optimise {
 	 * @see merge_bg()
 	 * @todo full CSS 3 compliance
 	 */
-	static function dissolve_short_bg($str_value) {
+	function dissolve_short_bg($str_value) {
 		// don't try to explose background gradient !
 		if (stripos($str_value, "gradient(")!==FALSE)
 			return array('background'=>$str_value);
@@ -703,7 +700,7 @@ class csstidy_optimise {
 	 * @see dissolve_short_bg()
 	 * @todo full CSS 3 compliance
 	 */
-	static function merge_bg($input_css) {
+	function merge_bg($input_css) {
 		$background_prop_default = & $GLOBALS['csstidy']['background_prop_default'];
 		// Max number of background images. CSS3 not yet fully implemented
 		$number_of_values = @max(count(csstidy_optimise::explode_ws(',', $input_css['background-image'])), count(csstidy_optimise::explode_ws(',', $input_css['background-color'])), 1);
@@ -783,7 +780,7 @@ class csstidy_optimise {
 	 * @version 1.3
 	 * @see merge_font()
 	 */
-	static function dissolve_short_font($str_value) {
+	function dissolve_short_font($str_value) {
 		$font_prop_default = & $GLOBALS['csstidy']['font_prop_default'];
 		$font_weight = array('normal', 'bold', 'bolder', 'lighter', 100, 200, 300, 400, 500, 600, 700, 800, 900);
 		$font_variant = array('normal', 'small-caps');
@@ -870,7 +867,7 @@ class csstidy_optimise {
 	 * @version 1.3
 	 * @see dissolve_short_font()
 	 */
-	static function merge_font($input_css) {
+	function merge_font($input_css) {
 		$font_prop_default = & $GLOBALS['csstidy']['font_prop_default'];
 		$new_font_value = '';
 		$important = '';

@@ -1,0 +1,151 @@
+
+.single-issue 				{
+	.cover					{ text-align:center; padding-bottom:20px;
+		img					{ width:400px;  }
+	}
+
+	@include breakpoint(medium) {
+		.magazine-contents 	{ overflow:auto; padding-left:20px; }
+		.cover				{ width:30%; float:left;
+			img 			{ width:100%; }
+		}
+	}
+}
+
+.magazine-contents 			{
+	a 						{ text-decortation:none; color:$copy-on-white;
+		&:hover				{ text-decoration:none; }
+	}
+	.section 				{ overflow:auto; padding:5px 0; margin:5px 0; margin-bottom:10px; }
+	.title 					{ border-bottom:3px dashed #f6f6f6; margin-top:0;
+		&:hover				{ border-color:$soft-link;}
+	}
+	.page					{ display:inline-block; float:right;  color:#333; text-align:right; }
+	.also					{ padding-top:10px; clear:both;
+		&:before			{ font-style:italic; content: "Also: ";   }
+	}
+	.parts 					{ padding-left:0; overflow:auto; list-style-type:none; background-size:180px 100%;
+		li 					{ border-bottom:3px solid #fff;
+			&:hover 		{ border-bottom:3px dashed $soft-link; }
+		}
+
+	}
+	.section-image			{ display:none; width:100%; height:150px; background-size:cover; position:relative; }
+	.subtitle				{ background-color:#00000088; font-weight:400; color:#fff; padding:10px;  }
+	.subtitle-page			{ display:none; font-size:90%; text-align:center; background-color:#00000099; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
+
+	.feature				{  }
+	.desc 					{ margin-top:-5px;  }
+	.feature-image 			{ float:left; margin-right:20px; width:180px; height:120px; background-size:cover; background-repeat:no-repeat; }
+
+	@include breakpoint(medium) {
+		.section-image		{ display:block; float:left;  width:180px; margin-right:15px; position:relative; }
+		.subtitle			{ display:none; }
+		.section			{ padding:5px; margin:5px;}
+	}
+}
+
+.features-only 				{ margin-right:-15px;
+	.feature 				{ overflow:auto; width:50%; float:left;
+		.feature-image		{ border-right:15px solid $background-grey; height:207px; background-size:cover; position:relative; margin-bottom:13px; }
+		.title				{ background-color:#00000088; font-weight:700; font-size:120%; color:#fff; padding:10px; margin:0; }
+		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
+		.desc				{ display:none; }
+	}
+
+	@include breakpoint(medium) { margin-left:33%; }
+
+	@include breakpoint(large) {
+		.feature 			{ width:33% }
+	}
+}
+
+.magazine-archive			{ margin:0 -20px;
+	.magazine-cover			{ float:left; margin:20px; }
+	.title 					{ margin:5px 0;}
+	.cover					{ display: block;  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); transition: box-shadow 150ms;
+		img 				{ width:180px; height:232px; }
+	}
+}
+
+.lectronic-edition 			{
+	.day					{ }
+	.read-more 				{ display:block; }
+	.story 					{ overflow:auto; margin-bottom:30px;
+		.image	 			{ max-height:300px; overflow:hidden;
+			img				{ width:100%; }
+		}
+		.title 				{ font-weight:900; }
+		.desc 				{  }
+		.edit_link 			{ display:block; }
+
+		.post-categories 	{ position:relative; left:-5px; padding:0;
+			li 				{ display:inline-block; padding:1px 8px;  }
+			a 				{ color:#999; }
+		}
+
+	}
+
+	@include breakpoint(medium) {
+		.story				{
+
+			.image	 		{ float:left; max-height:200px; overflow:hidden; margin-right:20px;
+				img			{ width:300px; }
+			}
+			.title 			{ font-size:170%; margin-top:0; }
+			.desc 			{  }
+			.edit_link 		{  }
+
+
+		}
+	}
+}
+
+.home .lectronic-edition 			{ margin:0 -10px;
+	.section-heading				{ margin-left:10px; margin-right:10px; }
+
+	@include breakpoint(medium) 	{
+		.normal.story				{ width:33%; float:left;
+			.image					{ float:none; width:100%; background-size:cover; height:200px; overflow:hidden; border:10px solid #fff; border-top:0; border-bottom:0;
+				img					{ display:none;  }
+			}
+			.title 					{ font-size:150%; padding:5px 10px 0;  }
+			.desc 					{ padding:0 10px; color:#777; }
+			.post-categories 		{ display:none; }
+			.edit_link 				{ padding:0 10px;  }
+		}
+
+		.main.story 				{ float:none; width:100%; padding:0 10px;
+			.image 					{ float:left; max-height:350px; }
+			img 					{ width:550px; }
+			.title 					{ font-size:250%; }
+			.desc 					{ font-size:120%; }
+		}
+
+	}
+}
+
+
+.stories 		{
+	h2 					{ margin-top:0; }
+	.story 				{ overflow:auto; margin-bottom:20px; }
+	.title 				{ font-size:140%; font-weight:bold; color:#333;  margin-left:170px;}
+	.img img 			{ width:150px; float:left; }
+	.desc 				{ margin-left:170px; }
+}
+
+.currents 		{ font-family:"open sans", sans-serif; color:#fff;
+	.slack 		{ position:relative; padding:0 10px;
+		&.low 	{  }
+		&.high 	{  }
+	}
+	.ebb 		{ color: #081b2d; }
+	.flood 		{ color: #fff; }
+
+}
+
+.column-step 	{ background-color: $accent1; color:#fff; padding:20px 10px 40px; text-align:center;
+	.order		{ font-size:400%; font-weight:bold; padding:10px; border-bottom:3px solid $accent2; margin:0 80px; }
+	.title 		{ text-transform:uppercase; font-weight:500; font-size:150%; margin:10px 0; color:#fff; }
+	.desc		{ color:#fff; margin:20px 0; }
+}

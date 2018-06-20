@@ -341,12 +341,12 @@ class Jetpack_Sync_Functions {
 		return $wp_version;
 	}
 
-	public static function site_icon_url( $size = 512 ) {
+	public static function site_icon_url() {
 		if ( ! function_exists( 'get_site_icon_url' ) || ! has_site_icon() ) {
 			return get_option( 'jetpack_site_icon_url' );
 		}
 
-		return get_site_icon_url( $size );
+		return get_site_icon_url();
 	}
 
 	public static function roles() {

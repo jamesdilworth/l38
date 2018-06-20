@@ -7,7 +7,6 @@
 
 require_once dirname( __FILE__ ) . '/class.jetpack-sync-module.php';
 require_once dirname( __FILE__ ) . '/class.jetpack-sync-module-posts.php';
-require_once dirname( __FILE__ ) . '/class.jetpack-sync-module-import.php';
 require_once dirname( __FILE__ ) . '/class.jetpack-sync-module-comments.php';
 require_once dirname( __FILE__ ) . '/class.jetpack-sync-module-constants.php';
 require_once dirname( __FILE__ ) . '/class.jetpack-sync-module-callables.php';
@@ -37,7 +36,6 @@ class Jetpack_Sync_Modules {
 		'Jetpack_Sync_Module_Menus',
 		'Jetpack_Sync_Module_Users',
 		'Jetpack_Sync_Module_Posts',
-		'Jetpack_Sync_Module_Import',
 		'Jetpack_Sync_Module_Protect',
 		'Jetpack_Sync_Module_Comments',
 		'Jetpack_Sync_Module_Updates',

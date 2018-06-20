@@ -9,7 +9,7 @@
  * Requires Connection: No
  * Auto Activate: No
  * Module Tags: Appearance, Recommended
- * Feature: Appearance, Jumpstart
+ * Feature: Appearance
  * Additional Search Queries: mobile, theme, performance, image
  */
 

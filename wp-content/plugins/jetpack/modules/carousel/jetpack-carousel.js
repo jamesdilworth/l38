@@ -597,8 +597,6 @@ jQuery(document).ready(function($) {
 			}
 		},
 
-
-
 		selectedSlide : function(){
 			return this.find('.selected');
 		},
@@ -747,7 +745,6 @@ jQuery(document).ready(function($) {
 					'&post=' + encodeURIComponent( attachmentId ) +
 					'&rand=' + Math.random();
 			}
-
 
 			// Load the images for the next and previous slides.
 			$( next ).add( previous ).each( function() {
@@ -1061,7 +1058,6 @@ jQuery(document).ready(function($) {
 
 			return size_parts;
 		},
-
 
 		originalDimensions: function() {
 			var splitted = $(this).data('orig-size').split(',');

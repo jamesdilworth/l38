@@ -1,0 +1,83 @@
+{
+    "key": "group_5b106b34e9d35",
+    "title": "Image Meta",
+    "fields": [
+        {
+            "key": "field_5b106b417609c",
+            "label": "Source",
+            "name": "source",
+            "type": "radio",
+            "instructions": "Is the photo copyright Latitude, or an external source?",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "external: External": "external: External",
+                "latitude38: Latitude38": "latitude38: Latitude38"
+            },
+            "allow_null": 0,
+            "other_choice": 0,
+            "save_other_choice": 0,
+            "default_value": "",
+            "layout": "horizontal",
+            "return_format": "value"
+        },
+        {
+            "key": "field_5b106d307609d",
+            "label": "Credit",
+            "name": "credit",
+            "type": "text",
+            "instructions": "Name of person, organization, or boat the photo belongs too.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_5b106d787609e",
+            "label": "External Link",
+            "name": "external_link",
+            "type": "url",
+            "instructions": "Use if you'd like this photo to link to an external page, instead of a lightbox.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "attachment",
+                "operator": "==",
+                "value": "image"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1527803413
+}

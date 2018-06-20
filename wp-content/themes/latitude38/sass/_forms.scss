@@ -1,0 +1,28 @@
+/* STD Forms */
+button, input[type=button], input[type=submit] { border:0;  }
+button:hover, input[type=button]:hover, input[type=submit]:hover { background-color:$accent6; border:0; }
+button:active, input[type=button]:active, input[type=submit]:active { background-color:$accent6; border:0; }
+
+/* GRAVITY FORMS DEFAULT STYLING */
+.gf-modal  	 								{ position: relative; padding:20px; background:#fff; width:auto;  max-width:600px;  margin:20px auto;
+	.gform_footer							{ text-align:right; }
+	.gform_wrapper 							{ margin:0; }
+	.gform_wrapper h3.gform_title			{ margin:-20px; padding:20px; margin-bottom:20px; background-color:$base-color; color:#fff; text-transform:uppercase;}
+}
+
+.gform_wrapper .gf_step span.gf_step_number { font-size: 120%; font-weight: bold; padding-top: 2px; font-family: "Open Sans", sans-serif; margin-right: 4px; background-color: #f190aa; color: #fff;  vertical-align: middle;  border-radius: 20px;  text-align: center;  width: 25px; height: 25px; margin-right:5px; }
+
+/* Progress Bar */
+.gform_wrapper .percentbar_blue 			{ background-color:#2e89bd; color:#fff; }
+.gform_wrapper .gf_progressbar 				{ padding:0; }
+
+/* Error Messages */
+.gform_wrapper div.validation_error			{ background-color:#ffeaea; border:0; color: #c31717; }
+.gform_wrapper li.gfield.gfield_error 		{ border:0; background-color:initial; }
+.gform_wrapper li.gfield.gfield_error.gfield_contains_required div.ginput_container,
+.gform_wrapper li.gfield.gfield_error.gfield_contains_required label.gfield_label { margin-top:initial; }
+.gform_wrapper li.gfield_error input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]),
+.gform_wrapper li.gfield_error textarea 	{  border: 1px solid #c31717; }
+.gform_wrapper .field_description_below.gfield_error .gfield_description { padding-top:0; }
+.gform_wrapper .gfield_error .gfield_label  { color:#c31717; }
+.gform_wrapper .validation_message 			{ color:#c31717; }

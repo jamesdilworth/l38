@@ -1014,9 +1014,6 @@ class Jetpack_Photon {
 	 * @return null
 	 */
 	public function action_wp_enqueue_scripts() {
-		if ( Jetpack_AMP_Support::is_amp_request() ) {
-			return;
-		}
 		wp_enqueue_script(
 			'jetpack-photon',
 			Jetpack::get_file_url_for_environment(

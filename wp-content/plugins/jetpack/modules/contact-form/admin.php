@@ -244,7 +244,7 @@ add_filter( 'views_edit-feedback', 'grunion_admin_view_tabs' );
 function grunion_admin_view_tabs( $views ) {
 	global $current_screen;
 	if ( 'edit-feedback' != $current_screen->id )
-		return $views;
+		return $actions;
 
 	unset( $views['publish'] );
 
@@ -873,7 +873,7 @@ function grunion_recheck_queue() {
 		if ( $is_spam ) {
 			wp_update_post( array( 'ID' => $feedback->ID, 'post_status' => 'spam' ) );
 			/** This action is already documented in modules/contact-form/admin.php */
-			do_action( 'contact_form_akismet', 'spam', $meta );
+			do_action( 'contact_form_akismet', 'spam', $akismet_values );
 		}
 	}
 

@@ -1,0 +1,21 @@
+/* OVERRIDE STYLES FOR ADMIN */
+
+#adminmenu #menu-posts-partner .wp-menu-image:before {
+    content: "\f1b3";
+    font-family: 'FontAwesome' !important;
+    font-size: 18px !important;
+}
+
+#comment-link-box, #edit-slug-box  { padding-left:0; }
+
+.wpseo_content_cell #sidebar { display:none; } /* Supress Yoast Advertising */
+
+/* Subtitle field */
+.acf-field-57ed66727a023                        { padding-top:0; padding-bottom:0; }
+
+/* Modify how the 'Add to Pulldown' checkbox appears for promo posts. */
+.acf-field-585c1561ee5e9                        { padding: 0 10px 5px !important; margin-top:-20px !important; }
+.acf-field-585c1561ee5e9 .acf-checkbox-list     { display:inline-block; top:-2px; }
+.acf-field-585c1561ee5e9 .description           { display:inline-block; margin:0; }
+.acf-field-585c1561ee5e9 .acf-label label       { padding-left:10px; }
+.acf-field-585c1561ee5e9 .acf-true-false        { float:left; margin-top:5px; margin-left: -7px; }

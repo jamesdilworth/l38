@@ -173,14 +173,6 @@ class Jetpack_Site extends Abstract_Jetpack_Site {
 		return null;
 	}
 
-	function is_connected_site() {
-		return true;
-	}
-
-	function current_user_can( $role ) {
-		return current_user_can( $role );
-	}
-
 	/**
 	 * Post functions
 	 */
