@@ -1,19 +1,60 @@
 
 .single-issue 				{
 	.cover					{ text-align:center; padding-bottom:20px;
-		img					{ width:400px;  }
+		img					{  }
+	}
+}
+
+.type-cover-features {
+	.feature 				{ overflow:auto; width:50%; float:left;
+		.feature-image		{ border-right:15px solid $background-grey; height:207px; background-size:cover; position:relative; margin-bottom:13px; }
+		.title				{ background-color:#00000088; font-weight:700; font-size:120%; color:#fff; padding:10px; margin:0; }
+		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
+		.desc				{ display:none; }
 	}
 
 	@include breakpoint(medium) {
+		.magazine-features	{ margin-left:33%; }
 		.magazine-contents 	{ overflow:auto; padding-left:20px; }
 		.cover				{ width:30%; float:left;
 			img 			{ width:100%; }
 		}
 	}
+
+	@include breakpoint(large) {
+		.feature 			{ width:33% }
+	}
+}
+
+
+.type-features {
+	.feature 				{ overflow:auto; width:50%; float:left;
+		.feature-image		{ border-right:15px solid $background-grey; height:207px; background-size:cover; position:relative; margin-bottom:13px; }
+		.title				{ background-color:#00000088; font-weight:700; font-size:120%; color:#fff; padding:10px; margin:0; }
+		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
+		.desc				{ display:none; }
+	}
+
+	@include breakpoint(medium) {
+		.magazine-contents 	{ overflow:auto; padding-left:20px; }
+	}
+
+	@include breakpoint(large) {
+		.feature 			{ width:33% }
+	}
+}
+
+.type-cover-contents 		{
+	@include breakpoint(medium) {
+		.cover				{ width:30%; float:left;
+			img 			{ width:100%; }
+		}
+		.magazine-contents 	{ overflow:auto; padding-left:20px; }
+	}
 }
 
 .magazine-contents 			{
-	a 						{ text-decortation:none; color:$copy-on-white;
+	a 						{ text-decoration:none; color:$copy-on-white;
 		&:hover				{ text-decoration:none; }
 	}
 	.section 				{ overflow:auto; padding:5px 0; margin:5px 0; margin-bottom:10px; }
@@ -45,21 +86,6 @@
 	}
 }
 
-.features-only 				{ margin-right:-15px;
-	.feature 				{ overflow:auto; width:50%; float:left;
-		.feature-image		{ border-right:15px solid $background-grey; height:207px; background-size:cover; position:relative; margin-bottom:13px; }
-		.title				{ background-color:#00000088; font-weight:700; font-size:120%; color:#fff; padding:10px; margin:0; }
-		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
-		.desc				{ display:none; }
-	}
-
-	@include breakpoint(medium) { margin-left:33%; }
-
-	@include breakpoint(large) {
-		.feature 			{ width:33% }
-	}
-}
-
 .magazine-archive			{ margin:0 -20px;
 	.magazine-cover			{ float:left; margin:20px; }
 	.title 					{ margin:5px 0;}
@@ -68,18 +94,18 @@
 	}
 }
 
-.lectronic-edition 			{
+.lectronic-edition 			{ overflow:auto;
 	.day					{ }
-	.read-more 				{ display:block; }
+	.read-more 				{ display:inline; }
 	.story 					{ overflow:auto; margin-bottom:30px;
 		.image	 			{ max-height:300px; overflow:hidden;
 			img				{ width:100%; }
 		}
+		.alt_header			{ color:$accent2; font-size:85%; text-transform:uppercase; font-family: open-sans, sans-serif;  font-weight: 300;}
 		.title 				{ font-weight:900; }
-		.desc 				{  }
 		.edit_link 			{ display:block; }
 
-		.post-categories 	{ position:relative; left:-5px; padding:0;
+		.post-categories 	{ display:none; position:relative; left:-5px; padding:0;
 			li 				{ display:inline-block; padding:1px 8px;  }
 			a 				{ color:#999; }
 		}
@@ -101,7 +127,8 @@
 	}
 }
 
-.home .lectronic-edition 			{ margin:0 -10px;
+.panel-normal .lectronic-edition,
+.lectronic .lectronic-edition:first-child		{ margin:0 -10px;
 	.section-heading				{ margin-left:10px; margin-right:10px; }
 
 	@include breakpoint(medium) 	{
@@ -109,7 +136,8 @@
 			.image					{ float:none; width:100%; background-size:cover; height:200px; overflow:hidden; border:10px solid #fff; border-top:0; border-bottom:0;
 				img					{ display:none;  }
 			}
-			.title 					{ font-size:150%; padding:5px 10px 0;  }
+			.alt_header				{ padding:10px 10px 0;}
+			.title 					{ font-size:150%; padding:0 10px;  }
 			.desc 					{ padding:0 10px; color:#777; }
 			.post-categories 		{ display:none; }
 			.edit_link 				{ padding:0 10px;  }
@@ -119,9 +147,34 @@
 			.image 					{ float:left; max-height:350px; }
 			img 					{ width:550px; }
 			.title 					{ font-size:250%; }
-			.desc 					{ font-size:120%; }
+			.desc 					{ display:block; font-size:120%; }
 		}
 
+	}
+}
+
+
+.lectronic-lite .lectronic-edition {
+	@include breakpoint(medium) 	{
+
+		.story							{
+			.desc 						{ display:none;  line-height:1.6;  }
+			.title 						{ font-size:150%; padding:0 10px 0 0; margin-bottom:3px; }
+			.edit_link 					{ padding:0 10px 0 0;  }
+			.post-categories 			{ display:none; }
+
+			&.normal 					{ float:left; width:33.3%; padding-right:20px; margin-bottom:10px;
+				.image					{ float:none; width:100%; background-size:cover; overflow:hidden; height:150px; margin-bottom:10px;
+					img					{ display:none;  }
+				}
+				.read-more 				{ display:inline; }
+			}
+
+			&.main 						{
+				.desc 					{ display:block; }
+				.title 					{ font-size:200%; }
+			}
+		}
 	}
 }
 
@@ -141,7 +194,6 @@
 	}
 	.ebb 		{ color: #081b2d; }
 	.flood 		{ color: #fff; }
-
 }
 
 .column-step 	{ background-color: $accent1; color:#fff; padding:20px 10px 40px; text-align:center;

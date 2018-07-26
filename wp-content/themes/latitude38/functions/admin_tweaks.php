@@ -93,4 +93,22 @@ function rkv_yoast_ga_page() {
     require_once( $path . 'admin/pages/settings.php' );
 }
 
+/* ---------------------------------------------------------------------------
+	- Move ACF subtitle field right above the page title if present
+--------------------------------------------------------------------------- */
+function Move_ACF_Subtitle() {
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready( function( $ ) {
+            var acf_container = $('.acf-field[data-name="alt_header"]');
+            if ( acf_container.length > 0 && acf_container.css('display') != 'none') {
+                acf_container.addClass('acf-subtitle');
+                $("#titlediv").before( acf_container ).show();
+            }
+        });
+    </script>
+    <?php
+}
+add_action( 'admin_head', 'Move_ACF_Subtitle' );
+
 

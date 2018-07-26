@@ -72,6 +72,7 @@ class magazine_contents_widget extends WP_Widget {
         $options = (empty($instance['options'])) ? array('cover','contents') : $instance['options'];
 
         $pre_header = "";
+        $header_classes = implode('-', $options);
 
         if($post->post_type != "magazine") {
             // It's not a magazine page.... so find the most recent.
@@ -97,13 +98,14 @@ class magazine_contents_widget extends WP_Widget {
         $output = "";
 
         if ( $magazine->have_posts() ) {
+            echo "<div class='type-$header_classes'>";
             while ($magazine->have_posts()) {
                 $magazine->the_post();
 
                 $core_url = get_field('magazine_url');
                 $features = array();
 
-                if($pre_header != "") echo '<div class="section-heading"><span class="title" style="width:300px;">'. $pre_header . get_the_title() . '</span></div>';
+                if($pre_header != "") echo '<div class="section-heading"><span class="title" style="width:250px;">'. $pre_header . get_the_title() . '</span></div>';
 
                 if(in_array('cover', $options)) {
                     if(is_single() || is_page('magazine'))
@@ -148,7 +150,7 @@ class magazine_contents_widget extends WP_Widget {
                 endif;
 
                 if(in_array('features', $options)) :
-                    echo "<div class='features-only'>";
+                    echo "<div class='magazine-features'>";
                     foreach($features_only as $feature) {
                         echo $feature;
                     }
@@ -214,6 +216,7 @@ class magazine_contents_widget extends WP_Widget {
                     endif;
                     echo '</div>'; // End Contents
                 endif;
+                echo '</div>'; // End Header Classes
             }
         } else {
             $output = "No Magazine Found?";

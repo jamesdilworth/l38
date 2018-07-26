@@ -35,7 +35,6 @@ function JZ_create_magazine_post_type()
 }
 add_action( 'init', 'JZ_create_magazine_post_type' );
 
-
 function JZ_change_post_label() {
     global $menu;
     global $submenu;

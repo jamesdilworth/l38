@@ -3,54 +3,84 @@
 // MODIFY CATEGORIES
 function modify_categories(){
     $labels = array(
-        'name'				=> _x( 'Related Content', 'taxonomy general name' ),
-        'singular_name'		=> _x( 'Related Content', 'taxonomy singular name' ),
-        'search_items'		=>  __( 'Related Content' ),
-        'all_items'			=> __( 'All Related Content' ),
+        'name'				=> _x( 'Topics', 'taxonomy general name' ),
+        'singular_name'		=> _x( 'Topics', 'taxonomy singular name' ),
+        'search_items'		=>  __( 'Topics' ),
+        'all_items'			=> __( 'All Topics' ),
         'parent_item'		=> __( 'Group' ),
         'parent_item_colon'	=> __( 'Group:' ),
-        'edit_item'			=> __( 'Related Pages' ),
-        'update_item'		=> __( 'Update Related Content' ),
-        'add_new_item'		=> __( 'Add New Related Content' ),
-        'new_item_name'		=> __( 'New Related Content' ),
-        'menu_name'			=> __( 'Related Content' )
+        'edit_item'			=> __( 'Related Topics' ),
+        'update_item'		=> __( 'Update Topic' ),
+        'add_new_item'		=> __( 'Add New Topic' ),
+        'new_item_name'		=> __( 'New Topic' ),
+        'menu_name'			=> __( 'Topics' )
     );
 
     register_taxonomy( 'category', array( 'post'), array(
         'hierarchical'	=> true,
         'labels'		=> $labels,
-        'publicly_queryable' => false,
+        'publicly_queryable' => true,
         'show_ui'		=> true,
         'query_var'		=> true,
-        'description'   => 'Please select no more than two or three items. Choose the most specific.'
+        'description'   => 'Please select no more than two or three topics. Choose the most specific.'
     ));
 }
+add_action( 'init', 'modify_categories', 0 );
 
-// Event Series - Roadshows, Partner Breakfasts and the likes!
-function define_event_series() {
+// Magazine Sections
+function define_magazine_section() {
     $labels = array(
-        'name'				=> _x( 'Event Series', 'taxonomy general name' ),
-        'singular_name'		=> _x( 'Event Series', 'taxonomy singular name' ),
-        'search_items'		=>  __( 'Search Series' ),
-        'all_items'			=> __( 'All Series' ),
-        'parent_item'		=> __( 'Parent Series' ),
-        'parent_item_colon'	=> __( 'Parent Series:' ),
-        'edit_item'			=> __( 'Edit Series' ),
-        'update_item'		=> __( 'Update Series' ),
-        'add_new_item'		=> __( 'Add New Event Series' ),
-        'new_item_name'		=> __( 'New Event Series' ),
-        'menu_name'			=> __( 'Event Series' )
+        'name'				=> _x( 'Magazine Sections', 'taxonomy general name' ),
+        'singular_name'		=> _x( 'Magazine Section', 'taxonomy singular name' ),
+        'search_items'		=>  __( 'Search Sections' ),
+        'all_items'			=> __( 'All Sections' ),
+        'parent_item'		=> __( 'Parent Section' ),
+        'parent_item_colon'	=> __( 'Parent Section:' ),
+        'edit_item'			=> __( 'Edit Section' ),
+        'update_item'		=> __( 'Update Section' ),
+        'add_new_item'		=> __( 'Add New Magazine Section' ),
+        'new_item_name'		=> __( 'New Magazine Section' ),
+        'menu_name'			=> __( 'Magazine Sections' )
     );
 
-    register_taxonomy( 'event_series', array( 'event' ), array(
+    register_taxonomy( 'magazine_section', array( 'magazine' ), array(
         'hierarchical'	=> true,
         'labels'		=> $labels,
         'show_ui'		=> true,
         'query_var'		=> true,
         'rewrite'		=> array(
-            'slug'			=> 'series',
+            'slug'			=> 'section',
             'with_front'	=> true
         )
     ));
 }
-add_action( 'init', 'define_event_series', 0 );
+add_action( 'init', 'define_magazine_section', 0 );
+
+// Regions
+function define_regions() {
+    $labels = array(
+        'name'				=> _x( 'Regions', 'taxonomy general name' ),
+        'singular_name'		=> _x( 'Region', 'taxonomy singular name' ),
+        'search_items'		=>  __( 'Search Regions' ),
+        'all_items'			=> __( 'All Regions' ),
+        'parent_item'		=> __( 'Parent Region' ),
+        'parent_item_colon'	=> __( 'Parent Region:' ),
+        'edit_item'			=> __( 'Edit Region' ),
+        'update_item'		=> __( 'Update Region' ),
+        'add_new_item'		=> __( 'Add New Region' ),
+        'new_item_name'		=> __( 'New Region' ),
+        'menu_name'			=> __( 'Regions' )
+    );
+
+    register_taxonomy( 'region', array( 'post' ), array(
+        'hierarchical'	=> true,
+        'labels'		=> $labels,
+        'show_ui'		=> true,
+        'query_var'		=> true,
+        'rewrite'		=> array(
+            'slug'			=> 'Region',
+            'with_front'	=> true
+        )
+    ));
+}
+add_action( 'init', 'define_regions', 0 );

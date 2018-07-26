@@ -4,6 +4,8 @@ $show_thumbs = FLTheme::get_setting( 'fl-posts-show-thumbs' );
 $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 ?>
 <?php do_action( 'fl_before_post' ); ?>
+
+<!-- inner template is content-single.php -->
 <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="https://schema.org/BlogPosting">
 
 	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
@@ -65,12 +67,21 @@ $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 	</div>
 	<?php endif; ?>
 
-	<?php FLTheme::post_bottom_meta(); ?>
-	<?php FLTheme::post_navigation(); ?>
+	<?php // FLTheme::post_bottom_meta(); ?>
+	<?php // FLTheme::post_navigation(); ?>
 	<?php do_action( 'fl_after_post_content' ); ?>
 
+
+
 </article>
+
 <?php comments_template(); ?>
+
+<?php
+// Other Pages from this day.
+$start_date = date("Y-m-d", get_the_time('U'));
+the_widget('lectronic_stories_widget',"qty=1&start_date=$start_date");
+?>
 
 <?php do_action( 'fl_after_post' ); ?>
 

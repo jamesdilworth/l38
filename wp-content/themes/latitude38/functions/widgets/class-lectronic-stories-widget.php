@@ -14,11 +14,13 @@ class lectronic_stories_widget extends WP_Widget {
         // widget form in dashboard
         $defaults = array(
             'title' => 'Lectronic Stories',
-            'qty' => 1
+            'qty' => 1,
+            'start_date' => NULL
         );
         $instance = wp_parse_args((array) $instance, $defaults);
         $title = $instance['title'];
         $qty = $instance['qty'];
+        $start_date = $instance['start_date'];
         ?>
         <p>Title: <input class="widefat"
                          name="<?php echo $this->get_field_name('title'); ?>"
@@ -27,6 +29,8 @@ class lectronic_stories_widget extends WP_Widget {
         <p>Number of Days: <input class="widefat"
                                     name="<?php echo $this->get_field_name('qty'); ?>"
                                     type="number" value="<?php echo $qty; ?>" /></p>
+
+        <p>Start Date : Set Programmatically</p>
         <?php
     }
 
@@ -35,19 +39,24 @@ class lectronic_stories_widget extends WP_Widget {
         $instance = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
         $instance['qty'] = intval($new_instance['qty']);
+        $instance['start_date'] = $new_instance['start_date'];
         return $instance;
     }
 
     public function widget($args, $instance) {
         // display
+        global $post;
         extract($args);
+
         echo $before_widget;
 
+        $outerpost_id = $post->ID;
         $title = (empty($instance['title'])) ? "" : apply_filters('widget_title', $instance['title']);
         $qty = (empty($instance['qty'])) ? -1 : $instance['qty'];
         $type = (empty($instance['type'])) ? array() : $instance['type'];
+        $start_date = (empty($instance['start_date'])) ? NULL : $instance['start_date'];
 
-        $dayswithposts = days_with_posts($qty);
+        $dayswithposts = days_with_posts($qty, $start_date);
 
         foreach($dayswithposts as $pubdate) {
 
@@ -66,6 +75,7 @@ class lectronic_stories_widget extends WP_Widget {
             $posts = new WP_Query($args);
 
             if ( $posts->have_posts() ) {
+
                 $output .= '<div class="lectronic-edition">';
 
                 if(is_page('lectronic')) {
@@ -80,6 +90,11 @@ class lectronic_stories_widget extends WP_Widget {
 
                         $main = ($x > 0) ? 'normal' : 'main';
                         $post_id = get_the_ID();
+
+                        if($post_id == $outerpost_id) continue; // Don't display a link to the page we're already on!
+
+                        $url = get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . '#' . get_post_field( 'post_name');
+
                         $escaped_img_url = str_replace(" ","%20", get_the_post_thumbnail_url($post_id,'large'));
 
                         $output .= "<article class='$main story'>";
@@ -91,7 +106,8 @@ class lectronic_stories_widget extends WP_Widget {
                         }
 
                         $output .= get_the_category_list();
-                        $output .= "<h2 class='title'><a href='" . get_permalink() . "'>" . get_the_title() . "</a></h2>";
+                        $output .= "<div class='alt_header'>" . get_field('alt_header') . "</div>";
+                        $output .= "<h2 class='title'><a href='$url'>" . get_the_title() . "</a></h2>";
 
                         // Get the excerpt
                         $output .= "<div class='desc'>";

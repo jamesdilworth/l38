@@ -504,7 +504,7 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function nav_menu_fallback( $args ) {
-		$url  = current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : esc_url( home_url( '/' ) );
+	    $url  = current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : esc_url( home_url( '/' ) );
 		$url  = apply_filters( 'fl_nav_menu_fallback_url', $url );
 		$text = current_user_can( 'edit_theme_options' ) ? __( 'Choose Menu', 'fl-automator' ) :  __( 'Home', 'fl-automator' );
 

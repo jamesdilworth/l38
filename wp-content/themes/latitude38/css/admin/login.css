@@ -1,9 +1,8 @@
 /* Login Overrides */
-
-body.login 				{ background-color:#291262; background:linear-gradient(0deg, rgba(15,6,38,1) 0%, rgba(41,18,98,1) 100%); }
-body.login h1 a 		{ color:#fff; background-image: url('/wp-content/uploads/2016/08/kinetica_logo_on_indigo_56H.png'); width:initial; background-size:150px; height:40px; margin-bottom:0; }
+body.login 				{ background-color:#7ae2c5; background:linear-gradient(45deg, rgba(57, 207, 165,1) 0%, rgba(122, 226, 197,1) 100%); }
+body.login h1 a 		{ color:#fff; background-image: url('/wp-content/uploads/2018/06/logo-onwhite-700w.png'); width:initial; background-size:250px; height:80px; margin-bottom:0; }
 .header_title           { color:#fff; text-align:center; text-transform:uppercase; font-size:130%;  }
-.header_title i         { font-size:250%; vertical-align: bottom; }
+.header_title i         { position: relative; top: 4px; font-size: 150%; vertical-align: bottom; margin-right: 10px;}
 .header_title a         {  }
 .login form             { border-radius: 5px; background: }
 p#backtoblog            { display: none; }

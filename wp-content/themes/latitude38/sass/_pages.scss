@@ -2,7 +2,18 @@
 
 }
 
+.day h2 					{ font-size:35px;  font-weight:900;
 
+	@media (min-width: 992px) { font-size:45px; }
+}
+
+/* This is the widget that holds all the stories on the lectronic page. */
+.lectronic-all-stories 		{ background-color: #fff;  padding: 20px; }
+
+/* This is the background to lectronic headers! */
+.lectronic 					{ background:#fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.png) no-repeat; background-size:100% 400px; }
+
+.lectronic-logo	 			{ max-width:600px; margin:60px auto 20px; }
 .lectronic-header			{ max-width:820px; margin:auto; background-color:$background-grey; overflow:auto;
 	.img 					{ padding:5px 20px;}
 	.date					{ float:left; padding:5px 40px 10px 20px; }
@@ -14,7 +25,24 @@
 
 .lectronic-edition-stories { max-width:840px; margin:auto; }
 
-.archive.day .fl-archive  	{ max-width:800px; }
+.single-post				{
+	.fl-page-content 		{ background:#fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.png) no-repeat; background-size:100% 400px; }
+	.fl-post 				{ background-color:#fff; padding:20px; }
+}
+
+.archive					{
+
+	&.day					{
+		.fl-archive  			{ max-width:900px;   }
+	}
+	.fl-post-meta-top 		{ margin:-5px 0 20px; }
+	.fl-page-content 		{ background:#fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.png) no-repeat; background-size:100% 400px;  }
+	.fl-content				{ background-color:#fff; padding:30px; margin-top:0; }
+	.fl-archive-header 		{
+		.section-heading 	{ margin-bottom:0; }
+	}
+
+}
 
 .archive 					{
 	article 				{

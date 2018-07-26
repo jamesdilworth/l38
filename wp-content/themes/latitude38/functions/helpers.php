@@ -20,11 +20,13 @@ function get_current_template( $echo = false ) {
 }
 
 // Gets dates for the most recent number of Lectronic Latitudes. By default, the most recent.
+// Returns an array of dates?
 function days_with_posts($qty = 1, $date = NULL) {
     global $wpdb;
 
-    if(!isset($date))
+    if(!isset($date)) {
         $date = date('Y-m-d');
+    }
 
     $dayswithposts = $wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date)
         FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'

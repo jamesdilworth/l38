@@ -62,7 +62,7 @@ class magazine_archive_widget extends WP_Widget {
 
                 $output .= '<div class="magazine-cover">';
                 if ( has_post_thumbnail()) {
-                    $output .= "<div class='cover'><a href='" . get_the_permalink() . "'>" . get_the_post_thumbnail($post_id,'large') . "</a></div>";
+                    $output .= "<div class='cover'><a href='" . get_the_permalink() . "'>" . get_the_post_thumbnail(get_the_ID(),'large') . "</a></div>";
                 } else {
                     $output .= "<div class='cover'><a href='" . get_the_permalink() . "'><img src='/wp-content/uploads/2018/06/default_cover.jpg' alt=''></div>";
                 }

@@ -41,6 +41,28 @@
                     "maxlength": ""
                 },
                 {
+                    "key": "field_5b48e06783bb1",
+                    "label": "Section Title",
+                    "name": "section_title",
+                    "type": "taxonomy",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "taxonomy": "category",
+                    "field_type": "select",
+                    "allow_null": 0,
+                    "add_term": 1,
+                    "save_terms": 0,
+                    "load_terms": 0,
+                    "return_format": "id",
+                    "multiple": 0
+                },
+                {
                     "key": "field_5b23a7eb8939b",
                     "label": "Page",
                     "name": "page",
@@ -185,5 +207,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1529132909
+    "modified": 1531503335
 }

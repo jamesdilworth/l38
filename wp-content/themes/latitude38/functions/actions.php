@@ -44,22 +44,12 @@ function s4o_custom_footer() {
 }
 add_action( 'wp_footer', 's4o_custom_footer', 100 );
 
-function s4o_body_classes( $classes ) {
-    $insider = get_query_var( 'insider', 0 );
-    if($insider)
-       $classes[] = 'insider';
-
-    $path_array = array_filter(explode('/', $_SERVER['REQUEST_URI']));
-    $length = count($path_array);
-    for ($i = 1; $i <= $length; $i++) {
-        if($i < $length) {
-            $classes[] = 'path-' . $path_array[$i];
-        } else {
-            $classes[] = 'page-' . $path_array[$i];
-        }
-    }
-    return $classes;
-}
-add_filter( 'body_class','s4o_body_classes' );
-
-
+function l38_change_day_sort_order($query){
+    if(is_day() && $query->is_main_query()):
+        //Set the order ASC or DESC
+        $query->set( 'order', 'ASC' );
+        $query->set( 'orderby', 'meta_value_num' );
+    	$query->set( 'meta_key', 'sort_order');
+    endif;
+};
+add_action( 'pre_get_posts', 'l38_change_day_sort_order');

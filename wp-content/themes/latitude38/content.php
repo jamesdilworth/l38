@@ -5,13 +5,18 @@ $show_full   = apply_filters( 'fl_archive_show_full',  FLTheme::get_setting( 'fl
 $more_text   = FLTheme::get_setting( 'fl-archive-readmore-text' );
 $thumb_size   = FLTheme::get_setting( 'fl-archive-thumb-size' );
 
+
 if(is_day()) {
     $show_full = 1;
     $show_thumbs = 0;
 }
 
-do_action( 'fl_before_post' ); ?>
-<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
+do_action( 'fl_before_post' );
+
+?>
+
+<!-- inner template is content.php -->
+<article <?php post_class( 'fl-post story' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
 
 	<?php if ( ! empty( $show_thumbs ) ) : ?>
 
@@ -33,13 +38,14 @@ do_action( 'fl_before_post' ); ?>
 	<?php endif; ?>
 
 	<header class="fl-post-header">
-        <?php if(!is_category()) the_category(); ?>
-        <?php if(!is_day()) the_date(); ?>
-		<h2 class="fl-post-title" itemprop="headline">
+        <?php echo "<div class='alt_header'>" . get_field('alt_header') . "</div>"; ?>
+		<h2 class="fl-post-title" itemprop="headline" id="<?php echo get_post_field( 'post_name'); ?>">
 			<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a>
 			<?php edit_post_link( _x( 'Edit', 'Edit post link text.', 'fl-automator' ) ); ?>
 		</h2>
-		<?php // FLTheme::post_top_meta(); ?>
+        <?php if(!is_category()) the_category(); ?>
+        <?php if(!is_day()) the_date(); ?>
+		<?php if(is_day()) FLTheme::post_top_meta(); ?>
 	</header><!-- .fl-post-header -->
 
 	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
@@ -80,7 +86,7 @@ do_action( 'fl_before_post' ); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php do_action( 'fl_before_post_content' ); ?>
-	<div class="fl-post-content clearfix" itemprop="text">
+	<div class="fl-post-content clearfix story" itemprop="text">
 		<?php
 
 		if ( is_search() || ! $show_full ) {
