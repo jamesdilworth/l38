@@ -1,0 +1,70 @@
+{
+    "key": "group_5b48e4d93c3a1",
+    "title": "Page Meta",
+    "fields": [
+        {
+            "key": "field_5b48e4dd31188",
+            "label": "Tie Page to Topic",
+            "name": "tie_page_to_topic",
+            "type": "taxonomy",
+            "instructions": "Check one (or two) topics that the page is connected with. Less is more",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "category",
+            "field_type": "checkbox",
+            "allow_null": 0,
+            "add_term": 1,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "id",
+            "multiple": 0
+        },
+        {
+            "key": "field_5b48e5d731189",
+            "label": "Tie Page to Magazine Section",
+            "name": "tie_page_to_magazine_section",
+            "type": "taxonomy",
+            "instructions": "If applicable, choose a section of the magazine the page is connected to.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "magazine_section",
+            "field_type": "select",
+            "allow_null": 0,
+            "add_term": 1,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "id",
+            "multiple": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 6,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content"
+    ],
+    "active": 1,
+    "description": "",
+    "modified": 1531523926
+}
