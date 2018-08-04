@@ -19,8 +19,10 @@ $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 	<?php endif; ?>
 
 	<header class="fl-post-header">
-		<h1 class="fl-post-title" itemprop="headline">
-			<?php the_title(); ?>
+        <?php // echo "<div class='alt_header'>" . get_field('alt_header') . "</div>"; ?>
+        <?php if(!is_category()) the_category(); ?>
+        <h1 class="fl-post-title" itemprop="headline">
+            <?php the_title(); ?>
 			<?php edit_post_link( _x( 'Edit', 'Edit post link text.', 'fl-automator' ) ); ?>
 		</h1>
 		<?php FLTheme::post_top_meta(); ?>

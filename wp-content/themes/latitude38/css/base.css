@@ -31,7 +31,7 @@
 @media (min-width: 992px) {
   .fl-page-nav-right .fl-page-header-container {
     padding-top: 5px;
-    padding-bottom: 5px; }
+    padding-bottom: 10px; }
 
   .fl-page-nav-right .fl-page-header-row .fl-page-header-logo-col {
     position: relative; }
@@ -65,7 +65,8 @@
   border-color: #11072d; }
 
 .fl-page-footer {
-  border: 0; }
+  border: 0;
+  font-size: 90%; }
 
 .fl-page-content {
   border-top: 3px solid #fff; }
@@ -204,6 +205,7 @@ h4 {
 .section-heading {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-weight: bold;
+  font-size: 85%;
   height: 24px;
   line-height: 1.6;
   text-transform: uppercase;
@@ -224,7 +226,7 @@ h4 {
 .category-heading {
   font-size: 140%;
   text-align: center;
-  color: #bbb;
+  color: #a0c2ce;
   text-transform: uppercase;
   font-weight: bold;
   font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -327,11 +329,19 @@ h4 {
   padding: 5px; }
 
 /* Captions below photos */
-.caption,
+figure.wp-caption {
+  max-width: 700px;
+  margin: 20px auto; }
+
+figcaption,
 .fl-photo-caption {
   font-size: 90%;
   color: #999;
-  text-overflow: default; }
+  text-overflow: default;
+  margin: 10px 10px 0; }
+
+figcaption .source {
+  margin-top: 15px; }
 
 .fl-photo-caption-hover {
   color: #fff; }
@@ -342,9 +352,21 @@ h4 {
 .single-post .fl-post-content img {
   width: 100%; }
 .single-post .fl-comments {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto; }
+  @media only screen and (min-width: 47.9375em) {
+    .single-post .fl-comments {
+      padding: 0 20px; } }
 
+@media only screen and (min-width: 47.9375em) {
+  .opening-panel {
+    background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
+    background-size: 100%; }
+    .opening-panel .fl-row-content {
+      background-color: #fff;
+      max-width: 1140px; }
+    .opening-panel .fl-row-content-wrap {
+      padding-top: 40px; } }
 /* Category Link Treatment */
 .post-categories {
   list-style-type: none;
@@ -755,6 +777,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
     margin-bottom: 13px; }
   .type-features .feature .title {
     background-color: #00000088;
+    font-family: 'Roboto Condensed', 'Source Sans', sans-serif;
     font-weight: 700;
     font-size: 120%;
     color: #fff;
@@ -800,6 +823,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   margin: 5px 0;
   margin-bottom: 10px; }
 .magazine-contents .title {
+  font-family: 'Roboto Condensed', 'Source Sans', sans-serif;
   border-bottom: 3px dashed #f6f6f6;
   margin-top: 0; }
   .magazine-contents .title:hover {
@@ -882,145 +906,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
       width: 180px;
       height: 232px; }
 
-.lectronic-edition {
-  overflow: auto; }
-  .lectronic-edition .read-more {
-    display: inline; }
-  .lectronic-edition .story {
-    overflow: auto;
-    margin-bottom: 30px; }
-    .lectronic-edition .story .image {
-      max-height: 300px;
-      overflow: hidden; }
-      .lectronic-edition .story .image img {
-        width: 100%; }
-    .lectronic-edition .story .alt_header {
-      color: #029ecf;
-      font-size: 85%;
-      text-transform: uppercase;
-      font-family: open-sans, sans-serif;
-      font-weight: 300; }
-    .lectronic-edition .story .title {
-      font-weight: 900; }
-    .lectronic-edition .story .edit_link {
-      display: block; }
-    .lectronic-edition .story .post-categories {
-      display: none;
-      position: relative;
-      left: -5px;
-      padding: 0; }
-      .lectronic-edition .story .post-categories li {
-        display: inline-block;
-        padding: 1px 8px; }
-      .lectronic-edition .story .post-categories a {
-        color: #999; }
-  @media only screen and (min-width: 47.9375em) {
-    .lectronic-edition .story .image {
-      float: left;
-      max-height: 200px;
-      overflow: hidden;
-      margin-right: 20px; }
-      .lectronic-edition .story .image img {
-        width: 300px; }
-    .lectronic-edition .story .title {
-      font-size: 170%;
-      margin-top: 0; } }
-
-.panel-normal .lectronic-edition,
-.lectronic .lectronic-edition:first-child {
-  margin: 0 -10px; }
-  .panel-normal .lectronic-edition .section-heading,
-  .lectronic .lectronic-edition:first-child .section-heading {
-    margin-left: 10px;
-    margin-right: 10px; }
-  @media only screen and (min-width: 47.9375em) {
-    .panel-normal .lectronic-edition .normal.story,
-    .lectronic .lectronic-edition:first-child .normal.story {
-      width: 33%;
-      float: left; }
-      .panel-normal .lectronic-edition .normal.story .image,
-      .lectronic .lectronic-edition:first-child .normal.story .image {
-        float: none;
-        width: 100%;
-        background-size: cover;
-        height: 200px;
-        overflow: hidden;
-        border: 10px solid #fff;
-        border-top: 0;
-        border-bottom: 0; }
-        .panel-normal .lectronic-edition .normal.story .image img,
-        .lectronic .lectronic-edition:first-child .normal.story .image img {
-          display: none; }
-      .panel-normal .lectronic-edition .normal.story .alt_header,
-      .lectronic .lectronic-edition:first-child .normal.story .alt_header {
-        padding: 10px 10px 0; }
-      .panel-normal .lectronic-edition .normal.story .title,
-      .lectronic .lectronic-edition:first-child .normal.story .title {
-        font-size: 150%;
-        padding: 0 10px; }
-      .panel-normal .lectronic-edition .normal.story .desc,
-      .lectronic .lectronic-edition:first-child .normal.story .desc {
-        padding: 0 10px;
-        color: #777; }
-      .panel-normal .lectronic-edition .normal.story .post-categories,
-      .lectronic .lectronic-edition:first-child .normal.story .post-categories {
-        display: none; }
-      .panel-normal .lectronic-edition .normal.story .edit_link,
-      .lectronic .lectronic-edition:first-child .normal.story .edit_link {
-        padding: 0 10px; }
-    .panel-normal .lectronic-edition .main.story,
-    .lectronic .lectronic-edition:first-child .main.story {
-      float: none;
-      width: 100%;
-      padding: 0 10px; }
-      .panel-normal .lectronic-edition .main.story .image,
-      .lectronic .lectronic-edition:first-child .main.story .image {
-        float: left;
-        max-height: 350px; }
-      .panel-normal .lectronic-edition .main.story img,
-      .lectronic .lectronic-edition:first-child .main.story img {
-        width: 550px; }
-      .panel-normal .lectronic-edition .main.story .title,
-      .lectronic .lectronic-edition:first-child .main.story .title {
-        font-size: 250%; }
-      .panel-normal .lectronic-edition .main.story .desc,
-      .lectronic .lectronic-edition:first-child .main.story .desc {
-        display: block;
-        font-size: 120%; } }
-
-@media only screen and (min-width: 47.9375em) {
-  .lectronic-lite .lectronic-edition .story .desc {
-    display: none;
-    line-height: 1.6; }
-  .lectronic-lite .lectronic-edition .story .title {
-    font-size: 150%;
-    padding: 0 10px 0 0;
-    margin-bottom: 3px; }
-  .lectronic-lite .lectronic-edition .story .edit_link {
-    padding: 0 10px 0 0; }
-  .lectronic-lite .lectronic-edition .story .post-categories {
-    display: none; }
-  .lectronic-lite .lectronic-edition .story.normal {
-    float: left;
-    width: 33.3%;
-    padding-right: 20px;
-    margin-bottom: 10px; }
-    .lectronic-lite .lectronic-edition .story.normal .image {
-      float: none;
-      width: 100%;
-      background-size: cover;
-      overflow: hidden;
-      height: 150px;
-      margin-bottom: 10px; }
-      .lectronic-lite .lectronic-edition .story.normal .image img {
-        display: none; }
-    .lectronic-lite .lectronic-edition .story.normal .read-more {
-      display: inline; }
-  .lectronic-lite .lectronic-edition .story.main .desc {
-    display: block; }
-  .lectronic-lite .lectronic-edition .story.main .title {
-    font-size: 200%; } }
-
+/* Are these the lectronic stories on archive pages... if so, we should update the css to match the standard. */
 .stories h2 {
   margin-top: 0; }
 .stories .story {
@@ -1036,17 +922,6 @@ button:active, input[type=button]:active, input[type=submit]:active {
   float: left; }
 .stories .desc {
   margin-left: 170px; }
-
-.currents {
-  font-family: "open sans", sans-serif;
-  color: #fff; }
-  .currents .slack {
-    position: relative;
-    padding: 0 10px; }
-  .currents .ebb {
-    color: #081b2d; }
-  .currents .flood {
-    color: #fff; }
 
 .column-step {
   background-color: #79d6f4;
@@ -1069,22 +944,119 @@ button:active, input[type=button]:active, input[type=submit]:active {
     color: #fff;
     margin: 20px 0; }
 
-.day h2 {
-  font-size: 35px;
-  font-weight: 900; }
-  @media (min-width: 992px) {
-    .day h2 {
-      font-size: 45px; } }
+/* Lectronic-Edition covers output of the lectronic widget that displays stories from a current edition. It should also be used for archive listings of stories. */
+.lectronic-edition {
+  overflow: hidden;
+  /* Note... these layouts require the assistance of equalize.js and the selectors are called in scripts.js */ }
+  .lectronic-edition .story {
+    margin-bottom: 30px;
+    overflow: hidden; }
+    .lectronic-edition .story .title {
+      font-weight: 900;
+      margin: 0px;
+      font-size: 160%;
+      line-height: 1.35; }
+      .lectronic-edition .story .title a {
+        color: #333; }
+      .lectronic-edition .story .title a:hover {
+        color: #029ecf;
+        text-decoration: none; }
+  .lectronic-edition .alt_header {
+    color: #029ecf;
+    font-size: 90%;
+    text-transform: uppercase;
+    font-weight: 100;
+    margin-top: 5px; }
+  .lectronic-edition .read-more {
+    display: inline; }
+  .lectronic-edition .edit_link {
+    display: block; }
+  .lectronic-edition .desc {
+    font-size: 95%;
+    margin-right: 10px; }
+  .lectronic-edition .image {
+    background-size: cover;
+    overflow: hidden;
+    padding-top: 56.25%;
+    background-position: center; }
+    .lectronic-edition .image img {
+      display: none; }
+  @media only screen and (min-width: 47.9375em) {
+    .lectronic-edition {
+      margin-bottom: 10px; }
+      .lectronic-edition.first .section-heading {
+        margin-top: 0; }
+      .lectronic-edition.two-story .story {
+        float: left;
+        width: 48%;
+        margin-right: 2%; }
+        .lectronic-edition.two-story .story:last-child {
+          margin-right: 0; }
+      .lectronic-edition.first.three-story .main.story .title {
+        font-size: 200%; }
+      .lectronic-edition.first.three-story .main.story .image {
+        float: left;
+        width: 48%;
+        height: 300px;
+        padding-top: 0;
+        margin-right: 20px; }
+      .lectronic-edition.first.three-story .main.story .alt_header {
+        margin-top: 0; }
+      .lectronic-edition.first.three-story .normal.story {
+        float: left;
+        width: 48%;
+        margin-right: 2%; }
+        .lectronic-edition.first.three-story .normal.story:last-child {
+          margin-right: 0; }
+      .lectronic-edition.three-story:not(.first) .story {
+        float: left;
+        width: 32%;
+        margin-right: 2%; }
+        .lectronic-edition.three-story:not(.first) .story:last-child {
+          margin-right: 0; }
+      .lectronic-edition.four-story .main.story .title {
+        font-size: 200%; }
+      .lectronic-edition.four-story .main.story .image {
+        float: left;
+        width: 50%;
+        height: 275px;
+        padding-top: 0;
+        margin-right: 20px; }
+      .lectronic-edition.four-story .main.story .alt_header {
+        margin-top: 0; }
+      .lectronic-edition.four-story .normal.story {
+        float: left;
+        width: 32%;
+        margin-right: 2%; }
+        .lectronic-edition.four-story .normal.story:last-child {
+          margin-right: 0; }
+      .lectronic-edition.six-story .story {
+        float: left;
+        width: 32%;
+        margin-right: 2%; }
+        .lectronic-edition.six-story .story:nth-child(2n+1) {
+          margin-right: 0; } }
+
+.home .lectronic_stories .main.story .image {
+  max-height: 250px; }
+.home .lectronic_stories .normal .desc {
+  display: none; }
+.home .lectronic_stories .normal .title {
+  font-size: 140%; }
 
 /* This is the widget that holds all the stories on the lectronic page. */
 .lectronic-all-stories {
   background-color: #fff;
   padding: 20px; }
 
+.lectronic-edition-stories {
+  max-width: 840px;
+  margin: auto; }
+
 /* This is the background to lectronic headers! */
 .lectronic {
-  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.png) no-repeat;
-  background-size: 100% 400px; }
+  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
+  background-size: 100%; }
 
 .lectronic-logo {
   max-width: 600px;
@@ -1117,24 +1089,37 @@ button:active, input[type=button]:active, input[type=submit]:active {
     padding: 10px;
     font-size: 120%; }
 
-.lectronic-edition-stories {
-  max-width: 840px;
-  margin: auto; }
-
 .single-post .fl-page-content {
-  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.png) no-repeat;
-  background-size: 100% 400px; }
+  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
+  background-size: 100%; }
 .single-post .fl-post {
   background-color: #fff;
   padding: 20px; }
+.single-post .alt_header {
+  color: #029ecf;
+  font-size: 85%;
+  text-transform: uppercase;
+  font-family: open-sans, sans-serif;
+  font-weight: 300; }
+.single-post .widget.lectronic_stories {
+  max-width: 900px;
+  padding: 0 20px;
+  margin: auto; }
+
+.day h2 {
+  font-size: 35px;
+  font-weight: 900; }
+  @media (min-width: 992px) {
+    .day h2 {
+      font-size: 45px; } }
 
 .archive.day .fl-archive {
   max-width: 900px; }
 .archive .fl-post-meta-top {
   margin: -5px 0 20px; }
 .archive .fl-page-content {
-  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.png) no-repeat;
-  background-size: 100% 400px; }
+  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
+  background-size: 100%; }
 .archive .fl-content {
   background-color: #fff;
   padding: 30px;

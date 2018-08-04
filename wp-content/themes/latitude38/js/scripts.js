@@ -6,8 +6,6 @@ var S4O = (function($) {
 
     var initializeMfp = function() {
 
-        console.log('width is ' + w + ', height is ' + h);
-
         $issuu_orientation = w > h ? '62432356' : '62432579';
 
         $('.issuu').magnificPopup({
@@ -23,7 +21,24 @@ var S4O = (function($) {
                 srcAction: 'iframe_src'
             },
             mainClass: 'mfp-issuu',
-            enableEscapeKey: true
+            enableEscapeKey: true,
+            callbacks: {
+                open: function() {
+                    // Will fire when this exact popup is opened. 'this' refers to mfp object.
+                    // Trap back button
+                    var mfp_object = this;
+                    window.history.pushState({page: 1}, "", "");
+                    $(window).on('popstate', function(event) {
+                        mfp_object.close();
+                    });
+                },
+                close: function() {
+                    // Release back button when popup is closed
+                    $(window).off('popstate');
+                }
+
+            }
+
         });
 
         $('.inline.popup').magnificPopup({
@@ -107,6 +122,11 @@ var S4O = (function($) {
     return {
         preInit: function() {
             // Sometimes I stuff in CSS layout stuff in here... such as equalization
+            if(w > 768) {
+                $('.equalize').equalize('innerHeight');
+                $('.four-story').equalize({children: '.normal.story'});
+            }
+
         },
 
         init: function() {

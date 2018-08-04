@@ -4,8 +4,6 @@ $show_thumbs = FLTheme::get_setting( 'fl-archive-show-thumbs' );
 $show_full   = apply_filters( 'fl_archive_show_full',  FLTheme::get_setting( 'fl-archive-show-full' ) );
 $more_text   = FLTheme::get_setting( 'fl-archive-readmore-text' );
 $thumb_size   = FLTheme::get_setting( 'fl-archive-thumb-size' );
-
-
 if(is_day()) {
     $show_full = 1;
     $show_thumbs = 0;
@@ -38,12 +36,12 @@ do_action( 'fl_before_post' );
 	<?php endif; ?>
 
 	<header class="fl-post-header">
-        <?php echo "<div class='alt_header'>" . get_field('alt_header') . "</div>"; ?>
-		<h2 class="fl-post-title" itemprop="headline" id="<?php echo get_post_field( 'post_name'); ?>">
+        <?php // echo "<div class='alt_header'>" . get_field('alt_header') . "</div>"; ?>
+        <?php if(!is_category()) the_category(); ?>
+        <h2 class="fl-post-title" itemprop="headline" id="<?php echo get_post_field( 'post_name'); ?>">
 			<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a>
 			<?php edit_post_link( _x( 'Edit', 'Edit post link text.', 'fl-automator' ) ); ?>
 		</h2>
-        <?php if(!is_category()) the_category(); ?>
         <?php if(!is_day()) the_date(); ?>
 		<?php if(is_day()) FLTheme::post_top_meta(); ?>
 	</header><!-- .fl-post-header -->

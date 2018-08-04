@@ -37,11 +37,11 @@ h2 					{ font-weight:900;}
 h3 					{ font-weight:900; margin-top:30px; }
 h4 					{ font-weight:900; margin-top:30px; }
 
-.section-heading 	{ font-family:$menu-font; font-weight:bold; height:24px; line-height:1.6; text-transform:uppercase; padding:0; margin:20px 0 20px; background-size:49px 50px; background-repeat:repeat; background-color:$accent2; background-image:url(/wp-content/themes/latitude38/images/section-header-bg.png);
+.section-heading 	{ font-family:$menu-font; font-weight:bold; font-size:85%; height:24px; line-height:1.6; text-transform:uppercase; padding:0; margin:20px 0 20px; background-size:49px 50px; background-repeat:repeat; background-color:$accent2; background-image:url(/wp-content/themes/latitude38/images/section-header-bg.png);
 	.title 			{ background-color:$accent2; color:#fff; height:24px; padding:0 10px; width:196px; display:inline-block; }
 } // Striped white
 
-.category-heading	{ font-size:140%; text-align:center; color:#bbb; text-transform:uppercase; font-weight:bold; font-family:$header-font; margin:-20px 0px 20px;  }
+.category-heading	{ font-size:140%; text-align:center; color:#a0c2ce; text-transform:uppercase; font-weight:bold; font-family:$header-font; margin:-20px 0px 20px;  }
 
 /* Fix to enable deep-linking within the doc... otherwise the part jumped to is hidden by the menu. */
 /* h3:before,  h4:before,  h5:before  {  display:block; content:" ";  margin-top:-110px;  height:110px;  visibility:hidden; }
@@ -104,14 +104,25 @@ h4 					{ font-weight:900; margin-top:30px; }
 .fl-sidebar-right .module>div		{ margin:5px; padding:5px; }
 
 /* Captions below photos */
-.caption,
-.fl-photo-caption 				{ font-size:90%; color:#999;  text-overflow:default;}
-.fl-photo-caption-hover 		{ color:#fff; }
+figure.wp-caption					{ max-width:700px; margin:20px auto; }
+figcaption,
+.fl-photo-caption 					{ font-size:90%; color:#999;  text-overflow:default; margin:10px 10px 0; }
+figcaption .source 					{ margin-top:15px; }
+.fl-photo-caption-hover 			{ color:#fff; }
 
 .single-post 						{
 	.fl-post 						{ max-width: 900px; margin: auto; }
 	.fl-post-content img			{ width:100%; }
-	.fl-comments					{ max-width:800px; margin:auto; }
+	.fl-comments					{ max-width:900px; margin:auto;
+		@include breakpoint(medium)	{ padding:0 20px; }
+	}
+}
+
+@include breakpoint(medium) {
+	.opening-panel 			{ background:#fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat; background-size:100%;
+		.fl-row-content 	{ background-color:#fff; max-width:1140px; }
+		.fl-row-content-wrap { padding-top: 40px; }
+	}
 }
 
 /* Category Link Treatment */

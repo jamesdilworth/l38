@@ -21,7 +21,7 @@
 
 // Fix the Nav!
 @media (min-width: 992px) {
-	.fl-page-nav-right .fl-page-header-container 	{ padding-top:5px; padding-bottom:5px; }
+	.fl-page-nav-right .fl-page-header-container 	{ padding-top:5px; padding-bottom:10px; }
 	.fl-page-nav-right .fl-page-header-row .fl-page-header-logo-col { position:relative; }
 	.fl-page-nav-right .fl-page-header-logo 		{ position: absolute; top: -10px; margin-left: -5px; border: 4px solid #fff; padding: 5px 10px; background-color: $accent3; z-index:5; }
 	.fl-page-nav-search 							{ padding-top:0; }
@@ -36,7 +36,7 @@
 .fl-logo-img										{ width:250px !important; }
 
 .fl-page-header 									{ border-color:#11072d; }
-.fl-page-footer 									{ border:0; }
+.fl-page-footer 									{ border:0; font-size:90%; }
 .fl-page-content									{ border-top: 3px solid #fff; }
 .fl-page-footer-nav									{ font-size:100%; font-family:$header-font; }
 
