@@ -109,6 +109,7 @@ class lectronic_stories_widget extends WP_Widget {
                         $url = get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . '#' . get_post_field( 'post_name');
 
                         $escaped_img_url = str_replace(" ","%20", get_the_post_thumbnail_url($post_id,'large'));
+                        $escaped_img_url = str_replace("'",  "%27", $escaped_img_url);
 
                         $inner_output .= "<article class='$main story'>";
 
@@ -156,7 +157,7 @@ class lectronic_stories_widget extends WP_Widget {
                 $output .= ' lectronic-edition">';
 
                 if(is_page('lectronic')) {
-                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "'  rel='nofollow'>" . date('D, F j', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
+                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "'  rel='nofollow'>" . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
                 } else {
                     $output .= "<div class='day section-heading'><a class='title' style='width:300px;' href='/lectronic/'>'Lectronic Latitude: ". date('D, F j', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
                 }

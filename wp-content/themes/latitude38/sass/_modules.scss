@@ -170,9 +170,13 @@
 			}
 		}
 
-		&.six-story 		{
+		&.five-story,
+		&.six-story,
+		&.seven-story,
+		&.eight-story
+		{
 			.story			{ float:left; width:32%; margin-right:2%;
-				&:nth-child(2n+1) { margin-right:0; }
+				&:nth-child(3n+1) { margin-right:0; }
 			}
 		}
 	}

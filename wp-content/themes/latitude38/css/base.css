@@ -1031,11 +1031,11 @@ button:active, input[type=button]:active, input[type=submit]:active {
         margin-right: 2%; }
         .lectronic-edition.four-story .normal.story:last-child {
           margin-right: 0; }
-      .lectronic-edition.six-story .story {
+      .lectronic-edition.five-story .story, .lectronic-edition.six-story .story, .lectronic-edition.seven-story .story, .lectronic-edition.eight-story .story {
         float: left;
         width: 32%;
         margin-right: 2%; }
-        .lectronic-edition.six-story .story:nth-child(2n+1) {
+        .lectronic-edition.five-story .story:nth-child(3n+1), .lectronic-edition.six-story .story:nth-child(3n+1), .lectronic-edition.seven-story .story:nth-child(3n+1), .lectronic-edition.eight-story .story:nth-child(3n+1) {
           margin-right: 0; } }
 
 .lectronic_stories .older-links {
