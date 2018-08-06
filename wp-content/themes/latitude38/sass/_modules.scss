@@ -27,7 +27,9 @@
 
 .type-features {
 	.feature 				{ overflow:auto; width:50%; float:left;
-		.feature-image		{ border-right:15px solid $background-grey; height:207px; background-size:cover; position:relative; margin-bottom:13px; }
+		.feature-image		{ border-right:15px solid #fff; height:207px; background-size:cover; position:relative; margin-bottom:13px;
+			&:nth-child(3n+1) { border-right:0; }
+		}
 		.title				{ background-color:#00000088; font-family: 'Roboto Condensed', 'Source Sans', sans-serif; font-weight:700; font-size:120%; color:#fff; padding:10px; margin:0; }
 		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
 		.desc				{ display:none; }
@@ -173,6 +175,13 @@
 				&:nth-child(2n+1) { margin-right:0; }
 			}
 		}
+	}
+}
+
+.lectronic_stories 			{
+	.older-links 			{ font-weight:400; text-align:right; border-bottom: 3px dashed #e6e6e6; // #b4e7f8
+		a 					{ }
+		&:hover a			{ text-decoration:none; }
 	}
 }
 

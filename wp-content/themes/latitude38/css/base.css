@@ -72,8 +72,7 @@
   border-top: 3px solid #fff; }
 
 .fl-page-footer-nav {
-  font-size: 100%;
-  font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif; }
+  font-size: 100%; }
 
 .wp-caption p.wp-caption-text {
   font-size: 100%;
@@ -770,11 +769,13 @@ button:active, input[type=button]:active, input[type=submit]:active {
   width: 50%;
   float: left; }
   .type-features .feature .feature-image {
-    border-right: 15px solid #f3f3f3;
+    border-right: 15px solid #fff;
     height: 207px;
     background-size: cover;
     position: relative;
     margin-bottom: 13px; }
+    .type-features .feature .feature-image:nth-child(3n+1) {
+      border-right: 0; }
   .type-features .feature .title {
     background-color: #00000088;
     font-family: 'Roboto Condensed', 'Source Sans', sans-serif;
@@ -1037,12 +1038,21 @@ button:active, input[type=button]:active, input[type=submit]:active {
         .lectronic-edition.six-story .story:nth-child(2n+1) {
           margin-right: 0; } }
 
+.lectronic_stories .older-links {
+  font-weight: 400;
+  text-align: right;
+  border-bottom: 3px dashed #e6e6e6; }
+  .lectronic_stories .older-links:hover a {
+    text-decoration: none; }
+
 .home .lectronic_stories .main.story .image {
   max-height: 250px; }
 .home .lectronic_stories .normal .desc {
   display: none; }
 .home .lectronic_stories .normal .title {
   font-size: 140%; }
+.home .lectronic_stories .older-links {
+  margin-top: -30px; }
 
 /* This is the widget that holds all the stories on the lectronic page. */
 .lectronic-all-stories {

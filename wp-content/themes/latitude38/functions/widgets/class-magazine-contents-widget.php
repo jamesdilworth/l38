@@ -19,7 +19,7 @@ class magazine_contents_widget extends WP_Widget {
         );
         $instance = wp_parse_args((array) $instance, $defaults);
         $title = $instance['title'];
-        $issue = $instance['issue'];
+        // $issue = $instance['issue'];
         $options = $instance['options'];
 
         $args = array(
@@ -57,7 +57,7 @@ class magazine_contents_widget extends WP_Widget {
         // save widget options
         $instance = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
-        $instance['issue'] = $new_instance['issue'];
+        // $instance['issue'] = $new_instance['issue'];
         $instance['options'] = $new_instance['options'];
         return $instance;
     }

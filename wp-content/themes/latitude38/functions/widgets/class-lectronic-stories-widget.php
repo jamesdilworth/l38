@@ -178,7 +178,7 @@ class lectronic_stories_widget extends WP_Widget {
         // Add in Next / Prev where valid.
         // Previous... we just need to pass end date as start_date variable.
         $next_date = date('Y-m-d', $next_date - 86400);
-        echo "<div class='older_links'><a href='/lectronic/?start_date=$next_date'>More 'Lectronics &raquo;</a></div>";
+        echo "<div class='older-links'><a href='/lectronic/?start_date=$next_date'>More 'Lectronics &raquo;</a></div>";
 
         echo $after_widget;
     }
