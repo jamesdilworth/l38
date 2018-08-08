@@ -72,7 +72,11 @@
   border-top: 3px solid #fff; }
 
 .fl-page-footer-nav {
-  font-size: 100%; }
+  font-size: 100%;
+  font-weight: bold; }
+
+.fl-page-footer a {
+  font-weight: 500; }
 
 .wp-caption p.wp-caption-text {
   font-size: 100%;
@@ -720,6 +724,8 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .single-issue .cover {
   text-align: center;
   padding-bottom: 20px; }
+  .single-issue .cover img {
+    box-shadow: 3px 3px 5px #00000044; }
 
 .type-cover-features .feature {
   overflow: auto;
@@ -808,7 +814,8 @@ button:active, input[type=button]:active, input[type=submit]:active {
     width: 30%;
     float: left; }
     .type-cover-contents .cover img {
-      width: 100%; }
+      width: 100%;
+      box-shadow: 3px 3px 5px #00000044; }
   .type-cover-contents .magazine-contents {
     overflow: auto;
     padding-left: 20px; } }

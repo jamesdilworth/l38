@@ -25,6 +25,8 @@ function JZ_create_magazine_post_type()
             'hierarchical' => false,
             'has_archive' => false,
             'supports' => $supports,
+            'capability_type' => 'post',
+            'menu_position' => 5,
             'rewrite' => array(
                 'slug' => 'issues',
                 'with_front' => false
