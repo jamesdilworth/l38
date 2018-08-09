@@ -25,7 +25,7 @@
                     "key": "field_5b23a7aa89399",
                     "label": "Section Name",
                     "name": "section_name",
-                    "type": "text",
+                    "type": "select",
                     "instructions": "",
                     "required": 1,
                     "conditional_logic": 0,
@@ -34,33 +34,23 @@
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "",
-                    "placeholder": "e.g. Calendar, Loose Lips, Max Ebb",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": ""
-                },
-                {
-                    "key": "field_5b48e06783bb1",
-                    "label": "Section Title",
-                    "name": "section_title",
-                    "type": "taxonomy",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
+                    "choices": {
+                        "Calendar": "Calendar",
+                        "Letters": "Letters",
+                        "Loose Lips": "Loose Lips",
+                        "Sightings": "Sightings",
+                        "The Racing Sheet": "The Racing Sheet",
+                        "World of Chartering": "World of Chartering",
+                        "Changes in Latitudes": "Changes in Latitudes",
+                        "Classy Classifieds": "Classy Classifieds"
                     },
-                    "taxonomy": "category",
-                    "field_type": "select",
+                    "default_value": [],
                     "allow_null": 0,
-                    "add_term": 1,
-                    "save_terms": 0,
-                    "load_terms": 0,
-                    "return_format": "id",
-                    "multiple": 0
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "return_format": "label",
+                    "placeholder": ""
                 },
                 {
                     "key": "field_5b23a7eb8939b",
@@ -207,5 +197,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1531503335
+    "modified": 1533776521
 }

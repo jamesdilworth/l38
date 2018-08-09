@@ -114,7 +114,7 @@ add_action( 'admin_head', 'Move_ACF_Subtitle' );
 function customize_editor_admin() {
     if(!current_user_can('edit_users')) {
         // Not an admin.
-        remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+        // remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
         remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
         remove_meta_box( 'simple_history_dashboard_widget', 'dashboard', 'side' );
     }
@@ -122,7 +122,7 @@ function customize_editor_admin() {
 }
 
 // Hook into the 'wp_dashboard_setup' action to register our function
-add_action('wp_dashboard_setup', 'example_remove_dashboard_widget' );
+add_action('wp_dashboard_setup', 'customize_editor_admin' );
 
 
 
