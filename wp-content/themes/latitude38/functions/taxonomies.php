@@ -27,7 +27,7 @@ function modify_categories(){
 }
 add_action( 'init', 'modify_categories', 0 );
 
-// Magazine Sections
+/* Magazine Sections
 function define_magazine_section() {
     $labels = array(
         'name'				=> _x( 'Magazine Sections', 'taxonomy general name' ),
@@ -55,6 +55,7 @@ function define_magazine_section() {
     ));
 }
 add_action( 'init', 'define_magazine_section', 0 );
+*/
 
 // Regions
 function define_regions() {

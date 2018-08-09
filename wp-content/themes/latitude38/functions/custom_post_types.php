@@ -37,6 +37,9 @@ function JZ_create_magazine_post_type()
 }
 add_action( 'init', 'JZ_create_magazine_post_type' );
 
+// Suppress the editorial calendar for Magazines
+add_filter('edcal_show_calendar_magazine', function() { return false; });
+
 function JZ_change_post_label() {
     global $menu;
     global $submenu;
