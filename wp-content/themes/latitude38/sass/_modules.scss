@@ -117,7 +117,7 @@
 /* Lectronic-Edition covers output of the lectronic widget that displays stories from a current edition. It should also be used for archive listings of stories. */
 .lectronic-edition 			{ overflow:hidden;
 	.story 					{ margin-bottom:30px; overflow:hidden;
-		.title 					{ font-weight:900; margin:0px; font-size: 160%; line-height: 1.35;
+		.title 					{ font-weight:600; margin:0px; font-size: 160%; line-height: 1.35;
 			a 					{ color:#333; }
 			a:hover 			{ color:$accent2; text-decoration:none; }
 		}
