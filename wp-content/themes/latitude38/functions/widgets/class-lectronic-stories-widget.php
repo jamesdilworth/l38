@@ -79,7 +79,8 @@ class lectronic_stories_widget extends WP_Widget {
                 'day' => $pubdate[2],
                 'meta_key' => 'sort_order',
                 'orderby' => "meta_value_num",
-                'order' => 'ASC'
+                'order' => 'ASC',
+                'category__not_in' => array(199)
             );
 
             $output = "";

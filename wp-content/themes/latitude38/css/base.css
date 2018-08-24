@@ -1059,6 +1059,13 @@ button:active, input[type=button]:active, input[type=submit]:active {
   .lectronic_stories .older-links:hover a {
     text-decoration: none; }
 
+.fl-post.category-advertisment {
+  padding: 20px;
+  background-color: #f6f6f6;
+  border-bottom: 0; }
+  .fl-post.category-advertisment .post-categories li {
+    background-color: #fff; }
+
 .home .lectronic_stories .main.story .image {
   max-height: 250px; }
 .home .lectronic_stories .normal .desc {

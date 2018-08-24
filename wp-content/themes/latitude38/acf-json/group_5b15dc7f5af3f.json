@@ -79,25 +79,6 @@
             "prepend": "",
             "append": "",
             "maxlength": 40
-        },
-        {
-            "key": "field_5b61007b1cfc6",
-            "label": "Location",
-            "name": "location",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
         }
     ],
     "location": [
@@ -117,5 +98,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1533083793
+    "modified": 1535133109
 }
