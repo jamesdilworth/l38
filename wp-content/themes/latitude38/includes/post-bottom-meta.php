@@ -1,9 +1,11 @@
 <?php
 
 // Only show if we're showing the full post.
+if(is_day())  $show_full = 1;
+
 if ( $show_full || is_single() ) {
 
-	// Wrapper
+    // Wrapper
 	if ( $show_cats || $show_tags || $comments ) {
 
 		echo '<div class="fl-post-meta fl-post-meta-bottom">';
@@ -19,9 +21,11 @@ if ( $show_full || is_single() ) {
 
 		echo '<div class="fl-post-cats-tags">';
 
+		/*
 		if ( $show_cats && $cats ) {
 			printf( _x( 'Posted in %s', 'Post meta info: category.', 'fl-automator' ), $cats );
 		}
+        */
 
 		if ( $show_tags && $tags ) {
 			if ( $show_cats && $cats ) {
@@ -33,6 +37,12 @@ if ( $show_full || is_single() ) {
 
 		echo '</div>';
 	}
+
+
+	// Social Sharing
+    if( is_single() || is_day()) {
+	    display_social_sharing_buttons();
+    }
 
 	// Comments
 	if ( $comments && ! is_single() ) {

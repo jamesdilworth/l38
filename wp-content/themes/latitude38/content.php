@@ -91,7 +91,7 @@ do_action( 'fl_before_post' );
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php do_action( 'fl_before_post_content' ); ?>
-	<div class="fl-post-content clearfix story" itemprop="text">
+	<div class="fl-post-content clearfix" itemprop="text">
 		<?php
 
 		if ( is_search() || ! $show_full ) {
@@ -103,6 +103,7 @@ do_action( 'fl_before_post' );
             }
 		} else {
             the_content( '<span class="fl-post-more-link">' . $more_text . '</span>' );
+
 		}
 
 		?>

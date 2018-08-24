@@ -2,6 +2,7 @@
 
 $show_thumbs = FLTheme::get_setting( 'fl-posts-show-thumbs' );
 $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
+$show_cats = 0;
 ?>
 <?php do_action( 'fl_before_post' ); ?>
 
@@ -69,7 +70,7 @@ $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 	</div>
 	<?php endif; ?>
 
-	<?php // FLTheme::post_bottom_meta(); ?>
+	<?php FLTheme::post_bottom_meta(); ?>
 	<?php // FLTheme::post_navigation(); ?>
 	<?php do_action( 'fl_after_post_content' ); ?>
 
