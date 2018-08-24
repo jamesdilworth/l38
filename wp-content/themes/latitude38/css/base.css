@@ -67,6 +67,10 @@
   border-top: 0;
   margin-top: 0; }
 
+.fl-archive .fl-post:last-of-type {
+  border-bottom: 0;
+  margin-bottom: 0; }
+
 .fl-page-nav-collapse ul.navbar-nav > li {
   border-color: #11072d; }
 
@@ -172,7 +176,7 @@ h2 + .subtitle {
   color: #aba7bd; }
 
 .btn {
-  background-color: rgba(24, 90, 148, 0.6);
+  background-color: #029ecf;
   border-radius: 2px;
   font-weight: bold;
   color: #fff; }
@@ -1104,6 +1108,14 @@ button:active, input[type=button]:active, input[type=submit]:active {
       background: #3B5997; }
       .social-buttons .social-link.social-facebook:hover, .social-buttons .social-link.social-facebook:active {
         background: #2d4372; }
+
+.subscribe-notice {
+  max-width: 860px;
+  background-color: #f6f6f6;
+  padding: 10px 20px;
+  text-align: center;
+  margin: 20px auto;
+  font-weight: 400; }
 
 .home .lectronic_stories .main.story .image {
   max-height: 250px; }

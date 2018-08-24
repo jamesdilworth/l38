@@ -17,6 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php while ( have_posts() ) : the_post(); ?>
 					<?php get_template_part( 'content', get_post_format() ); ?>
 				<?php endwhile; ?>
+
+                <div class="subscribe-notice">Receive emails when 'Lectronic Latitude is updated. <a href="" class="btn">SUBSCRIBE</a></div>
+
                 <?php
                     if(is_day()) {
                         // Get the next day's posts

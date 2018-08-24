@@ -53,15 +53,15 @@ $show_cats = 0;
 
 	<div class="fl-post-content clearfix" itemprop="text">
 		<?php
+		    the_content();
+        ?>
 
-		the_content();
-
-		wp_link_pages( array(
-			'before'         => '<div class="fl-post-page-nav">' . _x( 'Pages:', 'Text before page links on paginated post.', 'fl-automator' ),
-			'after'          => '</div>',
-			'next_or_number' => 'number',
-		) );
-
+        <?php
+            wp_link_pages( array(
+                'before'         => '<div class="fl-post-page-nav">' . _x( 'Pages:', 'Text before page links on paginated post.', 'fl-automator' ),
+                'after'          => '</div>',
+                'next_or_number' => 'number',
+            ) );
 		?>
 	</div><!-- .fl-post-content -->
 
@@ -74,16 +74,15 @@ $show_cats = 0;
 	<?php // FLTheme::post_navigation(); ?>
 	<?php do_action( 'fl_after_post_content' ); ?>
 
-
-
 </article>
 
 <?php comments_template(); ?>
+<div class="subscribe-notice">Receive emails when 'Lectronic Latitude is updated. <a href="" class="btn">SUBSCRIBE</a></div>
 
 <?php
-// Other Pages from this day.
-$start_date = date("Y-m-d", get_the_time('U'));
-the_widget('lectronic_stories_widget',"qty=1&start_date=$start_date");
+    // Other Pages from this day.
+    $start_date = date("Y-m-d", get_the_time('U'));
+    the_widget('lectronic_stories_widget',"qty=1&start_date=$start_date");
 ?>
 
 <?php do_action( 'fl_after_post' ); ?>
