@@ -55,6 +55,13 @@
   .fl-page-nav-right .fl-page-nav-wrap a *,
   .fl-page-nav-right .fl-page-nav-wrap a.fa {
     color: #fff; } }
+.fl-page-bar {
+  font-size: 14px; }
+
+.fl-page-bar-container {
+  padding-top: 2px;
+  padding-bottom: 2px; }
+
 .fl-page-nav-collapse ul.navbar-nav > li {
   border-color: #11072d; }
 
