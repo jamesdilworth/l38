@@ -979,7 +979,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
     .lectronic-edition .story .title {
       font-weight: 600;
       margin: 0px;
-      font-size: 160%;
+      font-size: 140%;
       line-height: 1.35; }
       .lectronic-edition .story .title a {
         color: #333; }
@@ -1018,7 +1018,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
         .lectronic-edition.two-story .story:last-child {
           margin-right: 0; }
       .lectronic-edition.first.three-story .main.story .title {
-        font-size: 200%; }
+        font-size: 180%; }
       .lectronic-edition.first.three-story .main.story .image {
         float: left;
         width: 48%;
@@ -1040,7 +1040,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
         .lectronic-edition.three-story:not(.first) .story:last-child {
           margin-right: 0; }
       .lectronic-edition.four-story .main.story .title {
-        font-size: 200%; }
+        font-size: 180%; }
       .lectronic-edition.four-story .main.story .image {
         float: left;
         width: 50%;
