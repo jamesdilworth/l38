@@ -65,7 +65,7 @@ add_filter( 'private_title_format',   'alter_private_in_titles' );
 function configure_tinymce($in) {
     $in['paste_preprocess'] = "function(plugin, args){
     // Strip all HTML tags except those we have whitelisted
-    var whitelist = 'p,h2,h3,h4,h5,h6,ul,li,ol,table,tr,td,th,tbody,thead,img,a';
+    var whitelist = 'p,h1,h2,h3,h4,h5,h6,ul,li,ol,table,tr,td,th,tbody,thead,img,a,br';
     var stripped = jQuery('<div>' + args.content + '</div>');
     var els = stripped.find('*').not(whitelist);
     for (var i = els.length - 1; i >= 0; i--) {

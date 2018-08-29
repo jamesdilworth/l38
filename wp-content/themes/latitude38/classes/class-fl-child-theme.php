@@ -14,7 +14,7 @@ final class FLChildTheme {
      */
     static public function enqueue_scripts()
     {
-	    wp_enqueue_style( 'fl-child-theme', FL_CHILD_THEME_URL . '/css/base.css' );
+	    wp_enqueue_style( 'fl-child-theme', FL_CHILD_THEME_URL . '/css/base.css', array(), filemtime(FL_CHILD_THEME_DIR . '/css/base.css'));
     }
 
     static public function archive_page_header() {

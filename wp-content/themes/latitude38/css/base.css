@@ -23,7 +23,7 @@
   color: #fff; }
 
 .fl-page-nav-right .fl-page-nav-wrap .navbar-nav li > a:hover {
-  color: #029ecf; }
+  color: #018db9; }
 
 .fl-page-header {
   background-color: #79d6f4; }
@@ -168,7 +168,7 @@ ul.noindent.nodots {
   padding-left: 0; }
 
 a {
-  color: #029ecf; }
+  color: #018db9; }
 
 h1 + .subtitle,
 h2 + .subtitle {
@@ -176,7 +176,7 @@ h2 + .subtitle {
   color: #aba7bd; }
 
 .btn {
-  background-color: #029ecf;
+  background-color: #018db9;
   border-radius: 2px;
   font-weight: bold;
   color: #fff; }
@@ -232,10 +232,10 @@ h4 {
   margin: 20px 0 20px;
   background-size: 49px 50px;
   background-repeat: repeat;
-  background-color: #029ecf;
+  background-color: #018db9;
   background-image: url(/wp-content/themes/latitude38/images/section-header-bg.png); }
   .section-heading .title {
-    background-color: #029ecf;
+    background-color: #018db9;
     color: #fff;
     height: 24px;
     padding: 0 10px;
@@ -286,7 +286,7 @@ h4 {
     background-color: #79d6f4;
     color: #fff; }
     .on_dark .btn:hover {
-      background-color: #029ecf; }
+      background-color: #018db9; }
   .on_dark .white-btn {
     padding: 8px 15px;
     border: 1px solid #fff;
@@ -299,7 +299,7 @@ h4 {
 
 .on_accent1 {
   color: #fff;
-  background-color: #029ecf;
+  background-color: #018db9;
   font-weight: 400; }
   .on_accent1 h1 {
     color: #fff; }
@@ -957,7 +957,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
     font-size: 400%;
     font-weight: bold;
     padding: 10px;
-    border-bottom: 3px solid #029ecf;
+    border-bottom: 3px solid #018db9;
     margin: 0 80px; }
   .column-step .title {
     text-transform: uppercase;
@@ -984,10 +984,10 @@ button:active, input[type=button]:active, input[type=submit]:active {
       .lectronic-edition .story .title a {
         color: #333; }
       .lectronic-edition .story .title a:hover {
-        color: #029ecf;
+        color: #018db9;
         text-decoration: none; }
   .lectronic-edition .alt_header {
-    color: #029ecf;
+    color: #018db9;
     font-size: 90%;
     text-transform: uppercase;
     font-weight: 100;
@@ -1178,7 +1178,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   background-color: #fff;
   padding: 20px; }
 .single-post .alt_header {
-  color: #029ecf;
+  color: #018db9;
   font-size: 85%;
   text-transform: uppercase;
   font-family: open-sans, sans-serif;
