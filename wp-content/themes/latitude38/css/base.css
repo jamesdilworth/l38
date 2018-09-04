@@ -28,9 +28,6 @@
 .fl-page-header {
   background-color: #79d6f4; }
 
-.fl-page-bar {
-  border: 0; }
-
 @media (min-width: 992px) {
   .fl-page-nav-right .fl-page-header-container {
     padding-top: 5px;
@@ -59,11 +56,15 @@
   .fl-page-nav-right .fl-page-nav-wrap a.fa {
     color: #fff; } }
 .fl-page-bar {
+  border: 0;
   font-size: 14px; }
 
 .fl-page-bar-container {
   padding-top: 2px;
   padding-bottom: 2px; }
+
+.fl-post-header {
+  margin-bottom: 0; }
 
 .fl-post-meta-bottom {
   font-style: initial;
@@ -73,6 +74,20 @@
 .fl-archive .fl-post:last-of-type {
   border-bottom: 0;
   margin-bottom: 0; }
+
+.fl-page-nav-search form {
+  padding: 10px;
+  background-color: initial;
+  border: 0;
+  top: -5px;
+  width: 600px;
+  right: 20px;
+  box-shadow: initial;
+  -webkit-box-shadow: initial; }
+
+.fl-page-nav-search form input.fl-search-input {
+  border-color: #24b1e2;
+  background-color: #fff; }
 
 .fl-page-nav-collapse ul.navbar-nav > li {
   border-color: #11072d; }
@@ -1142,6 +1157,25 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .lectronic {
   background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
   background-size: 100%; }
+  .lectronic .post-categories {
+    margin-bottom: 0; }
+  .lectronic h2 {
+    margin-top: 10px;
+    margin-bottom: 0; }
+  .lectronic .fl-post-meta {
+    font-size: 90%;
+    margin-bottom: 15px; }
+  @media only screen and (min-width: 47.9375em) {
+    .lectronic .fl-content {
+      padding: 20px;
+      background-color: #fff; }
+    .lectronic .fl-post .image {
+      float: left;
+      padding-right: 20px; }
+      .lectronic .fl-post .image img {
+        max-width: 300px; }
+    .lectronic .fl-post-content {
+      padding-left: 320px; } }
 
 .lectronic-logo {
   max-width: 600px;

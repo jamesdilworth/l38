@@ -24,7 +24,7 @@ do_action( 'fl_before_post' );
 
                 <?php if ( has_post_thumbnail()) : ?>
                     <div class='image'>
-                        <?php the_post_thumbnail( 'large', array( 'itemprop' => 'image',) ); ?>
+                        <?php the_post_thumbnail( 'medium', array( 'itemprop' => 'image',) ); ?>
                     </div>
                 <?php else : ?>
                     <div class='image'><img src='/wp-content/uploads/2018/06/default_thumb.jpg' alt='Default Thumbnail'></div>
@@ -39,7 +39,7 @@ do_action( 'fl_before_post' );
         <?php // echo "<div class='alt_header'>" . get_field('alt_header') . "</div>"; ?>
         <?php if(!is_category()) the_category(); ?>
         <h2 class="fl-post-title" itemprop="headline" id="<?php echo get_post_field( 'post_name'); ?>">
-            <?php if(!in_category('199')) : ?>
+            <?php if(!in_category('199')) : // Advertising ?>
 			    <a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a>
             <?php else : ?>
                 <?php the_title(); ?>
@@ -49,8 +49,10 @@ do_action( 'fl_before_post' );
 
         <?php
             if(!in_category('199')) {
+                echo "<div class='fl-post-meta'>";
                 if(!is_day()) the_date();
                 if(is_day()) FLTheme::post_top_meta();
+                echo "</div>";
             }
         ?>
 	</header><!-- .fl-post-header -->
@@ -61,7 +63,7 @@ do_action( 'fl_before_post' );
 			<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
                 <?php if ( has_post_thumbnail()) : ?>
                     <div class='image'>
-                        <?php the_post_thumbnail( 'large', array( 'itemprop' => 'image',) ); ?>
+                        <?php the_post_thumbnail( 'thumbnail', array( 'itemprop' => 'image',) ); ?>
                     </div>
                 <?php else : ?>
                     <div class='image'><img src='/wp-content/uploads/2018/06/default_thumb.jpg' alt='Default Thumbnail'></div>
