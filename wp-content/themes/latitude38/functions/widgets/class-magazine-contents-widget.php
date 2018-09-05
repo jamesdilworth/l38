@@ -109,11 +109,17 @@ class magazine_contents_widget extends WP_Widget {
 
                 if(in_array('cover', $options)) {
                     if(is_single() || is_page('magazine'))
-                        echo '<div class="cover"><a ' . get_pdf_link($core_url,1) . '">';
+                        $link = get_pdf_link($core_url,1);
                     else
-                        echo '<div class="cover"><a href="'.  get_the_permalink() . '">';
+                        $link = 'href="' . get_the_permalink() . '"';
+
+                    echo '<div class="cover"><a ' . $link . '>';
                     the_post_thumbnail( 'large', array( 'itemprop' => 'image',) );
-                    echo '</a><div><a ' . get_pdf_link($core_url,1) . ' class="btn">Read Online</a></div>';
+                    echo '</a><div class="download-links"><a class="wide btn" ' . $link . '><i class="fas fa-book-reader"></i> &nbsp; Read Online</a>';
+
+                    $pdf = get_field('upload_pdf');
+                    if($pdf) echo '<br><a href="' . get_field('upload_pdf') . '" target="_blank"><i class="fa fa-download"></i> &nbsp;Download Magazine (PDF)</a>';
+                    echo '    </div>';
                     echo '</div>';
                 }
 

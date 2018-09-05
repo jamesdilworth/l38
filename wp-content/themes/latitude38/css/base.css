@@ -197,7 +197,8 @@ h2 + .subtitle {
   background-color: #018db9;
   border-radius: 2px;
   font-weight: bold;
-  color: #fff; }
+  color: #fff;
+  font-size: 90%; }
   .btn:hover, .btn a:hover {
     background-color: #7ae2c5;
     color: #fff; }
@@ -760,7 +761,18 @@ button:active, input[type=button]:active, input[type=submit]:active {
   text-align: center;
   padding-bottom: 20px; }
   .single-issue .cover img {
-    box-shadow: 3px 3px 5px #00000044; }
+    box-shadow: 0 0 10px #00000077;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    transform: rotateZ(-1deg); }
+    .single-issue .cover img:hover {
+      box-shadow: 0 0 10px #000000aa; }
+.single-issue .download-links {
+  margin-top: 20px;
+  font-size: 90%; }
+  .single-issue .download-links .btn {
+    margin-bottom: 5px;
+    font-size: 100%; }
 
 .type-cover-features .feature {
   overflow: auto;

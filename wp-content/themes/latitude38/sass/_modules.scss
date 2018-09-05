@@ -1,6 +1,11 @@
 .single-issue 				{
 	.cover					{ text-align:center; padding-bottom:20px;
-		img					{ box-shadow:3px 3px 5px #00000044; }
+		img					{ box-shadow:0 0 10px #00000077; border-bottom:1px solid #ccc; border-right:1px solid #ccc; transform: rotateZ(-1deg);
+			&:hover			{ box-shadow:0 0 10px #000000aa; }
+		}
+	}
+	.download-links		{ margin-top:20px; font-size:90%;
+		.btn 			{ margin-bottom:5px; font-size:100%; }
 	}
 }
 
