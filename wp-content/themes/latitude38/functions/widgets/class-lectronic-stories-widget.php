@@ -89,6 +89,12 @@ class lectronic_stories_widget extends WP_Widget {
             if ( $posts->have_posts() ) {
                 $posts_in_edition = count($posts->posts);
 
+                if(is_page('lectronic')) {
+                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "'  rel='nofollow'>" . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
+                } else {
+                    $output .= "<div class='day section-heading'><a class='title' style='width:300px;' href='/lectronic/'>'Lectronic Latitude</a></div>";
+                }
+
                 $output .= '<div class="';
                 if($x == 0 && $starting_today) $output .= 'first ';
                 $inner_output = "";
@@ -150,18 +156,12 @@ class lectronic_stories_widget extends WP_Widget {
                     case 2: $output .= 'two-story'; break;
                     case 3: $output .= 'three-story'; break;
                     case 4: $output .= 'four-story'; break;
-                    case 5: $output .= 'five-story'; break;
-                    case 6: $output .= 'six-story'; break;
+                    case 5: $output .= 'five-story equalize'; break;
+                    case 6: $output .= 'six-story equalize'; break;
                     case 7: $output .= 'seven-story'; break;
                     case 8: $output .= 'eight-story'; break;
                 }
                 $output .= ' lectronic-edition">';
-
-                if(is_page('lectronic')) {
-                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "'  rel='nofollow'>" . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
-                } else {
-                    $output .= "<div class='day section-heading'><a class='title' style='width:300px;' href='/lectronic/'>'Lectronic Latitude</a></div>";
-                }
                 $output .= $inner_output;
 
                 $output .= '   </div>';

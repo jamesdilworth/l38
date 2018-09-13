@@ -1218,7 +1218,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
         float: left;
         width: 32%;
         margin-right: 2%; }
-        .lectronic-edition.five-story .story:nth-child(3n+1), .lectronic-edition.six-story .story:nth-child(3n+1), .lectronic-edition.seven-story .story:nth-child(3n+1), .lectronic-edition.eight-story .story:nth-child(3n+1) {
+        .lectronic-edition.five-story .story:nth-child(3n), .lectronic-edition.six-story .story:nth-child(3n), .lectronic-edition.seven-story .story:nth-child(3n), .lectronic-edition.eight-story .story:nth-child(3n) {
           margin-right: 0; } }
 
 .lectronic_stories .older-links {
