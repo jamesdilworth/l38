@@ -1,10 +1,10 @@
 .single-issue 				{
 	.cover					{ text-align:center; padding-bottom:20px;
-		img					{ box-shadow:0 0 10px #00000077; border-bottom:1px solid #ccc; border-right:1px solid #ccc; transform: rotateZ(-1deg);
+		img					{ box-shadow:0 0 10px #00000077; border-bottom:1px solid #ccc; border-right:1px solid #ccc;
 			&:hover			{ box-shadow:0 0 10px #000000aa; }
 		}
 	}
-	.download-links		{ margin-top:20px; font-size:90%;
+	.download-links		{ margin-top:15px; font-size:90%;
 		.btn 			{ margin-bottom:5px; font-size:100%; }
 	}
 }
@@ -140,9 +140,9 @@
 
 		&.first .section-heading { margin-top:0; }
 
-		&.two-story 		{
-			.story			{ float:left; width:48%; margin-right:2%;
-				&:last-child { margin-right:0; }
+		&.two-story 			{
+			.story				{ float:left; width:48%; margin-right:2%;
+				&:last-child 	{ margin-right:0; }
 			}
 		}
 

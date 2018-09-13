@@ -108,19 +108,36 @@ class magazine_contents_widget extends WP_Widget {
                 if($pre_header != "") echo '<div class="section-heading"><span class="title" style="width:250px;">'. $pre_header . get_the_title() . '</span></div>';
 
                 if(in_array('cover', $options)) {
+                    $inside_link = get_pdf_link($core_url,1);
                     if(is_single() || is_page('magazine'))
-                        $link = get_pdf_link($core_url,1);
+                        $link = $inside_link;
                     else
                         $link = 'href="' . get_the_permalink() . '"';
 
                     echo '<div class="cover"><a ' . $link . '>';
-                    the_post_thumbnail( 'large', array( 'itemprop' => 'image',) );
-                    echo '</a><div class="download-links"><a class="wide btn" ' . $link . '><i class="fas fa-book-reader"></i> &nbsp; Read Online</a>';
 
+                    ?>
+                    <div id="fpc_effect-back">
+                        <div id="fpc_box">
+                            <div id="fpc_content">
+                                <?php the_post_thumbnail( 'medium', array( 'itemprop' => 'image',) ); ?>
+                            </div>
+                            <div id="fpc_corner-box">
+                                <a id="fpc_page-tip" <?=$inside_link ?> >
+                                    <div id="fpc_corner-contents"><div id="fpc_corner-button"><strong>Click Here </strong>to read inside</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                    echo '</a>';
+
+                    echo '<div class="download-links"><a class="wide btn" ' . $link . '><i class="fas fa-book-reader"></i> &nbsp; Read Online</a>';
                     $pdf = get_field('upload_pdf');
                     if($pdf) echo '<br><a href="' . get_field('upload_pdf') . '" target="_blank"><i class="fa fa-download"></i> &nbsp;Download Magazine (PDF)</a>';
                     echo '    </div>';
                     echo '</div>';
+
                 }
 
                 // Build Features Content

@@ -37,8 +37,8 @@ h2 					{ font-weight:900;}
 h3 					{ font-weight:900; margin-top:30px; }
 h4 					{ font-weight:900; margin-top:30px; }
 
-.section-heading 	{ font-family:$menu-font; font-weight:bold; font-size:85%; height:24px; line-height:1.6; text-transform:uppercase; padding:0; margin:20px 0 20px; background-size:49px 50px; background-repeat:repeat; background-color:$accent2; background-image:url(/wp-content/themes/latitude38/images/section-header-bg.png);
-	.title 			{ background-color:$accent2; color:#fff; height:24px; padding:0 10px; width:196px; display:inline-block; }
+.section-heading 	{ font-family:$menu-font; font-weight:400; border-bottom:1px solid #e6e6e6; line-height:1.6; text-transform:uppercase; padding:0; font-size:90%; padding-bottom:2px; margin:20px 0 20px;  /*  height:24px;background-size:49px 50px; background-repeat:repeat; background-color:$accent2; background-image:url(/wp-content/themes/latitude38/images/section-header-bg.png) */
+	.title 			{ color:#999;  } /* background-color:$accent2; color:#fff; height:24px; padding:0 10px; display:inline-block; */
 } // Striped white
 
 .category-heading	{ font-size:140%; text-align:center; color:#a0c2ce; text-transform:uppercase; font-weight:bold; font-family:$header-font; margin:-20px 0px 20px;  }
