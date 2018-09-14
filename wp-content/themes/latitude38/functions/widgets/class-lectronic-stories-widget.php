@@ -126,8 +126,18 @@ class lectronic_stories_widget extends WP_Widget {
                             $inner_output .= "<div class='image' style='background-image:url(/wp-content/uploads/2018/06/default_thumb.jpg);'><img src='/wp-content/uploads/2018/06/default_thumb.jpg' alt=''></div>";
                         }
 
+                        // Alt-Header is defers to (low pri) first category -> first tag -> custom (pri)
+
+                        $b = $a = $alt_header = NULL;
+
+                        $b = get_the_tags();
+                        if($b) $alt_header = $b[0]->name;
+
+                        $a = get_field('alt_header');
+                        if($a) $alt_header = $a;
+
                         // $inner_output .= get_the_category_list();
-                        $inner_output .= "<div class='alt_header'>" . get_field('alt_header') . "</div>";
+                        $inner_output .= "<div class='alt_header'>$alt_header</div>";
                         $inner_output .= "<div class='title'><a href='$url'>" . get_the_title() . "</a></div>";
 
                         // Get the excerpt
