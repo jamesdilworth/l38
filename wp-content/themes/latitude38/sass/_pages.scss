@@ -28,7 +28,10 @@
 	}
 }
 
-.lectronic-logo	 				{ max-width:600px; margin:60px auto 20px; }
+.lectronic-logo	 				{ display:none;
+	@include breakpoint(medium) { display:block; max-width:600px; margin:60px auto 20px;  }
+}
+
 .lectronic-header				{ max-width:820px; margin:auto; background-color:$background-grey; overflow:auto;
 	.img 						{ padding:5px 20px;}
 	.date						{ float:left; padding:5px 40px 10px 20px; }
@@ -55,7 +58,9 @@
 	}
 	.fl-post-meta-top 			{ margin:-5px 0 20px; }
 	.fl-page-content 			{ background:#fff  no-repeat; background-size:100%;  } /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */
-	.fl-content					{ background-color:#fff; padding:30px; margin-top:0; }
+	.fl-content					{ background-color:#fff; margin-top:0;
+		@include breakpoint(medium) { padding:30px; }
+	}
 	.fl-archive-header 			{
 		.section-heading 		{ margin-bottom:0; }
 	}

@@ -1,6 +1,6 @@
 /* WP OVERRIDES */
 
-.wp-caption.alignnone 								{ width: 700px !important; margin: 20px auto; }
+.wp-caption.alignnone 								{ margin: 20px auto; }
 
 /* BB OVERRIDES */
 .fl-builder-bar-title img 							{ display:none; } // Supress BB Logo in PageBuilder
@@ -14,7 +14,11 @@
 
 .fl-page-nav-right .fl-page-header-wrap 			{ border-bottom:0px; }
 
-.fl-page-nav-right .fl-page-nav-wrap .navbar-nav li > a  { text-transform:uppercase; font-weight:700; padding-bottom:0; color:#fff; }
+.fl-page-nav .navbar-nav > li > a					{ padding-left: 0;
+	@include breakpoint(medium)						{ padding-left:15px; }
+}
+
+.fl-page-nav-right .fl-page-nav-wrap .navbar-nav li > a  { text-transform:uppercase; font-weight:700; padding-bottom:5px; color:#fff; }
 .fl-page-nav-right .fl-page-nav-wrap .navbar-nav li > a:hover { color:$accent2; }
 
 .fl-page-header      								{ background-color:$accent1; }
@@ -34,7 +38,9 @@
 
 
 // Top Nav
-.fl-page-bar 										{ border:0; font-size:14px; }
+.fl-page-bar 										{ display:none; border:0; font-size:14px;
+	@include breakpoint(medium) 					{ display:block; }
+}
 .fl-page-bar-container								{ padding-top:2px; padding-bottom:2px; }
 
 .fl-post-header										{ margin-bottom: 0; }
@@ -44,9 +50,18 @@
 .fl-page-nav-search form							{ padding:10px; background-color:initial; border:0; top:-5px; width:600px; right:20px; box-shadow:initial; -webkit-box-shadow: initial;  }
 .fl-page-nav-search form input.fl-search-input		{ border-color: #24b1e2; background-color:#fff; }
 
+.fl-page-nav-toggle-icon.fl-page-nav-toggle-visible-medium-mobile .fl-page-nav .navbar-toggle { font-size:40px; padding: 10px 8px 6px; }
+.fl-page-nav-toggle-icon.fl-page-nav-toggle-visible-medium-mobile .fl-page-nav-collapse ul.navbar-nav > li { border-color: #a7e1f8; }
+
+
+.fl-page-nav-toggle-icon.fl-page-nav-toggle-visible-medium-mobile .fl-page-nav-collapse { border-color:#fff; }
+
 
 .fl-page-nav-collapse ul.navbar-nav > li 			{ border-color:#11072d }
-.fl-logo-img										{ width:275px !important; }
+.fl-logo-img										{ width:200px !important;
+	@include breakpoint(medium)						{ width:275px !important; }
+}
+
 
 .fl-page-header 									{ border-color:#11072d; }
 .fl-page-footer 									{ border:0; font-size:90%; }

@@ -95,7 +95,9 @@
 	.magazine-cover			{ float:left; margin:20px; }
 	.title 					{ margin:5px 0;}
 	.cover					{ display: block;  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); transition: box-shadow 150ms;
-		img 				{ width:180px; height:232px; }
+		img 				{ width:150px; height:193px; 
+			@include breakpoint(medium) { width:180px; height:232px; }
+		}
 	}
 }
 
