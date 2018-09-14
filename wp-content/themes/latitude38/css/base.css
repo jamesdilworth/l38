@@ -392,13 +392,13 @@ h4 {
     color: #999; }
 
 .category-heading {
-  font-size: 140%;
+  font-size: 120%;
   text-align: center;
   color: #a0c2ce;
   text-transform: uppercase;
   font-weight: bold;
   font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
-  margin: -20px 0px 20px; }
+  margin: -10px 0px 20px; }
 
 /* Fix to enable deep-linking within the doc... otherwise the part jumped to is hidden by the menu. */
 /* h3:before,  h4:before,  h5:before  {  display:block; content:" ";  margin-top:-110px;  height:110px;  visibility:hidden; }
@@ -529,8 +529,9 @@ figcaption .source {
 
 @media only screen and (min-width: 47.9375em) {
   .opening-panel {
-    background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
-    background-size: 100%; }
+    background: #fff no-repeat;
+    background-size: 100%;
+    /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */ }
     .opening-panel .fl-row-content {
       background-color: #fff;
       max-width: 1140px; }
@@ -1214,6 +1215,8 @@ button:active, input[type=button]:active, input[type=submit]:active {
         margin-right: 2%; }
         .lectronic-edition.four-story .normal.story:last-child {
           margin-right: 0; }
+      .lectronic-edition.five-story .main .desc, .lectronic-edition.six-story .main .desc, .lectronic-edition.seven-story .main .desc, .lectronic-edition.eight-story .main .desc {
+        display: none; }
       .lectronic-edition.five-story .story, .lectronic-edition.six-story .story, .lectronic-edition.seven-story .story, .lectronic-edition.eight-story .story {
         float: left;
         width: 32%;
@@ -1296,8 +1299,9 @@ button:active, input[type=button]:active, input[type=submit]:active {
 
 /* This is the background to lectronic headers! */
 .lectronic {
-  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
-  background-size: 100%; }
+  background: #fff  no-repeat;
+  background-size: 100%;
+  /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */ }
   .lectronic .post-categories {
     margin-bottom: 0; }
   .lectronic h2 {
@@ -1347,22 +1351,24 @@ button:active, input[type=button]:active, input[type=submit]:active {
     padding: 10px;
     font-size: 120%; }
 
-.single-post .fl-page-content {
-  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
-  background-size: 100%; }
-.single-post .fl-post {
-  background-color: #fff;
-  padding: 20px; }
-.single-post .alt_header {
-  color: #018db9;
-  font-size: 85%;
-  text-transform: uppercase;
-  font-family: open-sans, sans-serif;
-  font-weight: 300; }
-.single-post .widget.lectronic_stories {
-  max-width: 900px;
-  padding: 0 20px;
-  margin: auto; }
+.single-post {
+  /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg)  */ }
+  .single-post .fl-page-content {
+    background: #fff no-repeat;
+    background-size: 100%; }
+  .single-post .fl-post {
+    background-color: #fff;
+    padding: 20px; }
+  .single-post .alt_header {
+    color: #018db9;
+    font-size: 85%;
+    text-transform: uppercase;
+    font-family: open-sans, sans-serif;
+    font-weight: 300; }
+  .single-post .widget.lectronic_stories {
+    max-width: 900px;
+    padding: 0 20px;
+    margin: auto; }
 
 .day h2 {
   font-size: 35px;
@@ -1371,19 +1377,21 @@ button:active, input[type=button]:active, input[type=submit]:active {
     .day h2 {
       font-size: 45px; } }
 
-.archive.day .fl-archive {
-  max-width: 900px; }
-.archive .fl-post-meta-top {
-  margin: -5px 0 20px; }
-.archive .fl-page-content {
-  background: #fff url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) no-repeat;
-  background-size: 100%; }
-.archive .fl-content {
-  background-color: #fff;
-  padding: 30px;
-  margin-top: 0; }
-.archive .fl-archive-header .section-heading {
-  margin-bottom: 0; }
+.archive {
+  /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */ }
+  .archive.day .fl-archive {
+    max-width: 900px; }
+  .archive .fl-post-meta-top {
+    margin: -5px 0 20px; }
+  .archive .fl-page-content {
+    background: #fff  no-repeat;
+    background-size: 100%; }
+  .archive .fl-content {
+    background-color: #fff;
+    padding: 30px;
+    margin-top: 0; }
+  .archive .fl-archive-header .section-heading {
+    margin-bottom: 0; }
 
 .archive article .fl-post-thumb {
   float: left;

@@ -124,7 +124,7 @@ class magazine_contents_widget extends WP_Widget {
                             </div>
                             <div id="fpc_corner-box">
                                 <a id="fpc_page-tip" <?=$inside_link ?> >
-                                    <div id="fpc_corner-contents"><div id="fpc_corner-button"><strong>Click Here </strong>to read inside</div></div></a>
+                                    <div id="fpc_corner-contents"><div id="fpc_corner-button"><strong>Read Inside&raquo;</strong></div></div></a>
                             </div>
                         </div>
                     </div>
