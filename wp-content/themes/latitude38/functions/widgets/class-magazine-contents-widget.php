@@ -124,7 +124,7 @@ class magazine_contents_widget extends WP_Widget {
                             </div>
                             <div id="fpc_corner-box">
                                 <a id="fpc_page-tip" <?=$inside_link ?> >
-                                    <div id="fpc_corner-contents"><div id="fpc_corner-button"><strong>Read Inside&raquo;</strong></div></div></a>
+                                    <div id="fpc_corner-contents"><div id="fpc_corner-button"><strong>Read Inside&nbsp;&raquo;</strong></div></div></a>
                             </div>
                         </div>
                     </div>
@@ -132,9 +132,10 @@ class magazine_contents_widget extends WP_Widget {
                     <?php
                     echo '</a>';
 
-                    echo '<div class="download-links"><a class="wide btn" ' . $link . '><i class="fas fa-book-reader"></i> &nbsp; Read Online</a>';
+                    echo '<div class="download-links">';
                     $pdf = get_field('upload_pdf');
-                    if($pdf) echo '<br><a href="' . get_field('upload_pdf') . '" target="_blank"><i class="fa fa-download"></i> &nbsp;Download Magazine (PDF)</a>';
+                    if($pdf) echo '<a class="wide btn" href="' . get_field('upload_pdf') . '" target="_blank"><i class="fa fa-download"></i> &nbsp;Download Magazine (PDF)</a>';
+                    echo '<a href="/distribution/">Find a Magazine Distributor!</a>';
                     echo '    </div>';
                     echo '</div>';
 

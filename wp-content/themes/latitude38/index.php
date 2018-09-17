@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php get_template_part( 'content', get_post_format() ); ?>
                     <?php endwhile; ?>
 
-                    <div class="subscribe-notice">Receive emails when 'Lectronic Latitude is updated. <a href="" class="btn">SUBSCRIBE</a></div>
+                    <div class="subscribe-notice">Receive emails when 'Lectronic Latitude is updated. <a href="https://secure.campaigner.com/CSB/Public/Form.aspx?fid=1721230" class="btn" target="_blank">SUBSCRIBE</a></div>
 
                     <?php
                         if(is_day()) {

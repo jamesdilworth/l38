@@ -77,7 +77,7 @@ $show_cats = 0;
 </article>
 
 <?php comments_template(); ?>
-<div class="subscribe-notice">Receive emails when 'Lectronic Latitude is updated. <a href="" class="btn">SUBSCRIBE</a></div>
+<div class="subscribe-notice">Receive emails when 'Lectronic Latitude is updated. <a href="https://secure.campaigner.com/CSB/Public/Form.aspx?fid=1721230" class="btn" target="_blank">SUBSCRIBE</a></div>
 
 <?php
     // Other Pages from this day.
