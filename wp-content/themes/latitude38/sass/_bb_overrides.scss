@@ -1,8 +1,9 @@
 /* WP OVERRIDES */
-
 .wp-caption.alignnone 								{ margin: 20px auto; }
 
 /* BB OVERRIDES */
+h1, h2, h3, h4, h5, h6								{ text-transform:initial; }
+
 .fl-builder-bar-title img 							{ display:none; } // Supress BB Logo in PageBuilder
 .fl-page-nav-right.fl-page-header-fixed .fl-logo-img,
 .fl-page-header-fixed .fl-logo-img					{ }
@@ -47,8 +48,8 @@
 .fl-post-meta-bottom 								{ font-style:initial; border-top:0; margin-top:0; }
 .fl-archive .fl-post:last-of-type					{ border-bottom:0; margin-bottom:0;}
 
-.fl-page-nav-search form							{ padding:10px; background-color:initial; border:0; top:-5px; width:600px; right:20px; box-shadow:initial; -webkit-box-shadow: initial;  }
-.fl-page-nav-search form input.fl-search-input		{ border-color: #24b1e2; background-color:#fff; }
+.fl-page-nav-search form							{ padding:10px; background-color:initial; border:0; top:-5px; width:720px; right:20px; box-shadow:initial; -webkit-box-shadow: initial;  }
+.fl-page-nav-search form input.fl-search-input		{ border-color: #24b1e2; background-color:#fff; color:#555 !important; font-size:100%; }
 
 .fl-page-nav-toggle-icon.fl-page-nav-toggle-visible-medium-mobile .fl-page-nav .navbar-toggle { font-size:40px; padding: 10px 8px 6px; }
 .fl-page-nav-toggle-icon.fl-page-nav-toggle-visible-medium-mobile .fl-page-nav-collapse ul.navbar-nav > li { border-color: #a7e1f8; }
@@ -59,12 +60,15 @@
 
 .fl-page-nav-collapse ul.navbar-nav > li 			{ border-color:#11072d }
 .fl-logo-img										{ width:200px !important;
-	@include breakpoint(medium)						{ width:275px !important; }
+	@include breakpoint(medium)						{ width:240px !important; }
 }
+
 
 
 .fl-page-header 									{ border-color:#11072d; }
 .fl-page-footer 									{ border:0; font-size:90%; }
+.fl-page-footer-text-2								{ font-size:85%;}
+
 .fl-page-content									{ border-top: 3px solid #fff; }
 .fl-page-footer-nav									{ font-size:100%; font-weight:bold; }
 .fl-page-footer a 									{ font-weight: 500; }

@@ -141,6 +141,9 @@
   margin: 20px auto; }
 
 /* BB OVERRIDES */
+h1, h2, h3, h4, h5, h6 {
+  text-transform: initial; }
+
 .fl-builder-bar-title img {
   display: none; }
 
@@ -225,14 +228,16 @@
   background-color: initial;
   border: 0;
   top: -5px;
-  width: 600px;
+  width: 720px;
   right: 20px;
   box-shadow: initial;
   -webkit-box-shadow: initial; }
 
 .fl-page-nav-search form input.fl-search-input {
   border-color: #24b1e2;
-  background-color: #fff; }
+  background-color: #fff;
+  color: #555 !important;
+  font-size: 100%; }
 
 .fl-page-nav-toggle-icon.fl-page-nav-toggle-visible-medium-mobile .fl-page-nav .navbar-toggle {
   font-size: 40px;
@@ -251,7 +256,7 @@
   width: 200px !important; }
   @media only screen and (min-width: 47.9375em) {
     .fl-logo-img {
-      width: 275px !important; } }
+      width: 240px !important; } }
 
 .fl-page-header {
   border-color: #11072d; }
@@ -259,6 +264,9 @@
 .fl-page-footer {
   border: 0;
   font-size: 90%; }
+
+.fl-page-footer-text-2 {
+  font-size: 85%; }
 
 .fl-page-content {
   border-top: 3px solid #fff; }
@@ -958,6 +966,10 @@ button:active, input[type=button]:active, input[type=submit]:active {
     padding: 5px; }
   .type-cover-features .feature .desc {
     display: none; }
+.type-cover-features .features-contents-link {
+  clear: both;
+  text-align: center;
+  font-size: 90%; }
 @media only screen and (min-width: 47.9375em) {
   .type-cover-features .magazine-features {
     margin-left: 33%; }

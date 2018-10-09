@@ -17,6 +17,9 @@
 		.desc				{ display:none; }
 	}
 
+	.features-contents-link { clear:both; text-align:center; font-size:90%; }
+
+
 	@include breakpoint(medium) {
 		.magazine-features	{ margin-left:33%; }
 		.magazine-contents 	{ overflow:auto; padding-left:20px; }
@@ -83,6 +86,7 @@
 	.feature				{  }
 	.desc 					{ margin-top:-5px;  }
 	.feature-image 			{ float:left; margin-right:20px; width:180px; height:120px; background-size:cover; background-repeat:no-repeat; }
+
 
 	@include breakpoint(medium) {
 		.section-image		{ display:block; float:left;  width:180px; margin-right:15px; position:relative; }
