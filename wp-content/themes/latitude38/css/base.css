@@ -182,9 +182,9 @@ h1, h2, h3, h4, h5, h6 {
 
   .fl-page-nav-right .fl-page-header-logo {
     position: absolute;
-    top: -38px;
+    top: -37px;
     margin-left: -5px;
-    border: 4px solid #fff;
+    border: 3px solid #fff;
     padding: 5px 10px;
     background-color: #7ae2c5;
     z-index: 5; }
@@ -228,7 +228,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: initial;
   border: 0;
   top: -5px;
-  width: 720px;
+  width: 640px;
   right: 20px;
   box-shadow: initial;
   -webkit-box-shadow: initial; }
@@ -649,7 +649,7 @@ a.edit_link,
   border: 1px dashed #d9da66; }
 
 .admin-bar .jz_note {
-  display: none; }
+  display: block; }
 
 /* In the footer of the page? */
 .social-icons {
@@ -972,6 +972,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   font-size: 90%; }
 @media only screen and (min-width: 47.9375em) {
   .type-cover-features .magazine-features {
+    overflow: auto;
     margin-left: 33%; }
   .type-cover-features .magazine-contents {
     overflow: auto;
@@ -1016,7 +1017,13 @@ button:active, input[type=button]:active, input[type=submit]:active {
     padding: 5px; }
   .type-features .feature .desc {
     display: none; }
+.type-features .features-contents-link {
+  clear: both;
+  text-align: center;
+  font-size: 90%; }
 @media only screen and (min-width: 47.9375em) {
+  .type-features .magazine-features {
+    overflow: auto; }
   .type-features .magazine-contents {
     overflow: auto;
     padding-left: 20px; } }

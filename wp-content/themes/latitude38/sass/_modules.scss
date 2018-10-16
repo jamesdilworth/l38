@@ -21,7 +21,7 @@
 
 
 	@include breakpoint(medium) {
-		.magazine-features	{ margin-left:33%; }
+		.magazine-features	{ overflow:auto; margin-left:33%; }
 		.magazine-contents 	{ overflow:auto; padding-left:20px; }
 		.cover				{ width:30%; float:left;
 			img 			{ width:100%;  }
@@ -42,9 +42,11 @@
 		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
 		.desc				{ display:none; }
 	}
+	.features-contents-link { clear:both; text-align:center; font-size:90%; }
 
 	@include breakpoint(medium) {
-		.magazine-contents 	{ overflow:auto; padding-left:20px; }
+		.magazine-features		{ overflow:auto; }
+		.magazine-contents 		{ overflow:auto; padding-left:20px; }
 	}
 
 	@include breakpoint(large) {

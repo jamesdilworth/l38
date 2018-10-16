@@ -13,7 +13,7 @@ class magazine_contents_widget extends WP_Widget {
     public function form($instance) {
         // widget form in dashboard
         $defaults = array(
-            'title' => 'Magazine Contents',
+            'title' => '',
             'issue ' => '0',
             'options' => array('cover','contents')
         );
@@ -27,7 +27,7 @@ class magazine_contents_widget extends WP_Widget {
             'orderby'     => 'date'
         );
         ?>
-        <p>Title: <input class="widefat" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
+        <p>Title: <input class="widefat" name="<?php echo $this->get_field_name('title'); ?>" type="text" placeholder="Enter Custom Pre-Title Here if Needed" value="<?php echo esc_attr($title); ?>" /></p>
         <?php
             /*
             <p>
@@ -57,7 +57,6 @@ class magazine_contents_widget extends WP_Widget {
         // save widget options
         $instance = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
-        // $instance['issue'] = $new_instance['issue'];
         $instance['options'] = $new_instance['options'];
         return $instance;
     }
@@ -105,7 +104,11 @@ class magazine_contents_widget extends WP_Widget {
                 $core_url = get_field('magazine_url');
                 $features = array();
 
-                if($pre_header != "") echo '<div class="section-heading"><span class="title" style="width:250px;">'. $pre_header . get_the_title() . '</span></div>';
+                if($title != "") {
+                    echo '<div class="section-heading"><span class="title">'. $title . ': ' . get_the_title() . '</span></div>';
+                } elseif($pre_header != "") {
+                    echo '<div class="section-heading"><span class="title">'. $pre_header . get_the_title() . '</span></div>';
+                }
 
                 if(in_array('cover', $options)) {
                     $inside_link = get_pdf_link($core_url,1);
@@ -153,13 +156,13 @@ class magazine_contents_widget extends WP_Widget {
 
                         $feature_output = '<div class="section feature">';
                         $feature_output .= '<a ' . get_pdf_link($core_url, $page) .'><h3 class="title"><span class="page">'. $page . '</span>' . $feature_name . '</h3></a>';
-                        $feature_output .= '<div class="feature-image" style="background-image:url(' . $feature_image['url'] . ')"></div>';
+                        $feature_output .= '<div class="feature-image" style="background-image:url(' . $feature_image['sizes']['medium'] . ')"></div>';
                         $feature_output .= '<div class="desc">' . $feature_desc . '</div>';
                         $feature_output .= '</div>';
 
                         $feature_only_output = '<div class="section feature">';
                         $feature_only_output .= '   <a ' . get_pdf_link($core_url, $page) .'>';
-                        $feature_only_output .= '   <div class="feature-image" style="background-image:url(' . $feature_image['url'] . ')">';
+                        $feature_only_output .= '   <div class="feature-image" style="background-image:url(' . $feature_image['sizes']['medium'] . ')">';
                         $feature_only_output .= '        <h3 class="title">' . $feature_name . '</h3></a>';
                         $feature_only_output .= '        <span class="page">'. $page . '</span>';
                         $feature_only_output .= '        <div class="desc">' . $feature_desc . '</div>';

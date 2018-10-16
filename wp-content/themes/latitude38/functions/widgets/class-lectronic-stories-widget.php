@@ -90,9 +90,9 @@ class lectronic_stories_widget extends WP_Widget {
                 $posts_in_edition = count($posts->posts);
 
                 if(is_page('lectronic')) {
-                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "'  rel='nofollow'>" . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
+                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "' >" . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
                 } else {
-                    $output .= "<div class='day section-heading'><a class='title' style='width:300px;' href='/lectronic/'>'Lectronic Latitude</a></div>";
+                    $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "' >'Lectronic Latitude: "  . date('l, M j', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
                 }
 
                 $output .= '<div class="';
@@ -179,7 +179,7 @@ class lectronic_stories_widget extends WP_Widget {
                 $x++;
                 $next_date = get_the_date('U');
             } else {
-                $output = "No posts for this day?.";
+                $output = "<div class='jz_note'>No posts for this day? - " . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</div>";
             }
 
             echo $output;
