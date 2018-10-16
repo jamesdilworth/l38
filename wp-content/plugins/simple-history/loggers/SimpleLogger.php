@@ -36,9 +36,26 @@ class SimpleLogger {
 	public $messages;
 
 	/**
-	 * ID of last inserted row. Used when chaining methods.
+	 * ID of last inserted row
+	 *
+	 * @var int $lastInsertID Database row primary key.
 	 */
 	public $lastInsertID;
+
+	/**
+	 * Context of last inserted row.
+	 *
+	 * @var int $lastInsertContext Context used for the last insert.
+	 * @since 2.2x
+	 */
+	public $lastInsertContext;
+
+	/**
+	 * Simple History instance.
+	 *
+	 * @var object $simpleHistory Simple history instance.
+	 */
+	public $simpleHistory;
 
 	/**
 	 * Constructor. Remember to call this as parent constructor if making a childlogger
@@ -213,13 +230,12 @@ class SimpleLogger {
 
 			// wp_user = wordpress uses, but user may have been deleted since log entry was added
 			case 'wp_user':
-
 				$user_id = isset( $row->context['_user_id'] ) ? $row->context['_user_id'] : null;
 
 				if ( $user_id > 0 && $user = get_user_by( 'id', $user_id ) ) {
 
 					// Sender is user and user still exists
-					$is_current_user = ($user_id == get_current_user_id()) ? true : false;
+					$is_current_user = ( get_current_user_id() == $user_id ) ? true : false;
 
 					// get user role, as done in user-edit.php
 					$wp_roles = $GLOBALS['wp_roles'];
@@ -268,11 +284,11 @@ class SimpleLogger {
 
 					$initiator_html .= sprintf(
 						$tmpl_initiator_html,
-						esc_html( $user->user_login ), 	// 1
-						esc_html( $user->user_email ), 	// 2
-						esc_html( $user_display_name ), 	// 3
-						$user_role, 	// 4
-						_x( 'You', 'header output when initiator is the currently logged in user', 'simple-history' ),	// 5
+						esc_html( $user->user_login ), // 1
+						esc_html( $user->user_email ), // 2
+						esc_html( $user_display_name ),  // 3
+						$user_role, // 4
+						_x( 'You', 'header output when initiator is the currently logged in user', 'simple-history' ), // 5
 						get_edit_user_link( $user_id ) // 6
 					);
 
@@ -298,7 +314,6 @@ class SimpleLogger {
 				break;
 
 			case 'web_user':
-
 				/*
 				Note: server_remote_addr may not show visiting/attacking ip, if server is behind...stuff..
 				Can be behind varnish cashe, or browser can for example use compression in chrome mobile
@@ -331,8 +346,8 @@ class SimpleLogger {
 						print_r($arr_found_additional_ip_headers);
 						Array
 						(
-						    [_server_http_x_forwarded_for_0] => 5.35.187.212
-						    [_server_http_x_forwarded_for_1] => 83.251.97.21
+							[_server_http_x_forwarded_for_0] => 5.35.187.212
+							[_server_http_x_forwarded_for_1] => 83.251.97.21
 						)
 						*/
 
@@ -414,24 +429,30 @@ class SimpleLogger {
 		$time_ago_just_now_max_time = 30;
 		$time_ago_just_now_max_time = apply_filters( 'simple_history/header_just_now_max_time', $time_ago_just_now_max_time );
 
+		$date_format = get_option( 'date_format' );
+		$time_format = get_option( 'time_format' );
+		$date_and_time_format = $date_format . ' - ' . $time_format;
+
+		// Show local time as hours an minutes when event is recent.
+		$local_date_format = $time_format;
+
+		// Show local time as date and hours when event is a bit older.
+		if ( ( $time_current - HOUR_IN_SECONDS * 6 ) > $date_datetime->getTimestamp() ) {
+			$local_date_format = $date_and_time_format;
+		}
+
 		if ( $time_current - $date_datetime->getTimestamp() <= $time_ago_just_now_max_time ) {
-
-			// show "just now" if event is very recent
+			// Show "just now" if event is very recent.
 			$str_when = __( 'Just now', 'simple-history' );
-
 		} elseif ( $time_current - $date_datetime->getTimestamp() > $time_ago_max_time ) {
-
-			/* translators: Date format for log row header, see http://php.net/date */
+			/* Translators: Date format for log row header, see http://php.net/date */
 			$datef = __( 'M j, Y \a\t G:i', 'simple-history' );
 			$str_when = date_i18n( $datef, strtotime( get_date_from_gmt( $row->date ) ) );
-
 		} else {
-
 			// Show "nn minutes ago" when event is xx seconds ago or earlier
 			$date_human_time_diff = human_time_diff( $date_datetime->getTimestamp(), $time_current );
-			/* translators: 1: last modified date and time in human time diff-format */
+			/* Translators: 1: last modified date and time in human time diff-format */
 			$str_when = sprintf( __( '%1$s ago', 'simple-history' ), $date_human_time_diff );
-
 		}
 
 		$item_permalink = admin_url( 'index.php?page=simple_history_page' );
@@ -439,21 +460,29 @@ class SimpleLogger {
 			$item_permalink .= "#item/{$row->id}";
 		}
 
-		$date_format = get_option( 'date_format' ) . ' - ' . get_option( 'time_format' );
+		// Datetime attribute on <time> element.
 		$str_datetime_title = sprintf(
 			__( '%1$s local time %3$s (%2$s GMT time)', 'simple-history' ),
-			get_date_from_gmt( $date_datetime->format( 'Y-m-d H:i:s' ), $date_format ), // 1 local time
-			$date_datetime->format( $date_format ), // GMT time
+			get_date_from_gmt( $date_datetime->format( 'Y-m-d H:i:s' ), $date_and_time_format ), // 1 local time
+			$date_datetime->format( $date_and_time_format ), // GMT time
 			PHP_EOL // 3, new line
 		);
 
+		// Time and date before live updated relative date.
+		$str_datetime_local = sprintf(
+			'%1$s',
+			get_date_from_gmt( $date_datetime->format( 'Y-m-d H:i:s' ), $local_date_format ) // 1 local time
+		);
+
+		// HTML for whole span with date info.
 		$date_html = "<span class='SimpleHistoryLogitem__permalink SimpleHistoryLogitem__when SimpleHistoryLogitem__inlineDivided'>";
 		$date_html .= "<a class='' href='{$item_permalink}'>";
 		$date_html .= sprintf(
-			'<time datetime="%3$s" title="%1$s" class="">%2$s</time>',
+			'<span title="%1$s">%4$s (<time datetime="%3$s" class="SimpleHistoryLogitem__when__liveRelative">%2$s</time>)</span>',
 			esc_attr( $str_datetime_title ), // 1 datetime attribute
-			esc_html( $str_when ), // 2 date text, visible in log
-			$date_datetime->format( DateTime::RFC3339 ) // 3
+			esc_html( $str_when ), // 2 date text, visible in log, but overridden by JS relative date script.
+			$date_datetime->format( DateTime::RFC3339 ), // 3
+			esc_html( $str_datetime_local ) // 4
 		);
 		$date_html .= '</a>';
 		$date_html .= '</span>';
@@ -931,9 +960,9 @@ class SimpleLogger {
 	/**
 	 * Logs with an arbitrary level.
 	 *
-	 * @param mixed  $level The log level.
-	 * @param string $message The log message.
-	 * @param array  $context The log context.
+	 * @param mixed  $level The log level. Default "info".
+	 * @param string $message The log message. Default "".
+	 * @param array  $context The log context. Default empty array.
 	 * @return class SimpleLogger instance
 	 */
 	public function log( $level = 'info', $message = '', $context = array() ) {
@@ -1049,7 +1078,7 @@ class SimpleLogger {
 
 			// No occasions id specified, create one bases on the data array
 			$occasions_data = $data + $context;
-			// error_log(simpleHistory::json_encode($occasions_data));
+
 			// Don't include date in context data
 			unset( $occasions_data['date'] );
 
@@ -1101,9 +1130,13 @@ class SimpleLogger {
 			// If cron then set WordPress as responsible
 			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 
-				// Seems to be wp cron running and doing this
+				// Seems to be wp cron running and doing this.
 				$data['initiator'] = SimpleLoggerLogInitiators::WORDPRESS;
 				$context['_wp_cron_running'] = true;
+
+				// To aid debugging we log the current filter and a list of all filters.
+				global $wp_current_filter;
+				$context['_wp_cron_current_filter'] = current_filter();
 
 			}
 
@@ -1188,11 +1221,26 @@ class SimpleLogger {
 				}
 			}
 
-			// Add remote addr to context
-			// Good to always have
+			// Add remote addr to context.
 			if ( ! isset( $context['_server_remote_addr'] ) ) {
 
-				$context['_server_remote_addr'] = empty( $_SERVER['REMOTE_ADDR'] ) ? '' : $_SERVER['REMOTE_ADDR'];
+				$remote_addr = empty( $_SERVER['REMOTE_ADDR'] ) ? '' : wp_unslash( $_SERVER['REMOTE_ADDR'] );
+
+				/**
+				 * Filter to control if ip addresses should be anonymized or not.
+				 *
+				 * @since 2.x
+				 *
+				 * @param bool true to anonymize ip address, false to keep original ip address.
+				 * @return bool
+				 */
+				$anonymize_ip_address = apply_filters( 'simple_history/privacy/anonymize_ip_address', true );
+
+				if ( $anonymize_ip_address && function_exists('wp_privacy_anonymize_ip') ) {
+					$remote_addr = wp_privacy_anonymize_ip( $remote_addr );
+				}
+
+				$context['_server_remote_addr'] = $remote_addr;
 
 				// If web server is behind a load balancer then the ip address will always be the same
 				// See bug report: https://wordpress.org/support/topic/use-x-forwarded-for-http-header-when-logging-remote_addr?replies=1#post-6422981
@@ -1209,18 +1257,23 @@ class SimpleLogger {
 
 					if ( array_key_exists( $key, $_SERVER ) === true ) {
 
-						// Loop through all IPs
+						// Loop through all IPs.
 						$ip_loop_num = 0;
 						foreach ( explode( ',', $_SERVER[ $key ] ) as $ip ) {
 
-							// trim for safety measures
+							// trim for safety measures.
 							$ip = trim( $ip );
 
-							// attempt to validate IP
+							// attempt to validate IP.
 							if ( $this->validate_ip( $ip ) ) {
 
-								// valid, add to context, with loop index appended so we can store many IPs
+								// valid, add to context, with loop index appended so we can store many IPs.
 								$key_lower = strtolower( $key );
+
+								if ( $anonymize_ip_address && function_exists('wp_privacy_anonymize_ip') ) {
+									$ip = wp_privacy_anonymize_ip( $ip );
+								}
+
 								$context[ "_server_{$key_lower}_{$ip_loop_num}" ] = $ip;
 
 							}
@@ -1232,8 +1285,7 @@ class SimpleLogger {
 				}
 			}// End if().
 
-			// Append http referer
-			// Also good to always have!
+			// Append http referer.
 			if ( ! isset( $context['_server_http_referer'] ) && isset( $_SERVER['HTTP_REFERER'] ) ) {
 				$context['_server_http_referer'] = $_SERVER['HTTP_REFERER'];
 			}
@@ -1250,31 +1302,12 @@ class SimpleLogger {
 			$context = apply_filters( 'simple_history/log_insert_context', $context, $data, $this );
 			$data_parent_row = $data;
 
-			// Insert all context values into db
-			foreach ( $context as $key => $value ) {
-
-				// If value is array or object then use json_encode to store it
-				// if ( is_object( $value ) || is_array( $value ) ) {
-				// $value = simpleHistory::json_encode($value);
-				// }
-				// Any reason why the check is not the other way around?
-				// Everything except strings should be json_encoded
-				if ( ! is_string( $value ) ) {
-					$value = simpleHistory::json_encode( $value );
-				}
-
-				$data = array(
-					'history_id' => $history_inserted_id,
-					'key' => $key,
-					'value' => $value,
-				);
-
-				$result = $wpdb->insert( $db_table_contexts, $data );
-
-			}
+			// Insert all context values into db.
+			$this->append_context( $history_inserted_id, $context );
 		}// End if().
 
 		$this->lastInsertID = $history_inserted_id;
+		$this->lastInsertContext = $context;
 
 		$this->simpleHistory->get_cache_incrementor( true );
 
@@ -1283,16 +1316,51 @@ class SimpleLogger {
 		 *
 		 * @since 2.5.1
 		 *
-		 * @param array $context Array with all context data to store. Modify and return this.
+		 * @param array $context Array with all context data that was used to log event.
 		 * @param array $data Array with data used for parent row.
 		 * @param array $this Reference to this logger instance
 		 */
 		do_action( 'simple_history/log/inserted', $context, $data_parent_row, $this );
 
-		// Return $this so we can chain methods
+		// Return $this so we can chain methods.
 		return $this;
 
 	} // log
+
+	/**
+	 * Append new info to the context of history item with id $post_logger->lastInsertID.
+	 *
+	 * @param int   $history_id The id of the history row to add context to.
+	 * @param array $context Context to append to existing context for the row.
+	 * @return bool True if context was added, false if not (beacuse row_id or context is empty).
+	 */
+	public function append_context( $history_id, $context ) {
+		if ( empty( $history_id ) || empty( $context ) ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$db_table_contexts = $wpdb->prefix . SimpleHistory::DBTABLE_CONTEXTS;
+
+		foreach ( $context as $key => $value ) {
+
+			// Everything except strings should be json_encoded, ie. arrays and objects.
+			if ( ! is_string( $value ) ) {
+				$value = simpleHistory::json_encode( $value );
+			}
+
+			$data = array(
+				'history_id' => $history_id,
+				'key' => $key,
+				'value' => $value,
+			);
+
+			$result = $wpdb->insert( $db_table_contexts, $data );
+		}
+
+		return true;
+	}
 
 	/**
 	 * Returns array with headers that may contain user IP
@@ -1318,6 +1386,8 @@ class SimpleLogger {
 	 * Returns additional headers with ip number from context
 	 *
 	 * @since 2.0.29
+	 * @param array $row Row with info.
+	 * @return array Headers
 	 */
 	function get_event_ip_number_headers( $row ) {
 
@@ -1346,6 +1416,9 @@ class SimpleLogger {
 	/**
 	 * Ensures an ip address is both a valid IP and does not fall within
 	 * a private network range.
+	 *
+	 * @param string $ip IP number.
+	 * @return bool
 	 */
 	function validate_ip( $ip ) {
 
@@ -1397,21 +1470,21 @@ class SimpleLogger {
 class SimpleLoggerLogInitiators {
 
 	// A wordpress user that at the log event created did exist in the wp database
-	// May have been deleted when the log is viewed
+	// May have been deleted when the log is viewed.
 	const WP_USER = 'wp_user';
 
 	// Cron job run = wordpress initiated
 	// Email sent to customer on webshop = system/wordpress/anonymous web user
-	// Javascript error occured on website = anonymous web user
+	// Javascript error occured on website = anonymous web user.
 	const WEB_USER = 'web_user';
 
-	// WordPress core or plugins updated automatically via wp-cron
+	// WordPress core or plugins updated automatically via wp-cron.
 	const WORDPRESS = 'wp';
 
-	// WP CLI / terminal
+	// WP CLI / terminal.
 	const WP_CLI = 'wp_cli';
 
-	// I dunno
+	// I dunno.
 	const OTHER = 'other';
 }
 

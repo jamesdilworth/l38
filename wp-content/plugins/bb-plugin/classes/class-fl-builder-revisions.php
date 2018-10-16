@@ -39,21 +39,31 @@ final class FLBuilderRevisions {
 	 * @return array
 	 */
 	static public function get_config( $post_id ) {
-		$revisions    = wp_get_post_revisions( $post_id );
+		$revisions    = wp_get_post_revisions( $post_id, array(
+			'numberposts' => apply_filters( 'fl_builder_revisions_number', 25 ),
+		) );
 		$current_time = current_time( 'timestamp' );
 		$config       = array(
 			'posts'   	 => array(),
 			'authors' 	 => array(),
 		);
 
+		$current_data = serialize( get_post_meta( $post_id, '_fl_builder_data', true ) );
+
 		if ( count( $revisions ) > 1 ) {
 
 			foreach ( $revisions as $revision ) {
+
+				$revision_data = serialize( get_post_meta( $revision->ID, '_fl_builder_data', true ) );
 
 				if ( ! current_user_can( 'read_post', $revision->ID ) ) {
 					continue;
 				}
 				if ( wp_is_post_autosave( $revision ) ) {
+					continue;
+				}
+
+				if ( $revision_data == $current_data ) {
 					continue;
 				}
 

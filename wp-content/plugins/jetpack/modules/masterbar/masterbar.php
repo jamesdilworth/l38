@@ -644,6 +644,18 @@ class A8C_WPCOM_Masterbar {
 			) );
 		}
 
+		if ( current_user_can( 'manage_options' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'blog',
+				'id'     => 'activity',
+				'title'  => esc_html__( 'Activity', 'jetpack' ),
+				'href'   => 'https://wordpress.com/activity-log/' . esc_attr( $this->primary_site_slug ),
+				'meta'   => array(
+					'class' => 'mb-icon',
+				),
+			) );
+		}
+
 		// Add Calypso plans link and plan type indicator
 		if ( is_user_member_of_blog( $current_user->ID ) ) {
 			$plans_url = 'https://wordpress.com/plans/' . esc_attr( $this->primary_site_slug );
@@ -863,14 +875,14 @@ class A8C_WPCOM_Masterbar {
 
 			$theme_title = $this->create_menu_item_pair(
 				array(
-					'url'   => 'https://wordpress.com/themes/' . esc_attr( $this->primary_site_slug ),
-					'id'    => 'wp-admin-bar-themes',
-					'label' => esc_html__( 'Themes', 'jetpack' ),
-				),
-				array(
 					'url'   => $customizer_url,
 					'id'    => 'wp-admin-bar-cmz',
 					'label' => esc_html_x( 'Customize', 'admin bar customize item label', 'jetpack' ),
+				),
+				array(
+					'url'   => 'https://wordpress.com/themes/' . esc_attr( $this->primary_site_slug ),
+					'id'    => 'wp-admin-bar-themes',
+					'label' => esc_html__( 'Themes', 'jetpack' ),
 				)
 			);
 			$meta = array( 'class' => 'mb-icon', 'class' => 'inline-action' );

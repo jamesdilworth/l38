@@ -90,12 +90,12 @@ class FLBuilderUISettingsForms {
 	 * errors we were running into on some hosts.
 	 *
 	 * @since 2.1.0.2
-	 * @param string $buffer
+	 * @param string $buffer $mode
 	 * @return string
 	 */
 
-	static public function compress_settings_config( $buffer ) {
-		@ob_gzhandler( $buffer ); // @codingStandardsIgnoreLine
+	static public function compress_settings_config( $buffer, $mode ) {
+		@ob_gzhandler( $buffer, null ); // @codingStandardsIgnoreLine
 		return $buffer;
 	}
 
@@ -229,7 +229,7 @@ class FLBuilderUISettingsForms {
 					}
 
 					foreach ( $section['fields'] as $field_key => &$field ) {
-						self::prep_field_for_js_config( $field );
+						self::prep_field_for_js_config( $field, $field_key, $form_key );
 					}
 				}
 			}
@@ -243,9 +243,20 @@ class FLBuilderUISettingsForms {
 	 *
 	 * @since 2.0
 	 * @param array $field
+	 * @param string $field_key
+	 * @param string $form_key
 	 * @return void
 	 */
-	static private function prep_field_for_js_config( &$field ) {
+	static private function prep_field_for_js_config( &$field, $field_key = '', $form_key = '' ) {
+
+		/**
+		 * This filter hook replaces pre-2.0 `fl_builder_render_settings_field` one.
+		 *
+		 * @param  array  $field      An array of setup data for the field.
+		 * @param  string $field_key  The field name/key.
+		 * @param  string $form_key   Module/form key.
+		 */
+		$field = apply_filters( 'fl_builder_field_js_config', $field, $field_key, $form_key );
 
 		// Convert class to className for JS compat.
 		if ( isset( $field['class'] ) ) {
@@ -398,13 +409,21 @@ class FLBuilderUISettingsForms {
 
 					$base = str_replace( '_src', '', $key );
 
-					if ( isset( $node->settings->$base ) && is_numeric( $node->settings->$base ) ) {
+					if ( isset( $node->settings->$base ) ) {
 
-						$id   = $node->settings->$base;
-						$data = self::prep_attachment_for_js_config( $id );
-
-						if ( $data ) {
-							$attachments[ $id ] = $data;
+						if ( is_numeric( $node->settings->$base ) ) {
+							$id   = $node->settings->$base;
+							$data = self::prep_attachment_for_js_config( $id );
+							if ( $data ) {
+								$attachments[ $id ] = $data;
+							}
+						} elseif ( is_array( $node->settings->$base ) ) {
+							foreach ( $node->settings->$base as $id ) {
+								$data = self::prep_attachment_for_js_config( $id );
+								if ( $data ) {
+									$attachments[ $id ] = $data;
+								}
+							}
 						}
 					}
 				}
@@ -413,12 +432,17 @@ class FLBuilderUISettingsForms {
 				if ( isset( $fields[ $key ] ) && 'video' === $fields[ $key ]['type'] ) {
 
 					if ( is_numeric( $value ) ) {
-
 						$id   = $value;
 						$data = self::prep_attachment_for_js_config( $id );
-
 						if ( $data ) {
 							$attachments[ $id ] = $data;
+						}
+					} elseif ( is_array( $value ) ) {
+						foreach ( $value as $id ) {
+							$data = self::prep_attachment_for_js_config( $id );
+							if ( $data ) {
+								$attachments[ $id ] = $data;
+							}
 						}
 					}
 				}
@@ -634,19 +658,37 @@ class FLBuilderUISettingsForms {
 			}
 
 			$value = isset( $settings->$name ) ? $settings->$name : '';
+			$is_multiple = isset( $field['multiple'] ) ? $field['multiple'] : false;
 
-			ob_start();
-			do_action( 'fl_builder_before_control', $name, $value, $field, $settings );
-			do_action( 'fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings );
-			$before = ob_get_clean();
+			if ( $is_multiple && is_array( $value ) ) {
+				$before = array();
+				$after = array();
+				foreach ( $value as $repeater_item_value ) {
+					ob_start();
+					do_action( 'fl_builder_before_control', $name, $repeater_item_value, $field, $settings );
+					do_action( 'fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings );
+					$before[] = ob_get_clean();
 
-			ob_start();
-			do_action( 'fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings );
-			do_action( 'fl_builder_after_control', $name, $value, $field, $settings );
-			$after = ob_get_clean();
+					ob_start();
+					do_action( 'fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings );
+					do_action( 'fl_builder_after_control', $name, $repeater_item_value, $field, $settings );
+					$after[] = ob_get_clean();
+				}
+			} else {
+				ob_start();
+				do_action( 'fl_builder_before_control', $name, $value, $field, $settings );
+				do_action( 'fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings );
+				$before = ob_get_clean();
+
+				ob_start();
+				do_action( 'fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings );
+				do_action( 'fl_builder_after_control', $name, $value, $field, $settings );
+				$after = ob_get_clean();
+			}
 
 			if ( ! empty( $before ) || ! empty( $after ) ) {
 				$response['extras'][ $name ] = array(
+					'multiple' => $is_multiple,
 					'before' => $before,
 					'after'  => $after,
 				);
@@ -777,10 +819,16 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function render_settings_field( $name, $field, $settings = null ) {
 
+		/**
+		 * Use this filter to modify the config array for a field before it is rendered.
+		 * @see fl_builder_render_settings_field
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @since 2.0
+		 */
 		$field              = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
 		$i                  = null;
 		$is_multiple        = isset( $field['multiple'] ) && true === (bool) $field['multiple'];
-		$supports_multiple  = 'editor' != $field['type'] && 'photo' != $field['type'] && 'service' != $field['type'];
+		$supports_multiple  = 'editor' != $field['type'] && 'service' != $field['type'];
 		$settings           = ! $settings ? new stdClass() : $settings;
 		$preview            = isset( $field['preview'] ) ? json_encode( $field['preview'] ) : json_encode( array(
 			'type' => 'refresh',

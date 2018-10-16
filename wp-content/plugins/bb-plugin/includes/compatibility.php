@@ -9,7 +9,7 @@
  *
  * Runs cropped photos stored in cache through tinyPNG.
  */
-function fl_builder_tinypng_support( $cropped_path ) {
+function fl_builder_tinypng_support( $cropped_path, $editor ) {
 
 	if ( class_exists( 'Tiny_Settings' ) ) {
 		try {
@@ -24,7 +24,7 @@ function fl_builder_tinypng_support( $cropped_path ) {
 		}
 	}
 }
-add_action( 'fl_builder_photo_cropped', 'fl_builder_tinypng_support' );
+add_action( 'fl_builder_photo_cropped', 'fl_builder_tinypng_support', 10, 2 );
 
 /**
  * Support for WooCommerce Memberships.
@@ -261,18 +261,6 @@ function fl_bwp_minify_is_loadable_filter( $args ) {
 add_filter( 'bwp_minify_is_loadable', 'fl_bwp_minify_is_loadable_filter' );
 
 /**
- * Stop autoptimize from optimizing when builder is open.
- * @since 1.10.9
- */
-function fl_autoptimize_filter_noptimize_filter( $args ) {
-	if ( FLBuilderModel::is_builder_active() ) {
-		return true;
-	}
-	return $args;
-}
-add_filter( 'autoptimize_filter_noptimize', 'fl_autoptimize_filter_noptimize_filter' );
-
-/**
 * Fixes an issue on search archives if one of the results contains same shortcode
 * as is currently trying to render.
 *
@@ -309,17 +297,6 @@ function fl_ee_suppress_notices() {
 	}
 }
 add_action( 'wp', 'fl_ee_suppress_notices' );
-
-/**
- * Dont load ee core, fixes the text editor tabs missing issue.
- * @since 2.1
- */
-function fl_ee_no_load_builder_active() {
-	if ( isset( $_GET['fl_builder'] ) && class_exists( 'EE_System' ) ) {
-		remove_action( 'init', array( EE_System::instance(), 'core_loaded_and_ready' ), 9 );
-	}
-}
-add_action( 'after_setup_theme', 'fl_ee_no_load_builder_active' );
 
 /**
  * Stops ee from outputting HTML into our ajax responses.
@@ -419,4 +396,88 @@ function fl_render_ninja_forms_js( $response ) {
 		$response['html'] .= ob_get_clean();
 	}
 	return $response;
+}
+
+/**
+ * Reorder font awesome css.
+ * @since 2.1
+ */
+function fl_builder_fa_fix() {
+
+	global $wp_styles;
+
+	$queue = $wp_styles->queue;
+
+	$fa4 = array_search( 'font-awesome',   $queue );
+	$fa5 = array_search( 'font-awesome-5', $queue );
+
+	// if fa4 is disabled and both are detected, load fa4 FIRST.
+	if ( false !== $fa4 && false !== $fa5 && $fa4 > $fa5 && ! in_array( 'font-awesome', FLBuilderModel::get_enabled_icons() ) ) {
+		unset( $wp_styles->queue[ $fa4 ] );
+		array_unshift( $wp_styles->queue, 'font-awesome' );
+	}
+	// If fa4 is detected, add a compatibility layer in the footer.
+	// This fixes various theme/themer issues.
+	if ( false !== $fa4 ) {
+			add_action( 'wp_footer', 'fl_builder_fa_fix_callback' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'fl_builder_fa_fix', 99999 );
+
+function fl_builder_fa_fix_callback() {
+	echo '<style>[class*="fa fa-"]{font-family: FontAwesome !important;}</style>';
+}
+
+
+/**
+ * Turn off Hummingbird minification
+ * @since 2.1
+ */
+add_action( 'template_redirect', 'fl_fix_hummingbird' );
+function fl_fix_hummingbird() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		add_filter( 'wp_hummingbird_is_active_module_minify', '__return_false', 500 );
+	}
+}
+
+/**
+ * Fix Enjoy Instagram feed on website with WordPress Widget and Shortcode issues with the builder.
+ * @since 2.0.6
+ */
+add_action( 'template_redirect', 'fl_fix_enjoy_instagram' );
+function fl_fix_enjoy_instagram() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		remove_action( 'wp_head', 'funzioni_in_head' );
+	}
+}
+
+/**
+ * Fix Event Calendar widget not loading assets when added as a widget module.
+ * @since 2.1.5
+ */
+add_action( 'tribe_events_pro_widget_render', 'fl_tribe_events_pro_widget_render_fix', 10, 3 );
+function fl_tribe_events_pro_widget_render_fix( $class, $args, $instance ) {
+	if ( isset( $args['widget_id'] ) && false !== strpos( $args['widget_id'], 'fl_builder_widget' ) ) {
+		if ( class_exists( 'Tribe__Events__Pro__Mini_Calendar' ) ) {
+			if ( method_exists( Tribe__Events__Pro__Mini_Calendar::instance(), 'register_assets' ) ) {
+				Tribe__Events__Pro__Mini_Calendar::instance()->register_assets();
+			} else {
+				if ( class_exists( 'Tribe__Events__Pro__Widgets' ) && method_exists( 'Tribe__Events__Pro__Widgets', 'enqueue_calendar_widget_styles' ) ) {
+					Tribe__Events__Pro__Widgets::enqueue_calendar_widget_styles();
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Fix for Enfold theme always loading wp-mediaelement
+ * @since 2.1.5
+ */
+add_filter( 'avf_enqueue_wp_mediaelement', 'fl_builder_not_load_mediaelement', 10, 2 );
+function fl_builder_not_load_mediaelement( $condition, $options ) {
+	if ( FLBuilderModel::is_builder_active() ) {
+		$condition = true;
+	}
+	return $condition;
 }

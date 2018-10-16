@@ -1,3 +1,313 @@
+<h4>2.1.5.2 - 10/04/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Pagely cache clear code.</li>
+	<li>Fixed small issue with Google italic fonts./</li>
+	<li>Fixed issue with Enfold theme causing javascript error when builder is open.</li>
+	<li>Updated Events Calender Widget compatibility code.</li>
+	<li>New filter added <code>fl_get_edit_url</code>.</li>
+	<li>New filter added <code>fl_widget_module_args</code>.</li>
+</ul>
+
+
+<h4>2.1.5.1 - 09/26/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed ImagesLoaded script not being enqueued in Gallery Module.</li>
+	<li>Fixed a PHP warning when using Events shortcodes.</li>
+	<li>Added Swift to list of supported cache plugins.</li>
+</ul>
+
+<h4>2.1.5 - 09/24/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+  <li>Revisions are now saved whenever any rows, columns, modules or layouts are published and are limited to 25.</li>
+  <li>Cache helper plugin is now merged into Beaver Builder. See https://kb.wpbeaverbuilder.com/article/549-cache-clearing-tool for details.</li>
+  <li>Update bundled Font Awesome to version 5.3.1.</li>
+  <li>Native Google italics are now supported.</li>
+  <li>Pre-connect to Google fonts to speed up font rendering.</li>
+  <li>Added caption on lightbox of the Photo Module.</li>
+  <li>More fl_builder_render_assets_inline fixes.</li>
+  <li>Changed delete_users capability to manage_options for builder UI and added <code>fl_builder_admin_settings_capability</code> filter.</li>
+  <li>Changed connections type to photo for row’s background fallback photo.</li>
+  <li>Added aria-hidden attribute to icons for better screenreader experience.</li>
+  <li>Added placeholder support for link field type.</li>
+  <li>New filter <code>fl_builder_google_fonts_pre_enqueue</code> makes it possible to dequeue any fonts added by modules.</li>
+  <li>New filter <code>fl_builder_load_modules_paths</code> to add/remove modules before they are loaded.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed javascript error if invalid color preset is saved.</li>
+  <li>Fixed license not saving properly if pasted licence contains non-alphanumeric chars.</li>
+  <li>Fixed compatibility with lodash >4 contains is not a function error.</li>
+  <li>Fixed post icon color option incorrectly appearing for grid layout in Posts Carousel module.</li>
+  <li>Fixed Subscribe Module: Active Campaign - When form is the type, user does not get re-subscribed.</li>
+  <li>Fixed Event Calendar widget not loading assets when added as a widget module.</li>
+  <li>Fixed Audio Module not properly refreshing when adding multiple items.</li>
+  <li>Fixed nodes being duplicated turning into global when they shouldn't be.</li>
+  <li>Fixed margin issue on media library thumbnails.</li>
+  <li>Fixed attachment JS config doesn't account for fields with multiple set to true.</li>
+  <li>Fixed issue with post-grid infinite scroll if post slug contains numbers.</li>
+  <li>Fixed Subscribe Form module - mailchimp only shows 10 groups within a list, limit changed to 50.</li>
+  <li>Fixed 404 pagination on archive when taxonomy has custom slug.</li>
+  <li>Fixed blurry checkbox in Subscribe and Contact Form modules.</li>
+  <li>Fixed thumbs layout in gallery module.</li>
+  <li>Fixed video where it keeps playing even if not in an active slide in Content Slider.</li>
+  <li>Fixed menu module spacing when there are multiple menu items.</li>
+  <li>Fixed colors and fonts affecting the media uploader popup.</li>
+  <li>Fixed CORS issue on Pantheon hosting.</li>
+</ul>
+
+
+<h4>2.1.4.5 - 09/10/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fix image settings apparently reverting to thumbnail in rare cases.</li>
+</ul>
+
+<h4>2.1.4.4 - 09/04/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed issue when duplicating with multiple copies of a module appearing after refreshing.</li>
+</ul>
+
+<h4>2.1.4.3 - 08/20/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed compatibility with Gutenberg.</li>
+	<li>Added editor variable to fl_builder_photo_cropped action.</li>
+</ul>
+
+<h4>2.1.4.2 - 08/06/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed text editors losing formatting when publishing because of WP 4.9.8 update.</li>
+</ul>
+
+<h4>2.1.4.1 - 08/02/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed switching between Gutenberg and Beaver Builder.</li>
+	<li>Fixed <code>fl_schema_meta_publisher_image_url</code> filter.</li>
+	<li>Updated translation files.</li>
+</ul>
+
+<h4>2.1.4 - 07/30/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Font Awesome updated to 5.2! The font is now part of the plugin package, no more glitchy CDN.</li>
+	<li>Visible indicator added if a node has visibility rules applied.</li>
+	<li>Add repeater support to <code>fl_builder_before_control</code> and <code>fl_builder_after_control</code>. Props Ian Forrest.</li>
+	<li>Allow users to select/deselect all modules. Show a warning if all modules are disabled.</li>
+	<li>Allow users to filter the default config for the ace editor using filter <code>fl_ace_editor_settings</code>.</li>
+	<li>Contact Form Module: Add field connection to module subject field.</li>
+	<li>Add 'Selection Order' to loop orderby options in Posts Module.</li>
+	<li>New filter <code>fl_builder_field_js_config</code> makes it possible to add predefined text field support. Props Oliver Juhas.</li>
+	<li>Add Aria labels to Mobile Menu button.</li>
+	<li>New actions/filters added to post-grid module schema function.
+		<ul>
+			<li>Actions: <code>fl_before_schema_meta</code>, <code>fl_after_schema_meta</code></li>
+			<li>Filters: <code>fl_schema_meta_general</code>, <code>fl_schema_meta_publisher_image_url</code>, <code>fl_schema_meta_publisher</code>, <code>fl_schema_meta_author</code></li>
+		</ul>
+	</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issue with paginated category archives not correctly returning a 404 when there are no posts.</li>
+	<li>Fixed saved column settings reverting to default when first dropped in.</li>
+	<li>Fixed a compatibility With TinyMCE Advanced.</li>
+	<li>Fixed media modal close issue in Firefox and Safari.</li>
+	<li>Fixed Google fonts not loading in saved rows/modules inserted via shortcode.</li>
+	<li>Added field Cycle Day for GetResponse to fix autoresponder issue.</li>
+	<li>Fix Content Slider Delay and Transition Speed to accept positive float value.</li>
+	<li>Increase height of the multi-select element in the Settings UI.</li>
+	<li>Modified logic for listing Ontraport campaigns so all display in the dropdown.</li>
+	<li>Fixed a "connections" JS error when using layout shortcode.</li>
+	<li>Fixed an issue with Subscribe Form and AWeber.</li>
+	<li>Fixed a Themer layout CSS issue, CSS would sometimes fail to load and a refresh was required.</li>
+</ul>
+
+<h4>2.1.3.5 - 07/12/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed WPML global row issue.</li>
+	<li>Fixed an issue with column width CSS.</li>
+	<li>Added missing settings var to legacy settings field. Fixes a Subscribe Form issue.</li>
+	<li>Fixed the missing list in the dropdown due to outdated API methods for ConvertKit.</li>
+	<li>Fixed javascript error in IE11. Added polyfill for endsWith().</li>
+	<li>Fixed a malformed JSON bug in notifications system.</li>
+	<li>Fixed styling issue with Gallery Module captions.</li>
+</ul>
+
+<h4>2.1.3.4 - 06/25/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Removed the Chrome parallax fix as the issue is now fixed in Chrome beta and canary.</li>
+</ul>
+
+<h4>2.1.3.3 - 06/20/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Tweaked Chrome fix CSS as it broke editing modules inside a parallax row. Sorry.</li>
+</ul>
+
+<h4>2.1.3.2 - 06/20/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed a Chrome issue with parallax and overlay backgrounds.</li>
+	<li>Fixed a Google Font enqueue issue.</li>
+</ul>
+
+<h4>2.1.3.1 - 06/19/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed PHP error if using php 5.2.</li>
+</ul>
+
+<h4>2.1.3 - 06/19/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Better support for translating global rows using WPML.</li>
+	<li>Added thumbnail support for saved rows/modules/columns in the saved tab.</li>
+	<li>Saved columns now supported in the exporter.</li>
+	<li>Added no follow field to Icon module.</li>
+	<li>Number Counter module will now accept 0%.</li>
+	<li>Added mobile alignment options to the Button module.</li>
+	<li>Added the ability for Post Carousel module to advance by definable number of slides.</li>
+	<li>Slideshow and Testimonials modules will now accept float values for transitions.</li>
+	<li>New filter <code>fl_builder_render_module_html_content</code>.</li>
+	<li>New filter <code>fl_get_wp_editor_args</code>.</li>
+	<li>New filter <code>fl_builder_importer_pcre</code>.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed unstyled flash of content when AJAX layout renders on slower connections.</li>
+	<li>Fixed issue where column and row resize settings were opening the module settings.</li>
+	<li>Fixed module category order not always being respected in the builder UI.</li>
+	<li>Fixed responsive editing mode not scrolling to the active node when switched.</li>
+	<li>Fixed missing icon is Tabs module when responsive.</li>
+	<li>Added logic that resets color picker when clicking an empty color field.</li>
+	<li>If nodes are hidden using the visibility setting they shouldn’t show after you publish out of the builder.</li>
+	<li>Fixed MailChimp Subscribe with multiple last names.</li>
+	<li>Fixed compatibility issue with Fusion Builder by namespacing the color picker code to FLBuilderColor.</li>
+	<li>Fixed more icon issues when fa4 and fa5 css are both loaded in a page.</li>
+	<li>Fixed an issue where the combining of Google fonts could result in 2 calls to the font css.</li>
+	<li>Fixed loop delays in Row’s Youtube background.</li>
+	<li>Fixed shortcodes with single quotes around attrs breaking in nested form fields.</li>
+	<li>Fixed color issue with code highlighting when using the dark UI mode.</li>
+	<li>Fixed a PHP undefined var in Gallery module when using SmugMug.</li>
+	<li>Fixed video content autoplay no longer working on Chrome and Safari.</li>
+	<li>Fixed tinymce dropdowns being hidden when settings are very narrow.</li>
+	<li>Fixed Gberg block validation issues by converting return to RawHTML</li>
+</ul>
+
+<h4>2.1.2.4 - 05/31/2018</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed module settings opening when clicking the column icon.</li>
+</ul>
+
+<h4>2.1.2.3 - 05/31/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Show warning message if plugin is installed in wrong folder as it breaks auto-updates.</li>
+	<li>Allow users to <em>Save With Errors</em> in the CSS/HTML code editor.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed adjacent module settings opening when highlighting text with inline editing.</li>
+	<li>Fixed incorrect text showing after inline editing.</li>
+	<li>Fixed inline editing performance issues.</li>
+	<li>Fixed Contact Form Module field connections.</li>
+	<li>Fixed pinned content panel covering 2px of the content area.</li>
+	<li>Fixed UI lightboxes appearing in wrong positions.</li>
+	<li>Added link to change logs from wp-admin plugins page.</li>
+	<li>Fixed color picker position in responsive editing mode.</li>
+</ul>
+
+<h4>2.1.2.2 - 05/17/2018</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Reverted menu accessibility code added in 2.1.2.</li>
+</ul>
+
+<h4>2.1.2.1 - 05/16/2018</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a JS error preventing settings from opening.</li>
+</ul>
+
+<h4>2.1.2 - 05/16/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome 5 icons</li>
+	<li>Added support for new WP 4.9.6 Privacy Page and data exporter.</li>
+	<li>Added Themer support to Audio module</li>
+	<li>Added is_writable method to filesystem class</li>
+	<li>Added Ontraport support to Subscribe Module</li>
+	<li>Settings lightbox will now resize height when first opening if they are taller than the window</li>
+	<li>Improved accessibility in Menu Module</li>
+	<li>Limit revisions in Builder UI to 25 for performance reasons <code>fl_builder_revisions_number</code> also added</li>
+	<li>Hide overlays when right clicked so the underlying node can be inspected.</li>
+	<li>Remove panel caret when less than 500px</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a compatibility issues with Enjoy Plugin for Instagram and MailerLite plugin</li>
+	<li>Fixed gap underneath menu items on Themer menu module</li>
+	<li>Fixed Builder permissions appearing blank if Themer plugin is enabled first</li>
+	<li>Fixed a JS error thrown while resizing rows</li>
+	<li>Fixed a PHP warning if no default icon sets are available</li>
+	<li>Fixed a PHP warning on debug page if there are no deactivated plugins installed</li>
+	<li>Fixed an issue where archive pages would enqueue a layout css/js file for every post in the archive</li>
+	<li>Fixed saved columns still showing if Enable Core Templates Only is selected</li>
+	<li>Fixed PHP warnings in Subscribe Module when using Infusionsoft</li>
+</ul>
+
+<h4>2.1.1.3 - 05/10/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Make sure Font Awesome 5 icons are enqueued when builder is open.</li>
+	<li>Disable Hummingbird cache minification while editing.</li>
+	<li>Fix editing issues introduced in WP 4.9.6.</li>
+	<li>Fixed a PHP notice in Subscribe Module.</li>
+</ul>
+
+<h4>2.1.1.2 - 05/07/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added <code>fl_code_checking_enabled</code> filter to disable all code checking.</li>
+	<li>Added <code>fl_builder_get_layout_metadata</code> filter for filtering layout data when it comes out of the database.</li>
+	<li>Disabled notifications in restricted editing mode.</li>
+	<li>Updated Font Awesome to 5.0.12.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed characters being encoded in text inputs when using inline editing.</li>
+	<li>Fixed invalid code errors preventing saving of code fields.</li>
+	<li>Fixed a fatal error with corrupted global rows.</li>
+</ul>
+
+<h4>2.1.1.1 - 05/02/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Font Awesome PRO support added! See <code>https://kb.wpbeaverbuilder.com/article/645-font-awesome-5-icons</code> for instructions.</li>
+</ul>
+
+<h4>2.1.1 - 05/02/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New filter <code>fl_inline_editing_enabled</code> to disable inline editing.</li>
+	<li>Removed obsolete Event Espresso code now covered by their official addon found at <code>https://github.com/eventespresso/eea-beaver-builder</code></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed JS error when canceling out of a settings form during responsive preview.</li>
+	<li>Fixed various icon issues and added a compatibility function to make sure css files are loaded in right order.</li>
+</ul>
+
 <h4>2.1.0.2 - 04/27/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
@@ -5,7 +315,7 @@
 	<li>Fixed a branding issue with Agency package, you can now use 'Page Builder' again.</li>
 	<li>Fixed issue with YouTube row backgrounds not looping.</li>
 </ul>
-
+<h4>2.1.0.1 - 04/26/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
 	<li>Fixed compression issues with loading the settings JS.</li>
@@ -184,7 +494,6 @@
   <li>Fixed links not being clickable in modules that use bxslider with Firefox 59.</li>
   <li>Fixed incorrect links in Social Buttons Module when added in Themer.</li>
 	<li>Added <code>$id</code> and <code>$type</code> to <code>fl_builder_render_module_css_settings</code> filter variables.</li>
->>>>>>> master
 </ul>
 
 <h4>2.0.6.2 - 03/13/2018</h4>
@@ -343,7 +652,7 @@
 	<li>Fixed bug with layout settings getting encoded when the modsec fix is enabled.</li>
 	<li>Fixed Posts module - Columns layout broken when using load more pagination.</li>
 	<li>Fixed Subscribe Module - Issues when same forms loaded on a page.</li>
-	<li>Fixed issue with <code><textarea></code> HTML being stripped when settings are saved.</li>
+	<li>Fixed issue with <code>textarea</code> HTML being stripped when settings are saved.</li>
 	<li>Fixed issue with column widths on mobile when reverse stacking is enabled.</li>
 	<li>Fixed issue when pasting color into a colorpicker field.</li>
 	<li>Fixed a conflict with Fancybox3.</li>

@@ -1,8 +1,8 @@
 === Jetpack by WordPress.com ===
-Contributors: automattic, adamkheckler, aduth, akirk, allendav, alternatekev, andy, annezazu, apeatling, azaozz, batmoo, barry, beaulebens, blobaugh, cainm, cena, cfinke, chaselivingston, chellycat, clickysteve, csonnek, danielbachhuber, davoraltman, daniloercoli, designsimply, dllh, drawmyface, dsmart, dzver, ebinnion, eliorivero, enej, eoigal, erania-pinnera, ethitter, gcorne, georgestephanis, gibrown, goldsounds, hew, hugobaeta, hypertextranch, iammattthomas, iandunn, jblz, jeherve, jenhooks, jenia, jgs, jkudish, jmdodd, Joen, johnjamesjacoby, jshreve, koke, kraftbj, lancewillett, lschuyler, macmanx, martinremy, matt, matveb, mattwiebe, maverick3x6, mcsf, mdawaffe, michael-arestad, migueluy, mikeyarce, mkaz, nancythanki, nickmomrik, obenland, oskosk, pento, professor44, rachelsquirrel, rdcoll, ryancowles, richardmuscat, richardmtl, roccotripaldi, samhotchkiss, scarstocea, sdquirk, stephdau, tmoorewp, tyxla, Viper007Bond, westi, yoavf, zinigor
+Contributors: automattic, adamkheckler, aduth, akirk, allendav, alternatekev, andy, annezazu, apeatling, azaozz, batmoo, barry, beaulebens, blobaugh, cainm, cena, cfinke, chaselivingston, chellycat, clickysteve, csonnek, danielbachhuber, davoraltman, daniloercoli, designsimply, dllh, drawmyface, dsmart, dzver, ebinnion, eliorivero, enej, eoigal, erania-pinnera, ethitter, gcorne, georgestephanis, gibrown, goldsounds, hew, hugobaeta, hypertextranch, iammattthomas, iandunn, jblz, jasmussen, jeffgolenski, jeherve, jenhooks, jenia, jessefriedman, jgs, jkudish, jmdodd, joanrho, johnjamesjacoby, jshreve, keoshi, koke, kraftbj, lancewillett, lschuyler, macmanx, martinremy, matt, matveb, mattwiebe, maverick3x6, mcsf, mdawaffe, MichaelArestad, migueluy, mikeyarce, mkaz, nancythanki, nickmomrik, obenland, oskosk, pento, professor44, rachelsquirrel, rdcoll, ryancowles, richardmuscat, richardmtl, roccotripaldi, samhotchkiss, scarstocea, sdquirk, stephdau, tmoorewp, tyxla, Viper007Bond, westi, yoavf, zinigor
 Tags: Jetpack, WordPress.com, backup, security, related posts, CDN, speed, anti-spam, social sharing, SEO, video, stats
-Stable tag: 6.1
-Requires at least: 4.7
+Stable tag: 6.6.1
+Requires at least: 4.8
 Tested up to: 4.9
 
 The ideal plugin for stats, related posts, search engine optimization, social sharing, protection, backups, security, and more.
@@ -21,7 +21,7 @@ Create and customize your WordPress site from start to finish. Jetpack helps you
 * Integration with the official WordPress mobile apps
 
 = Marketing Services =
-Measure, promote, and earn moment from your site. Jetpack helps you with:
+Measure, promote, and earn money from your site. Jetpack helps you with:
 
 * Site stats and analytics
 * Automated social media posting and scheduling in advance
@@ -87,56 +87,78 @@ There are opportunities for developers at all levels to contribute. [Learn more 
 
 == Screenshots ==
 
-1. Dashboard: Bird’s eye view of your site stats, status, and health.
-2. Safety: Protect your site and data with powerful security services.
-3. Engagement: Social sharing, likes, and related posts.
-4. Analytics: Actionable site stats and traffic insights.
-5. Traffic: SEO Tools for Google, Twitter, Facebook and more.
+1. Themes: Choose from hundreds of customizable, professional themes.
+2. Performance: Free high-speed content delivery network for your images.
+3. Apps: Update your site from any device with the free WordPress apps.
+4. Analytics: Simple and concise site stats and traffic insights.
+5. Sharing: Connect your site to social networks for automated social sharing.
+6. Revenue: Sell products & take payments with simple payment buttons.
+7. Downtime Monitoring: Get notified if and when your site goes down.
+8. Security: Protection against brute force attacks, spam, and malware. On-demand backups and restores.
 
 == Changelog ==
 
-= 6.1 =
+= 6.6.1 =
 
-* Release date: May 1, 2018
-* Release post: https://wp.me/p1moTy-7Sj
-
-**Major Enhancements**
-
-* WordAds: Introduced shortcode for inline Ad placement.
-* WordAds: Added support for the ads.txt file.
-
-**Enhancements**
-
-* Dashboard: We improved the styles of status numbers so it doesn't look like floating.
-* JSON API: Added support for Google My Business integration available on WordPress.com.
-* Masterbar: We removed the Next Steps link from the Account sidebar.
-* Publicize: Let the user know that we are going to send emails to subscribers and publicize to the different accounts.
-* Settings: Added  "Privacy Information" links to each Jetpack module/feature card.
-* Shortcodes: Mixcloud shortcode now uses oEmbed.
-* Stats: Added a new filter jetpack_honor_dnt_header_for_stats, which if enabled would not track stats for visitors with DNT enabled.
-* Sync: Removed requirement for gzencode.
-* Widgets: always load script via HTTPS for Gravatar Hovercards.
-
-**Improved compatibility**
-
-* Social Icons Widget: Improved support on screen reader text for themes that do not provide support out of the box.
-* Sharing: Removed the sharing and like display functionality from Cart, Checkout, and Account WooCommerce pages.
+* Release date: October 10, 2018
+* Release post: https://wp.me/p1moTy-aEt
 
 **Bug fixes**
 
-* Admin Page: We fixed the internationalization of the plans page.
-* Ads: We fixed a problem that impeded Premium Plan customers to activate Google Analytics.
-* Auto Updates: We fixed a warning being thrown due to a bad concatenation of strings.
-* General: Fixed a warning that was being logged due to attempting to use in_array() over a variable that didn't always contain an array.
-* General: Fixed Warning: count(): Parameter must be an array or an object that implements Countable showing on PHP 7.x.
-* JSON API: Fixed internationalization on embed endpoint.
-* Theme Tools: Show featured images in WooCommerce pages when Display on blog and archives is turned off for Themes that support this feature.
-* Publicize: Avoid adding Publicize post meta when a post transitions to publish and it is not a publicize-able post type.
-* Settings: Fixed the icon representing the minimum plan needed for SEO and Google Analytics features.
-* Slideshow: Fixed an invalid argument supplied for foreach() warning.
-* SSO: We fixed the name of a filter which contained a typo before. The filter is now named: `jetpack_sso_auth_cookie_expiration`.
-* SSO: Fixed some cases where we were not handling secure cookies for sites running over https.
-* Sync: Fixed Warning: Invalid argument supplied for foreach().
-* Sync: Fixed Warning: Warning: json_encode(): recursion detected.
-* WooCommerce Analytics: fixed broken Remove From Cart link.
+* Sitemaps: improve initial sitemap creation process.
+* Widgets: fix missing CSS for the Social Icons Widgets.
 
+= 6.6 =
+
+* Release date: October 9, 2018
+* Release post: https://wp.me/p1moTy-aa1
+
+**Major Enhancements**
+
+* Verification Tools: enable one-click site verification and sitemap.xml registration with Google.
+
+**Enhancements**
+
+* Admin Interface: update all Jetpack settings screens to use a similar design.
+* API: add flags to determine if Jetpack Search is enabled and supported.
+* CDN: First Beta version of the Photon CDN -- Speed up sites and increase max concurrent connections through Photon by cloud-hosting Jetpack and WordPress Core scripts, styles, and assets.
+* Contact Form: add filters to allow customizing the class attributes of inputs and buttons.
+* General: add more constants to error log for the Jetpack test suite.
+* Gutenberg: add infrastructure necessary to add new blocks via Jetpack.
+* Lazy Images: load the placeholder via the `srcset` attribute instead of the `src` attribute.
+* Masterbar: add link to Activity Log.
+* Publicize: the Path Social Network is closing in October. The option has consequently been removed from the Publicize interface.
+* Search: improve the feature activation process.
+* Search: update the admin interface to give more information about what the feature does and how it can be used.
+* Simple Payments: update all mentions of the product for a more consistent naming convention and less confusion for both site owners and translators.
+* Sync: log action when an attachment is added to a post for the first time.
+* Sync: add URL details to synchronization requests.
+* Sync: detect if a post is saved via Gutenberg when synchronizing post events.
+
+**Improved compatibility**
+
+* Shortcodes: update Mailchimp shortcode to match the new format offered by Mailchimp.
+
+**Bug fixes**
+
+* CSS Concatenation: add Authors and Social Icons widgets to concatenated styles.
+* Featured Content: avoid registering duplicate Post Types.
+* Geo Location: only enqueue Dashicons when necessary.
+* Google Analytics: do not output tracking code when the "Enhanced eCommerce" option is active, but the WooCommerce plugin is not.
+* Infinite Scroll: add a Privacy Link to the site's footer if a Privacy Policy was set up via WordPress's privacy options.
+* Infinite Scroll: fix video playback of VideoPress videos loaded via Infinite Scroll.
+* Protect: fix layout of legend that prompts the user to solve the math fallback so it works better in all languages.
+* Responsive Videos: avoid PHP notice.
+* Sharing: do not record stats if the stats module is disabled.
+* Sharing: allow saving sharing button options on media edit page as well.
+* Shortcodes: ensure we build minified and RTL stylesheets for slideshows.
+* Simple Payments: Stop contributors from creating inaccessible buttons with a "pending" post status.
+* Sitemaps: no longer add images attached to non-published posts to the image sitemap.
+* Slideshows: ensure arrows point in the right direction for RTL Languages.
+* Sync: avoid PHP notices when synchronizing user information.
+* VideoPress: avoid duplicate rel attributes in links.
+* VideoPress: do not block access to the Video settings for our customers using a 2-year plan.
+
+--------
+
+[See the previous changelogs here](https://raw.githubusercontent.com/Automattic/jetpack/master/changelog.txt).

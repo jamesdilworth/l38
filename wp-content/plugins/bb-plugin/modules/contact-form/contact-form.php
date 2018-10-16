@@ -63,10 +63,10 @@ class FLContactFormModule extends FLBuilderModule {
 	 * @method connect_field_connections_before_send
 	 */
 	public function connect_field_connections_before_send() {
-		if ( class_exists( 'FLPageData' ) && isset( $_REQUEST['post_id'] ) ) {
+		if ( class_exists( 'FLPageData' ) && isset( $_REQUEST['layout_id'] ) ) {
 
 			$posts = query_posts( array(
-				'p' => absint( $_REQUEST['post_id'] ),
+				'p' => absint( $_REQUEST['layout_id'] ),
 				'post_type' => 'any',
 			) );
 
@@ -253,6 +253,7 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'label'		  => __( 'Email Subject', 'fl-builder' ),
 						'default'		=> 'Contact Form Submission',
 						'help'			=> __( 'You can choose the subject of the email. Defaults to Contact Form Submission.', 'fl-builder' ),
+						'connections'   => array( 'custom_field', 'string', 'html' ),
 					),
 					'email_toggle'	  => array(
 						'type'		  => 'select',
@@ -551,6 +552,24 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'maxlength'	  => '3',
 						'size'		  => '4',
 						'description'	  => 'px',
+					),
+				),
+			),
+			'btn_responsive_style' 	=> array(
+				'title'         		=> __( 'Responsive Button Style', 'fl-builder' ),
+				'fields'        		=> array(
+					'btn_mobile_align' => array(
+						'type'          => 'select',
+						'label'         => __( 'Alignment', 'fl-builder' ),
+						'default'       => 'center',
+						'options'       => array(
+							'center'        => __( 'Center', 'fl-builder' ),
+							'left'          => __( 'Left', 'fl-builder' ),
+							'right'         => __( 'Right', 'fl-builder' ),
+						),
+						'preview'       => array(
+							'type'          => 'none',
+						),
 					),
 				),
 			),

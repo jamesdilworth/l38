@@ -1,23 +1,30 @@
 <?php
 
-/*
-Dropin Name: Export
-Dropin Description: Adds a tab with export options
-Dropin URI: http://simple-history.com/
-Author: Pär Thernström
-*/
-
+/**
+ * Dropin Name: Export
+ * Dropin Description: Adds a tab with export options
+ * Dropin URI: http://simple-history.com/
+ * Author: Pär Thernström
+ */
 class SimpleHistoryExportDropin {
 
-	// Simple History instance
+	/**
+	 * Simple History instance.
+	 *
+	 * @var $sh
+	 */
 	private $sh;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param instance $sh Simple History instance.
+	 */
 	public function __construct( $sh ) {
 
-		// Set simple history variable
 		$this->sh = $sh;
 
-		// Add tab to settings page
+		// Add tab to settings page.
 		$sh->registerSettingsTab(array(
 			'slug' => 'export',
 			'name' => _x( 'Export', 'Export dropin: Tab name on settings page', 'simple-history' ),
@@ -64,18 +71,19 @@ class SimpleHistoryExportDropin {
 
 			$fp = fopen( 'php://output', 'w' );
 
-			// header("Content-Type: application/octet-stream");
+			$attachment_header_template = 'Content-Disposition: attachment; filename="%1$s"';
+
 			if ( 'csv' == $export_format ) {
 
 				$filename = 'simple-history-export-' . time() . '.csv';
 				header( 'Content-Type: text/plain' );
-				header( "Content-Disposition: attachment; filename='{$filename}'" );
+				header( sprintf( $attachment_header_template, $filename ) );
 
 			} elseif ( 'json' == $export_format ) {
 
 				$filename = 'simple-history-export-' . time() . '.json';
 				header( 'Content-Type: application/json' );
-				header( "Content-Disposition: attachment; filename='{$filename}'" );
+				header( sprintf( $attachment_header_template, $filename ) );
 
 			} elseif ( 'html' == $export_format ) {
 
@@ -103,7 +111,7 @@ class SimpleHistoryExportDropin {
 
 			}
 
-			// Paginate through all pages and all their rows
+			// Paginate through all pages and all their rows.
 			$row_loop = 0;
 			while ( $page_current <= $pages_count + 1 ) {
 
@@ -120,12 +128,17 @@ class SimpleHistoryExportDropin {
 
 						$message_output = strip_tags( html_entity_decode( $this->sh->getLogRowPlainTextOutput( $one_row ), ENT_QUOTES, 'UTF-8' ) );
 
+						$user_email = empty( $one_row->context['_user_email'] ) ? null : $one_row->context['_user_email'];
+						$user_login = empty( $one_row->context['_user_login'] ) ? null : $one_row->context['_user_login'];
+
 						fputcsv($fp, array(
 							$one_row->date,
 							$one_row->logger,
 							$one_row->level,
 							$one_row->initiator,
 							$one_row->context_message_key,
+							$user_email,
+							$user_login,
 							$header_output,
 							$message_output,
 							$one_row->subsequentOccasions,
@@ -133,7 +146,7 @@ class SimpleHistoryExportDropin {
 
 					} elseif ( 'json' == $export_format ) {
 
-						// If not first loop then add a comma between all json objects
+						// If not first loop then add a comma between all json objects.
 						if ( $row_loop == 0 ) {
 							$comma = "\n";
 						} else {

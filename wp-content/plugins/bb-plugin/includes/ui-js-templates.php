@@ -30,6 +30,9 @@
 			</div>
 			<div class="fl-clear"></div>
 		</div>
+		<# if ( data.hasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This row has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } #>
 	</div>
 </script>
 <!-- #tmpl-fl-row-overlay -->
@@ -77,6 +80,9 @@
 			</div>
 			<div class="fl-clear"></div>
 		</div>
+		<# if ( data.hasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This column has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } #>
 		<?php if ( ! $simple_ui ) : ?>
 		<# if ( ! data.groupLoading ) { #>
 			<# if ( ( ! data.first && data.contentWidth > 40 ) || ( data.hasParentCol && data.first && ! data.parentFirst ) ) { #>
@@ -168,6 +174,11 @@
 			</div>
 			<div class="fl-clear"></div>
 		</div>
+		<# if ( data.colHasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This column has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } else if ( data.hasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This module has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } #>
 		<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
 		<# if ( ! data.groupLoading && ! data.isRootCol ) { #>
 			<# if ( ( ! data.colFirst && data.contentWidth > 40 ) || ( data.hasParentCol && data.colFirst && ! data.parentFirst ) ) { #>
@@ -598,8 +609,8 @@
 				<div id="fl-builder-blocks-{{slug}}" class="fl-builder-blocks-section">
 					<span class="fl-builder-blocks-section-title">{{title}}</span>
 					<div class="fl-builder-blocks-section-content fl-builder-modules">
-						<# for( var i in modules) {
-							var module 	= modules[i],
+						<# for( var k in modules) {
+							var module 	= modules[ k ],
 								type 	= module.isWidget ? 'widget' : module.slug,
 								alias 	= module.isAlias ? ' data-alias="' + module.alias + '"' : '',
 								widget 	= module.isWidget ? ' data-widget="' + module.class + '"' : '';

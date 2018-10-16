@@ -442,7 +442,7 @@
 		 */
 		_initResponsivePreviews: function()
 		{
-			FLBuilder.addHook( 'responsive-editing-switched', $.proxy( this._responsiveEditingSwitched, this ) );
+			FLBuilder.addHook( 'responsive-editing-switched.preview', $.proxy( this._responsiveEditingSwitched, this ) );
 		},
 
 		/**
@@ -453,7 +453,7 @@
 		 */
 		_destroyResponsivePreviews: function()
 		{
-			FLBuilder.removeHook( 'responsive-editing-switched' );
+			FLBuilder.removeHook( 'responsive-editing-switched.preview' );
 		},
 
 		/**

@@ -27,6 +27,7 @@ class FLGalleryModule extends FLBuilderModule {
 	public function add_styles_scripts() {
 		$this->add_js( 'jquery-wookmark' );
 		$this->add_js( 'jquery-mosaicflow' );
+		$this->add_js( 'imagesloaded' );
 
 		$override_lightbox = apply_filters( 'fl_builder_override_lightbox', false );
 		if ( ! $override_lightbox ) {
@@ -192,6 +193,7 @@ class FLGalleryModule extends FLBuilderModule {
 
 					// Photo data object.
 					$data = new stdClass();
+					$data->id = $item->guid;
 					$data->alt = $item->title;
 					$data->caption = $item->title;
 					$data->description = $item->title;

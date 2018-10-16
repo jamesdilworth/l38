@@ -41,11 +41,11 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
-		if ( ! class_exists( 'ML_Rest' ) ) {
-			require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/ML_Rest.php';
+		if ( ! class_exists( 'FL_ML_Rest' ) ) {
+			require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/FL_ML_Rest.php';
 		}
 
-		$this->api_instance = new ML_Rest( $api_key );
+		$this->api_instance = new FL_ML_Rest( $api_key );
 		$this->api_instance->setUrl( $this->api_url );
 
 		return $this->api_instance;
@@ -169,7 +169,7 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 			'row_class'     => 'fl-builder-service-field-row',
 			'class'         => 'fl-builder-service-list-select',
 			'type'          => 'select',
-			'label'         => _x( 'List', 'An email list from a third party provider.', 'fl-builder' ),
+			'label'         => _x( 'Group', 'An email list from a third party provider.', 'fl-builder' ),
 			'options'       => $options,
 			'preview'       => array(
 				'type'          => 'none',

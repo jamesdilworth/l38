@@ -185,10 +185,13 @@ final class FLBuilderModel {
 		add_action( 'save_post',                                        __CLASS__ . '::save_revision' );
 		add_action( 'save_post',                                        __CLASS__ . '::set_node_template_default_type', 10, 3 );
 		add_action( 'wp_restore_post_revision',                         __CLASS__ . '::restore_revision', 10, 2 );
+		add_action( 'fl_builder_after_save_layout',                     __CLASS__ . '::save_layout_revision' );
+		add_action( 'fl_builder_after_save_user_template',              __CLASS__ . '::save_layout_revision' );
 
 		/* Filters */
 		add_filter( 'heartbeat_received',                               __CLASS__ . '::lock_post', 10, 2 );
-		add_filter( 'fl_builder_register_settings_form', 				__CLASS__ . '::filter_row_settings_for_resize', 10, 2 );
+		add_filter( 'fl_builder_register_settings_form',                __CLASS__ . '::filter_row_settings_for_resize', 10, 2 );
+		add_filter( 'wp_revisions_to_keep',                             __CLASS__ . '::limit_revisions', 10, 2 );
 
 		/* Core Templates */
 		self::register_core_templates();
@@ -212,7 +215,13 @@ final class FLBuilderModel {
 
 		$scheme = ( isset( $matches[1] ) ) ? $matches[1] : false;
 
-		return set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ), $scheme );
+		$url = set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ), $scheme );
+
+		/**
+		 * Filter the bb edit url, 2 args, $url and $post.
+		 * @see fl_get_edit_url
+		 */
+		return apply_filters( 'fl_get_edit_url', $url, $post );
 	}
 
 	/**
@@ -225,6 +234,12 @@ final class FLBuilderModel {
 	 * @return string
 	 */
 	static public function get_upgrade_url( $params = array() ) {
+		/**
+		 * Use this filter to modify the upgrade URL in Beaver Builder Lite.
+		 * This can be used to add an affiliate ID.
+		 * @see fl_builder_upgrade_url
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		return apply_filters( 'fl_builder_upgrade_url', self::get_store_url( '', $params ) );
 	}
 
@@ -310,6 +325,11 @@ final class FLBuilderModel {
 			$value[] = 'fl-builder-template';
 		}
 
+		/**
+		 * Use this filter to modify the post types that the builder works with.
+		 * @see fl_builder_post_types
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		return apply_filters( 'fl_builder_post_types', $value );
 	}
 
@@ -321,6 +341,12 @@ final class FLBuilderModel {
 	 * @return array
 	 */
 	static public function get_global_posts() {
+		/**
+		 * Use this filter to specify a post or posts whose CSS and JavaScript assets should be loaded globally.
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @see fl_builder_global_posts
+		 * @since 1.0
+		 */
 		return apply_filters( 'fl_builder_global_posts', array() );
 	}
 
@@ -641,7 +667,7 @@ final class FLBuilderModel {
 	 * @return array
 	 */
 	static public function get_upload_dir() {
-		$wp_info  = wp_upload_dir();
+		$wp_info  = wp_upload_dir( null, false );
 		$dir_name = basename( FL_BUILDER_DIR );
 
 		// We use bb-plugin for the lite version as well.
@@ -670,6 +696,11 @@ final class FLBuilderModel {
 			fl_builder_filesystem()->file_put_contents( $dir_info['path'] . 'index.html', '' );
 		}
 
+		/**
+		 * Use this filter to modify the upload directory path and URL that the builder uses to store things like the cache and custom icons.
+		 * @see fl_builder_get_upload_dir
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		return apply_filters( 'fl_builder_get_upload_dir', $dir_info );
 	}
 
@@ -705,7 +736,11 @@ final class FLBuilderModel {
 			// Add an index file for security.
 			fl_builder_filesystem()->file_put_contents( $dir_info['path'] . 'index.html', '' );
 		}
-
+		/**
+		 * Use this filter to modify the cache directory path and URL that the builder uses to store cached images, JavaScript, and CSS files.
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @see fl_builder_get_cache_dir
+		 */
 		return apply_filters( 'fl_builder_get_cache_dir', $dir_info );
 	}
 
@@ -767,6 +802,19 @@ final class FLBuilderModel {
 	}
 
 	/**
+	 * Returns the method used to enqueue layout css and js assets.
+	 * Possible values are 'file' and 'inline'. By default, the file
+	 * method is used. Return true for the fl_builder_render_assets_inline
+	 * filter to enable inline enqueuing.
+	 *
+	 * @since 2.1.5
+	 * @return string
+	 */
+	static public function get_asset_enqueue_method() {
+		return apply_filters( 'fl_builder_render_assets_inline', false ) ? 'inline' : 'file';
+	}
+
+	/**
 	 * Deletes either the preview, draft or live CSS and/or JS asset cache
 	 * for the current post based on the data returned from get_asset_info.
 	 * Both the CSS and JS asset cache will be delete if a type is not specified.
@@ -776,6 +824,11 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function delete_asset_cache( $type = false ) {
+
+		if ( 'inline' === FLBuilderModel::get_asset_enqueue_method() ) {
+			return false;
+		}
+
 		$info  = self::get_asset_info();
 		$types = $type ? array( $type ) : array( 'css', 'css_partial', 'js', 'js_partial' );
 
@@ -800,7 +853,7 @@ final class FLBuilderModel {
 		$post_id   = $post_id ? $post_id : self::get_post_id();
 		$cache_dir = self::get_cache_dir();
 
-		if ( $post_id ) {
+		if ( $post_id && 'file' === FLBuilderModel::get_asset_enqueue_method() ) {
 
 			$paths = array(
 				$cache_dir['path'] . $post_id . '-layout.css',
@@ -1119,14 +1172,19 @@ final class FLBuilderModel {
 	static public function get_child_nodes( $parent_id, $status = null ) {
 		$parent           = is_object( $parent_id ) ? $parent_id : self::get_node( $parent_id );
 		$template_post_id = self::is_node_global( $parent );
+		$template_node_id = null;
 		$status           = $template_post_id && ! self::is_post_node_template() ? 'published' : $status;
 		$data             = self::get_layout_data( $status, $template_post_id );
 		$nodes            = array();
 
+		if ( $template_post_id ) {
+			$template_node_id = apply_filters( 'fl_builder_parent_template_node_id', $parent->template_node_id, $parent, $data );
+		}
+
 		if ( is_object( $parent ) ) {
 			foreach ( $data as $node_id => $node ) {
 				if ( ( isset( $node->parent ) && $node->parent == $parent->node )
-					|| ( $template_post_id && $parent->template_node_id == $node->parent ) ) {
+					|| ( $template_node_id && $template_node_id == $node->parent ) ) {
 					$nodes[ $node_id ] = $node;
 				}
 			}
@@ -1282,16 +1340,25 @@ final class FLBuilderModel {
 
 		// Get the node settings for a node template's root node?
 		if ( self::is_node_template_root( $node ) && ! self::is_post_node_template() ) {
-			$template_post_id 	= self::get_node_template_post_id( $node->template_id );
-			$template_data 		= self::get_layout_data( 'published', $template_post_id );
-			$template_node		= $template_data[ $node->template_node_id ];
-			$template_settings  = clone $template_node->settings;
+			$template_post_id = self::get_node_template_post_id( $node->template_id );
+			$template_data = self::get_layout_data( 'published', $template_post_id );
 
-			if ( 'column' == $node->type ) {
-				$template_settings->size = $node->settings->size;
+			// Fallback to draft data if we don't have published data.
+			if ( ! isset( $template_data[ $node->template_node_id ] ) ) {
+				$template_data = self::get_layout_data( 'draft', $template_post_id );
 			}
 
-			$node->settings = $template_settings;
+			// Set the node settings to the template node settings.
+			if ( isset( $template_data[ $node->template_node_id ] ) ) {
+				$template_node = $template_data[ $node->template_node_id ];
+				$template_settings = clone $template_node->settings;
+
+				if ( 'column' == $node->type ) {
+					$template_settings->size = $node->settings->size;
+				}
+
+				$node->settings = $template_settings;
+			}
 		}
 
 		// Get either the preview settings or saved node settings merged with the defaults.
@@ -1889,6 +1956,11 @@ final class FLBuilderModel {
 			$row->settings->ss_photo_data = new StdClass();
 		}
 
+		// This class does not exist in Lite version.
+		if ( ! class_exists( 'FLSlideshowModule' ) ) {
+			return false;
+		}
+
 		// Hijack the slideshow module to get the source.
 		$ss								= new FLSlideshowModule();
 		$ss->settings					= new StdClass();
@@ -2113,7 +2185,7 @@ final class FLBuilderModel {
 			foreach ( $cols as $col_id => $col ) {
 
 				// Set the new size.
-				$data[ $col_id ]->settings->size = round( $new_width, 2 );
+				$data[ $col_id ]->settings->size = round( $new_width, 3 );
 			}
 
 			// Update the layout data.
@@ -2223,7 +2295,7 @@ final class FLBuilderModel {
 		}
 
 		// Save new sibling size.
-		$data[ $sibling->node ]->settings->size = round( 100 - $siblings_width - $new_width, 2 );
+		$data[ $sibling->node ]->settings->size = round( 100 - $siblings_width - $new_width, 3 );
 
 		// Save new column size.
 		$data[ $col->node ]->settings->size = $new_width;
@@ -2276,7 +2348,7 @@ final class FLBuilderModel {
 		$data 			= self::get_layout_data();
 		$post_data		= self::get_post_data();
 		$cols			= self::get_nodes( 'column', $group_id );
-		$width			= round( 100 / count( $cols ), 2 );
+		$width			= round( 100 / count( $cols ), 3 );
 
 		foreach ( $cols as $col_id => $col ) {
 			$data[ $col_id ]->settings->size = $width;
@@ -2358,7 +2430,7 @@ final class FLBuilderModel {
 		} elseif ( 7 === $num_cols ) {
 			$new_width = 14.28;
 		} else {
-			$new_width = round( 100 / $num_cols, 2 );
+			$new_width = round( 100 / $num_cols, 3 );
 		}
 
 		// Get the new column position.
@@ -2609,18 +2681,28 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function load_modules() {
-		$path			= FL_BUILDER_DIR . 'modules/';
-		$dir			= dir( $path );
-		$module_path	= '';
+		$paths = glob( FL_BUILDER_DIR . 'modules/*' );
+		$paths = apply_filters( 'fl_builder_load_modules_paths', $paths );
+		$module_path = '';
 
-		while ( false !== ( $entry = $dir->read() ) ) { // @codingStandardsIgnoreLine
+		// Make sure we have an array.
+		if ( ! is_array( $paths ) ) {
+			return;
+		}
 
-			if ( ! is_dir( $path . $entry ) || '.' == $entry || '..' == $entry ) {
+		// Load all found modules.
+		foreach ( $paths as $path ) {
+
+			// Make sure we have a directory.
+			if ( ! is_dir( $path ) ) {
 				continue;
 			}
 
+			// Get the module slug.
+			$slug = basename( $path );
+
 			// Paths to check.
-			$module_path	= $entry . '/' . $entry . '.php';
+			$module_path	= $slug . '/' . $slug . '.php';
 			$child_path		= get_stylesheet_directory() . '/fl-builder/modules/' . $module_path;
 			$theme_path		= get_template_directory() . '/fl-builder/modules/' . $module_path;
 			$builder_path	= FL_BUILDER_DIR . 'modules/' . $module_path;
@@ -2658,13 +2740,21 @@ final class FLBuilderModel {
 				return;
 			}
 
-			// Filter the enabled flag.
+			/**
+			 * Use this filter to override the modules that are enabled in the builder.
+			 * @see fl_builder_register_module
+			 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+			 */
 			$instance->enabled = apply_filters( 'fl_builder_register_module', $instance->enabled, $instance );
 
 			// Save the instance in the modules array.
 			self::$modules[ $instance->slug ] = $instance;
 
-			// Add the form to the instance.
+			/**
+			 * Use this filter to modify the config array for a settings form when it is registered.
+			 * @see fl_builder_register_settings_form
+			 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+			 */
 			self::$modules[ $instance->slug ]->form = apply_filters( 'fl_builder_register_settings_form', $form, $instance->slug );
 			self::$modules[ $instance->slug ]->form['advanced'] = self::$settings_forms['module_advanced'];
 		}
@@ -2828,7 +2918,11 @@ final class FLBuilderModel {
 	static public function get_module_categories() {
 		$categories = array();
 
-		// Add any predefined custom categories.
+		/**
+		 * Use this filter to add custom module categories that will show up before the default module categories in the builder’s UI.
+		 * @see fl_builder_module_categories
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		foreach ( apply_filters( 'fl_builder_module_categories', array() ) as $custom_category ) {
 			$categories[ $custom_category ] = array();
 		}
@@ -3523,6 +3617,11 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function register_settings_form( $id, $form ) {
+		/**
+		 * Use this filter to modify the config array for a settings form when it is registered.
+		 * @see fl_builder_register_settings_form
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		self::$settings_forms[ $id ] = apply_filters( 'fl_builder_register_settings_form', $form, $id );
 
 		// Since 2.0 we need to store the form ID on each tab to ensure that
@@ -3630,7 +3729,7 @@ final class FLBuilderModel {
 
 			$default           = isset( $field['default'] ) ? $field['default'] : '';
 			$is_multiple       = isset( $field['multiple'] ) && true === $field['multiple'];
-			$supports_multiple = 'editor' != $field['type'] && 'photo' != $field['type'];
+			$supports_multiple = 'editor' != $field['type'] && 'service' != $field['type'];
 			$responsive        = isset( $field['responsive'] ) && $field['responsive'] ? $field['responsive'] : false;
 			$responsive_name   = '';
 
@@ -3655,7 +3754,11 @@ final class FLBuilderModel {
 			}
 		}
 
-		// Cache the defaults.
+		/**
+		 * Use this filter to change the defaults for any of the settings forms in the builder including global, row, column and module settings.
+		 * @see fl_builder_settings_form_defaults
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		self::$settings_form_defaults[ $type ] = apply_filters( 'fl_builder_settings_form_defaults', $defaults, $form_type );
 
 		return self::$settings_form_defaults[ $type ];
@@ -3941,7 +4044,9 @@ final class FLBuilderModel {
 
 		// Update template ID and template node ID
 		$template_id = get_post_meta( $new_post_id, '_fl_builder_template_id', true );
-		if ( $template_id ) {
+		$global = get_post_meta( $post_id, '_fl_builder_template_global', true );
+
+		if ( $template_id && $global ) {
 			foreach ( $data as $node_id => $node ) {
 				$data[ $node_id ]->template_id = $template_id;
 				$data[ $node_id ]->template_node_id = $node_id;
@@ -3985,6 +4090,7 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function save_revision( $post_id ) {
+
 		$parent_id = wp_is_post_revision( $post_id );
 
 		if ( $parent_id ) {
@@ -3998,6 +4104,46 @@ final class FLBuilderModel {
 				self::update_layout_settings( $settings, 'published', $post_id );
 			}
 		}
+	}
+
+	/**
+	 * Limit the amount of revisions possible for fl-builder-template type.
+	 * @since 2.1.5
+	 */
+	static public function limit_revisions( $num, $post ) {
+
+		if ( 'fl-builder-template' == $post->post_type ) {
+			/**
+			 * Limit the ammount of revisions for the fl-builder-template type.
+			 * @see fl_builder_template_revisions
+			 */
+			$num = apply_filters( 'fl_builder_template_revisions', 25 );
+		}
+		return $num;
+	}
+
+	/**
+	 * Maybe save a post revision when templates/rows etc are published.
+	 * @since 2.1.5
+	 */
+	static public function save_layout_revision( $post_id ) {
+		add_filter( 'wp_save_post_revision_post_has_changed',    array( __CLASS__, 'save_layout_revision_changed_filter' ), 10, 3 );
+		wp_save_post_revision( $post_id );
+		remove_filter( 'wp_save_post_revision_post_has_changed', array( __CLASS__, 'save_layout_revision_changed_filter' ), 10, 3 );
+	}
+
+	/**
+	 * Filter save_layout_revision_changed_filter return true here if the builder data has $post_has_changed
+	 * this forces a post revision.
+	 * @since 2.1.5
+	 */
+	static public function save_layout_revision_changed_filter( $post_has_changed, $last_revision, $post ) {
+
+		// get builder data for compare
+		$old = serialize( get_post_meta( $last_revision->ID, '_fl_builder_data', true ) );
+		$new = serialize( get_post_meta( $post->ID,          '_fl_builder_data', true ) );
+
+		return $old != $new;
 	}
 
 	/**
@@ -4052,14 +4198,16 @@ final class FLBuilderModel {
 				$data = self::$published_layout_data[ $post_id ];
 			} else {
 				$data = get_metadata( 'post', $post_id, '_fl_builder_data', true );
-				self::$published_layout_data[ $post_id ] = self::clean_layout_data( $data );
+				$data = self::clean_layout_data( $data );
+				self::$published_layout_data[ $post_id ] = apply_filters( 'fl_builder_get_layout_metadata', $data, $status, $post_id );
 			}
 		} elseif ( 'draft' == $status ) {
 			if ( isset( self::$draft_layout_data[ $post_id ] ) ) {
 				$data = self::$draft_layout_data[ $post_id ];
 			} else {
 				$data = get_metadata( 'post', $post_id, '_fl_builder_draft', true );
-				self::$draft_layout_data[ $post_id ] = self::clean_layout_data( $data );
+				$data = self::clean_layout_data( $data );
+				self::$draft_layout_data[ $post_id ] = apply_filters( 'fl_builder_get_layout_metadata', $data, $status, $post_id );
 			}
 		}
 
@@ -4341,7 +4489,11 @@ final class FLBuilderModel {
 		$data			= self::get_layout_data( 'draft', $post_id );
 		$settings 		= self::get_layout_settings( 'draft', $post_id );
 
-		// Fire the before action.
+		/**
+		 * This action allows you to hook into before the data is saved for a layout.
+		 * @see fl_builder_before_save_layout
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_builder_before_save_layout', $post_id, $publish, $data, $settings );
 
 		// Delete the old published layout.
@@ -4385,7 +4537,11 @@ final class FLBuilderModel {
 		// Rerender the assets for this layout.
 		FLBuilder::render_assets();
 
-		// Fire the after action.
+		/**
+		 * This action allows you to hook into after the data is saved for a layout.
+		 * @see fl_builder_after_save_layout
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_builder_after_save_layout', $post_id, $publish, $data, $settings );
 	}
 
@@ -4860,10 +5016,6 @@ final class FLBuilderModel {
 
 		$is_visible = true;
 
-		if ( self::is_builder_active() && self::get_post_id() == $wp_the_query->post->ID ) {
-			return $is_visible;
-		}
-
 		if ( isset( $node->settings->visibility_display ) && ('' != $node->settings->visibility_display) ) {
 
 			// For logged out users
@@ -4888,6 +5040,16 @@ final class FLBuilderModel {
 		}
 
 		return apply_filters( 'fl_builder_is_node_visible', $is_visible, $node );
+	}
+
+	/**
+	 * Checks if a node has visibility rules or not.
+	 *
+	 * @param object $node
+	 * @return bool
+	 */
+	static public function node_has_visibility_rules( $node ) {
+		return isset( $node->settings->visibility_display ) && ( '' !== $node->settings->visibility_display );
 	}
 
 	/**
@@ -5948,6 +6110,44 @@ final class FLBuilderModel {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns whether the inline editing is enabled.
+	 *
+	 * @since 2.1
+	 * @return bool
+	 */
+	static public function is_inline_enabled() {
+		return apply_filters( 'fl_inline_editing_enabled', true );
+	}
+
+	/**
+	 * Returns whether the Ace Editor error checking is enabled.
+	 *
+	 * @since 2.1
+	 * @return bool
+	 */
+	static public function is_codechecking_enabled() {
+		return apply_filters( 'fl_code_checking_enabled', true );
+	}
+
+	/**
+	 * Returns Ace Editor defaults as an array.
+	 *
+	 * @since 2.1
+	 * @return array
+	 */
+	static public function ace_editor_settings() {
+
+		$defaults = array(
+			'enableBasicAutocompletion' => true,
+			'enableLiveAutocompletion'  => true,
+			'enableSnippets'            => false,
+			'showLineNumbers'           => false,
+			'showFoldWidgets'           => false,
+		);
+		return apply_filters( 'fl_ace_editor_settings', $defaults );
 	}
 
 	/**

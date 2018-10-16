@@ -12,6 +12,7 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'global'                         => $global_settings,
 	'help'                           => FLBuilderModel::get_help_button_settings(),
 	'homeUrl'                        => home_url(),
+	'enqueueMethod'					 => FLBuilderModel::get_asset_enqueue_method(),
 	'isRtl'                          => is_rtl(),
 	'isUserTemplate'                 => false,
 	'lite'                           => true === FL_BUILDER_LITE,
@@ -51,6 +52,11 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'rowResize'						=> FLBuilderModel::get_row_resize_settings(),
 	'notifications'                 => FLBuilderNotifications::get_notifications(),
 	'isWhiteLabeled'                => FLBuilderModel::is_white_labeled(),
+	'inlineEnabled'                 => FLBuilderModel::is_inline_enabled(),
+	'CheckCodeErrors'               => FLBuilderModel::is_codechecking_enabled(),
+	'AceEditorSettings'             => FLBuilderModel::ace_editor_settings(),
+	'FontWeights'                   => FLBuilderFonts::get_font_weight_strings(),
+
 ) ) ) . ';';
 
 echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_ui_js_strings', array(
@@ -67,7 +73,9 @@ echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_
 	'changeTemplateMessage'          => esc_attr__( 'Warning! Changing the template will replace your existing layout. Do you really want to do this?', 'fl-builder' ),
 	'colorPresets'                   => esc_attr__( 'Color Presets', 'fl-builder' ),
 	'colorPicker'                    => esc_attr__( 'Color Picker', 'fl-builder' ),
-	'codeError'                      => esc_attr__( 'Please fix all code errors before saving.', 'fl-builder' ),
+	'codeError'                      => esc_attr__( 'This code has errors. We recommend you fix them before saving.', 'fl-builder' ),
+	'codeErrorFix'                	 => esc_attr__( 'Fix Errors', 'fl-builder' ),
+	'codeErrorIgnore'                => esc_attr__( 'Save With Errors', 'fl-builder' ),
 	'column'                         => esc_attr__( 'Column', 'fl-builder' ),
 	'contentSliderSelectLayout'      => esc_attr__( 'Please select either a background layout or content layout before submitting.', 'fl-builder' ),
 	'countdownDateisInThePast'       => esc_attr__( 'Error! Please enter a date that is in the future.', 'fl-builder' ),

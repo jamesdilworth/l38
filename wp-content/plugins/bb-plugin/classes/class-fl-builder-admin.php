@@ -21,6 +21,7 @@ final class FLBuilderAdmin {
 
 		// Actions
 		add_action( 'admin_init',                            __CLASS__ . '::show_activate_notice' );
+		add_action( 'admin_init',                            __CLASS__ . '::sanity_checks' );
 
 		// Filters
 		add_filter( 'plugin_action_links_' . $basename,      __CLASS__ . '::render_plugin_action_links' );
@@ -73,6 +74,26 @@ final class FLBuilderAdmin {
 	}
 
 	/**
+	 * Restrict builder settings accessibility based on the defined capability.
+	 *
+	 * @since 2.0.6
+	 * @return void
+	 */
+	static public function current_user_can_access_settings() {
+		return current_user_can( self::admin_settings_capability() );
+	}
+
+	/**
+	 * Define capability.
+	 *
+	 * @since 2.0.6
+	 * @return string
+	 */
+	static public function admin_settings_capability() {
+		return apply_filters( 'fl_builder_admin_settings_capability', 'manage_options' );
+	}
+
+	/**
 	 * Show a message if there is an activation error and
 	 * deactivates the plugin.
 	 *
@@ -87,6 +108,24 @@ final class FLBuilderAdmin {
 	}
 
 	/**
+	 * @since 2.1.3
+	 */
+	static public function sanity_checks() {
+
+		if ( true !== FL_BUILDER_LITE ) {
+			// fetch the plugin install folder this should be bb-plugin
+			$folder = rtrim( FLBuilderModel::plugin_basename(), '/fl-builder.php' );
+
+			if ( 'bb-plugin' != $folder ) {
+
+				$error = sprintf( __( 'Install Error! We detected that Beaver Builder appears to be installed in a folder called <kbd>%s</kbd>.<br />For automatic updates to work the plugin must be installed in the folder <kbd>bb-plugin</kbd>.', 'fl-builder' ), $folder );
+				FLBuilderAdminSettings::add_error( $error );
+			}
+		}
+
+	}
+
+	/**
 	 * Sets the transient that triggers the activation notice
 	 * or welcome page redirect.
 	 *
@@ -94,7 +133,7 @@ final class FLBuilderAdmin {
 	 * @return void
 	 */
 	static public function trigger_activate_notice() {
-		if ( current_user_can( 'delete_users' ) ) {
+		if ( self::current_user_can_access_settings() ) {
 			set_transient( '_fl_builder_activation_admin_notice', true, 30 );
 		}
 	}
@@ -183,6 +222,15 @@ final class FLBuilderAdmin {
 				'utm_campaign' => 'plugins-admin-upgrade',
 			) );
 			$actions[] = '<a href="' . $url . '" style="color:#3db634;" target="_blank">' . _x( 'Upgrade', 'Plugin action link label.', 'fl-builder' ) . '</a>';
+		}
+
+		if ( ! FLBuilderModel::is_white_labeled() ) {
+			$url = FLBuilderModel::get_store_url( 'change-logs', array(
+				'utm_medium' => 'bb-pro',
+				'utm_source' => 'plugins-admin-page',
+				'utm_campaign' => 'plugins-admin-changelog',
+			) );
+			$actions[] = '<a href="' . $url . '" target="_blank">' . _x( 'Change Log', 'Plugin action link label.', 'fl-builder' ) . '</a>';
 		}
 
 		return $actions;
