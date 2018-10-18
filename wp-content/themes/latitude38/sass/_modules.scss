@@ -197,7 +197,7 @@
 }
 
 .lectronic_stories 			{
-	.older-links 			{ font-weight:400; text-align:right; border-bottom: 3px dashed #e6e6e6; // #b4e7f8
+	.older-links 			{ font-weight:400; text-align:right; border-bottom: 3px dashed #e6e6e6; padding-bottom:5px; // #b4e7f8
 		a 					{ }
 		&:hover a			{ text-decoration:none; }
 	}
@@ -227,3 +227,9 @@
 }
 
 .subscribe-notice 				{ max-width:860px; background-color:$super-light-grey; padding:10px 20px; text-align:center; margin:20px auto; font-weight:400;  }
+
+.lectronic .widget_archive,
+.widget_archive					{ float:left;
+	h2 							{ display:inline; font-weight:400; font-size:100%; margin:0; padding-right:20px; }
+	select						{ }
+}

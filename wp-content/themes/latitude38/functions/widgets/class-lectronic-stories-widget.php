@@ -121,9 +121,9 @@ class lectronic_stories_widget extends WP_Widget {
                         $inner_output .= "<article class='$main story'>";
 
                         if (has_post_thumbnail()) {
-                            $inner_output .= "<div class='image' style='background-image:url(" . $escaped_img_url . ")'>" . get_the_post_thumbnail($post_id,'large') . "</div>";
+                            $inner_output .= "<a href='$url'><div class='image' style='background-image:url(" . $escaped_img_url . ")'>" . get_the_post_thumbnail($post_id,'large') . "</div></a>";
                         } else {
-                            $inner_output .= "<div class='image' style='background-image:url(/wp-content/uploads/2018/06/default_thumb.jpg);'><img src='/wp-content/uploads/2018/06/default_thumb.jpg' alt=''></div>";
+                            $inner_output .= "<a href='$url'><div class='image' style='background-image:url(/wp-content/uploads/2018/06/default_thumb.jpg);'><img src='/wp-content/uploads/2018/06/default_thumb.jpg' alt=''></div></a>";
                         }
 
                         // Alt-Header is defers to (low pri) first category -> first tag -> custom (pri)
@@ -190,6 +190,9 @@ class lectronic_stories_widget extends WP_Widget {
         // Add in Next / Prev where valid.
         // Previous... we just need to pass end date as start_date variable.
         $next_date = date('Y-m-d', $next_date - 86400);
+        if(is_page('lectronic'))
+            $archive = the_widget( 'WP_Widget_Archives', 'dropdown=1' );
+
         echo "<div class='older-links'><a href='/lectronic/?start_date=$next_date'>More 'Lectronics &raquo;</a></div>";
 
         echo $after_widget;

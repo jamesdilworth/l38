@@ -538,7 +538,7 @@ figure.wp-caption {
 figcaption,
 .fl-photo-caption {
   font-size: 90%;
-  color: #999;
+  color: #666;
   text-overflow: default;
   margin: 10px 10px 0; }
 
@@ -1276,7 +1276,8 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .lectronic_stories .older-links {
   font-weight: 400;
   text-align: right;
-  border-bottom: 3px dashed #e6e6e6; }
+  border-bottom: 3px dashed #e6e6e6;
+  padding-bottom: 5px; }
   .lectronic_stories .older-links:hover a {
     text-decoration: none; }
 
@@ -1327,6 +1328,17 @@ button:active, input[type=button]:active, input[type=submit]:active {
   text-align: center;
   margin: 20px auto;
   font-weight: 400; }
+
+.lectronic .widget_archive,
+.widget_archive {
+  float: left; }
+  .lectronic .widget_archive h2,
+  .widget_archive h2 {
+    display: inline;
+    font-weight: 400;
+    font-size: 100%;
+    margin: 0;
+    padding-right: 20px; }
 
 .home .lectronic_stories .main.story .image {
   max-height: 250px; }

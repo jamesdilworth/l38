@@ -189,6 +189,7 @@ function L38_img_caption_shortcode( $a , $attr, $content = null) {
 
     $id = substr($atts['id'], 11 ); // strips out the leading attachment_
 
+
     if(is_numeric($id)) {
         $source = get_field('source', $id);
         $credit = get_field('credit', $id);
@@ -238,17 +239,18 @@ function L38_img_caption_shortcode( $a , $attr, $content = null) {
         if(!empty($external_link))
             $html .= "</a>";
         $html .= '<figcaption class="wp-caption-text">' . $atts['caption'];
+        // $html .= '<!-- source is ' . $source . '-->';
         if(!empty($source)) {
             if ($source == 'external') {
-                $html .= "<div class='source'>&copy $year $credit</div>";
+                $html .= "<div class='source'>&copy; $year $credit</div>";
             } elseif ($source == 'latitude38') {
-                $html .= "<div class='source'>&copy $year Latitude38</div>";
+                $html .= "<div class='source'>&copy; $year Latitude 38 Media LLC  / $credit</div>";
             }
             if (!empty($external_link)) {
                 $html .= "<div class='external_link'><a href='$external_link' target='_blank'>$external_link</a></div>";
             }
             if (current_user_can('edit_posts'))
-                $html .= "<div class='edit_link'><a href='" . get_edit_post_link($id) . "'>Edit Image</a></div>";
+                $html .= "<div class='edit_link' style='display:block;'><a href='" . get_edit_post_link($id) . "'>Edit Image</a></div>";
         }
         $html .= "</figcaption>";
         $html .= "</figure>";
