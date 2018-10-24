@@ -131,7 +131,7 @@ var S4O = (function($) {
 
         init: function() {
             bindEventHandlers();
-            // extraAnalytics();
+            extraAnalytics();
             this.miniTabs();
             initializeMfp();
         },
