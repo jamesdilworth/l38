@@ -92,12 +92,12 @@ h4 					{ font-weight:900; margin-top:30px; }
 	}
 }
 
-.on_grey			{ background-color:$background-grey;
-	.subtitle 		{ color:#a8a4bd; }
-	.section-heading { background-image:url(/wp-content/themes/latitude38/images/section-header-ongrey-bg.png)}
+.on_grey							{ background-color:$background-grey;
+	.subtitle 						{ color:#a8a4bd; }
+	.section-heading 				{ background-image:url(/wp-content/themes/latitude38/images/section-header-ongrey-bg.png)}
 }
 
-.on_white			{ background-color:#fff; }
+.on_white							{ background-color:#fff; }
 
 /* Sidebar */
 .fl-sidebar-right					{  }
@@ -114,23 +114,23 @@ figcaption .source 					{ margin-top:15px; }
 
 .single-post 						{
 	.fl-post 						{ max-width: 900px; margin: auto; }
-	.fl-post-content img			{ width:100%; }
 	.fl-comments					{ max-width:900px; margin:auto;
 		@include breakpoint(medium)	{ padding:0 20px; margin-bottom:30px;}
 	}
-}
+} // Test
 
-@include breakpoint(medium) {
-	.opening-panel 			{ background:#fff no-repeat; background-size:100%; /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */
-		.fl-row-content 	{ background-color:#fff; max-width:1140px; }
-		.fl-row-content-wrap { padding-top: 40px; }
+
+@include breakpoint(medium) 		{
+	.opening-panel 					{ background:#fff no-repeat; background-size:100%; /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */
+		.fl-row-content 			{ background-color:#fff; max-width:1140px; }
+		.fl-row-content-wrap 		{ padding-top: 40px; }
 	}
 }
 
 /* Category Link Treatment */
-.post-categories 		{ list-style-type:none; font-size:85%; position:relative; left:-5px; padding:0;
-	li 					{ display:inline-block; background-color:$background-grey; padding:1px 8px;  }
-	a 					{ color:#999; }
+.post-categories 					{ list-style-type:none; font-size:85%; position:relative; left:-5px; padding:0;
+	li 								{ display:inline-block; background-color:$background-grey; padding:1px 8px;  }
+	a 								{ color:#999; }
 }
 
 /* Edit Link - Usually used to give Admins the ability to edit a chunk of content */
@@ -164,8 +164,8 @@ a.edit_link,
 
 /* In the footer of the page? */
 .social-icons						{ margin-left:5px; font-size: 20px; display:inline-block;
-	a 							{ color:#fff; text-align:right; }
-	i 							{ padding-left:8px;  }
+	a 								{ color:#fff; text-align:right; }
+	i 								{ padding-left:8px;  }
 }
 
 .avatar 						{ background: #fff; border: 4px solid #ededef; border-radius: 5px;
@@ -173,10 +173,7 @@ a.edit_link,
 }
 
 .kin-breadcrumb 				{ text-transform:uppercase; }
-
 .intro-para						{ font-size:125%; margin-bottom:20px; }
-
-
 
 /* Layout for an image with a video click handler */
 a.vidoverlay					{ position:relative; font-size:700%; }

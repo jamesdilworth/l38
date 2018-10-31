@@ -1,7 +1,7 @@
 <div class="fl-page-nav-search">
 	<a href="javascript:void(0);" class="fa fa-search"></a>
 
-    <form method="get" role="search" action="http://www.google.com/search" title="<?php echo esc_attr_x( 'Type and press Enter to search.', 'Search form mouse hover title.', 'fl-automator' ); ?>">
+    <form method="get" role="search" action="https://www.google.com/search" title="<?php echo esc_attr_x( 'Type and press Enter to search.', 'Search form mouse hover title.', 'fl-automator' ); ?>">
         <input type="hidden" name="ie" value="UTF-8" />
         <input type="hidden" name="oe" value="UTF-8" />
         <input type="search" class="fl-search-input form-control" name="q" value="" placeholder="<?php echo esc_attr_x( 'Search', 'Search form field placeholder text.', 'fl-automator' ); ?>" />

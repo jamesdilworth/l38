@@ -2,7 +2,7 @@
 
 /* Include custom admin css */
 function s4o_custom_admin() {
-    echo '<link rel="stylesheet" type="text/css"  href="http://netdna.bootstrapcdn.com/font-awesome/latest/css/font-awesome.css">';
+    echo '<link rel="stylesheet" type="text/css"  href="//netdna.bootstrapcdn.com/font-awesome/latest/css/font-awesome.css">';
     echo '<link rel="stylesheet" type="text/css" href="' . get_bloginfo('stylesheet_directory') . '/css/admin/wp-admin.css" />';
 }
 add_action( 'admin_head', 's4o_custom_admin' );

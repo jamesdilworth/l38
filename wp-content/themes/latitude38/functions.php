@@ -14,5 +14,7 @@ include_once('functions/widgets.php'); // Custom Widgets
 
 add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 
+// update_option('edcal_default_time','14:00');
+
 // include_once('functions/ajax.php'); // AJAX calls.
 // include_once('functions/debug.php'); // When shit starts going wrong, uncomment this.

@@ -11,8 +11,13 @@ if ( $show_author || $show_date || $comments ) {
 // Author
 if ( $show_author ) {
 	echo '<span class="fl-post-author">';
+
+	if(!empty(get_field('outside_author'))) {
+        printf( _x( 'By %s', 'Post meta info: author.', 'fl-automator' ), '<span>' . get_field('outside_author') . '</span>');
+    } else {
+        printf( _x( 'By %s', 'Post meta info: author.', 'fl-automator' ), '<span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span>' );
+    }
 	// printf( _x( 'By %s', 'Post meta info: author.', 'fl-automator' ), '<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '"><span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>' );
-    printf( _x( 'By %s', 'Post meta info: author.', 'fl-automator' ), '<span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span>' );
 	echo '</span>';
 }
 
