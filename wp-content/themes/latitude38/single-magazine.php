@@ -14,6 +14,7 @@
 
                         <?php edit_post_link( _x( 'Edit', 'Edit post link text.', 'fl-automator' ) ); ?>
                     </h1>
+                    <div class="default-issuu-holder" style="display:none;"><a href="<?php echo get_field('magazine_url'); ?>" id="default-issuu-link" class="issuu"></a></div> <!-- This link needed to automate firing of magazine by page -->
                 </header><!-- .fl-post-header -->
 
                 <div class="fl-post-content clearfix" itemprop="text">
@@ -30,3 +31,6 @@
 </div>
 
 <?php get_footer(); ?>
+
+
+

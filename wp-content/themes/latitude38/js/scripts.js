@@ -31,6 +31,17 @@ var S4O = (function($) {
                     $(window).on('popstate', function(event) {
                         mfp_object.close();
                     });
+
+                    // Dig out the issue and page number from the object and send to google.
+                    for(var i=0; i < mfp_object.items.length; i++) {
+                        if(typeof mfp_object.items[i].src !== 'undefined') {
+                            var url = new URL(mfp_object.items[i].src);
+                            var parts = url.pathname.split('/');
+                            var page = parts[parts.length - 1];
+                            var issue = parts[parts.length - 2];
+                        }
+                    }
+                    ga('send', 'event', 'view-magazine', issue, page );
                 },
                 close: function() {
                     // Release back button when popup is closed
@@ -46,6 +57,19 @@ var S4O = (function($) {
             src: this.href
             // other options
         });
+    }
+
+    var autoPagePopup = function() {
+        // If this is a magazine issue, and the issuu link is set
+        var hash_link = window.location.hash.split('#')[1],
+            issuu_link = $('#default-issuu-link').attr('href'),
+            new_url;
+
+        if (!isNaN(hash_link) && issuu_link !== "") {
+            new_url = issuu_link + '/' + hash_link + '?e=1997181';
+            console.log(new_url);
+            $('#default-issuu-link').attr('href', new_url).click();
+        }
     }
 
     var extraAnalytics = function() {
@@ -134,6 +158,7 @@ var S4O = (function($) {
             extraAnalytics();
             this.miniTabs();
             initializeMfp();
+            autoPagePopup();
         },
 
         miniTabs: function() {
