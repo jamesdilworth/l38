@@ -1047,12 +1047,10 @@ button, input[type=button], input[type=submit] {
 
 button:hover, input[type=button]:hover, input[type=submit]:hover {
   background-color: #79d6f4;
-  border: 0;
 }
 
 button:active, input[type=button]:active, input[type=submit]:active {
   background-color: #79d6f4;
-  border: 0;
 }
 
 /* GRAVITY FORMS DEFAULT STYLING */
@@ -1595,7 +1593,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   font-weight: 400;
   text-align: right;
   border-bottom: 3px dashed #e6e6e6;
-  padding-bottom: 5px;
+  padding-bottom: 7px;
 }
 .lectronic_stories .older-links:hover a {
   text-decoration: none;
@@ -1660,18 +1658,33 @@ button:active, input[type=button]:active, input[type=submit]:active {
   font-weight: 400;
 }
 
-.lectronic .widget_archive,
-.widget_archive {
+.widget.lectronic_archive {
   float: left;
+  margin-top: -10px;
 }
-.lectronic .widget_archive h2,
-.widget_archive h2 {
+.widget.lectronic_archive h2 {
   display: inline;
   font-weight: 400;
   font-size: 100%;
   margin: 0;
   padding-right: 20px;
 }
+.widget.lectronic_archive .arc-count {
+  display: none;
+}
+.widget.lectronic_archive .dropdown-menu {
+  top: initial;
+  left: initial;
+}
+.widget.lectronic_archive .dropdown-submenu {
+  position: relative;
+}
+.widget.lectronic_archive .dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -1px;
+}
+
 .home .lectronic_stories .main.story .image {
   max-height: 250px;
 }

@@ -33,7 +33,6 @@ add_action( 'wp_head', 's4o_custom_header' );
 
 /* Additions to the footer */
 function s4o_custom_footer() {
-
     if(get_field('js_include')) {
         echo "<!--Start Page-specific footer code - Set per page in the ACF field, 'footer_code' -->\n\r";
         echo "<script type='text/javascript' language='javascript'>";

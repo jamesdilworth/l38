@@ -57,7 +57,7 @@ var S4O = (function($) {
             src: this.href
             // other options
         });
-    }
+    };
 
     var autoPagePopup = function() {
         // If this is a magazine issue, and the issuu link is set
@@ -67,10 +67,9 @@ var S4O = (function($) {
 
         if (!isNaN(hash_link) && issuu_link !== "") {
             new_url = issuu_link + '/' + hash_link + '?e=1997181';
-            console.log(new_url);
             $('#default-issuu-link').attr('href', new_url).click();
         }
-    }
+    };
 
     var extraAnalytics = function() {
 
@@ -85,6 +84,12 @@ var S4O = (function($) {
             var href = $( this ).attr('href');
             if ( href && ( href.match(/^https?\:/i) ) && ( ! href.match( document.domain ) ) ) {
                 $( this ).on( 'click', function() {
+
+                    // Don't bother binding handlers to issuu links as these are tracked in mfp
+                    if ($(this).hasClass('issuu')) {
+                        return false;
+                    }
+
                     // If an event binding is already set, exit.
                     if ( $( this ).attr('onclick') && $( this ).attr('onclick').indexOf('ga(') ) {
                         return false;
@@ -95,7 +100,7 @@ var S4O = (function($) {
                     title = title ? title : extLink;
 
                     // Check to see if there are any overrides.
-                    var category = $( this ).attr('data-gaaction') ? $( this ).attr('data-gaaction') : 'External';
+                    var category = $( this ).attr('data-gacategory') ? $( this ).attr('data-gacategory') : 'External';
                     var label = $( this ).attr('data-galabel') ? $( this ).attr('data-galabel') : extLink;
 
                     ga('send','event', category, title, label );
@@ -115,7 +120,7 @@ var S4O = (function($) {
 
                     var title = $( this ).attr('title');
                     title = title ? title : shortPath;
-                    var category = $( this ).attr('data-gaaction') ? $( this ).attr('data-gaaction') : 'Content';
+                    var category = $( this ).attr('data-gacategory') ? $( this ).attr('data-gacategory') : 'Content';
                     var label = $( this ).attr('data-galabel') ? $( this ).attr('data-galabel') : filePath;
 
                     ga('send','event', category, title, label );
@@ -126,7 +131,7 @@ var S4O = (function($) {
                 });
             }
         });
-   }
+   };
 
     var queryParams = function(name) {
         name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -137,11 +142,22 @@ var S4O = (function($) {
             return "";
         else
             return results[1];
+    };
+
+    var initDropDowns = function() {
+        $('.dropdown-submenu > a').on("click", function(e){
+            $('.dropdown-submenu ul').hide();
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
     }
 
     var bindEventHandlers = function() {
         
-    }
+    };
+
+
 
     return {
         preInit: function() {
@@ -159,6 +175,7 @@ var S4O = (function($) {
             this.miniTabs();
             initializeMfp();
             autoPagePopup();
+            initDropDowns();
         },
 
         miniTabs: function() {

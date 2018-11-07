@@ -14,7 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php // FLTheme::sidebar( 'left' ); ?>
 
             <div class="fl-content <?php FLTheme::content_class(); ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
-                <?php if ( have_posts() ) : ?>
+
+                <?php if (is_month()) : ?>
+                    <?php
+                        // Get the next day's posts
+                        $start_date = date("Y-m-d", strtotime( '-1 days', get_the_time('U')));
+                        the_widget('lectronic_stories_widget',"qty=12&start_date=$start_date");
+                    ?>
+                <?php elseif ( have_posts() ) : ?>
                     <?php while ( have_posts() ) : the_post(); ?>
                         <?php get_template_part( 'content', get_post_format() ); ?>
                     <?php endwhile; ?>
@@ -27,8 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                             $start_date = date("Y-m-d", strtotime( '-1 days', get_the_time('U')));
                             the_widget('lectronic_stories_widget',"qty=1&start_date=$start_date");
                         } else {
-                            // Get the next lectronic
-                            FLTheme::archive_nav();
+                                // Get the next lectronic
+                                FLTheme::archive_nav();
                         }
                     ?>
                 <?php else : ?>

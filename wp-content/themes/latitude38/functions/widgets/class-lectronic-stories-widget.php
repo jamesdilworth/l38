@@ -7,7 +7,7 @@ class lectronic_stories_widget extends WP_Widget {
             'classname' => 'lectronic_stories',
             'description' => 'Adds a listing of Latitude stories to the page'
         );
-        parent::__construct('lectronic_stories_widget','L38 : Lectronic Stories', $widget_ops);
+        parent::__construct('lectronic_stories_widget','L38: Lectronic Stories', $widget_ops);
     }
 
     public function form($instance) {
@@ -191,7 +191,7 @@ class lectronic_stories_widget extends WP_Widget {
         // Previous... we just need to pass end date as start_date variable.
         $next_date = date('Y-m-d', $next_date - 86400);
         if(is_page('lectronic'))
-            $archive = the_widget( 'WP_Widget_Archives', 'dropdown=1' );
+            $archive = the_widget( 'lectronic_archive_widget', '' );
 
         echo "<div class='older-links'><a href='/lectronic/?start_date=$next_date'>More 'Lectronics &raquo;</a></div>";
 
