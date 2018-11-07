@@ -89,7 +89,7 @@ class lectronic_stories_widget extends WP_Widget {
             if ( $posts->have_posts() ) {
                 $posts_in_edition = count($posts->posts);
 
-                if(is_page('lectronic')) {
+                if(is_page('lectronic') || is_month()) {
                     $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "' >" . date('D, F j, Y', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";
                 } else {
                     $output .= "<div class='day section-heading'><a class='title' href='". get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . "' >'Lectronic Latitude: "  . date('l, M j', mktime(0, 0, 0, $pubdate[1], $pubdate[2], $pubdate[0])) . "</a></div>";

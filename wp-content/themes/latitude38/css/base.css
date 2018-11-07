@@ -1695,6 +1695,48 @@ button:active, input[type=button]:active, input[type=submit]:active {
   margin-top: -1px;
 }
 
+.fl-page-nav-search .widget.lectronic_archive {
+  float: right;
+  margin-top: -34px;
+}
+.fl-page-nav-search .widget.lectronic_archive button {
+  text-transform: uppercase;
+  min-width: 100px;
+  border: 0;
+  background-color: #e6e6e6;
+  color: #999;
+  font-weight: 300;
+  padding: 4px 10px 5px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-left: 1px solid #d6d6d6;
+  margin-right: 1px;
+}
+.fl-page-nav-search .widget.lectronic_archive button .caret {
+  color: #999;
+}
+.fl-page-nav-search .widget.lectronic_archive a * {
+  color: #999;
+}
+.fl-page-nav-search .widget.lectronic_archive .dropdown-menu {
+  top: initial;
+  left: initial;
+  font-size: 100%;
+  min-width: 100px;
+}
+.fl-page-nav-search .widget.lectronic_archive .dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -1px;
+}
+.fl-page-nav-search .widget.lectronic_archive .dropdown-menu > li > a {
+  color: #999;
+  padding: 4px 15px;
+}
+.fl-page-nav-search .widget.lectronic_archive .dropdown-submenu .dropdown-menu > li > a {
+  color: #999;
+}
+
 .home .lectronic_stories .main.story .image {
   max-height: 250px;
 }

@@ -49,7 +49,7 @@ class lectronic_archive_widget extends WP_Widget {
 
         $months = $wpdb->get_results( "SELECT YEAR(post_date) AS year, MONTH(post_date) AS numMonth, DATE_FORMAT(post_date, '%M') AS month, count(ID) as post_count FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date ASC" );
 
-        $output = '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Archives <span class="caret"></span></button>';
+        $output = '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Archives &nbsp; <span class="caret"></span></button>';
         $output .= '<ul class="dropdown-menu">';
 
         $html = array();
