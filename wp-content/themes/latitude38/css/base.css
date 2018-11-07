@@ -175,6 +175,10 @@ h1, h2, h3, h4, h5, h6 {
 .fl-page-header-wrap								{ position:relative; }
 .fl-page-header-container 							{ position:initial !important; }
  */
+.fl-widget ul li {
+  margin-bottom: initial;
+}
+
 .fl-page-nav-right .fl-page-header-wrap {
   border-bottom: 0px;
 }
@@ -1672,12 +1676,18 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .widget.lectronic_archive .arc-count {
   display: none;
 }
+.widget.lectronic_archive .dropdown-menu > li > a {
+  padding: 4px 15px;
+}
 .widget.lectronic_archive .dropdown-menu {
   top: initial;
   left: initial;
+  font-size: 100%;
+  min-width: 100px;
 }
 .widget.lectronic_archive .dropdown-submenu {
   position: relative;
+  font-size: 90%;
 }
 .widget.lectronic_archive .dropdown-submenu .dropdown-menu {
   top: 0;
