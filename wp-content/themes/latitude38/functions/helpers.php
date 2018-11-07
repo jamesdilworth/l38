@@ -67,8 +67,8 @@ function display_social_sharing_buttons() {
 
     // Add sharing button at the end of page/page content
     $content .= '<div class="social-buttons">';
-    $content .= '<span class="intro">SHARE ON</span> <a class="social-link social-twitter" href="'. $twitterURL .'" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>';
-    $content .= '<a class="social-link social-facebook" href="'.$facebookURL.'" target="_blank"><i class="fa fa-twitter"></i> Facebook</a>';
+    $content .= '<span class="intro">SHARE ON</span> <a class="social-link social-twitter" href="'. $twitterURL .'" target="_blank" data-gacategory="Share" data-gatitle="Twitter" data-galabel="<?= get_page_uri(); ?>" ><i class="fa fa-twitter"></i> Twitter</a>';
+    $content .= '<a class="social-link social-facebook" href="'.$facebookURL.'" target="_blank" data-gacategory="Share" data-gatitle="Facebook" data-galabel="<?= get_page_uri(); ?>"><i class="fa fa-facebook"></i> Facebook</a>';
     $content .= '</div>';
 
     echo $content;

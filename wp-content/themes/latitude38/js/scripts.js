@@ -41,7 +41,7 @@ var S4O = (function($) {
                             var issue = parts[parts.length - 2];
                         }
                     }
-                    ga('send', 'event', 'view-magazine', issue, page );
+                    ga('send', 'event', 'View Issuu', issue, page );
                 },
                 close: function() {
                     // Release back button when popup is closed
@@ -79,6 +79,7 @@ var S4O = (function($) {
             baseHref = $('base').attr('href');
         }
 
+
         $('a').each( function() {
             // Track External Clicks
             var href = $( this ).attr('href');
@@ -96,7 +97,7 @@ var S4O = (function($) {
                     }
 
                     var extLink = href.replace( /^https?\:\/\//i, '' );
-                    var title = $( this ).attr('title');
+                    var title = $(this).attr('title') ? $(this).attr('data-gatitle') : $( this ).attr('title');
                     title = title ? title : extLink;
 
                     // Check to see if there are any overrides.

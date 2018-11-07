@@ -1621,6 +1621,9 @@ button:active, input[type=button]:active, input[type=submit]:active {
   text-transform: uppercase;
   padding-right: 10px;
 }
+.social-buttons .fa {
+  padding-right: 7px;
+}
 .social-buttons .social-link {
   padding: 2px 8px 4px 8px !important;
   color: white;
