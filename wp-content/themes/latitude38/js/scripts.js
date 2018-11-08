@@ -83,7 +83,8 @@ var S4O = (function($) {
         $('a').each( function() {
             // Track External Clicks
             var href = $( this ).attr('href');
-            if ( href && ( href.match(/^https?\:/i) ) && ( ! href.match( document.domain ) ) ) {
+            var hostname = extractHostname(href);
+            if ( href && ( href.match(/^https?\:/i) ) && ( ! hostname.match( document.domain ) ) ) {
                 $( this ).on( 'click', function() {
 
                     // Don't bother binding handlers to issuu links as these are tracked in mfp
@@ -97,7 +98,7 @@ var S4O = (function($) {
                     }
 
                     var extLink = href.replace( /^https?\:\/\//i, '' );
-                    var title = $(this).attr('title') ? $(this).attr('data-gatitle') : $( this ).attr('title');
+                    var title = $(this).attr('data-gatitle') ? $(this).attr('data-gatitle') : $( this ).attr('title');
                     title = title ? title : extLink;
 
                     // Check to see if there are any overrides.
@@ -246,5 +247,6 @@ S4O.preInit(); // Stuff to do ASAP before onLoad
 
 jQuery(document).ready(function($) {
     S4O.init();
+
 });
 
