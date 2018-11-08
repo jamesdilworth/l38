@@ -220,6 +220,11 @@
 			&:active 			{  background: #0084b4;  }
 		}
 
+		&.social-email 			{  background: #ccc;
+			&:hover,
+			&:active 			{ background: #bbb; }
+		}
+
 		&.social-facebook 		{  background: #3B5997;
 			&:hover,
 			&:active 			{ background: #2d4372; }

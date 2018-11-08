@@ -1649,6 +1649,12 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .social-buttons .social-link.social-twitter:hover, .social-buttons .social-link.social-twitter:active {
   background: #0084b4;
 }
+.social-buttons .social-link.social-email {
+  background: #ccc;
+}
+.social-buttons .social-link.social-email:hover, .social-buttons .social-link.social-email:active {
+  background: #bbb;
+}
 .social-buttons .social-link.social-facebook {
   background: #3B5997;
 }

@@ -113,6 +113,15 @@ var S4O = (function($) {
                 });
             }
 
+            // Track Emails
+            else if ( href.match(/^mailto\:/i)) {
+                // Function needs to be built out.
+                var category = $( this ).attr('data-gacategory') ? $( this ).attr('data-gacategory') : 'Email';
+                var title = $(this).attr('data-gatitle') ? $(this).attr('data-gatitle') : $( this ).attr('title');
+                var label = $( this ).attr('data-galabel');
+                ga('send','event', category, title, label );
+            }
+
             // Track Documents
             else if ( href && href.match(documents) ) {
                 $( this ).on( 'click', function() {
