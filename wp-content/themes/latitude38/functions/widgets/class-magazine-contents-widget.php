@@ -239,7 +239,7 @@ class magazine_contents_widget extends WP_Widget {
 
                         endwhile;
                     else :
-                        echo "<p>Sadly, contents are not yet available for this issue.</p>";
+                        echo "<p>Click the magazine to read inside.</p>";
                         if (current_user_can('edit_posts')) echo '<div class="edit_link"><a href="' . get_edit_post_link() . '">Edit Magazine Contents</a></div>';
                     endif;
                     echo '</div>'; // End Contents
