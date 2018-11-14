@@ -120,6 +120,7 @@ var S4O = (function($) {
                     var category = $( this ).attr('data-gacategory') ? $( this ).attr('data-gacategory') : 'Email';
                     var title = $(this).attr('data-gatitle') ? $(this).attr('data-gatitle') : $( this ).attr('href');
                     var label = $( this ).attr('data-galabel') ? $( this ).attr('data-galabel') : $(this).text();
+                    // console.log('GA Event Sent: ' + category + ':' + title + ':' + label + ':')
                     ga('send','event', category, title, label );
                 });
             }

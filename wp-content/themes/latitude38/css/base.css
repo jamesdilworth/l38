@@ -1401,8 +1401,57 @@ button:active, input[type=button]:active, input[type=submit]:active {
   float: left;
   margin: 20px;
 }
+.magazine-archive .cover {
+  width: 180px;
+  height: 232px;
+  position: relative;
+  background-size: cover;
+}
+.magazine-archive .cover:before {
+  content: "";
+  width: 180px;
+  height: 232px;
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.magazine-archive .cover .links {
+  color: #fff;
+  font-size: 90%;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 10px;
+  z-index: 5;
+  display: none;
+}
+.magazine-archive .cover a {
+  color: #fff;
+  display: block;
+  width: 100%;
+  border: 1px solid #fff;
+  margin-top: 5px;
+  padding: 2px 5px;
+  text-align: center;
+}
+.magazine-archive .cover a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+.magazine-archive .cover a:hover {
+  background-color: #fff;
+  color: #555;
+  text-decoration: none;
+}
+.magazine-archive .cover:hover::before {
+  display: block;
+}
+.magazine-archive .cover:hover .links {
+  display: block;
+}
 .magazine-archive .title {
   margin: 5px 0;
+  text-align: center;
 }
 .magazine-archive .cover {
   display: block;

@@ -60,14 +60,25 @@ class magazine_archive_widget extends WP_Widget {
             while ($magazines->have_posts()) {
                 $magazines->the_post();
 
+                $features = get_field('features');
+                $core_url = get_field('magazine_url');
+                $cover = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : '/wp-content/uploads/2018/06/default_cover.jpg';
+                $pdf = get_field('upload_pdf');
+
                 $output .= '<div class="magazine-cover">';
-                if ( has_post_thumbnail()) {
-                    $output .= "<div class='cover'><a href='" . get_the_permalink() . "'>" . get_the_post_thumbnail(get_the_ID(),'medium') . "</a></div>";
-                } else {
-                    $output .= "<div class='cover'><a href='" . get_the_permalink() . "'><img src='/wp-content/uploads/2018/06/default_cover.jpg' alt=''></div>";
-                }
+
+                $output .= "    <div class='cover' style='background-image:url($cover);'><div class='links'>";
+                if($features)
+                    $output .= "<a href='" . get_the_permalink() . "'><i class='fa fa-list'></i> Contents</a>";
+                if($core_url)
+                    $output .= "<a " . get_pdf_link($core_url,1) . "'><i class='fas fa-book-open'></i> Read Online</a>";
+                if($pdf)
+                    $output .= "<a href='" . $pdf . "' target='_blank'><i class='fa fa-download'></i> Download (PDF)</a>";
+                $output .= "</div></div>";
+
                 $output .= '    <div class="title">' . get_the_title() . '</div>';
                 $output .= '</div>';
+
             }
         } else {
             $output = "No Magazines Found?";

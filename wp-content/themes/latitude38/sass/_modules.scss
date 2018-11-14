@@ -99,7 +99,22 @@
 
 .magazine-archive			{ margin:0 -20px;
 	.magazine-cover			{ float:left; margin:20px; }
-	.title 					{ margin:5px 0;}
+	.cover 					{ width:180px; height:232px; position:relative; background-size:cover;
+		&:before 			{ content:""; width:180px; height:232px; display:none; position:absolute;  background-color:rgba(0,0,0,0.5); }
+		.links 				{ color:#fff; font-size:90%; position:absolute; width:100%; bottom:0; padding:10px; z-index:5; display:none; }
+		a 					{ color:#fff;  display:block; width:100%; border:1px solid #fff; margin-top:5px; padding:2px 5px; text-align:center;
+			&:visited		{ color:#fff; text-decoration:none; }
+			&:hover 		{ background-color:#fff; color:#555; text-decoration:none; }
+
+		}
+
+		&:hover 			{
+			&::before 		{ display:block; }
+			.links 			{ display:block;}
+
+		}
+	}
+	.title 					{ margin:5px 0; text-align:center;}
 	.cover					{ display: block;  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); transition: box-shadow 150ms;
 		img 				{ width:150px; height:193px; 
 			@include breakpoint(medium) { width:180px; height:232px; }
