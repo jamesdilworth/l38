@@ -169,7 +169,17 @@ var S4O = (function($) {
     }
 
     var bindEventHandlers = function() {
-        
+        $('.cover').on('touchstart',function(evt) {
+            var $elem = $(this);
+            if($elem.hasClass('active')) {
+                return true;
+            } else {
+                $elem.addClass('active');
+                $('.cover').not($this).removeClass('active');
+                evt.preventDefault();
+                return false;
+            }
+        });
     };
 
 

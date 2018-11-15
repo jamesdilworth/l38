@@ -104,14 +104,13 @@
 		.links 				{ color:#fff; font-size:90%; position:absolute; width:100%; bottom:0; padding:10px; z-index:5; display:none; }
 		a 					{ color:#fff;  display:block; width:100%; border:1px solid #fff; margin-top:5px; padding:2px 5px; text-align:center;
 			&:visited		{ color:#fff; text-decoration:none; }
-			&:hover 		{ background-color:#fff; color:#555; text-decoration:none; }
-
+			&:hover			{ background-color:#fff; color:#555; text-decoration:none; }
 		}
 
-		&:hover 			{
+		&:hover,
+		&.active 			{
 			&::before 		{ display:block; }
 			.links 			{ display:block;}
-
 		}
 	}
 	.title 					{ margin:5px 0; text-align:center;}

@@ -1443,10 +1443,10 @@ button:active, input[type=button]:active, input[type=submit]:active {
   color: #555;
   text-decoration: none;
 }
-.magazine-archive .cover:hover::before {
+.magazine-archive .cover:hover::before, .magazine-archive .cover.active::before {
   display: block;
 }
-.magazine-archive .cover:hover .links {
+.magazine-archive .cover:hover .links, .magazine-archive .cover.active .links {
   display: block;
 }
 .magazine-archive .title {
