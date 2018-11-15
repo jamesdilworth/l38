@@ -55,6 +55,7 @@ class magazine_archive_widget extends WP_Widget {
 
         echo $before_widget;
         $output = "";
+        $tabs = array();
 
         if ( $magazines->have_posts() ) {
             while ($magazines->have_posts()) {
@@ -64,8 +65,9 @@ class magazine_archive_widget extends WP_Widget {
                 $core_url = get_field('magazine_url');
                 $cover = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : '/wp-content/uploads/2018/06/default_cover.jpg';
                 $pdf = get_field('upload_pdf');
+                $year = get_the_date('Y');
 
-                $output .= '<div class="magazine-cover">';
+                $output .= "<div class='magazine-cover $year'>";
 
                 $output .= "    <div class='cover' style='background-image:url($cover);'><div class='links'>";
                 if($features)
@@ -79,11 +81,23 @@ class magazine_archive_widget extends WP_Widget {
                 $output .= '    <div class="title">' . get_the_title() . '</div>';
                 $output .= '</div>';
 
+                $tabs[$year] .= $output;
             }
         } else {
             $output = "No Magazines Found?";
         }
-        echo $output;
+
+        // Output tabs
+        echo "<ul class='tabs'>";
+        foreach($tabs as $key => $value) {
+            echo "<li class='tab'><a href='#$key' data-targets='$key'>$key</a></li>";
+        }
+        echo "</ul>";
+
+
+        // Output content
+        echo "<div class='tabbed'>$output</div>";
+
         wp_reset_postdata();
 
         echo $after_widget;

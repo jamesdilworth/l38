@@ -210,10 +210,11 @@ var S4O = (function($) {
              * MINI TABS - A REPEATABLE TAB SYSTEM FOR USE WITHIN THE FLOW OF THE PAGE.
              *
              * BUILDS ON :
-             * <ul class="tabs" data-target="name_of_container">...
+             * <ul class="tabs">
+             *     <li><a href="#id of item" [OR] data-targets=".class_of_items to be shown"
              *
-             * CONTAINER PANELS SHOULD BE THE CHILD DIV's. WE KEEP IT SIMPLE.
-             *
+             * <div class='tabbed'>
+              *     <div id="#id of item" [OR] class='<target_name>'>
              */
 
 
@@ -223,36 +224,37 @@ var S4O = (function($) {
                     return false;
                 }
 
-                var target_container_id = $('ul.tabs').attr('data-target');
-                console.log(target_container_id);
-
-                if ( window.location.hash && $firstload ) {
+                // Set $tab to be the <li> that matches window.hash
+                if (window.location.hash && $firstload ) {
                     $(window).load( function() {
                         $(this).scrollTop(0);
                     });
                     $tab = $('ul.tabs a[href="' + window.location.hash + '"]').parent();
                 }
 
-                // $tab expects a jquery object in the sectionnav
                 if ( $tab === void(0) || $tab.length < 1 ) {
                     // On page load, there's no object, so choose the first tab.
                     $tab = $('ul.tabs li:first-child');
                 }
 
-                var $activeTab = $tab.closest('ul').find('li.active'),
+                var $oldActiveTab = $tab.closest('ul').find('li.active'),
                     contentLocation = $tab.children('a').attr("href");
 
                 // Strip off the current url that IE adds
                 contentLocation = contentLocation.replace(/^.+#/, '#');
 
                 //Make Tab Active
-                $activeTab.removeClass('active');
+                $oldActiveTab.removeClass('active');
                 $tab.addClass('active');
 
                 //Show Tab Content
-                $('#' + target_container_id + '>div').hide();
-                $( contentLocation ).show();
-
+                $('.tabbed > div').hide();
+                console.log($tab.children('a').data('targets'));
+                if($tab.children('a').data('targets')) {
+                    $('.tabbed .' + $tab.children('a').data('targets')).show();
+                } else if(contentLocation) {
+                    $('#' + contentLocation).show();
+                }
             }
             miniTabs( void(0), true );
 

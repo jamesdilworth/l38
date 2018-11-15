@@ -1396,6 +1396,10 @@ button:active, input[type=button]:active, input[type=submit]:active {
 
 .magazine-archive {
   margin: 0 -20px;
+  /* By default, don't display the the tabs */
+}
+.magazine-archive .tabs {
+  display: none;
 }
 .magazine-archive .magazine-cover {
   float: left;
@@ -1411,7 +1415,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   content: "";
   width: 180px;
   height: 232px;
-  display: none;
+  opacity: 0;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -1444,7 +1448,8 @@ button:active, input[type=button]:active, input[type=submit]:active {
   text-decoration: none;
 }
 .magazine-archive .cover:hover::before, .magazine-archive .cover.active::before {
-  display: block;
+  opacity: 1;
+  transition: all 0.15s ease-in;
 }
 .magazine-archive .cover:hover .links, .magazine-archive .cover.active .links {
   display: block;
@@ -1917,6 +1922,11 @@ button:active, input[type=button]:active, input[type=submit]:active {
   max-width: 900px;
   padding: 0 20px;
   margin: auto;
+}
+
+.path-magazine.page-archive .tabs {
+  display: block;
+  margin: 10px 20px;
 }
 
 .day h2 {
