@@ -169,13 +169,13 @@ var S4O = (function($) {
     }
 
     var bindEventHandlers = function() {
-        $('.cover').on('touchstart',function(evt) {
+        $('.cover').on('touchend',function(evt) {
             var $elem = $(this);
             if($elem.hasClass('active')) {
                 return true;
             } else {
+                $('.cover').removeClass('active');
                 $elem.addClass('active');
-                $('.cover').not($this).removeClass('active');
                 evt.preventDefault();
                 return false;
             }
