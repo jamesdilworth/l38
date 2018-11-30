@@ -85,6 +85,11 @@ var S4O = (function($) {
             var href = $( this ).attr('href');
             var hostname = extractHostname(href);
             if ( href && ( href.match(/^https?\:/i) ) && ( ! hostname.match( document.domain ) ) ) {
+                // While we're at it, open in a new window!
+                if(!$(this).attr('target')) {
+                    $(this).attr('target','_blank').attr('rel','noopener');
+                }
+
                 $( this ).on( 'click', function() {
 
                     // Don't bother binding handlers to issuu links as these are tracked in mfp
@@ -180,6 +185,8 @@ var S4O = (function($) {
                 return false;
             }
         });
+
+
     };
 
 
@@ -223,6 +230,8 @@ var S4O = (function($) {
                 if ( $('ul.tabs').length === 0 ) {
                     return false;
                 }
+
+                // If the tabs are too
 
                 // Set $tab to be the <li> that matches window.hash
                 if (window.location.hash && $firstload ) {

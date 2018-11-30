@@ -26,6 +26,9 @@ favicon.ico
 favicon_admin.ico
 advanced-cache.php
 
+#plugins for local testing only
+wp-content/plugins/query-monitor/
+
 # wordpress specific
 wp-config.php
 wp-content/uploads/

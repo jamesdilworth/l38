@@ -115,15 +115,15 @@ class lectronic_stories_widget extends WP_Widget {
 
                         $url = get_day_link( $pubdate[0], $pubdate[1], $pubdate[2] ) . '#' . get_post_field( 'post_name');
 
-                        $escaped_img_url = str_replace(" ","%20", get_the_post_thumbnail_url($post_id,'large'));
+                        $escaped_img_url = str_replace(" ","%20", get_the_post_thumbnail_url($post_id,'medium'));
                         $escaped_img_url = str_replace("'",  "%27", $escaped_img_url);
 
                         $inner_output .= "<article class='$main story'>";
 
                         if (has_post_thumbnail()) {
-                            $inner_output .= "<a href='$url'><div class='image' style='background-image:url(" . $escaped_img_url . ")'>" . get_the_post_thumbnail($post_id,'large') . "</div></a>";
+                            $inner_output .= "<a href='$url'><div class='image' style='background-image:url(" . $escaped_img_url . ")'></div></a>";
                         } else {
-                            $inner_output .= "<a href='$url'><div class='image' style='background-image:url(/wp-content/uploads/2018/06/default_thumb.jpg);'><img src='/wp-content/uploads/2018/06/default_thumb.jpg' alt=''></div></a>";
+                            $inner_output .= "<a href='$url'><div class='image' style='background-image:url(/wp-content/uploads/2018/06/default_thumb.jpg);'></div></a>";
                         }
 
                         // Alt-Header is defers to (low pri) first category -> first tag -> custom (pri)

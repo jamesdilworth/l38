@@ -61,7 +61,7 @@ function display_social_sharing_buttons() {
     $excerpt = ob_get_contents();
     ob_end_clean();
 
-    $crunchifyDesc = rawurlencode('A story from Latitude 38:') . '%0A%0A' . rawurlencode(strip_tags($excerpt));
+    $crunchifyDesc = rawurlencode('A story from Latitude 38:') . '%0A%0A' . rawurlencode(html_entity_decode(strip_tags($excerpt)));
 
     // $crunchifyTitle = str_replace( ' ', '%20', get_the_title());
 
@@ -71,14 +71,15 @@ function display_social_sharing_buttons() {
     // Construct sharing URL without using any script
     $twitterURL = 'https://twitter.com/intent/tweet?text='.$crunchifyTitle.'&amp;url='.$crunchifyURL;
     $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$crunchifyURL;
-    $emailURL = 'mailto:?subject=From%20Latitude%2038: ' . $rawTitle . '&amp;body=' . $crunchifyDesc . '%0A' . $crunchifyURL;
+    $emailURL = 'mailto:?subject=From%20Latitude%2038: ' . $rawTitle . '&amp;body=' . $crunchifyDesc . '%0A%0A' . $crunchifyURL . rawurlencode('?utm_source=l38_webshare&utm_medium=email');
+
 
     // Add sharing button at the end of page/page content
     $content .= '<div class="social-buttons">';
     $content .= '   <span class="intro">SHARE ON</span>';
     $content .= '   <a class="social-link social-twitter" href="'. $twitterURL .'" target="_blank" data-gacategory="Share" data-gatitle="Twitter" data-galabel="' . get_page_uri() . '" ><i class="fa fa-twitter"></i> Twitter</a>';
     $content .= '   <a class="social-link social-facebook" href="'.$facebookURL.'" target="_blank" data-gacategory="Share" data-gatitle="Facebook" data-galabel="' . get_page_uri() . '" ><i class="fa fa-facebook"></i> Facebook</a>';
-    $content .= '   <a class="social-link social-email" href="'.$emailURL.'" data-gacategory="Share" data-gatitle="Email" data-galabel="' . get_page_uri() . '" ><i class="fa fa-envelope"></i> Email</a>';
+    $content .= '   <a class="social-link social-email" href="' . $emailURL . '" data-gacategory="Share" data-gatitle="Email" data-galabel="' . get_page_uri() . '" ><i class="fa fa-envelope"></i> Email</a>';
     $content .= '</div>';
 
     echo $content;
