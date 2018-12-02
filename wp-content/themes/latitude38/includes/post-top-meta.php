@@ -31,6 +31,14 @@ if ( $show_date ) {
 	echo '<span class="fl-post-date">' . get_the_date() . '</span>';
 }
 
+if (get_field('location')) {
+
+    if ( $show_author || $show_date ) {
+        echo '<span class="fl-sep"> | </span>';
+    }
+    echo '<span class="location">' . get_field('location') . '</span>';
+}
+
 // Comments
 if ( $comments && $comment_count ) {
 
