@@ -49,10 +49,11 @@ if ( post_password_required() ) {
 
 	</div>
 	<?php endif; ?>
+    <!-- Start form -->
 	<?php
 
 	comment_form( array(
-		'id_form'               => 'fl-comment-form',
+	    'id_form'               => 'fl-comment-form',
 		'class_form'            => 'fl-comment-form',
 		'id_submit'             => 'fl-comment-form-submit',
 		'class_submit'          => 'btn btn-primary',
@@ -61,12 +62,13 @@ if ( post_password_required() ) {
 		'title_reply'           => _x( 'Leave a Comment', 'Respond form title.', 'fl-automator' ),
 		'title_reply_to'        => __( 'Leave a Reply', 'fl-automator' ),
 		'cancel_reply_link'     => __( 'Cancel Reply', 'fl-automator' ),
+		'cancel_reply_before'   => '<div class="cancel-reply-link">',
+        'cancel_reply_after'    => '</div>',
 		'format'                => 'xhtml',
 		'comment_notes_before'  => '',
 		'comment_notes_after'   => '',
 
-		'comment_field'         => '<label for="comment">' . _x( 'Comment', 'Comment form label: comment content.', 'fl-automator' ) . '</label>
-									<textarea name="comment" class="form-control" cols="60" rows="8" tabindex="4"></textarea><br />',
+		'comment_field'         => '<div class="comment_field field_comment"><label for="comment" class="required">' . _x( 'Comment', 'Comment form label: comment content.', 'fl-automator' ) . '</label><textarea name="comment" class="form-control" cols="60" rows="4" tabindex="4" placeholder="Please keep it friendly."></textarea></div>',
 
 		'must_log_in'           => '<p>' . sprintf( _x( 'You must be <a%s>logged in</a> to post a comment.', 'Please, keep the HTML tags.', 'fl-automator' ), ' href="' . esc_url( home_url( '/wp-login.php' ) ) . '?redirect_to=' . urlencode( get_permalink() ) . '"' ) . '</p>',
 
@@ -74,17 +76,20 @@ if ( post_password_required() ) {
 
 		'fields'                => apply_filters( 'comment_form_default_fields', array(
 
-			'author'                 => '<label for="author">' . _x( 'Name', 'Comment form label: comment author name.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
-										<input type="text" name="author" class="form-control" value="' . $comment_author . '" tabindex="1"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />',
+			'author'                 => '<div class="comment_field field_author"><label for="author" class="required">' . _x( 'Name', 'Comment form label: comment author name.', 'fl-automator' )  . '</label>
+										<input type="text" name="author" class="form-control author" placeholder="Your Name (Required)" value="' . $comment_author . '" tabindex="5"' . ( $req ? ' aria-required="true"' : '' ) . ' /></div>',
 
-			'email'                  => '<label for="email">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
-										<input type="text" name="email" class="form-control" value="' . $comment_author_email . '" tabindex="2"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />',
+			'email'                  => '<div class="comment_field field_email"><label for="email" class="required">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' )  . '</label>
+										<input type="text" name="email" class="form-control email" placeholder="Your Email (Required)" value="' . $comment_author_email . '" tabindex="6"' . ( $req ? ' aria-required="true"' : '' ) . ' /></div>'
 
-			'url'                    => '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
-										<input type="text" name="url" class="form-control" value="' . $comment_author_url . '" tabindex="3" /><br />',
+
 		) ),
 	) );
 
+	// 'url'                    => '<div class="comment_field field_website"><label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
+    //								<input type="text" name="url" class="form-control website" placeholder="Your website" value="' . $comment_author_url . '" tabindex="7" /></div>',
+
 	?>
+
 	<?php do_action( 'fl_comments_close' ); ?>
 </div>

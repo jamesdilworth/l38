@@ -16,7 +16,7 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
+            "placeholder": "Boat Name",
             "prepend": "",
             "append": "",
             "maxlength": ""
@@ -35,7 +35,7 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
+            "placeholder": "Boat Type",
             "prepend": "",
             "append": "",
             "maxlength": ""
@@ -54,7 +54,7 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
+            "placeholder": "Where do you sail out of?",
             "prepend": "",
             "append": "",
             "maxlength": ""
@@ -66,10 +66,15 @@
                 "param": "comment",
                 "operator": "==",
                 "value": "all"
+            },
+            {
+                "param": "current_user",
+                "operator": "!=",
+                "value": "logged_in"
             }
         ]
     ],
-    "menu_order": 0,
+    "menu_order": 15,
     "position": "normal",
     "style": "default",
     "label_placement": "top",
@@ -77,5 +82,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1543707268
+    "modified": 1543792457
 }

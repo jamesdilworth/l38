@@ -409,6 +409,10 @@ h1, h2, h3, h4, h5, h6 {
   border: 0;
 }
 
+textarea.form-control {
+  font-size: 100%;
+}
+
 /* SITE WIDE STYLE HACKS */
 ul.wide,
 ol.wide {
@@ -1798,6 +1802,103 @@ button:active, input[type=button]:active, input[type=submit]:active {
 }
 .fl-page-nav-search .widget.lectronic_archive .dropdown-submenu .dropdown-menu > li > a {
   color: #999;
+}
+
+.fl-comments .fl-comments-list-title {
+  margin-bottom: 25px;
+}
+.fl-comments .time-since {
+  color: #ccc;
+  font-size: 80%;
+  padding-left: 10px;
+  font-weight: 300;
+}
+.fl-comments .comment {
+  margin-top: 15px !important;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 15px;
+}
+.fl-comments .comment .comment-respond {
+  margin-left: 60px;
+  margin-bottom: 20px;
+}
+.fl-comments .comment .comment-respond h3 {
+  font-size: 100%;
+  font-weight: 500;
+}
+.fl-comments .comment .comment-respond a {
+  color: #018db9;
+}
+.fl-comments .fl-comments-list ul.children li {
+  border-bottom: 0;
+}
+.fl-comments .comment-avatar {
+  float: left;
+}
+.fl-comments .comment-avatar img {
+  margin: 5px;
+}
+.fl-comments .comment-meta {
+  margin: 8px 0 0 62px;
+}
+.fl-comments .comment-author {
+  font-weight: bold;
+}
+.fl-comments .comment-author a {
+  color: initial;
+}
+.fl-comments .comment-author a:hover {
+  text-decoration: underline;
+}
+.fl-comments .comment-options {
+  font-size: 80%;
+  padding-left: 62px;
+}
+.fl-comments .comment-content {
+  font-size: 95%;
+  padding: 5px 7px;
+  padding-bottom: 0;
+  margin-left: 55px;
+  border: 0;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  font-weight: 300;
+}
+.fl-comments .comment-content p:last-child {
+  margin-bottom: 5px;
+}
+.fl-comments .acf-field {
+  width: 33%;
+  float: left;
+  clear: none;
+}
+.fl-comments .acf-field .acf-label {
+  display: none;
+}
+.fl-comments .acf-field .acf-input {
+  padding-right: 10px !important;
+}
+.fl-comments .acf-field:last-of-type .acf-input {
+  padding-right: 0 !important;
+}
+.fl-comments label.required::after {
+  content: "*";
+  color: red;
+  padding: 0 2px;
+}
+.fl-comments .fl-comments-list .comment-reply-link {
+  padding: 0;
+  padding-right: 4px;
+}
+.fl-comments .comment_field label {
+  display: none;
+}
+.fl-comments .comment_field {
+  margin-bottom: 5px;
+}
+.fl-comments .cancel-reply-link {
+  float: right;
+  font-size: 80%;
 }
 
 .home .lectronic_stories .main.story .image {

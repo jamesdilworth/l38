@@ -185,10 +185,22 @@ var S4O = (function($) {
                 return false;
             }
         });
-
-
     };
 
+    var reorgDOM = function() {
+
+        // Move ACF comment fields to the bottom of the form.
+        var $acf_comment_fields = $('.acf-comment-fields');
+        if ( $acf_comment_fields) {
+            var tabindex = 8;
+            $acf_comment_fields.find('input').each(function() {
+                $(this).attr('tabindex', tabindex);
+                tabindex++;
+            })
+            $("#fl-comment-form .form-submit").before($acf_comment_fields);
+            $('#fl-comment-form-submit').attr('tabindex', tabindex);
+        }
+    };
 
 
     return {
@@ -208,6 +220,7 @@ var S4O = (function($) {
             initializeMfp();
             autoPagePopup();
             initDropDowns();
+            reorgDOM();
         },
 
         miniTabs: function() {
