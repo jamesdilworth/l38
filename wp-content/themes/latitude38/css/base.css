@@ -1477,6 +1477,11 @@ button:active, input[type=button]:active, input[type=submit]:active {
     height: 232px;
   }
 }
+.magazine-archive .edit_link.share {
+  display: block;
+  text-align: center;
+  margin-top: -10px;
+}
 
 /* Are these the lectronic stories on archive pages... if so, we should update the css to match the standard. */
 .stories h2 {

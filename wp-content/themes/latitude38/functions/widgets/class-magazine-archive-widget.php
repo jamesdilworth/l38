@@ -77,8 +77,8 @@ class magazine_archive_widget extends WP_Widget {
                 if($pdf)
                     $output .= "<a href='" . $pdf . "' target='_blank'><i class='fa fa-download'></i> Download (PDF)</a>";
                 $output .= "</div></div>";
-
                 $output .= '    <div class="title">' . get_the_title() . '</div>';
+                if (current_user_can('edit_posts')) $output .= '<div class="share edit_link"><a href="' . get_the_permalink() . '">Sharable URL</a></div>';
                 $output .= '</div>';
 
                 $tabs[$year] .= $output;
