@@ -45,8 +45,8 @@ if ( $show_full || is_single() ) {
     }
 
 	// Comments
-	if ( $comments && ! is_single() ) {
-		comments_popup_link( _x( 'Leave a comment', 'Comments popup link title.', 'fl-automator' ), __( '1 Comment', 'fl-automator' ), _nx( '1 Comment', '% Comments', get_comments_number(), 'Comments popup link title.', 'fl-automator' ) );
+	if ( $comments && ! is_single()  && !in_category(199)) {
+	    comments_popup_link( _x( 'Leave a comment', 'Comments popup link title.', 'fl-automator' ), __( '1 Comment', 'fl-automator' ), _nx( '1 Comment', '% Comments', get_comments_number(), 'Comments popup link title.', 'fl-automator' ) );
 	}
 
 	// Close Wrapper

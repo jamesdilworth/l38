@@ -3,7 +3,7 @@
 <head>
 <?php do_action( 'fl_head_open' ); ?>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
-<?php if(is_day() || is_category(199)) echo "<meta name='robots' content='noindex' />\n" ?>
+<?php if(is_day() || in_category(199)) echo "<meta name='robots' content='noindex' />\n" ?>
 <?php echo apply_filters( 'fl_theme_viewport', "<meta name='viewport' content='width=device-width, initial-scale=1.0' />\n" ); ?>
 <?php echo apply_filters( 'fl_theme_xua_compatible', "<meta http-equiv='X-UA-Compatible' content='IE=edge' />\n" ); ?>
 <link rel="profile" href="https://gmpg.org/xfn/11" />

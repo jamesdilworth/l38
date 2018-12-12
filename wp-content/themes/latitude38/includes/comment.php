@@ -4,6 +4,15 @@
 		<div class="comment-meta">
             <span class="comment-author">
                 <?php echo get_comment_author_link(); ?>
+                <?php
+                    $extras = array();
+                    if(get_field('boat_name')) $extras[] = get_field('boat_name');
+                    if(get_field('boat_type')) $extras[] = get_field('boat_type');
+                    if(get_field('hailing_port')) $extras[] = get_field('hailing_port');
+
+                    if(!empty($extras)) echo '<span class="comment-author-extras">' . implode(", ", $extras) . '</span>';
+
+                ?>
             </span>
             <span class="time-since">
                 <?php echo human_time_diff((int) get_comment_time('U'), current_time('U')) . ' ago'; ?>
