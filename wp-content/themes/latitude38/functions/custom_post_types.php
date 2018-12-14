@@ -37,6 +37,45 @@ function JZ_create_magazine_post_type()
 }
 add_action( 'init', 'JZ_create_magazine_post_type' );
 
+// Feature
+function JZ_create_feature_post_type()
+{
+    $labels = array(
+        'name' => _x('Features', 'post type general name'),
+        'singular_name' => _x('Featured Article', 'post type singular name'),
+        'add_new' => _x('Add New', 'Feature'),
+        'add_new_item' => __('Add New Feature'),
+        'edit_item' => __('Edit Feature'),
+        'new_item' => __('New Feature'),
+        'view_item' => __('View Feature'),
+        'search_items' => __('Search Features'),
+        'not_found' => __('No items found'),
+        'not_found_in_trash' => __('No items found in Trash'),
+        'parent_item_colon' => ''
+    );
+    $supports = array('title', 'thumbnail', 'editor', 'author', 'excerpt', 'revisions', 'comments');
+
+    register_post_type('feature',
+        array(
+            'labels' => $labels,
+            'public' => true,
+            'hierarchical' => false,
+            'has_archive' => false,
+            'supports' => $supports,
+            'capability_type' => 'post',
+            'menu_position' => 6,
+            'rewrite' => array(
+                'slug' => 'feature',
+                'with_front' => false
+            ),
+            'menu_icon' => 'dashicons-tablet'
+        )
+    );
+}
+add_action( 'init', 'JZ_create_feature_post_type' );
+
+
+
 // Suppress the editorial calendar for Magazines
 add_filter('edcal_show_calendar_magazine', function() { return false; });
 

@@ -414,6 +414,10 @@ textarea.form-control {
 }
 
 /* SITE WIDE STYLE HACKS */
+p {
+  margin: 0 0 18px;
+}
+
 ul.wide,
 ol.wide {
   margin: 10px 0;
@@ -1483,6 +1487,73 @@ button:active, input[type=button]:active, input[type=submit]:active {
   margin-top: -10px;
 }
 
+.single-feature .feature-header {
+  position: relative;
+  background-size: 0;
+}
+.single-feature .fl-post-meta {
+  font-size: 85%;
+  font-weight: 300;
+}
+.single-feature .shadow .fl-post-thumb {
+  margin: -20px;
+  margin-bottom: 20px;
+}
+.single-feature .shadow .container {
+  max-width: 950px;
+}
+.single-feature .fl-post-content > p:first-child {
+  font-size: 120%;
+  color: #bbb;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+@media only screen and (min-width: 47.9375em) {
+  .single-feature .feature-header {
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+  }
+  .single-feature .shadow {
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    min-height: initial;
+    position: absolute;
+    bottom: 0;
+    height: initial;
+    padding-top: 0;
+  }
+  .single-feature .shadow .fl-post-thumb {
+    display: none;
+  }
+  .single-feature .shadow h1 {
+    color: #fff;
+  }
+  .single-feature .shadow .fl-content {
+    margin-top: 20px;
+    margin-bottom: 60px;
+  }
+  .single-feature .shadow .fl-post-meta a {
+    color: #fff;
+  }
+  .single-feature .shadow .fl-post-meta a:hover {
+    color: #79d6f4;
+  }
+  .single-feature .fl-post-content {
+    padding: 50px 80px;
+    max-width: 1100px;
+    margin: -80px auto 0;
+    background-color: #fff;
+  }
+  .single-feature .fl-post-content > p:first-child {
+    font-size: 140%;
+    margin-bottom: 20px;
+  }
+}
+
 /* Are these the lectronic stories on archive pages... if so, we should update the css to match the standard. */
 .stories h2 {
   margin-top: 0;
@@ -1685,9 +1756,10 @@ button:active, input[type=button]:active, input[type=submit]:active {
   padding-right: 10px;
 }
 .social-buttons .fa {
-  padding-right: 7px;
+  padding: 3px;
 }
 .social-buttons .social-link {
+  min-width: 35px;
   padding: 2px 8px 4px 8px !important;
   color: white;
   font-weight: 400;
@@ -1702,6 +1774,9 @@ button:active, input[type=button]:active, input[type=submit]:active {
   margin-top: 2px;
   display: inline-block;
   text-decoration: none;
+}
+.social-buttons .social-link .social-text {
+  display: none;
 }
 .social-buttons .social-link:hover, .social-buttons .social-link:active {
   color: white;
@@ -1723,6 +1798,14 @@ button:active, input[type=button]:active, input[type=submit]:active {
 }
 .social-buttons .social-link.social-facebook:hover, .social-buttons .social-link.social-facebook:active {
   background: #2d4372;
+}
+@media only screen and (min-width: 47.9375em) {
+  .social-buttons .fa {
+    padding-right: 12px;
+  }
+  .social-buttons .social-link .social-text {
+    display: inline;
+  }
 }
 
 .subscribe-notice {

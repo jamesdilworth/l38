@@ -77,9 +77,9 @@ function display_social_sharing_buttons() {
     // Add sharing button at the end of page/page content
     $content .= '<div class="social-buttons">';
     $content .= '   <span class="intro">SHARE ON</span>';
-    $content .= '   <a class="social-link social-twitter" href="'. $twitterURL .'" target="_blank" data-gacategory="Share" data-gatitle="Twitter" data-galabel="' . get_page_uri() . '" ><i class="fa fa-twitter"></i> Twitter</a>';
-    $content .= '   <a class="social-link social-facebook" href="'.$facebookURL.'" target="_blank" data-gacategory="Share" data-gatitle="Facebook" data-galabel="' . get_page_uri() . '" ><i class="fa fa-facebook"></i> Facebook</a>';
-    $content .= '   <a class="social-link social-email" href="' . $emailURL . '" data-gacategory="Share" data-gatitle="Email" data-galabel="' . get_page_uri() . '" ><i class="fa fa-envelope"></i> Email</a>';
+    $content .= '   <a class="social-link social-twitter" href="'. $twitterURL .'" target="_blank" data-gacategory="Share" data-gatitle="Twitter" data-galabel="' . get_page_uri() . '" ><i class="fa fa-twitter"></i><span class="social-text">Twitter</a>';
+    $content .= '   <a class="social-link social-facebook" href="'.$facebookURL.'" target="_blank" data-gacategory="Share" data-gatitle="Facebook" data-galabel="' . get_page_uri() . '" ><i class="fa fa-facebook"></i><span class="social-text">Facebook</a>';
+    $content .= '   <a class="social-link social-email" href="' . $emailURL . '" data-gacategory="Share" data-gatitle="Email" data-galabel="' . get_page_uri() . '" ><i class="fa fa-envelope"></i><span class="social-text">Email</a>';
     $content .= '</div>';
 
     echo $content;

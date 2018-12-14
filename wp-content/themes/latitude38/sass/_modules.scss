@@ -123,6 +123,32 @@
 	.edit_link.share   		{ display:block; text-align:center; margin-top:-10px;  }
 }
 
+.single-feature 			{
+	.feature-header			{ position:relative; background-size:0;  }
+	.fl-post-meta 			{ font-size:85%; font-weight:300; }
+	.shadow					{
+		.fl-post-thumb 		{ margin:-20px; margin-bottom:20px; }
+		.container 			{ max-width:950px; }
+
+
+	}
+	.fl-post-content > p:first-child	{ font-size:120%; color:#bbb; font-weight:300; margin-bottom:20px;  }
+
+	@include breakpoint(medium) {
+		.feature-header		{ min-height:500px; background-size:cover; background-position:center; }
+		.shadow 			{ background-color:rgba(0,0,0,0.5); text-align:center; height:100%; width:100%; color:#fff; min-height:initial; position:absolute; bottom:0; height:initial; padding-top:0;
+			.fl-post-thumb 	{ display:none; }
+			h1 				{ color:#fff; }
+			.fl-content 	{ margin-top:20px; margin-bottom:60px; }
+			.fl-post-meta a { color:#fff; }
+			.fl-post-meta a:hover { color:$accent1;  }
+		}
+		.fl-post-content 	{ padding:50px 80px; max-width:1100px; margin:-80px auto 0; background-color:#fff;
+			& > p:first-child { font-size:140%; margin-bottom:20px; }
+		}
+	}
+}
+
 /* Are these the lectronic stories on archive pages... if so, we should update the css to match the standard. */
 .stories 		{
 	h2 					{ margin-top:0; }
@@ -225,9 +251,9 @@
 
 .social-buttons 				{ margin: 20px 0px 25px 0px; font-size: 90%;
 	.intro						{ font-weight:bold; text-transform:uppercase; padding-right:10px; }
-	.fa 						{ padding-right:7px; }
-	.social-link 				{ padding: 2px 8px 4px 8px !important; color: white; font-weight:400;  border-radius: 2px; margin-right: 4px; cursor: pointer;  -moz-background-clip: padding;  -webkit-background-clip: padding-box;  box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);  -moz-box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);  -webkit-box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);  margin-top: 2px;  display: inline-block;  text-decoration: none;
-
+	.fa 						{ padding:3px }
+	.social-link 				{ min-width:35px; padding: 2px 8px 4px 8px !important; color: white; font-weight:400;  border-radius: 2px; margin-right: 4px; cursor: pointer;  -moz-background-clip: padding;  -webkit-background-clip: padding-box;  box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);  -moz-box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);  -webkit-box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);  margin-top: 2px;  display: inline-block;  text-decoration: none;
+		.social-text 			{ display:none; }
 		&:hover,
 		&:active 				{ color: white; }
 
@@ -244,6 +270,13 @@
 		&.social-facebook 		{  background: #3B5997;
 			&:hover,
 			&:active 			{ background: #2d4372; }
+		}
+	}
+
+	@include breakpoint(medium) {
+		.fa 					{ padding-right:12px; }
+		.social-link 			{
+			.social-text 		{ display:inline; }
 		}
 	}
 }
