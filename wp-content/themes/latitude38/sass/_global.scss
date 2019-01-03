@@ -95,10 +95,26 @@ h4 					{ font-weight:900; margin-top:30px; }
 	}
 }
 
+.on_green			{ color:#fff; background-color:$accent3;
+	h1 				{ color:#fff; }
+	h2 				{ color:#fff; }
+	h3 				{ color:#fff; }
+
+	a 				{ color:#027869;  }
+	p 				{ color:#d6fffa }
+	.subtitle 		{ color:#fff; }
+	.caption	 	{ color:#fff; }
+	.btn 			{ background-color:$accent1; color:#fff; font-weight:400; text-decoration:none; margin-top:-3px;
+		&:hover 	{ background-color:#fff; }
+	}
+}
+
 .on_grey							{ background-color:$background-grey;
-	.subtitle 						{ color:#a8a4bd; }
+	.subtitle 						{ color:#94afac; }
 	.section-heading 				{ background-image:url(/wp-content/themes/latitude38/images/section-header-ongrey-bg.png)}
 }
+
+
 
 .on_white							{ background-color:#fff; }
 
