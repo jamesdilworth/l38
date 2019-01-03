@@ -15,15 +15,21 @@ class magazine_archive_widget extends WP_Widget {
         $defaults = array(
             'title' => 'Magazine Contents',
             'qty' => 12,
+            'magtype' => ''
         );
         $instance = wp_parse_args((array) $instance, $defaults);
         $title = $instance['title'];
         $qty = $instance['qty'];
+        $magtype = $instance['magtype'];
 
         ?>
         <p>Title: <input class="widefat" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
         <p>Number of Issues: <input class="widefat" name="<?php echo $this->get_field_name('qty'); ?>"  type="number" value="<?php echo $qty; ?>" /></p>
 
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'magtype' ) ); ?>"><?php _e( 'Magazine Type:' ); ?></label>
+            <?php wp_dropdown_categories( array( 'show_option_all' => 'All', 'hide_empty'=> 0, 'taxonomy' => 'magtype', 'name' => $this->get_field_name("magtype"), 'value_field' => 'slug', 'selected' => $magtype[0] )); ?>
+        </p>
 
         <?php
     }
@@ -33,7 +39,7 @@ class magazine_archive_widget extends WP_Widget {
         $instance = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
         $instance['qty'] = intval($new_instance['qty']);
-        $instance['options'] = $new_instance['options'];
+        $instance['magtype'] = $new_instance['magtype'];
         return $instance;
     }
 
@@ -43,6 +49,7 @@ class magazine_archive_widget extends WP_Widget {
 
         $title = (empty($instance['title'])) ? "" : apply_filters('widget_title', $instance['title']);
         $qty = (empty($instance['qty'])) ? -1 : $instance['qty'];
+        $magtype = (empty($instance['magtype'])) ? "" : $instance['magtype'];
 
         $args = array(
             'post_type' => 'magazine',
@@ -51,6 +58,17 @@ class magazine_archive_widget extends WP_Widget {
             'orderby' => "date",
             'order' => 'DESC'
         );
+
+        if(!empty($magtype)) {
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'magtype',
+                    'field'    => 'slug',
+                    'terms'    => $magtype,
+                ),
+            );
+        }
+
         $magazines = new WP_Query($args);
 
         echo $before_widget;

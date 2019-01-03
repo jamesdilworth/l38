@@ -103,10 +103,12 @@ function define_magtypes() {
         'menu_name'			=> __( 'Types' )
     );
 
-    register_taxonomy( 'magtype', array( 'post' ), array(
-        'hierarchical'	=> false,
+    register_taxonomy( 'magtype', array( 'magazine' ), array(
+        'public'        => false,
+        'hierarchical'	=> true,
         'labels'		=> $labels,
-        'show_ui'		=> false,
+        'show_ui'	    => true,
+        'show_in_quick_edit' => true,
         'query_var'		=> true,
         'rewrite'		=> array(
             'slug'			=> 'type',
