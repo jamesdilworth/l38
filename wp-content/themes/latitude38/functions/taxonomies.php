@@ -79,9 +79,39 @@ function define_regions() {
         'show_ui'		=> true,
         'query_var'		=> true,
         'rewrite'		=> array(
-            'slug'			=> 'Region',
+            'slug'			=> 'region',
             'with_front'	=> true
         )
     ));
 }
 add_action( 'init', 'define_regions', 0 );
+
+
+// Magazine Types
+function define_magtypes() {
+    $labels = array(
+        'name'				=> _x( 'Types', 'taxonomy general name' ),
+        'singular_name'		=> _x( 'Type', 'taxonomy singular name' ),
+        'search_items'		=>  __( 'Search Types' ),
+        'all_items'			=> __( 'All Types' ),
+        'parent_item'		=> __( 'Parent Type' ),
+        'parent_item_colon'	=> __( 'Parent Type:' ),
+        'edit_item'			=> __( 'Edit Type' ),
+        'update_item'		=> __( 'Update Type' ),
+        'add_new_item'		=> __( 'Add New Type' ),
+        'new_item_name'		=> __( 'New Type' ),
+        'menu_name'			=> __( 'Types' )
+    );
+
+    register_taxonomy( 'magtype', array( 'post' ), array(
+        'hierarchical'	=> false,
+        'labels'		=> $labels,
+        'show_ui'		=> false,
+        'query_var'		=> true,
+        'rewrite'		=> array(
+            'slug'			=> 'type',
+            'with_front'	=> true
+        )
+    ));
+}
+add_action( 'init', 'define_magtypes', 0 );

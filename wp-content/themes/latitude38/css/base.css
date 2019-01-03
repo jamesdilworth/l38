@@ -658,7 +658,8 @@ h4 {
   color: #fff;
 }
 .on_green a {
-  color: #027869;
+  color: #429288;
+  text-decoration: underline;
 }
 .on_green p {
   color: #d6fffa;

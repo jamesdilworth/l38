@@ -22,7 +22,7 @@
             "key": "field_5c2d580dcd74e",
             "label": "Magazine Type",
             "name": "magazine_type",
-            "type": "radio",
+            "type": "taxonomy",
             "instructions": "",
             "required": 1,
             "conditional_logic": 0,
@@ -31,17 +31,14 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "latitude38": "Latitude 38",
-                "calendar": "Racing Calendar",
-                "baja": "Mexico Guide"
-            },
+            "taxonomy": "magtype",
+            "field_type": "radio",
             "allow_null": 0,
-            "other_choice": 0,
-            "save_other_choice": 0,
-            "default_value": "latitude38",
-            "layout": "horizontal",
-            "return_format": "value"
+            "add_term": 1,
+            "save_terms": 1,
+            "load_terms": 1,
+            "return_format": "id",
+            "multiple": 0
         }
     ],
     "location": [
@@ -61,5 +58,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1546475849
+    "modified": 1546477185
 }
