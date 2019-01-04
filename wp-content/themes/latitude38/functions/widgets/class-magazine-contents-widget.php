@@ -137,6 +137,10 @@ class magazine_contents_widget extends WP_Widget {
 
                     echo '<div class="download-links">';
                     $pdf = get_field('upload_pdf');
+                    if(strlen($pdf) == 5) {
+                        // This ACF field got mangled, and some of the data will be output as ID's not, URL's.
+                        $pdf = wp_get_attachment_url( $pdf );
+                    }
                     if($pdf) echo '<a class="wide btn" href="' . get_field('upload_pdf') . '" target="_blank"><i class="fa fa-download"></i> &nbsp;Download Magazine (PDF)</a>';
                     echo '<a href="/distribution/">Find a Magazine Distributor!</a>';
                     echo '    </div>';

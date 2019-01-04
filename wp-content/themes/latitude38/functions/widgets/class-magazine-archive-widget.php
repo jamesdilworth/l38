@@ -83,6 +83,11 @@ class magazine_archive_widget extends WP_Widget {
                 $core_url = get_field('magazine_url');
                 $cover = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : '/wp-content/uploads/2018/06/default_cover.jpg';
                 $pdf = get_field('upload_pdf');
+                if(strlen($pdf) == 5) {
+                    // This ACF field got mangled, and some of the data will be output as ID's not, URL's.
+                    $pdf = wp_get_attachment_url( $pdf );
+                }
+
                 $year = get_the_date('Y');
 
                 $output .= "<div class='magazine-cover $year'>";
