@@ -714,7 +714,7 @@ h4 {
 
 /* Captions below photos */
 figure.wp-caption {
-  max-width: 700px;
+  max-width: 680px;
   margin: 20px auto;
 }
 
@@ -732,21 +732,6 @@ figcaption .source {
 
 .fl-photo-caption-hover {
   color: #fff;
-}
-
-.single-post .fl-post {
-  max-width: 900px;
-  margin: auto;
-}
-.single-post .fl-comments {
-  max-width: 900px;
-  margin: auto;
-}
-@media only screen and (min-width: 47.9375em) {
-  .single-post .fl-comments {
-    padding: 0 20px;
-    margin-bottom: 30px;
-  }
 }
 
 @media only screen and (min-width: 47.9375em) {
@@ -2136,6 +2121,16 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .single-post .fl-post {
   background-color: #fff;
   padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+.single-post .fl-post-content img {
+  max-width: 640px;
+}
+.single-post .fl-post-meta {
+  margin-bottom: 25px;
+  color: #999;
+  margin-top: -10px;
 }
 .single-post .alt_header {
   color: #018db9;
@@ -2148,6 +2143,16 @@ button:active, input[type=button]:active, input[type=submit]:active {
   max-width: 900px;
   padding: 0 20px;
   margin: auto;
+}
+.single-post .fl-comments {
+  max-width: 900px;
+  margin: auto;
+}
+@media only screen and (min-width: 47.9375em) {
+  .single-post .fl-comments {
+    padding: 0 20px;
+    margin-bottom: 30px;
+  }
 }
 
 .path-magazine.page-archive .tabs {

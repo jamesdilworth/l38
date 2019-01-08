@@ -125,17 +125,14 @@ h4 					{ font-weight:900; margin-top:30px; }
 .fl-sidebar-right .module>div		{ margin:5px; padding:5px; }
 
 /* Captions below photos */
-figure.wp-caption					{ max-width:700px; margin:20px auto; }
+figure.wp-caption					{ max-width:680px; margin:20px auto; }
 figcaption,
 .fl-photo-caption 					{ font-size:90%; color:#666;  text-overflow:default; margin:10px 10px 0; }
 figcaption .source 					{ margin-top:15px; }
 .fl-photo-caption-hover 			{ color:#fff; }
 
 .single-post 						{
-	.fl-post 						{ max-width: 900px; margin: auto; }
-	.fl-comments					{ max-width:900px; margin:auto;
-		@include breakpoint(medium)	{ padding:0 20px; margin-bottom:30px;}
-	}
+
 } // Test
 
 

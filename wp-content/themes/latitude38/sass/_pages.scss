@@ -43,9 +43,14 @@
 
 .single-post					{
 	.fl-page-content 			{ background:#fff no-repeat; background-size:100%; } /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg)  */
-	.fl-post 					{ background-color:#fff; padding:20px; }
+	.fl-post 					{ background-color:#fff; padding:20px; max-width: 900px; margin: auto; }
+	.fl-post-content img 		{ max-width:640px; }
+	.fl-post-meta 				{ margin-bottom:25px; color:#999; margin-top:-10px;}
 	.alt_header					{ color:$accent2; font-size:85%; text-transform:uppercase; font-family: open-sans, sans-serif;  font-weight: 300;}
 	.widget.lectronic_stories 	{ max-width:900px; padding:0 20px; margin:auto;}
+	.fl-comments					{ max-width:900px; margin:auto;
+		@include breakpoint(medium)	{ padding:0 20px; margin-bottom:30px;}
+	}
 }
 
 .single-magazine				{
