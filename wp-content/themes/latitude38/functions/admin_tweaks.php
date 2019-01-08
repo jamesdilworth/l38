@@ -24,19 +24,14 @@ add_action( 'admin_init', 's4o_add_editor_styles' );
 
 /* Let's customize the visual editor a little*/
 function s4o_mce_buttons( $buttons ) {
-    // array_unshift( $buttons, 'formatselect' );
-    return $buttons;
-}
-add_filter( 'mce_buttons', 's4o_mce_buttons' );
-
-/* Let's customize the visual editor a little*/
-function s4o_mce_buttons_2( $buttons ) {
+    /*
     if(($key = array_search('formatselect', $buttons)) !== false) {
         unset($buttons[$key]);
     }
+    */
     return $buttons;
 }
-add_filter( 'mce_buttons_2', 's4o_mce_buttons_2' );
+// add_filter( 'mce_buttons', 's4o_mce_buttons' );
 
 // Customize mce editor font sizes
 function s4o_mce_changes( $initArray ){
@@ -111,22 +106,19 @@ function Move_ACF_Subtitle() {
 }
 add_action( 'admin_head', 'Move_ACF_Subtitle' );
 
+// Hook into the 'wp_dashboard_setup' action to register our function
 function customize_editor_admin() {
-    if(!current_user_can('edit_users')) {
+    if(!current_user_can('activate_plugins')) {
         // Not an admin.
         // remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
         remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
         remove_meta_box( 'simple_history_dashboard_widget', 'dashboard', 'side' );
     }
-
 }
-
-// Hook into the 'wp_dashboard_setup' action to register our function
 add_action('wp_dashboard_setup', 'customize_editor_admin' );
 
 // Stop Editors from creating admins or deleting admins
 class JPB_User_Caps {
-
     // Add our filters
     function __construct() {
         add_filter( 'editable_roles', array(&$this, 'editable_roles') );
@@ -175,8 +167,6 @@ class JPB_User_Caps {
         }
         return $caps;
     }
-
 }
-
 $jpb_user_caps = new JPB_User_Caps();
 

@@ -27,36 +27,6 @@ function modify_categories(){
 }
 add_action( 'init', 'modify_categories', 0 );
 
-/* Magazine Sections
-function define_magazine_section() {
-    $labels = array(
-        'name'				=> _x( 'Magazine Sections', 'taxonomy general name' ),
-        'singular_name'		=> _x( 'Magazine Section', 'taxonomy singular name' ),
-        'search_items'		=>  __( 'Search Sections' ),
-        'all_items'			=> __( 'All Sections' ),
-        'parent_item'		=> __( 'Parent Section' ),
-        'parent_item_colon'	=> __( 'Parent Section:' ),
-        'edit_item'			=> __( 'Edit Section' ),
-        'update_item'		=> __( 'Update Section' ),
-        'add_new_item'		=> __( 'Add New Magazine Section' ),
-        'new_item_name'		=> __( 'New Magazine Section' ),
-        'menu_name'			=> __( 'Magazine Sections' )
-    );
-
-    register_taxonomy( 'magazine_section', array( 'magazine' ), array(
-        'hierarchical'	=> true,
-        'labels'		=> $labels,
-        'show_ui'		=> true,
-        'query_var'		=> true,
-        'rewrite'		=> array(
-            'slug'			=> 'section',
-            'with_front'	=> true
-        )
-    ));
-}
-add_action( 'init', 'define_magazine_section', 0 );
-*/
-
 // Regions
 function define_regions() {
     $labels = array(
@@ -85,7 +55,6 @@ function define_regions() {
     ));
 }
 add_action( 'init', 'define_regions', 0 );
-
 
 // Magazine Types
 function define_magtypes() {

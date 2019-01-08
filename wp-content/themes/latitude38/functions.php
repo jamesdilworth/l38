@@ -11,10 +11,12 @@ include_once('functions/enqueue.php'); // Scripts & styles
 include_once('functions/taxonomies.php'); // Taxonomy Changes
 include_once('functions/shortcodes.php'); // Custom Shortcodes
 include_once('functions/widgets.php'); // Custom Widgets
-
-add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
-
-// update_option('edcal_default_time','14:00');
+include_once('functions/users.php'); // Subscriber Mods for general login.
 
 // include_once('functions/ajax.php'); // AJAX calls.
 // include_once('functions/debug.php'); // When shit starts going wrong, uncomment this.
+
+// Theme support configures how things like images are displayed in body copy.
+add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
+
+
