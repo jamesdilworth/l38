@@ -1,5 +1,42 @@
 <?php
 
+// Classifieds 
+function JZ_create_classy_post_type()
+{
+    $labels = array(
+        'name' => _x('Classies', 'post type general name'),
+        'singular_name' => _x('Classified', 'post type singular name'),
+        'add_new' => _x('Add New', 'Classified Ad'),
+        'add_new_item' => __('Add New Classified Ad'),
+        'edit_item' => __('Edit Ad'),
+        'new_item' => __('New Ad'),
+        'view_item' => __('View Ad'),
+        'search_items' => __('Search Classifieds'),
+        'not_found' => __('No items found'),
+        'not_found_in_trash' => __('No items found in Trash'),
+        'parent_item_colon' => ''
+    );
+    $supports = array('title', 'thumbnail', 'editor', 'author', 'excerpt', 'revisions', 'comments');
+
+    register_post_type('classy',
+        array(
+            'labels' => $labels,
+            'public' => true,
+            'hierarchical' => false,
+            'has_archive' => false,
+            'supports' => $supports,
+            'capability_type' => 'post',
+            'menu_position' => 8,
+            'rewrite' => array(
+                'slug' => 'classyads',
+                'with_front' => false
+            ),
+            'menu_icon' => 'dashicons-screenoptions'
+        )
+    );
+}
+add_action( 'init', 'JZ_create_classy_post_type' );
+
 // Magazine
 function JZ_create_magazine_post_type()
 {
