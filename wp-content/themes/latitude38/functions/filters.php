@@ -225,3 +225,4 @@ function L38_img_caption_shortcode( $a , $attr, $content = null) {
 }
 //Add the filter to override the standard shortcode
 add_filter( 'img_caption_shortcode', 'L38_img_caption_shortcode', 10, 3 );
+

@@ -792,6 +792,18 @@ a.edit_link,
   display: block;
 }
 
+.fl-page-bar .login-container {
+  display: inline-block;
+  margin-left: 40px;
+  vertical-align: middle;
+}
+.fl-page-bar .login-container a {
+  padding: 2px 0;
+}
+.fl-page-bar .login-container .fa-sign-in {
+  padding-right: 3px;
+}
+
 .callout {
   background-color: #f3f3f3;
   padding: 10px 20px 10px 60px;

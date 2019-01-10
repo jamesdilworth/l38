@@ -83,5 +83,12 @@ function display_social_sharing_buttons() {
     $content .= '</div>';
 
     echo $content;
+}
 
+/* Redirects people to the home page if they're not logged in. */
+function check_page_security() {
+    if( !is_user_logged_in() ) {
+        wp_redirect( home_url() );
+        exit();
+    }
 }

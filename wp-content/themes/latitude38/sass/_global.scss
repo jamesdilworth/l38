@@ -131,10 +131,6 @@ figcaption,
 figcaption .source 					{ margin-top:15px; }
 .fl-photo-caption-hover 			{ color:#fff; }
 
-.single-post 						{
-
-} // Test
-
 
 @include breakpoint(medium) 		{
 	.opening-panel 					{ background:#fff no-repeat; background-size:100%; /* url(/wp-content/themes/latitude38/images/lectronic_bg_head.jpg) */
@@ -160,6 +156,11 @@ a.edit_link,
 .admin-bar a.edit_link,
 .admin-bar a.post-edit-link 		{ display:initial; color:$accent6; font-size: 13px !important; text-decoration: none !important; font-weight: normal !important; text-transform: none !important; }
 .admin-bar .ssba-sharecount 		{ display:block; }
+
+.fl-page-bar .login-container		{ display:inline-block; margin-left:40px; vertical-align: middle;
+	a 								{ padding:2px 0; }
+	.fa-sign-in 					{ padding-right:3px; }
+}
 
 .callout 							{ background-color:$background-grey; padding:10px 20px 10px 60px; margin:20px 0 20px;
 	p 								{ margin:0; }
