@@ -86,3 +86,60 @@ function define_magtypes() {
     ));
 }
 add_action( 'init', 'define_magtypes', 0 );
+
+// Boat Types... example Santana 22, J/105
+function define_boattypes() {
+    $labels = array(
+        'name'				=> _x( 'Boat Types', 'taxonomy general name' ),
+        'singular_name'		=> _x( 'Boat Type', 'taxonomy singular name' ),
+        'search_items'		=>  __( 'Search Boats' ),
+        'all_items'			=> __( 'All Boat Types' ),
+        'edit_item'			=> __( 'Edit Boat Type' ),
+        'update_item'		=> __( 'Update Boat Type' ),
+        'add_new_item'		=> __( 'Add New Boat Type' ),
+        'new_item_name'		=> __( 'New Boat Type' ),
+        'menu_name'			=> __( 'Types' )
+    );
+
+    register_taxonomy( 'boattype', array('post'), array(
+        'hierarchical'	=> false,
+        'labels'		=> $labels,
+        'show_ui'	    => true,
+        'show_in_quick_edit' => true,
+        'query_var'		=> true,
+        'rewrite'		=> array(
+            'slug'			=> 'boat-type',
+            'with_front'	=> true
+        )
+    ));
+}
+add_action( 'init', 'define_boattypes', 0 );
+
+// Ad Category... example Schooner, Motoryacht, etc.
+function define_adcats() {
+    $labels = array(
+        'name'				=> _x( 'Ad Cats', 'taxonomy general name' ),
+        'singular_name'		=> _x( 'Ad Cat', 'taxonomy singular name' ),
+        'search_items'		=>  __( 'Search Boats' ),
+        'all_items'			=> __( 'All Ad Types' ),
+        'edit_item'			=> __( 'Edit Ad Type' ),
+        'update_item'		=> __( 'Update Ad Type' ),
+        'add_new_item'		=> __( 'Add New Ad Type' ),
+        'new_item_name'		=> __( 'New Ad Type' ),
+        'menu_name'			=> __( 'Ad Types' )
+    );
+
+    register_taxonomy( 'adcat', array('classy'), array(
+        'hierarchical'	=> true,
+        'labels'		=> $labels,
+        'show_ui'	    => true,
+        'show_in_quick_edit' => true,
+        'query_var'		=> true,
+        'rewrite'		=> array(
+            'slug'			=> 'adtype',
+            'with_front'	=> true
+        )
+    ));
+}
+add_action( 'init', 'define_adcats', 0 );
+

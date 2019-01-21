@@ -1183,6 +1183,11 @@ button:active, input[type=button]:active, input[type=submit]:active {
   color: #c31717;
 }
 
+/* Classy Ad Form */
+.single-classy .acf-form .acf-field {
+  border-top: 0;
+}
+
 .single-issue .cover {
   text-align: center;
   padding-bottom: 20px;
@@ -1586,6 +1591,82 @@ button:active, input[type=button]:active, input[type=submit]:active {
     font-size: 140%;
     margin-bottom: 20px;
   }
+}
+
+.single-classy header.cpt-title {
+  padding: 10px;
+}
+.single-classy article.fl-post {
+  padding: 10px;
+  margin-bottom: 40px;
+  overflow: auto;
+}
+.single-classy .photo-gallery {
+  float: left;
+  width: 50%;
+  padding-right: 30px;
+}
+.single-classy .main-content {
+  float: left;
+  width: 50%;
+}
+.single-classy .sale-terms {
+  text-transform: uppercase;
+  color: #aaa;
+}
+.single-classy h1 {
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
+.single-classy .price {
+  color: #82b4a9;
+  font-size: 160%;
+}
+.single-classy .location {
+  text-transform: uppercase;
+  color: #aaa;
+}
+.single-classy .content {
+  margin-top: 20px;
+}
+.single-classy .seller_info {
+  margin-top: 20px;
+}
+
+.classyads .ad {
+  position: relative;
+  float: left;
+  width: 336px;
+  height: 220px;
+  margin-right: 30px;
+  margin-bottom: 25px;
+  background-size: cover;
+  background-position: bottom;
+}
+.classyads .meta {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px 10px;
+}
+.classyads .title {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.classyads .title a {
+  color: #fff;
+}
+.classyads .price {
+  font-size: 90%;
+  margin-top: -5px;
+  font-weight: 600;
+}
+.classyads .location {
+  font-size: 85%;
+  font-weight: 300;
+  margin-top: -5px;
 }
 
 /* Are these the lectronic stories on archive pages... if so, we should update the css to match the standard. */

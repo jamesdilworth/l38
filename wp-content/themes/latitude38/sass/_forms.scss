@@ -26,3 +26,9 @@ button:active, input[type=button]:active, input[type=submit]:active { background
 .gform_wrapper .field_description_below.gfield_error .gfield_description { padding-top:0; }
 .gform_wrapper .gfield_error .gfield_label  { color:#c31717; }
 .gform_wrapper .validation_message 			{ color:#c31717; }
+
+/* Classy Ad Form */
+.single-classy .acf-form 					{
+	.acf-field 								{ border-top:0; }
+
+}

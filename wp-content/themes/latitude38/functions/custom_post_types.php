@@ -111,8 +111,6 @@ function JZ_create_feature_post_type()
 }
 add_action( 'init', 'JZ_create_feature_post_type' );
 
-
-
 // Suppress the editorial calendar for Magazines
 add_filter('edcal_show_calendar_magazine', function() { return false; });
 
@@ -124,6 +122,7 @@ function JZ_change_post_label() {
     $submenu['edit.php'][10][0] = 'Add Story';
     $submenu['edit.php'][16][0] = 'Tags';
 }
+
 function JZ_change_post_object() {
     global $wp_post_types;
     $labels = &$wp_post_types['post']->labels;

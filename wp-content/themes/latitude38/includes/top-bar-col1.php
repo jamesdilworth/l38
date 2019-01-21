@@ -23,8 +23,8 @@ if ( 'none' != $layout ) {
 	}
 
 	echo "<div class='login-container'>";
-	if (current_user_can('edit_posts')) {
-        echo "<a href='/account/'><i class='fa fa-user-circle'></i> My Account</a>";
+	if (is_user_logged_in()) {
+        echo "<a href='/my-account/'><i class='fa fa-user-circle'></i> My Account</a>";
     } else {
         echo "<a href='/login/'><i class='fa fa-sign-in'></i> Sign In</a>";
     }

@@ -12,9 +12,12 @@
 
 /* Extract Hostname from a URL */
 function extractHostname(url) {
+    if(!url) {
+        return false;
+    }
     var hostname;
     //find & remove protocol (http, ftp, etc.) and get hostname
-
+    console.log(url);
     if (url.indexOf("//") > -1) {
         hostname = url.split('/')[2];
     }

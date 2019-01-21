@@ -119,7 +119,7 @@ var S4O = (function($) {
             }
 
             // Track Emails
-            else if ( href.match(/^mailto\:/i)) {
+            else if ( href && href.match(/^mailto\:/i)) {
                 $( this ).on( 'click', function() {
                     // Function needs to be built out.
                     var category = $( this ).attr('data-gacategory') ? $( this ).attr('data-gacategory') : 'Email';

@@ -19,4 +19,7 @@ include_once('functions/users.php'); // Subscriber Mods for general login.
 // Theme support configures how things like images are displayed in body copy.
 add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 
+// Used to set the standard monetary system for the classifieds.
+setlocale(LC_MONETARY, 'en_US.UTF-8');
+
 
