@@ -44,6 +44,8 @@ class classy_ads_widget extends WP_Widget {
     public function widget($args, $instance) {
         // display
         global $post;
+        wp_enqueue_script( 'classys', get_stylesheet_directory_uri(). '/js/classys.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/classys.js'), true ); // load scripts in footer
+
         extract($args);
 
         echo $before_widget;
@@ -55,34 +57,43 @@ class classy_ads_widget extends WP_Widget {
         // Enable Pagination
         global $wp_query;
 
-        $args = array(
-            'post_type' => 'classy',
-            'posts_per_page' => -1
-        );
+        $output = "<div class='classy_widget'>";
 
-        $output = "<div class='classyads'>";
-
-        $posts = new WP_Query($args);
-        if ( $posts->have_posts() ) {
-            // Run the loop first, because calls in the loop might change the number of posts in the edition.
-            while ($posts->have_posts()) {
-                $posts->the_post();
-
-                $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : get_bloginfo('stylesheet_url') .  '/images/default-classy-ad.png';
-
-                $output .= "<div class='ad' style='background-image:url($img)'>";
-                $output .= "  <div class='meta'>";
-                $output .= "    <div class='title'><a href='". get_the_permalink() ."'>" . get_the_title() . "</a></div>";
-                $output .= "    <div class='price'>" . money_format('%.0n',get_field('ad_asking_price')) . "</div>";
-                $output .= "    <div class='location'>" . get_field('boat_location') . "</div>";
-                $output .= "</div></div>";
-
+        // Get the top categories... put them into a checkbox.
+        $adcats = get_terms( 'adcat', array('hide_empty' => false));
+        $primary_cats = array();
+        $output .= "<ul class='primary-filters'>";
+        foreach($adcats as $adcat) {
+            if($adcat->parent == 0) {
+                $primary_cats[] = $adcat;
+                $output .= "<li><input type='radio' value='$adcat->term_id' name='primary_cats'> $adcat->name</li>";
             }
         }
-        $output .= "</div>";
-        echo $output;
+        $output .= "</ul><!-- /primary-filters -->";
 
-        wp_reset_postdata();
+        // Secondary Filters
+        $output .= "<div class='secondary-filters'>";
+            $output .= "<h3>Filters</h3>";
+
+            $output .= "    <label for='search'>Search</label><input type='text' name='search' placeholder='e.g. Catalina, Moore'><input type='button' value='Find'>";
+            $output .= "    ";
+
+
+            // Max and Min Length... show only if it's a boat!
+            $output .= "<div class='max-min-filters'>";
+            $output .= "    <label for='min_length'>Min: </label> <input type='text' name='min_length' id='min_length' value=''>";
+            $output .= "    <label for='min_length'>Max: </label> <input type='text' name='max_length' id='max_length' value=''>";
+            $output .= "</div>";
+
+        $output .= "</div><!-- /secondary-filters -->";
+
+        $output .= "<div id='classyad_listing' class='classyads'>";
+        $output .= get_the_classys(); // This is the heavy lifting right here
+        $output .= "</div>";
+
+        $output .= "</div><!-- /classywidget -->";
+
+        echo $output;
 
         echo $after_widget;
     }

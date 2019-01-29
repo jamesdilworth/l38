@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row">
 
-        <header class="cpt-title">
-            <div style="text-align:center;">Classy Classifieds</div>
+        <header class="fl-archive-header">
+            <div class="lectronic-logo"><img src="/wp-content/themes/latitude38/images/classy_headline.png"></div>
             <a href="/classyads/">&laquo; Back to Classies</a>
         </header>
 
@@ -73,7 +73,7 @@
             <div class="acf-form-container">
             <?php
 
-                /*
+
                 echo '<form id="acf-form" class="acf-form" action="" method="post">';
                 if (( is_user_logged_in() && $current_user->ID == $post->post_author ) || current_user_can('edit_posts')) {
 
@@ -96,7 +96,7 @@
                     echo '<a id="edit-post" href="#edit">Edit Post</a>';
                 }
                 echo '</form>';
-                */
+
 
             ?>
             </div>

@@ -1,5 +1,5 @@
 // Custom scripts go here.
-var S4O = (function($) {
+var L38 = (function($) {
 
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -244,8 +244,6 @@ var S4O = (function($) {
                     return false;
                 }
 
-                // If the tabs are too
-
                 // Set $tab to be the <li> that matches window.hash
                 if (window.location.hash && $firstload ) {
                     $(window).load( function() {
@@ -262,8 +260,6 @@ var S4O = (function($) {
                 var $oldActiveTab = $tab.closest('ul').find('li.active'),
                     contentLocation = $tab.children('a').attr("href");
 
-                // Strip off the current url that IE adds
-                contentLocation = contentLocation.replace(/^.+#/, '#');
 
                 //Make Tab Active
                 $oldActiveTab.removeClass('active');
@@ -271,29 +267,53 @@ var S4O = (function($) {
 
                 //Show Tab Content
                 $('.tabbed > div').hide();
-                console.log($tab.children('a').data('targets'));
+
+                // Strip off the current url that IE adds
+                contentLocation = contentLocation.replace(/^.+#/, '#');
+
                 if($tab.children('a').data('targets')) {
                     $('.tabbed .' + $tab.children('a').data('targets')).show();
                 } else if(contentLocation) {
-                    $('#' + contentLocation).show();
+                    $(contentLocation).show();
                 }
             }
             miniTabs( void(0), true );
 
             // Set up event Handlers for Tabs
             $( document ).on( 'click', 'ul.tabs li', function ( event ) {
-                event.preventDefault();
-                history.pushState( null, null, $('a', this).attr('href') );
-                miniTabs( $( this ), false );
+                // if href isn't empty, or doesn't start with a hash..... it doesn't go to an external URL, do...
+                var url = $(this).children('a').attr("href");
+                console.log(url.indexOf('#'));
+                if(url.indexOf('#') >= 0) {
+                    event.preventDefault();
+                    history.pushState( null, null, $('a', this).attr('href') );
+                    miniTabs( $( this ), false );
+                }
             });
         }
     };
-
 })(jQuery);
-S4O.preInit(); // Stuff to do ASAP before onLoad
+
+L38.preInit(); // Stuff to do ASAP before onLoad
 
 jQuery(document).ready(function($) {
-    S4O.init();
+    L38.init();
+
+    $('.add-classy-link').magnificPopup({
+        items: {
+            type: 'inline',
+            src: "#add-classy-modal",
+            modal:true
+        }
+    });
+
+    $('.sign-up').magnificPopup({
+        items: {
+            type: 'inline',
+            src: "#sign-up",
+            modal:true
+        }
+    });
 
 });
 

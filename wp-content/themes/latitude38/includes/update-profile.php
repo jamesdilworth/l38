@@ -50,17 +50,15 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && !empty( $_POST['action'] ) && $_POS
     if ( $display_name ) {
         wp_update_user( array ('ID' => $current_user->ID, 'display_name' => esc_attr( $display_name ) ) );
     }
-    if ( !empty( $_POST['phone_number'] ) ) {
-        update_user_meta( $current_user->ID, 'phone_number', esc_attr( $_POST['phone_number'] ) );
+    if ( !empty( $_POST['phone'] ) ) {
+        update_user_meta( $current_user->ID, 'phone', esc_attr( $_POST['phone'] ) );
     }
-    if ( !empty( $_POST['user_specialisation'] ) ) {
-        update_user_meta( $current_user->ID, 'specialisation', esc_attr( $_POST['user_specialisation'] ) );
-    }
-    if ( !empty( $_POST['location'] ) ) {
-        update_user_meta( $current_user->ID, 'location', esc_attr( $_POST['location'] ) );
+    if ( !empty( $_POST['user_location'] ) ) {
+        update_user_meta( $current_user->ID, 'user_location', esc_attr( $_POST['user_location'] ) );
     }
     /* Let plugins hook in, like ACF who is handling the profile picture all by itself. Got to love the Elliot */
     do_action('edit_user_profile_update', $current_user->ID);
+
     /* We got here, assuming everything went OK */
     wp_redirect( get_permalink() . '?updated=true' );
     exit;

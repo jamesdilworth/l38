@@ -157,6 +157,12 @@
   display: block;
 }
 
+/* Boostrap Overrides */
+input[type=radio], input[type=checkbox] {
+  position: relative;
+  top: -2px;
+}
+
 /* WP OVERRIDES */
 .wp-caption.alignnone {
   margin: 20px auto;
@@ -381,6 +387,14 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
 }
 
+#add-classy-modal .mfp-close,
+#add-classy-modal .mfp-close:active,
+#add-classy-modal .mfp-close:hover,
+#add-classy-modal .mfp-close:focus {
+  top: 15px !important;
+  color: #fff;
+}
+
 /* Syntax Highlighter Overrrides */
 .syntaxhighlighter {
   font-size: 0.85em !important;
@@ -470,6 +484,11 @@ h2 + .subtitle {
 }
 .btn.large {
   font-size: 130%;
+}
+.btn.small {
+  font-size: 80%;
+  font-weight: normal;
+  padding: 4px 8px;
 }
 .btn.wide {
   width: 100%;
@@ -1029,6 +1048,7 @@ h1 .private_notice {
 .response.fail {
   border-left: 5px solid #c00;
   background-color: #fcc;
+  color: #c00;
 }
 
 .response.fail .title {
@@ -1044,7 +1064,7 @@ h1 .private_notice {
   border-bottom: 1px solid #ccc;
   margin-top: 20px;
 }
-.tabs .tab {
+.tabs .tab, .tabs li {
   background-color: #f6f6f6;
   top: 1px;
   position: relative;
@@ -1055,7 +1075,7 @@ h1 .private_notice {
   border: 1px solid #ccc;
   margin-right: 5px;
 }
-.tabs .tab.active {
+.tabs .tab.active, .tabs li.active {
   background-color: #fff;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
   font-weight: bold;
@@ -1093,10 +1113,14 @@ button, input[type=button], input[type=submit] {
 
 button:hover, input[type=button]:hover, input[type=submit]:hover {
   background-color: #79d6f4;
+  border: 0;
+  color: #fff;
 }
 
 button:active, input[type=button]:active, input[type=submit]:active {
   background-color: #79d6f4;
+  border: 0;
+  color: #fff;
 }
 
 /* GRAVITY FORMS DEFAULT STYLING */
@@ -1105,7 +1129,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   padding: 20px;
   background: #fff;
   width: auto;
-  max-width: 600px;
+  max-width: 800px;
   margin: 20px auto;
 }
 .gf-modal .gform_footer {
@@ -1118,7 +1142,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
   margin: -20px;
   padding: 20px;
   margin-bottom: 20px;
-  background-color: #254a71;
+  background-color: #018db9;
   color: #fff;
   text-transform: uppercase;
 }
@@ -1137,6 +1161,10 @@ button:active, input[type=button]:active, input[type=submit]:active {
   width: 25px;
   height: 25px;
   margin-right: 5px;
+}
+
+.gform_wrapper .gf_page_steps {
+  margin-bottom: 20px;
 }
 
 /* Progress Bar */
@@ -1186,6 +1214,106 @@ button:active, input[type=button]:active, input[type=submit]:active {
 /* Classy Ad Form */
 .single-classy .acf-form .acf-field {
   border-top: 0;
+}
+
+/* Rebalance the checkboxes and radio buttons */
+.gform_wrapper.gf_browser_chrome .gfield_checkbox li input,
+.gform_wrapper.gf_browser_chrome .gfield_checkbox li input[type=checkbox],
+.gform_wrapper.gf_browser_chrome .gfield_radio li input[type=radio] {
+  margin-top: 0;
+  margin-right: 3px;
+}
+
+body label {
+  font-weight: normal;
+}
+body .gform_wrapper ul li.gfield {
+  margin-top: 5px;
+}
+body .gform_wrapper ul li.field_description_below div.ginput_container_radio,
+body .gform_wrapper ul li.field_description_below div.ginput_container_checkbox {
+  margin-top: 0;
+}
+body .gform_wrapper .field_sublabel_below .ginput_complex.ginput_container label {
+  display: none;
+}
+body .gform_wrapper label.gfield_label {
+  font-weight: 500;
+  font-size: 90%;
+}
+body .gform_wrapper .top_label div.ginput_container {
+  margin-top: 0;
+}
+body .gform_wrapper .gform_footer {
+  margin-top: 5px;
+}
+body .gform_confirmation_wrapper {
+  padding: 20px 10px;
+  margin: 25px auto;
+}
+body .gform_wrapper h3.gform_title {
+  font-weight: 300;
+  font-size: 24px;
+}
+body .ginput_container_time label {
+  display: none !important;
+}
+body .ginput_container_time input {
+  display: inline-block;
+}
+body .on_indigo .gform_confirmation_wrapper {
+  background-color: #180D38;
+  color: #fff;
+}
+body .on_grey .gform_confirmation_wrapper {
+  background-color: #e2e4ec;
+  color: #271759;
+}
+body .on_blue .gform_confirmation_wrapper {
+  background-color: #D6E9F4;
+  color: #025382;
+}
+body .gform_confirmation_message {
+  padding-left: 50px;
+  padding-top: 5px;
+}
+body .gform_confirmation_message::before {
+  float: left;
+  margin-left: -40px;
+  margin-top: -5px;
+  font-family: "FontAwesome";
+  content: "";
+  font-size: 180%;
+}
+
+#gform_2 #input_2_10 li {
+  display: inline-block;
+}
+#gform_2 #input_2_10 li label {
+  max-width: initial;
+  margin-right: 15px;
+}
+#gform_2 #input_2_21 li label {
+  max-width: initial;
+  margin-right: 15px;
+}
+
+/* My Custom Forms */
+.jz-form label {
+  padding-left: 5px;
+  font-weight: 500;
+  font-size: 90%;
+}
+.jz-form .left-half {
+  width: 49.9%;
+  float: left;
+  margin-bottom: 10px;
+  padding-right: 15px;
+}
+.jz-form .right-half {
+  width: 49.9%;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .single-issue .cover {
@@ -1631,6 +1759,30 @@ button:active, input[type=button]:active, input[type=submit]:active {
 }
 .single-classy .seller_info {
   margin-top: 20px;
+}
+
+.classy_widget .primary-filters {
+  background-color: #f6f6f6;
+  padding: 5px 10px;
+  text-align: center;
+  margin: 20px 0;
+}
+.classy_widget .primary-filters li {
+  display: inline-block;
+  margin-right: 15px;
+}
+.classy_widget .secondary-filters {
+  background-color: #f6f6f6;
+  width: 300px;
+  margin-right: 20px;
+  float: left;
+  padding: 20px;
+}
+.classy_widget .secondary-filters h3 {
+  margin-top: 0;
+}
+.classy_widget .classyads {
+  margin-left: 350px;
 }
 
 .classyads .ad {
@@ -2102,6 +2254,62 @@ button:active, input[type=button]:active, input[type=submit]:active {
 .fl-comments .cancel-reply-link {
   float: right;
   font-size: 80%;
+}
+
+.page-my-account .my-profile {
+  padding-top: 20px;
+}
+.page-my-account .my-profile .img {
+  width: 200px;
+  overflow: hidden;
+  float: left;
+}
+.page-my-account .my-profile .name {
+  margin-left: 220px;
+  font-size: 140%;
+  font-weight: 600;
+}
+.page-my-account .my-profile .location {
+  margin-left: 220px;
+  color: #aaa;
+}
+.page-my-account .my-classies .ad {
+  width: 100%;
+  padding: 5px;
+  position: relative;
+  margin-bottom: 5px;
+  overflow: auto;
+}
+.page-my-account .my-classies .ad:nth-child(even) {
+  background-color: #f6f6f6;
+}
+.page-my-account .my-classies .img {
+  float: left;
+  width: 150px;
+}
+.page-my-account .my-classies .price {
+  font-size: 90%;
+}
+.page-my-account .my-classies .img img {
+  height: 100px;
+}
+.page-my-account .my-classies .info {
+  margin-left: 160px;
+}
+.page-my-account .my-classies .title {
+  font-size: 115%;
+  font-weight: bold;
+}
+.page-my-account .my-classies .options {
+  position: absolute;
+  right: 0;
+  top: 0;
+  max-width: 250px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+.page-my-account .my-classies .status {
+  font-size: 85%;
 }
 
 .home .lectronic_stories .main.story .image {

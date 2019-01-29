@@ -24,7 +24,10 @@ function kin_login_redirect( $url, $request, $user ){
             // TODO redirect to $request url if requested.
             $url = admin_url();
         } else {
-            $url = $request;
+            if(stripos($request,'wp-admin'))
+                $url = '/my-account/';
+            else
+                $url = $request;
         }
     }
     return $url;

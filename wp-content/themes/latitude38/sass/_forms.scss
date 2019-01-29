@@ -1,16 +1,17 @@
 /* STD Forms */
 button, input[type=button], input[type=submit] { border:0;  }
-button:hover, input[type=button]:hover, input[type=submit]:hover { background-color:$accent1;  }
-button:active, input[type=button]:active, input[type=submit]:active { background-color:$accent1;  }
+button:hover, input[type=button]:hover, input[type=submit]:hover { background-color:$accent1; border:0; color:#fff; }
+button:active, input[type=button]:active, input[type=submit]:active { background-color:$accent1; border:0; color:#fff;  }
 
 /* GRAVITY FORMS DEFAULT STYLING */
-.gf-modal  	 								{ position: relative; padding:20px; background:#fff; width:auto;  max-width:600px;  margin:20px auto;
+.gf-modal  	 								{ position: relative; padding:20px; background:#fff; width:auto;  max-width:800px;  margin:20px auto;
 	.gform_footer							{ text-align:right; }
 	.gform_wrapper 							{ margin:0; }
-	.gform_wrapper h3.gform_title			{ margin:-20px; padding:20px; margin-bottom:20px; background-color:$base-color; color:#fff; text-transform:uppercase;}
+	.gform_wrapper h3.gform_title			{ margin:-20px; padding:20px; margin-bottom:20px; background-color:$accent2; color:#fff; text-transform:uppercase;}
 }
 
 .gform_wrapper .gf_step span.gf_step_number { font-size: 120%; font-weight: bold; padding-top: 2px; font-family: "Open Sans", sans-serif; margin-right: 4px; background-color: #f190aa; color: #fff;  vertical-align: middle;  border-radius: 20px;  text-align: center;  width: 25px; height: 25px; margin-right:5px; }
+.gform_wrapper .gf_page_steps 				{ margin-bottom:20px; }
 
 /* Progress Bar */
 .gform_wrapper .percentbar_blue 			{ background-color:#2e89bd; color:#fff; }
@@ -31,4 +32,53 @@ button:active, input[type=button]:active, input[type=submit]:active { background
 .single-classy .acf-form 					{
 	.acf-field 								{ border-top:0; }
 
+}
+
+/* Rebalance the checkboxes and radio buttons */
+.gform_wrapper.gf_browser_chrome .gfield_checkbox li input,
+.gform_wrapper.gf_browser_chrome .gfield_checkbox li input[type=checkbox],
+.gform_wrapper.gf_browser_chrome .gfield_radio li input[type=radio] {
+	margin-top: 0;
+	margin-right: 3px;
+}
+
+body										{
+	label 									{ font-weight:normal; }
+	.gform_wrapper ul li.gfield 			{ margin-top:5px;  }
+	.gform_wrapper ul li.field_description_below div.ginput_container_radio,
+	.gform_wrapper ul li.field_description_below div.ginput_container_checkbox { margin-top:0; }
+	.gform_wrapper .field_sublabel_below .ginput_complex.ginput_container label { display:none; }
+	.gform_wrapper label.gfield_label		{ font-weight:500; font-size:90%; }
+	.gform_wrapper .top_label div.ginput_container { margin-top:0; }
+	.gform_wrapper .gform_footer			{ margin-top:5px; }
+
+	.gform_confirmation_wrapper				{ padding: 20px 10px; margin: 25px auto;  }
+	.gform_wrapper h3.gform_title 			{ font-weight:300; font-size:24px; }
+
+	.ginput_container_time label			{ display:none !important; }
+	.ginput_container_time input 			{ display:inline-block; }
+
+	.on_indigo .gform_confirmation_wrapper	{  background-color: #180D38; color: #fff; }
+	.on_grey .gform_confirmation_wrapper	{  background-color: #e2e4ec; color: #271759; }
+	.on_blue .gform_confirmation_wrapper 	{ background-color: #D6E9F4; color: #025382; }
+
+	.gform_confirmation_message				{ padding-left:50px; padding-top:5px;
+		&::before							{ float:left; margin-left:-40px; margin-top:-5px; font-family: 'FontAwesome'; content: "\f087"; font-size:180%;  }
+	}
+}
+
+#gform_2 				{ // Add Classified.
+	#input_2_10 li 		{ display:inline-block;
+		label			{ max-width:initial; margin-right:15px; }
+	}
+	#input_2_21 li 		{
+		label 			{ max-width:initial; margin-right:15px; }
+	}
+}
+
+/* My Custom Forms */
+.jz-form				{
+	label 				{ padding-left:5px; font-weight:500; font-size:90%; }
+	.left-half 			{ width:49.9%; float:left; margin-bottom:10px; padding-right:15px; }
+	.right-half 		{ width:49.9%; display:inline-block; margin-bottom:10px; }
 }

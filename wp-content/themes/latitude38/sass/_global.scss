@@ -23,6 +23,7 @@ h2+.subtitle 		{ font-size:125%; color:#aba7bd; }
 	& a:hover		{ background-color:$accent3; color:#fff; }
 	& a:visited		{ color:#fff; }
 	&.large			{ font-size:130%; }
+	&.small 		{ font-size:80%; font-weight:normal; padding:4px 8px; }
 	&.wide 			{ width:100%; }
 }
 
@@ -232,12 +233,12 @@ h1 .private_notice			{ background-color:#c00; font-size:10px; color:#fff; paddin
 .response.success a 		{ color: #3d7215; }
 .response.success .title 	{ color: #69be28; font-weight: bold; }
 
-.response.fail 				{ border-left: 5px solid #c00; background-color: #fcc; }
+.response.fail 				{ border-left: 5px solid #c00; background-color: #fcc; color:#c00; }
 .response.fail .title 		{ color: #c00; }
 .response.fail .title a 	{ color: #800; }
 
 .tabs						{ padding-left:0; border-bottom:1px solid #ccc; margin-top:20px;
-	.tab					{ background-color:#f6f6f6; top:1px; position:relative; display:inline-block; list-style-type:none; border-radius:$radius; padding:3px 10px 3px; border:1px solid #ccc;  margin-right:5px;
+	.tab, li				{ background-color:#f6f6f6; top:1px; position:relative; display:inline-block; list-style-type:none; border-radius:$radius; padding:3px 10px 3px; border:1px solid #ccc;  margin-right:5px;
 		&.active			{ background-color:#fff;  box-shadow:0 -4px 8px rgba(0,0,0,0.1); font-weight:bold; border-bottom-color: #fff; }
 	}
 

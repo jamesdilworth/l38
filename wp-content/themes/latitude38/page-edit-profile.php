@@ -1,4 +1,6 @@
 <?php
+    // Tips from https://wpcode.io/howto-create-front-end-profile-edit-page-wordpress/
+
     check_page_security();
     require_once('includes/update-profile.php');
     get_header();
@@ -19,13 +21,10 @@
                 <?php // get_template_part( 'parts/dashboard/edit-profile/intro' ); ?>
 
                 <?php if( !empty( $_GET['updated'] ) ): ?>
-
-                    <div class="success"><?php _e('Profile successfully updated', 'textdomain'); ?></div>
-
+                   <div class="success"><?php _e('Profile successfully updated', 'textdomain'); ?></div>
                 <?php endif; ?>
 
                 <?php if( !empty( $_GET['validation'] ) ): ?>
-
                     <?php if( $_GET['validation'] == 'emailnotvalid' ): ?>
                         <div class="error"><?php _e('The given email address is not valid', 'textdomain'); ?></div>
                     <?php elseif( $_GET['validation'] == 'emailexists' ): ?>
@@ -43,12 +42,6 @@
                 <form method="post" id="adduser" action="<?php the_permalink(); ?>">
 
                     <h3><?php _e('Personal info', 'textdomain'); ?></h3>
-
-                    <p>
-                        <label for="user_login"><?php _e('Username', 'textdomain'); ?></label>
-                        <input class="text-input" name="user_login" type="text" id="user_login" value="<?php the_author_meta( 'user_login', $current_user->ID ); ?>" disabled/>
-                        <?php _e('It is not possible to change your username.', 'textdomain'); ?>
-                    </p>
 
                     <p><?php _e('Please note, all information below is also shown on the website.', 'textdomain'); ?></p>
 

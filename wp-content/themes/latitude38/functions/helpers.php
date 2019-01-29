@@ -1,5 +1,33 @@
 <?php
 
+// Used to lookup a classy ad by it's old Lasso ID. This was used in the import process, but can probably be removed once the migration is successful.
+function get_post_from_lasso_id($classy_id) {
+    // Look up to see if the Classified exists...
+    $wp_id = false;
+    $args = array(
+        'post_type'		=>	'classy',
+        'meta_key'	    =>	'lasso_classy_id',
+        'meta_value'    =>  $classy_id
+    );
+
+    $wp_posts = new WP_Query( $args );
+    if( $wp_posts->have_posts() ) {
+        $wp_posts->the_post();
+        $wp_id = get_the_ID();
+    }
+    return $wp_id;
+}
+
+// Strips external characters from a phone number.
+function sanitize_purpose_phone_input( $input ) {
+    $input = preg_replace( "/[^0-9]/", "", $input );
+    if ( strlen( $input ) == 10 ) {
+        if ( is_numeric( $input ) ) {
+            return intval( $input );
+        }
+    }
+}
+
 // Dump $object to error log
 function var_error_log( $object=null ){
     ob_start();                    // start buffer capture

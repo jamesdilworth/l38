@@ -3,6 +3,30 @@
     "title": "User Meta",
     "fields": [
         {
+            "key": "field_5c36c2dde5644",
+            "label": "Avatar",
+            "name": "user_avatar",
+            "type": "image",
+            "instructions": "Upload a picture of yourself.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "uploadedTo",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
             "key": "field_5c36be2254085",
             "label": "Location",
             "name": "user_location",
@@ -20,30 +44,6 @@
             "prepend": "",
             "append": "",
             "maxlength": ""
-        },
-        {
-            "key": "field_5c36c2dde5644",
-            "label": "Avatar",
-            "name": "user_avatar",
-            "type": "image",
-            "instructions": "Upload a picture of yourself.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "array",
-            "preview_size": "thumbnail",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": ""
         },
         {
             "key": "field_5c453a6fab1ee",
@@ -150,5 +150,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1548041222
+    "modified": 1548478027
 }
