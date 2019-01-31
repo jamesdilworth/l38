@@ -165,22 +165,27 @@
 	#edit_main_content 			{ height:250px; }
 	#edit_ad_asking_price		{ display:inline-block; width:auto;}
 
-	.main-image-fields			{ display:none;
-		input[type=file]		{ display:inline-block; }
+	.main-photo-preview			{ position:relative;
+		ol.new-images 			{ list-style-type:none; padding-left:0; margin-bottom:0; }
+		.submit-new-image 		{ position:absolute; bottom:10px; right:10px; }
 	}
 
-	.subscription				{ clear:both; overflow:auto; background-color:$super-light-grey; border-radius:5px; padding:8px 20px; margin-top:20px;
+	.main-image-fields			{
+		label 					{ display:initial; color:$accent6; font-size: 13px !important;  font-weight: normal !important; text-transform: none !important;
+			&:hover				{ cursor:pointer; text-decoration:underline;}
+		}
+		input[type=file]		{ opacity:0; }
+	}
+
+	.subscription				{ clear:both; overflow:auto; background-color:$super-light-grey; border-radius:5px; padding:8px 20px; margin:20px -10px;
 		h3 						{ margin-top:5px; }
 		.desc 					{ float:left; width:50%; }
-		.magazine-preview 		{ max-width:400px; float:left; font-size:90%; background-color:#fff; padding:3px 8px;
+		.magazine-preview 		{ max-width:350px; float:right; font-size:90%; background-color:#fff; padding:3px 8px;
 			.mag-section		{ color:#fff; font-size:120%; padding:10px; margin:10px 0; text-align:center; font-style:italic; text-transform:uppercase; background-color:$accent2; }
 			.mag-img 			{ height:200px; background-size:cover; background-position:bottom; }
 			.title 				{ text-transform:uppercase; font-weight:bold; }
 		}
 	}
-
-
-
 	.form-submit 				{ margin:10px 0; }
 }
 

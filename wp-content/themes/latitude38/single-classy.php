@@ -58,15 +58,17 @@
 
 
             <div class="photo-gallery">
-                <div class="main_img"><img src="<?= $main_img ?>" alt="For Sale: <?php the_title(); ?>"></div>
+                <div class="main-photo-preview"><img src="<?= $main_img ?>" alt="For Sale: <?php the_title(); ?>"></div>
                 <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
-                    <a href="" class="edit_link switch_image_upload_mode">Upload New Main Photo</a>
 
                     <div class="main-image-fields">
-                        <form id="file-form" action="handler.php" method="POST">
-                            <input type="file" id="main_photo" name="main_photo" accept="image/png, image/jpeg, image/gif" /> (Max 2MB)
+                        <form id="main-photo-form" action="handler.php" method="POST">
+                            <label for="main_photo_input" class="">Change Main Photo (Max 2MB)</label>
+                            <input type="file" id="main_photo_input" name="main_photo_input" accept="image/*" />
+                            <input type="hidden" id="post_id" name="classy_id" value="<?= $post->ID; ?>">
+                            <?php wp_nonce_field( 'update-mainphoto' ) ?>
                         </form>
-                    </div>
+                     </div>
 
                 <?php endif; ?>
                 <?php // acf_form(); ?>
@@ -149,17 +151,17 @@
 
             <div class="subscription">
                 <div class="desc">
-                    <h3>Your Subscription</h3>
+                    <h3>Your &lt;PURCHASE LEVEL&gt; Ad</h3>
 
                     <p>Your print ad will appear in our December 2018 Issue. </p>
-                    <p>Last day to make changes is November 15th at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
+                    <p>Last day to make changes for print is November 15th at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
                     <p>This online ad will expire on December 31, 2018.</p>
-                    <p><a class='btn' href=''>Renew for 1 Month - $40</a> <a class='btn' href=''>Renew for 3 Months - $80</a></p>
+                    <p><a class='btn' style="background-color:#4d948c;">Mark as SOLD</a> <a class='btn' href=''>Renew for 1 Month - $40</a> <a class='btn' href=''>Renew for 3 Months - $80</a></p>
 
                 </div>
 
                 <div class="magazine-preview">
-                    <div class="mag-section">36 TO 39 FEET</div>
+                    <div class="mag-section">&lt; SECTION &gt;</div>
                     <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
                     <div class="mag-body">
                         <span class="title"><?= $ad_title ?></span>

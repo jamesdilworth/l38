@@ -18,9 +18,9 @@ a 					{ color:$accent2; }
 h1+.subtitle,
 h2+.subtitle 		{ font-size:125%; color:#aba7bd; }
 
-.btn 				{ background-color:$accent2; border-radius:2px; font-weight:bold; color:#fff; font-size:90%;
+.btn 				{ background-color:$accent3; border-radius:2px; font-weight:bold; color:#fff; font-size:90%;
 	&:hover,
-	& a:hover		{ background-color:$accent3; color:#fff; }
+	& a:hover		{ background-color:$accent2; color:#fff; }
 	& a:visited		{ color:#fff; }
 	&.large			{ font-size:130%; }
 	&.small 		{ font-size:80%; font-weight:normal; padding:4px 8px; }

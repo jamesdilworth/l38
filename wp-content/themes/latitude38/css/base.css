@@ -469,14 +469,14 @@ h2 + .subtitle {
 }
 
 .btn {
-  background-color: #018db9;
+  background-color: #7ae2c5;
   border-radius: 2px;
   font-weight: bold;
   color: #fff;
   font-size: 90%;
 }
 .btn:hover, .btn a:hover {
-  background-color: #7ae2c5;
+  background-color: #018db9;
   color: #fff;
 }
 .btn a:visited {
@@ -1828,11 +1828,32 @@ body .gform_confirmation_message::before {
   display: inline-block;
   width: auto;
 }
-.single-classy .main-image-fields {
-  display: none;
+.single-classy .main-photo-preview {
+  position: relative;
+}
+.single-classy .main-photo-preview ol.new-images {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.single-classy .main-photo-preview .submit-new-image {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.single-classy .main-image-fields label {
+  display: initial;
+  color: #f03059;
+  font-size: 13px !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+}
+.single-classy .main-image-fields label:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 .single-classy .main-image-fields input[type=file] {
-  display: inline-block;
+  opacity: 0;
 }
 .single-classy .subscription {
   clear: both;
@@ -1840,7 +1861,7 @@ body .gform_confirmation_message::before {
   background-color: #f6f6f6;
   border-radius: 5px;
   padding: 8px 20px;
-  margin-top: 20px;
+  margin: 20px -10px;
 }
 .single-classy .subscription h3 {
   margin-top: 5px;
@@ -1850,8 +1871,8 @@ body .gform_confirmation_message::before {
   width: 50%;
 }
 .single-classy .subscription .magazine-preview {
-  max-width: 400px;
-  float: left;
+  max-width: 350px;
+  float: right;
   font-size: 90%;
   background-color: #fff;
   padding: 3px 8px;
