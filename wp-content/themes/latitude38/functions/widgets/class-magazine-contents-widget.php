@@ -181,7 +181,7 @@ class magazine_contents_widget extends WP_Widget {
                 endif;
 
                 if(in_array('features', $options)) :
-                    echo "<div class='magazine-features'>";
+                    echo "<div class='magazine-features equalize'>";
                     foreach($features_only as $feature) {
                         echo $feature;
                     }
