@@ -185,8 +185,8 @@ class magazine_contents_widget extends WP_Widget {
                     foreach($features_only as $feature) {
                         echo $feature;
                     }
-                    echo "<div class='features-contents-link'><a href='" . get_the_permalink() ."'>View Full Magazine Contents &raquo</a></div>";
                     echo "</div>";
+                    echo "<div class='features-contents-link'><a href='" . get_the_permalink() ."'>View Full Magazine Contents &raquo</a></div>";
                 endif;
 
                 if(in_array('contents',$options)) :
