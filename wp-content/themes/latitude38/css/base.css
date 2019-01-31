@@ -792,10 +792,12 @@ a.edit_link,
   display: none;
 }
 
+.public.edit_link,
 .admin-bar .edit_link {
   display: initial;
 }
 
+.public.edit_link a,
 .admin-bar .edit_link a,
 .admin-bar a.edit_link,
 .admin-bar a.post-edit-link {
@@ -944,6 +946,10 @@ a.vidoverlay:hover:before {
 .insider .hide-from-public,
 .admin-bar .hide-from-public {
   display: block;
+}
+
+.jz-header {
+  margin: 0 10px;
 }
 
 /* Content Tables are used to display information in the body of the content */
@@ -1123,6 +1129,59 @@ button:active, input[type=button]:active, input[type=submit]:active {
   color: #fff;
 }
 
+input[type=text], input[type=password], input[type=email], input[type=tel], input[type=date], input[type=month], input[type=week], input[type=time], input[type=number], input[type=search], input[type=url], textarea {
+  font-size: initial;
+  padding: 4px 8px;
+}
+
+input.small {
+  width: 100px;
+}
+
+input[type=file] {
+  line-height: 1em;
+  margin: 10px 0;
+  font-size: 15px;
+  color: #aaa;
+}
+
+label {
+  padding-left: 3px;
+  font-weight: 500;
+  font-size: 90%;
+  margin: 10px 0 0;
+}
+
+/* Stick in a dollar sign before input */
+.currencyinput {
+  position: relative;
+}
+
+.currencyinput:before {
+  content: "$ ";
+  position: absolute;
+  top: 3px;
+  left: 9px;
+  z-index: 5;
+  color: #aaa;
+  font-size: 90%;
+}
+
+.currencyinput input {
+  padding-left: 20px;
+}
+
+ul.horizontal {
+  overflow: auto;
+  margin: 5px 0;
+  padding: 0;
+}
+ul.horizontal li {
+  list-style-type: none;
+  float: left;
+  margin-right: 10px;
+}
+
 /* GRAVITY FORMS DEFAULT STYLING */
 .gf-modal {
   position: relative;
@@ -1299,11 +1358,6 @@ body .gform_confirmation_message::before {
 }
 
 /* My Custom Forms */
-.jz-form label {
-  padding-left: 5px;
-  font-weight: 500;
-  font-size: 90%;
-}
 .jz-form .left-half {
   width: 49.9%;
   float: left;
@@ -1721,6 +1775,10 @@ body .gform_confirmation_message::before {
   }
 }
 
+.single-classy h1 {
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
 .single-classy header.cpt-title {
   padding: 10px;
 }
@@ -1737,18 +1795,15 @@ body .gform_confirmation_message::before {
 .single-classy .main-content {
   float: left;
   width: 50%;
+  padding-bottom: 40px;
 }
 .single-classy .sale-terms {
   text-transform: uppercase;
   color: #aaa;
 }
-.single-classy h1 {
-  margin-top: -5px;
-  margin-bottom: -5px;
-}
 .single-classy .price {
   color: #82b4a9;
-  font-size: 160%;
+  font-size: 140%;
 }
 .single-classy .location {
   text-transform: uppercase;
@@ -1759,6 +1814,69 @@ body .gform_confirmation_message::before {
 }
 .single-classy .seller_info {
   margin-top: 20px;
+}
+.single-classy .update-classy-ad {
+  display: none;
+  float: left;
+  width: 50%;
+  padding-bottom: 40px;
+}
+.single-classy #edit_main_content {
+  height: 250px;
+}
+.single-classy #edit_ad_asking_price {
+  display: inline-block;
+  width: auto;
+}
+.single-classy .main-image-fields {
+  display: none;
+}
+.single-classy .main-image-fields input[type=file] {
+  display: inline-block;
+}
+.single-classy .subscription {
+  clear: both;
+  overflow: auto;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  padding: 8px 20px;
+  margin-top: 20px;
+}
+.single-classy .subscription h3 {
+  margin-top: 5px;
+}
+.single-classy .subscription .desc {
+  float: left;
+  width: 50%;
+}
+.single-classy .subscription .magazine-preview {
+  max-width: 400px;
+  float: left;
+  font-size: 90%;
+  background-color: #fff;
+  padding: 3px 8px;
+}
+.single-classy .subscription .magazine-preview .mag-section {
+  color: #fff;
+  font-size: 120%;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: center;
+  font-style: italic;
+  text-transform: uppercase;
+  background-color: #018db9;
+}
+.single-classy .subscription .magazine-preview .mag-img {
+  height: 200px;
+  background-size: cover;
+  background-position: bottom;
+}
+.single-classy .subscription .magazine-preview .title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.single-classy .form-submit {
+  margin: 10px 0;
 }
 
 .classy_widget .primary-filters {
@@ -1774,22 +1892,53 @@ body .gform_confirmation_message::before {
 .classy_widget .secondary-filters {
   background-color: #f6f6f6;
   width: 300px;
-  margin-right: 20px;
+  margin-right: 10px;
   float: left;
   padding: 20px;
 }
 .classy_widget .secondary-filters h3 {
   margin-top: 0;
 }
+.classy_widget .secondary-filters .filter {
+  margin-bottom: 10px;
+}
+.classy_widget .secondary-filters .search-filter input {
+  display: inline-block;
+  width: 90%;
+}
+.classy_widget .secondary-filters .search-filter i {
+  margin-left: -30px;
+  color: #018db9;
+  padding-top: 4px;
+}
+.classy_widget .secondary-filters .max-min-filters input {
+  display: inline-block;
+}
+.classy_widget .secondary-cats {
+  display: none;
+}
+.classy_widget .secondary-cats li {
+  list-style-type: none;
+}
+.classy_widget .secondary-cats li label {
+  margin-top: 0;
+}
+.classy_widget .secondary-cats > li > label {
+  display: none;
+}
+.classy_widget .secondary-cats .children {
+  display: none;
+}
 .classy_widget .classyads {
-  margin-left: 350px;
+  margin-left: 325px;
+  margin-right: -30px;
 }
 
 .classyads .ad {
   position: relative;
   float: left;
-  width: 336px;
-  height: 220px;
+  width: 370px;
+  height: 240px;
   margin-right: 30px;
   margin-bottom: 25px;
   background-size: cover;

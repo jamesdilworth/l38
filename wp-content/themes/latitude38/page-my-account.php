@@ -131,7 +131,8 @@
                             $classies_by_me->the_post();
 
                             $status = 'live'; // Calculate this from the last day of the ad.
-                            $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'thumbnail') : get_bloginfo('stylesheet_url') .  '/images/default-classy-ad.png';
+                            $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'thumbnail') : get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
+
 
                             echo "<div class='ad'>";
                             echo "  <div class='img'><img src='$img'></div>";

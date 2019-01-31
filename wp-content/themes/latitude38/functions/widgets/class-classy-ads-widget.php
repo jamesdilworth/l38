@@ -1,4 +1,10 @@
 <?php
+if ( ! function_exists( 'wp_terms_checklist' ) ) {
+    include ABSPATH . 'wp-admin/includes/template.php';
+}
+
+
+
 
 class classy_ads_widget extends WP_Widget {
     function __construct() {
@@ -44,46 +50,56 @@ class classy_ads_widget extends WP_Widget {
     public function widget($args, $instance) {
         // display
         global $post;
-        wp_enqueue_script( 'classys', get_stylesheet_directory_uri(). '/js/classys.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/classys.js'), true ); // load scripts in footer
+        global $wp_query; // To enable pagination?
 
         extract($args);
 
-        echo $before_widget;
+        // Enqueue assoc classy script.
+        wp_enqueue_script( 'classys', get_stylesheet_directory_uri(). '/js/classys.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/classys.js'), true ); // load scripts in footer
 
+        // Config Vars
         $outerpost_id = $post->ID;
         $title = (empty($instance['title'])) ? "" : apply_filters('widget_title', $instance['title']);
         $qty = (empty($instance['qty'])) ? -1 : $instance['qty'];
 
-        // Enable Pagination
-        global $wp_query;
-
-        $output = "<div class='classy_widget'>";
-
-        // Get the top categories... put them into a checkbox.
         $adcats = get_terms( 'adcat', array('hide_empty' => false));
         $primary_cats = array();
-        $output .= "<ul class='primary-filters'>";
+
+        // Output
+        echo $before_widget;
+
+        echo '<div class="classy_widget">';
+
+        // Get the top categories... put them into a checkbox.
+        echo '<ul class="primary-filters">';
         foreach($adcats as $adcat) {
             if($adcat->parent == 0) {
                 $primary_cats[] = $adcat;
-                $output .= "<li><input type='radio' value='$adcat->term_id' name='primary_cats'> $adcat->name</li>";
+                echo "<li><input type='radio' value='$adcat->term_id' name='primary_cats'> $adcat->name</li>";
             }
         }
-        $output .= "</ul><!-- /primary-filters -->";
+        echo  '</ul><!-- /primary-filters -->';
 
         // Secondary Filters
-        $output .= "<div class='secondary-filters'>";
-            $output .= "<h3>Filters</h3>";
+        echo '<div class="secondary-filters">';
+        echo '    <h3>Filters</h3>';
 
-            $output .= "    <label for='search'>Search</label><input type='text' name='search' placeholder='e.g. Catalina, Moore'><input type='button' value='Find'>";
-            $output .= "    ";
+        // Search
+        echo '  <div class="search-filter filter">';
+        echo "    <label for='search'>Search</label><input class='search' type='text' name='search' placeholder='e.g. Catalina, Moore'><i class='fa fa-search'></i>";
+        echo '  </div>';
 
+        // Secondary Filters
+        echo '    <div class="secondary-cats filter">';
+        echo '      <label>Types</label>';
+        wp_terms_checklist( 0, array('taxonomy' => 'adcat') );
+        echo '    </div>';
 
-            // Max and Min Length... show only if it's a boat!
-            $output .= "<div class='max-min-filters'>";
-            $output .= "    <label for='min_length'>Min: </label> <input type='text' name='min_length' id='min_length' value=''>";
-            $output .= "    <label for='min_length'>Max: </label> <input type='text' name='max_length' id='max_length' value=''>";
-            $output .= "</div>";
+        // Max and Min Length... show only if it's a boat!
+        $output = "<div class='max-min-filters filter'>";
+        $output .= "    <label>Length (ft)</label>";
+        $output .= "    <div class='inputs'><input class='small' type='text' name='min_length' id='min_length' value='' placeholder='Min'> to <input class='small' type='text' name='max_length' id='max_length' value='' placeholder='Max'></div>";
+        $output .= "</div>";
 
         $output .= "</div><!-- /secondary-filters -->";
 

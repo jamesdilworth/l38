@@ -11,11 +11,17 @@ var Classys = (function($) {
 
     var updateResults = function(filter, val) {
         // Main filter query to reset the results for what we're looking for.
-        console.log('fired updateResults()');
+        console.log('fired updateResults() with ' + filter + ' of ' + val);
 
         switch(filter) {
             case 'primary':
-                data.primary = val;
+                // Show secondary cats in LH Nav.
+                $('.secondary-cats').show(); // just for the first time
+                $('.secondary-cats .children').hide();
+                $('.secondary-cats input').prop('checked', false);
+                $('#adcat-' + val).find('.children').show();
+                data.adcat = [val];
+                data.temp_primary = false; // flag that the adcat is top-level.
                 break;
             case 'min_length':
                 data.min_length = val;
@@ -26,8 +32,23 @@ var Classys = (function($) {
             case 'search':
                 data.search = val;
                 break;
+            case 'tax_input[adcat][]':
+                if(!(data.temp_primary)) { // We're adding a secondary adcat for the first time.
+                    data.temp_primary = data.adcat; // hold our primary adcat
+                    data.adcat = [val];
+                } else { // We're working with adcat in secondary mode....
+                    data.adcat = [];
+                    $('.secondary-cats input:checked').each(function() {
+                        data.adcat.push($(this).val());
+                    });
+                    if(data.adcat.length == 0) {
+                        // no secondary cats detected, set the adcat back to our primary
+                        data.adcat = data.temp_primary;
+                    }
+                }
+                break;
             default:
-                //
+                return false;
                 break;
         }
 
@@ -64,6 +85,18 @@ var Classys = (function($) {
         $('.secondary-filters input').on('change', function(evt) {
             updateResults($(this).attr('name'), $(this).val());
             setTimeout(function(){ /* Do Nothing */ }, 1000);
+        });
+
+        $('.switch_public_edit_mode').click(function(evt) {
+            evt.preventDefault();
+            $('.main-content').toggle();
+            $('.update-classy-ad').toggle();
+        });
+
+        $('.switch_image_upload_mode').click(function(evt) {
+            evt.preventDefault();
+            $(this).hide();
+            $('.main-image-fields').toggle();
         });
     };
 

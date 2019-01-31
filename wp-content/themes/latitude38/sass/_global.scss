@@ -152,7 +152,10 @@ figcaption .source 					{ margin-top:15px; }
 a.edit_link,
 .ssba-sharecount 					{ display:none; }
 
+.public.edit_link,
 .admin-bar .edit_link 				{ display:initial; }
+
+.public.edit_link a,
 .admin-bar .edit_link a,
 .admin-bar a.edit_link,
 .admin-bar a.post-edit-link 		{ display:initial; color:$accent6; font-size: 13px !important; text-decoration: none !important; font-weight: normal !important; text-transform: none !important; }
@@ -203,6 +206,8 @@ a.vidoverlay:hover:before 		{ opacity:0.9;  }
 .hide-from-public 				{ display:none; }
 .insider .hide-from-public,
 .admin-bar .hide-from-public 	{ display:block; }
+
+.jz-header					{ margin:0 10px;}
 
 /* Content Tables are used to display information in the body of the content */
 .data-table  				{ width:100%; background-color:#fff;

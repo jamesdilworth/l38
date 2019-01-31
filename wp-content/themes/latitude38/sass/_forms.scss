@@ -3,6 +3,21 @@ button, input[type=button], input[type=submit] { border:0;  }
 button:hover, input[type=button]:hover, input[type=submit]:hover { background-color:$accent1; border:0; color:#fff; }
 button:active, input[type=button]:active, input[type=submit]:active { background-color:$accent1; border:0; color:#fff;  }
 
+input[type=text], input[type=password], input[type=email], input[type=tel], input[type=date], input[type=month], input[type=week], input[type=time], input[type=number], input[type=search], input[type=url], textarea { font-size:initial; padding:4px 8px;  }
+input.small 				{ width:100px; }
+input[type=file] 			{ line-height: 1em; margin:10px 0; font-size:15px; color:#aaa;  }
+
+label 						{ padding-left:3px; font-weight:500; font-size:90%; margin:10px 0 0; }
+
+/* Stick in a dollar sign before input */
+.currencyinput  			{ position:relative; }
+.currencyinput:before		{ content:"$ "; position:absolute; top:3px; left:9px; z-index:5; color:#aaa; font-size:90%; }
+.currencyinput input 		{ padding-left:20px; }
+
+ul.horizontal								{ overflow:auto; margin:5px 0; padding:0;
+	li 										{ list-style-type:none; float:left; margin-right:10px; }
+}
+
 /* GRAVITY FORMS DEFAULT STYLING */
 .gf-modal  	 								{ position: relative; padding:20px; background:#fff; width:auto;  max-width:800px;  margin:20px auto;
 	.gform_footer							{ text-align:right; }
@@ -78,7 +93,7 @@ body										{
 
 /* My Custom Forms */
 .jz-form				{
-	label 				{ padding-left:5px; font-weight:500; font-size:90%; }
+
 	.left-half 			{ width:49.9%; float:left; margin-bottom:10px; padding-right:15px; }
 	.right-half 		{ width:49.9%; display:inline-block; margin-bottom:10px; }
 }

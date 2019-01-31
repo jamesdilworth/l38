@@ -7,18 +7,18 @@ add_action('wp_ajax_nopriv_update_classy_list', 'update_classy_list');
 // AJAX Handler for the Classified Listing
 function update_classy_list() {
 
-    $primary = intval($_REQUEST['primary']);
+    if(!empty($_REQUEST['adcat'])) $adcat = $_REQUEST['adcat'];
     $custom = array();
     if($_REQUEST['search']) $custom['search'] = $_REQUEST['search'];
     if($_REQUEST['min_length']) $custom['min_length'] = intval($_REQUEST['min_length']);
     if($_REQUEST['max_length']) $custom['max_length'] = intval($_REQUEST['max_length']);
 
-    if($primary) {
+    if(!empty($adcat)) {
         $args['tax_query'] = array(
             array(
                 'taxonomy' => 'adcat',
                 'field' => 'id',
-                'terms' => $primary
+                'terms' => $adcat
             )
         );
     }
@@ -82,6 +82,8 @@ function get_the_classys($instance = array()) {
             $output .= "    <div class='location'>" . get_field('boat_location') . "</div>";
             $output .= "</div></div>";
         }
+    } else {
+        $output = "<div class='no-results'>There are no results that matched your search. Sorry. </div>";
     }
     wp_reset_postdata();
 
