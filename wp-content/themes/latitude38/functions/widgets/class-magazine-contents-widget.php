@@ -167,10 +167,10 @@ class magazine_contents_widget extends WP_Widget {
                         $feature_only_output = '<div class="section feature">';
                         $feature_only_output .= '   <a ' . get_pdf_link($core_url, $page) .'>';
                         $feature_only_output .= '   <div class="feature-image" style="background-image:url(' . $feature_image['sizes']['medium'] . ')">';
-                        $feature_only_output .= '        <h3 class="title">' . $feature_name . '</h3></a>';
+                        $feature_only_output .= '        <h3 class="title">' . $feature_name . '</h3>';
                         $feature_only_output .= '        <span class="page">'. $page . '</span>';
-                        $feature_only_output .= '        <div class="desc">' . $feature_desc . '</div>';
-                        $feature_only_output .= '    </div>';
+                        $feature_only_output .= '    </div></a>';
+                        $feature_only_output .= '    <div class="desc">' . $feature_desc . '</div>';
                         $feature_only_output .= '</div>';
 
                         $features[] = $feature_output;

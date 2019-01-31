@@ -34,15 +34,17 @@
 }
 
 .type-features {
-	.feature 				{ overflow:auto; width:50%; float:left;
-		.feature-image		{ border-right:15px solid #fff; height:207px; background-size:cover; position:relative; margin-bottom:13px;
-			&:nth-child(3n+1) { border-right:0; }
+	.feature 				{ overflow:auto; width:50%; float:left; margin-bottom:15px;
+		.feature-image		{ border-right:15px solid #fff; height:207px; background-size:cover; position:relative; margin-bottom:5px;
+			/* &:nth-child(3n+1) { border-right:0; } */
+			&:hover 		{ box-shadow:  inset 0 0 100px rgba(0,0,0,0.7);}
 		}
+
 		.title				{ background-color:#00000088; font-family: 'Roboto Condensed', 'Source Sans', sans-serif; font-weight:700; font-size:120%; color:#fff; padding:10px; margin:0; }
 		.page				{ font-size:90%; text-align:center; background-color:#000000cc; position:absolute; color:#fff;  bottom:0; right:0; padding:5px; }
-		.desc				{ display:none; }
+		.desc				{ font-size:90%;  }
 	}
-	.features-contents-link { clear:both; text-align:center; font-size:90%; }
+	.features-contents-link { clear:both; text-align:center; padding-top:20px; }
 
 	@include breakpoint(medium) {
 		.magazine-features		{ overflow:auto; }

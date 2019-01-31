@@ -1257,16 +1257,18 @@ button:active, input[type=button]:active, input[type=submit]:active {
   overflow: auto;
   width: 50%;
   float: left;
+  margin-bottom: 15px;
 }
 .type-features .feature .feature-image {
   border-right: 15px solid #fff;
   height: 207px;
   background-size: cover;
   position: relative;
-  margin-bottom: 13px;
+  margin-bottom: 5px;
+  /* &:nth-child(3n+1) { border-right:0; } */
 }
-.type-features .feature .feature-image:nth-child(3n+1) {
-  border-right: 0;
+.type-features .feature .feature-image:hover {
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.7);
 }
 .type-features .feature .title {
   background-color: #00000088;
@@ -1288,12 +1290,12 @@ button:active, input[type=button]:active, input[type=submit]:active {
   padding: 5px;
 }
 .type-features .feature .desc {
-  display: none;
+  font-size: 90%;
 }
 .type-features .features-contents-link {
   clear: both;
   text-align: center;
-  font-size: 90%;
+  padding-top: 20px;
 }
 @media only screen and (min-width: 47.9375em) {
   .type-features .magazine-features {
