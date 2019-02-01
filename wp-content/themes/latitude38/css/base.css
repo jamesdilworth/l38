@@ -1291,6 +1291,7 @@ button:active, input[type=button]:active, input[type=submit]:active {
 }
 .type-features .feature .desc {
   font-size: 90%;
+  padding-right: 20px;
 }
 .type-features .features-contents-link {
   clear: both;
