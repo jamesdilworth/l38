@@ -155,6 +155,20 @@
                     echo '</div>';
                     ?>
 
+                    <div style="background-color:#FFD9D7; padding:5px 10px; font-size:90%; "><strong>FRAUD
+                            WARNING</strong> - If you use an email address
+                        in your ad, please be EXTREMELY WARY of offers by distant strangers
+                        to send you a cashier's check with a higher value than the item
+                        they are purchasing, and then have you wire the balance to them.
+                        These offers are sometimes emailed to classified advertisers.
+                        Banks will cash these counterfeit checks, but then hold you responsible
+                        for the funds when the check fails to clear! If you suspect such
+                        a scam, or have been victimized, you should contact your local
+                        Secret Service field office and/or the FTC toll-free at 1-877-FTC-HELP
+                        (1-877-382-4357) or use the complaint form at <a href="http://www.ftc.gov/" target="_blank">www.ftc.gov</a>, or call the Canadian PhoneBusters
+                        hotline toll-free at 1-888-495-8501. Craig's List has more info
+                        about such cons on their <a href="http://www.craigslist.org/about/scams.html" target="_blank">current scams page</a>.</td>
+                    </div>
                 </div>
 
 

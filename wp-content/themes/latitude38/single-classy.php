@@ -149,6 +149,7 @@
                 </form>
             </div>
 
+            <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
             <div class="subscription">
                 <div class="desc">
                     <h3>Your &lt;PURCHASE LEVEL&gt; Ad</h3>
@@ -171,6 +172,7 @@
                 </div>
 
             </div>
+            <?php endif; ?>
 
 
 

@@ -132,6 +132,11 @@ function define_adcats() {
     register_taxonomy( 'adcat', array('classy'), array(
         'hierarchical'	=> true,
         'labels'		=> $labels,
+        'capabilities' => array(
+            'assign_terms' => 'read',
+        ),
+        // This allows anyone with 'read' to pull from wp_terms_checklist, but they still need to be logged in?!?!?!
+        // Added to make WP_terms checklist work for non-logged in users. https://stackoverflow.com/questions/36164916/wp-terms-checklist-checkboxes-are-disabled-in-the-subscriber-profile
         'show_ui'	    => true,
         'show_in_quick_edit' => true,
         'query_var'		=> true,

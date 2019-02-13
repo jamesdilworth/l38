@@ -44,6 +44,7 @@ var Classys = (function($) {
             case 'primary':
                 // Show secondary cats in LH Nav.
                 $('.secondary-cats').show(); // just for the first time
+                $('.secondary-cats input').removeAttr('disabled'); // Checkboxes are disabled for non-users by default in WP.
                 $('.secondary-cats .children').hide();
                 $('.secondary-cats input').prop('checked', false);
                 $('#adcat-' + val).find('.children').show();
