@@ -215,8 +215,8 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 992px) {
   .fl-page-nav-right .fl-page-header-container {
-    padding-top: 5px;
-    padding-bottom: 10px;
+    padding-top: 0;
+    padding-bottom: 5px;
   }
 
   .fl-page-nav-right .fl-page-header-row .fl-page-header-logo-col {
@@ -225,7 +225,7 @@ h1, h2, h3, h4, h5, h6 {
 
   .fl-page-nav-right .fl-page-header-logo {
     position: absolute;
-    top: -37px;
+    top: -32px;
     margin-left: -5px;
     border: 3px solid #fff;
     padding: 5px 10px;
