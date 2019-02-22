@@ -1,5 +1,5 @@
-// Test stuff here.
-var Classys = (function($) {
+// Scripts for User Generated Content Actions
+var Ugc = (function($) {
     "use strict";
 
     var ajaxurl = '/wp-admin/admin-ajax.php';
@@ -36,6 +36,15 @@ var Classys = (function($) {
         }
     }
 
+    var addResults = function() {
+        // A bit of a klutz on the paged. Add another batch of results to the list.
+
+        // Get the more link... find the number inside it.... delete it.
+        // Form the query... send it
+        // Append it to the bottom
+        // Re-register event handler for the new more link.
+    }
+
     var updateResults = function(filter, val) {
         // Main filter query to reset the results for what we're looking for.
         console.log('fired updateResults() with ' + filter + ' of ' + val);
@@ -50,6 +59,10 @@ var Classys = (function($) {
                 $('#adcat-' + val).find('.children').show();
                 data.adcat = [val];
                 data.temp_primary = false; // flag that the adcat is top-level.
+                break;
+            case 'more-ads':
+                $('.more-ads').remove();
+                data.paged = val;
                 break;
             case 'min_length':
                 data.min_length = val;
@@ -69,7 +82,7 @@ var Classys = (function($) {
                     $('.secondary-cats input:checked').each(function() {
                         data.adcat.push($(this).val());
                     });
-                    if(data.adcat.length == 0) {
+                    if(data.adcat.length === 0) {
                         // no secondary cats detected, set the adcat back to our primary
                         data.adcat = data.temp_primary;
                     }
@@ -77,11 +90,16 @@ var Classys = (function($) {
                 break;
             default:
                 return false;
-                break;
         }
 
         // Show spinner... this is a bit crap, but it works.
-        $('#classyad_listing').html('<div class="spinner"><img src="/wp-admin/images/wpspin_light-2x.gif."></div>');
+        if(filter !== 'more-ads') {
+            // Replace and reset
+            data.paged = 1;
+            $('#classyad_listing').html('<div class="spinner"><img src="/wp-admin/images/wpspin_light-2x.gif."></div>');
+        } else {
+            $('#classyad_listing').append('<div class="spinner"><img src="/wp-admin/images/wpspin_light-2x.gif."></div>');
+        }
 
         $.ajax({
             url: ajaxurl,
@@ -94,17 +112,28 @@ var Classys = (function($) {
             },
             success: function(response) {
                 // Remove the button.
-                if(response !== "") {
+                if(response !== "" && filter !== 'more-ads') {
+                    console.log('not more');
                     $('#classyad_listing').html(response);
+                } else if(response !== "") {
+                    console.log('more');
+                    $('#classyad_listing .spinner').remove();
+                    $('#classyad_listing').append(response);
                 } else {
                     console.log('Uh-oh, empty response');
                 }
+
+                $('.more-ads').on('click', function(evt) {
+                    evt.preventDefault();
+                    updateResults('more-ads', $(this).data('paged'));
+                });
             }
         });
 
     };
 
-    function updateImageDisplay() {
+    function updateMainImage() {
+        console.log('updating the main image');
         // Working through a tutorial that doesn't use jQuery...cool!
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
@@ -116,9 +145,7 @@ var Classys = (function($) {
             preview.removeChild(preview.firstChild);
         }
 
-
         var curFiles = input.files;  // Grab the FileList object that contains the information on all the selected files
-
 
         if(curFiles.length === 0) {
             var para = document.createElement('p');
@@ -163,12 +190,15 @@ var Classys = (function($) {
                     this.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
 
                     var formData = new FormData();
-                    formData.append('action', 'update_classy_mainphoto');
+                    formData.append('action', form.elements['ajax_action'].value);
                     formData.append('main_photo', curFiles[0], curFiles[0].name);
-                    formData.append('_wpnonce', form.elements['_wpnonce'].value);
+                    formData.append('_wpnonce', form.elements['_mainphoto_nonce'].value);
                     formData.append('_wp_http_referer', form.elements['_wp_http_referer'].value);
-                    formData.append('post_id', form.elements['post_id'].value);
 
+                    // If post... get the post id.
+                    if(form.elements['post_id']) {
+                        formData.append('post_id', form.elements['post_id'].value);
+                    }
 
                     // This will handle multiple... but for now, we just want one.
                     /*
@@ -221,6 +251,11 @@ var Classys = (function($) {
             setTimeout(function(){ /* Do Nothing */ }, 1000);
         });
 
+        $('.more-ads').on('click', function(evt) {
+            evt.preventDefault();
+            updateResults('more-ads', $(this).data('paged'));
+        });
+
         $('.switch_public_edit_mode').click(function(evt) {
             evt.preventDefault();
             $('.main-content').toggle();
@@ -228,7 +263,7 @@ var Classys = (function($) {
         });
 
         // Handle the uploading of a new image.
-        $('#main_photo_input').on('change', updateImageDisplay);
+        $('#main_photo_input').on('change', updateMainImage);
 
     };
 
@@ -240,5 +275,5 @@ var Classys = (function($) {
 })(jQuery);
 
 jQuery(document).ready(function($) {
-    Classys.init();
+    Ugc.init();
 });

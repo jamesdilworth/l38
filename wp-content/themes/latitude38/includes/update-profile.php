@@ -1,31 +1,35 @@
 <?php
+
+$ugc_validation = false;
+$ugc_updated = false;
+
 /* Recheck if user is logged in just to be sure, this should have been done already */
 if( !is_user_logged_in() ) {
     wp_redirect( home_url() );
     exit;
 }
 
-if ( $_SERVER['REQUEST_METHOD'] == 'POST' && !empty( $_POST['action'] ) && $_POST['action'] == 'update-user' ) {
+while ( $_SERVER['REQUEST_METHOD'] == 'POST' && !empty( $_POST['action'] ) && $_POST['action'] == 'update-user' ) {
     $current_user = wp_get_current_user();
     /* Check nonce first to see if this is a legit request */
     if( !isset( $_POST['_wpnonce'] ) || !wp_verify_nonce( $_POST['_wpnonce'], 'update-user' ) ) {
-        wp_redirect( get_permalink() . '?validation=unknown' );
-        exit;
+        $ugc_validation = "unknown";
+        break;
     }
     /* Check honeypot for autmated requests */
     if( !empty($_POST['honey-name']) ) {
-        wp_redirect( get_permalink() . '?validation=unknown' );
-        exit;
+        $ugc_validation = "unknown";
+        break;
     }
     /* Update profile fields */
     if ( !empty( $_POST['email'] ) ){
         $posted_email = esc_attr( $_POST['email'] );
         if ( !is_email( $posted_email ) ) {
-            wp_redirect( get_permalink() . '?validation=emailnotvalid' );
-            exit;
+            $ugc_validation = "emailnotvalid";
+            break;
         } elseif( email_exists( $posted_email ) && ( email_exists( $posted_email ) != $current_user->ID ) ) {
-            wp_redirect( get_permalink() . '?validation=emailexists' );
-            exit;
+            $ugc_validation = "emailexists";
+            break;
         } else{
             wp_update_user( array ('ID' => $current_user->ID, 'user_email' => $posted_email ) );
         }
@@ -35,8 +39,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && !empty( $_POST['action'] ) && $_POS
             wp_update_user( array( 'ID' => $current_user->ID, 'user_pass' => esc_attr( $_POST['pass1'] ) ) );
         }
         else {
-            wp_redirect( get_permalink() . '?validation=passwordmismatch' );
-            exit;
+            $ugc_validation = "passwordmismatch";
+            break;
         }
     }
     if ( !empty( $_POST['first-name'] ) ) {
@@ -60,6 +64,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && !empty( $_POST['action'] ) && $_POS
     do_action('edit_user_profile_update', $current_user->ID);
 
     /* We got here, assuming everything went OK */
-    wp_redirect( get_permalink() . '?updated=true' );
-    exit;
+    $ugc_updated=true;
+    break;
 }

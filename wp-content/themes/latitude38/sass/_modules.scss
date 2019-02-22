@@ -153,29 +153,17 @@
 	h1 							{ margin-top:-5px; margin-bottom:-5px; }
 	header.cpt-title			{ padding:10px; }
 	article.fl-post 			{ padding:10px; margin-bottom:40px; overflow:auto;}
-	.photo-gallery				{ float:left; width:50%; padding-right:30px;  }
 	.main-content 				{ float:left; width:50%; padding-bottom:40px;   }
 	.sale-terms 				{ text-transform:uppercase; color:#aaa; }
 	.price						{ color:#82b4a9; font-size:140%;  }
 	.location 					{ text-transform:uppercase;  color:#aaa;  }
 	.content					{ margin-top:20px; }
 	.seller_info				{ margin-top:20px; }
+	.main-photo 				{ float:left; width:50%; padding-right:30px;  }
 
 	.update-classy-ad 			{ display:none; float:left; width:50%; padding-bottom:40px;  }
 	#edit_main_content 			{ height:250px; }
 	#edit_ad_asking_price		{ display:inline-block; width:auto;}
-
-	.main-photo-preview			{ position:relative;
-		ol.new-images 			{ list-style-type:none; padding-left:0; margin-bottom:0; }
-		.submit-new-image 		{ position:absolute; bottom:10px; right:10px; }
-	}
-
-	.main-image-fields			{
-		label 					{ display:initial; color:$accent6; font-size: 13px !important;  font-weight: normal !important; text-transform: none !important;
-			&:hover				{ cursor:pointer; text-decoration:underline;}
-		}
-		input[type=file]		{ opacity:0; }
-	}
 
 	.subscription				{ clear:both; overflow:auto; background-color:$super-light-grey; border-radius:5px; padding:8px 20px; margin:20px -10px;
 		h3 						{ margin-top:5px; }
@@ -187,6 +175,20 @@
 		}
 	}
 	.form-submit 				{ margin:10px 0; }
+}
+
+.main-photo.editable 			{
+	.main-photo-preview			{ position:relative;
+		ol.new-images 			{ list-style-type:none; padding-left:0; margin-bottom:0; }
+		.submit-new-image 		{ position:absolute; bottom:10px; right:10px; }
+	}
+
+	.main-image-fields			{
+		label 					{ display:initial; color:$accent6; font-size: 13px !important;  font-weight: normal !important; text-transform: none !important;
+			&:hover				{ cursor:pointer; text-decoration:underline;}
+		}
+		input[type=file]		{ opacity:0; }
+	}
 }
 
 .classy_widget 	{
@@ -418,10 +420,13 @@
 }
 
 .page-my-account 					{
+
+	.main-photo 					{ float:left; width:300px; padding-right:30px;  }
+	.main-content 					{ float:left;  padding-bottom:40px;   }
+
 	.my-profile 					{ padding-top:20px;
-		.img 						{ width:200px; overflow:hidden; float:left;   }
-		.name						{ margin-left:220px; font-size:140%; font-weight:600; }
-		.location 					{ margin-left:220px; color:#aaa; }
+		.name						{ font-size:140%; font-weight:600; }
+		.location 					{ color:#aaa; }
 	}
 
 	.my-classies 					{

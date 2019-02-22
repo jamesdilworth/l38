@@ -2,7 +2,7 @@
     acf_form_head();
     require_once('includes/update-classy.php');
     get_header();
-    wp_enqueue_script( 'classys', get_stylesheet_directory_uri(). '/js/classys.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/classys.js'), true ); // load scripts in footer
+    wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
     $current_user = wp_get_current_user();
 
 ?>
@@ -53,25 +53,23 @@
 
                 // Title... it's going to need some more logic for the gear.
                 $ad_title = get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year');
-
             ?>
 
-
-            <div class="photo-gallery">
+            <div class="main-photo editable">
                 <div class="main-photo-preview"><img src="<?= $main_img ?>" alt="For Sale: <?php the_title(); ?>"></div>
                 <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
 
                     <div class="main-image-fields">
-                        <form id="main-photo-form" action="handler.php" method="POST">
+                        <form id="main-photo-form" action="/" method="POST">
                             <label for="main_photo_input" class="">Change Main Photo (Max 2MB)</label>
                             <input type="file" id="main_photo_input" name="main_photo_input" accept="image/*" />
                             <input type="hidden" id="post_id" name="classy_id" value="<?= $post->ID; ?>">
-                            <?php wp_nonce_field( 'update-mainphoto' ) ?>
+                            <input type="hidden" id="ajax_action" name="ajax_action" value="update_classy_mainphoto">
+                            <?php wp_nonce_field( 'update-mainphoto', '_mainphoto_nonce' ) ?>
                         </form>
                      </div>
 
                 <?php endif; ?>
-                <?php // acf_form(); ?>
             </div>
 
             <div class="main-content">

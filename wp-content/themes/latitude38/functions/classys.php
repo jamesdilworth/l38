@@ -19,7 +19,7 @@ function update_classy_mainphoto() {
     $output = "";
 
     // Does the guy have the right to update this picture?
-    check_ajax_referer( 'update-mainphoto', '_wpnonce' );
+    check_ajax_referer( 'update-mainphoto', '_mainphoto_nonce' );
 
     if(!is_user_logged_in() || !($current_user->ID == $post->post_author || current_user_can('edit_posts'))) {
         // Not a valid user to perform this operation.
@@ -70,7 +70,7 @@ function update_classy_mainphoto() {
         require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
         // Generate the metadata for the attachment, and update the database record.
-        $attach_data = wp_generate_attachment_metadata( $attach_id, ABSPATH . $filename );
+        $attach_data = wp_generate_attachment_metadata( $attach_id,  $filename );
         wp_update_attachment_metadata( $attach_id, $attach_data );
         set_post_thumbnail( $post->ID, $attach_id );
 
@@ -93,9 +93,10 @@ function update_classy_list() {
 
     if(!empty($_REQUEST['adcat'])) $adcat = $_REQUEST['adcat'];
     $custom = array();
-    if($_REQUEST['search']) $custom['search'] = $_REQUEST['search'];
-    if($_REQUEST['min_length']) $custom['min_length'] = intval($_REQUEST['min_length']);
-    if($_REQUEST['max_length']) $custom['max_length'] = intval($_REQUEST['max_length']);
+    if(isset($_REQUEST['search'])) $custom['search'] = $_REQUEST['search'];
+    if(isset($_REQUEST['paged'])) $custom['paged'] = $_REQUEST['paged'];
+    if(isset($_REQUEST['min_length'])) $custom['min_length'] = intval($_REQUEST['min_length']);
+    if(isset($_REQUEST['max_length'])) $custom['max_length'] = intval($_REQUEST['max_length']);
 
     if(!empty($adcat)) {
         $args['tax_query'] = array(
@@ -110,14 +111,17 @@ function update_classy_list() {
     if(!empty($custom)) {
         $args['meta_query'] = array();
 
-        if($custom['min_length'] > 0) {
+        if(isset($custom['paged'])) {
+            $args['paged'] = $custom['paged'];
+        }
+        if(isset($custom['min_length']) && $custom['min_length'] > 0) {
             $args['meta_query'][] = array(
                 'key'     => 'boat_length',
                 'value'   => $custom['min_length'],
                 'compare' => '>='
             );
         }
-        if($custom['max_length'] > 0) {
+        if(isset($custom['max_length']) && $custom['max_length'] > 0) {
             $args['meta_query'][] = array(
                 'key'     => 'boat_length',
                 'value'   => $custom['max_length'],
@@ -146,7 +150,7 @@ function get_the_classys($instance = array()) {
 
     $defaults = array(
         'post_type' => 'classy',
-        'posts_per_page' => -1
+        'posts_per_page' => 6,
     );
     $args = wp_parse_args((array) $instance, $defaults);
 
@@ -154,6 +158,7 @@ function get_the_classys($instance = array()) {
 
     $ads = new WP_Query($args);
     if ( $ads->have_posts() ) {
+        // $output = "<div class='totals'>" . $ads->max_num_pages . " ads match your search</div>";
         // Run the loop first, because calls in the loop might change the number of posts in the edition.
         while ($ads->have_posts()) {
             $ads->the_post();
@@ -164,13 +169,19 @@ function get_the_classys($instance = array()) {
             $output .= "<div class='ad' style='background-image:url($img)'>";
             $output .= "  <div class='meta'>";
             $output .= "    <div class='title'><a href='". get_the_permalink() ."'>" . get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year') . "</a></div>";
-            $output .= "    <div class='price'>" . money_format('%.0n',get_field('ad_asking_price')) . "</div>";
+            $output .= "    <div class='price'>" . money_format('%.0n', (int) get_field('ad_asking_price')) . "</div>";
             $output .= "    <div class='location'>" . get_field('boat_location') . "</div>";
             $output .= "</div></div>";
         }
+        if($ads->max_num_pages > 1) {
+            $output .= "<a href='' class='more-ads' data-paged='" . (max( 1, $args[ 'paged' ]) + 1) . "'>More...</a>";
+        }
+
     } else {
         $output = "<div class='no-results'>There are no results that matched your search. Sorry. </div>";
     }
+
+
     wp_reset_postdata();
 
     return $output;

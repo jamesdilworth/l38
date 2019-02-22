@@ -1,6 +1,7 @@
 <?php
     check_page_security(); /* Redirects people to the home page if they're not logged in. */
     require_once('includes/update-profile.php');
+    wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
 
     get_header();
 
@@ -16,18 +17,18 @@
 			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
                 <!-- STATUS NOTICES --> 
-                <?php if( !empty( $_GET['updated'] ) ): ?>
+                <?php if( $ugc_updated ): ?>
                     <div class="response success"><?php _e('Profile successfully updated', 'textdomain'); ?></div>
                 <?php endif; ?>
 
-                <?php if( !empty( $_GET['validation'] ) ): ?>
-                    <?php if( $_GET['validation'] == 'emailnotvalid' ): ?>
+                <?php if( $ugc_validation  ): ?>
+                    <?php if( $ugc_validation == 'emailnotvalid' ): ?>
                         <div class="response fail"><?php _e('The given email address is not valid', 'textdomain'); ?></div>
-                    <?php elseif( $_GET['validation'] == 'emailexists' ): ?>
+                    <?php elseif( $ugc_validation == 'emailexists' ): ?>
                         <div class="response fail"><?php _e('The given email address already exists', 'textdomain'); ?></div>
-                    <?php elseif( $_GET['validation'] == 'passwordmismatch' ): ?>
+                    <?php elseif( $ugc_validation == 'passwordmismatch' ): ?>
                         <div class="response failr"><?php _e('The given passwords did not match', 'textdomain'); ?></div>
-                    <?php elseif( $_GET['validation'] == 'unknown' ): ?>
+                    <?php elseif( $ugc_validation == 'unknown' ): ?>
                         <div class="response fail"><?php _e('An unknown error occurred, please try again or contact the website administrator', 'textdomain'); ?></div>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -45,10 +46,25 @@
 
                     <!-- Profile Page -->
                     <div id="profile" class="my-profile acct-widget">
-                        <div class="img"><?= $user_img_tag; ?></div>
-                        <div class="name"><?= $current_user->display_name; ?></div>
-                        <div class="location"><?= $current_user->user_location; ?></div>
-                        <div class="desc"></div>
+
+                        <div class="main-photo editable">
+                            <div class="main-photo-preview"><?= $user_img_tag; ?></div>
+
+                            <div class="main-image-fields">
+                                <form id="main-photo-form" action="handler.php" method="POST">
+                                    <label for="main_photo_input" class="">Change Main Photo (Max 2MB)</label>
+                                    <input type="file" id="main_photo_input" name="main_photo_input" accept="image/*" />
+                                    <input type="hidden" id="ajax_action" name="ajax_action" value="update_profile_mainphoto">
+                                    <?php wp_nonce_field( 'update-mainphoto', '_mainphoto_nonce' ) ?>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="main-content">
+                            <div class="name"><?= $current_user->display_name; ?></div>
+                            <div class="location"><?= $current_user->user_location; ?></div>
+                            <div class="desc"></div>
+                        </div>
+
                     </div>
 
                     <!-- Edit Stuff -->

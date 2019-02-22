@@ -55,7 +55,7 @@ class classy_ads_widget extends WP_Widget {
         extract($args);
 
         // Enqueue assoc classy script.
-        wp_enqueue_script( 'classys', get_stylesheet_directory_uri(). '/js/classys.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/classys.js'), true ); // load scripts in footer
+        wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
 
         // Config Vars
         $outerpost_id = $post->ID;

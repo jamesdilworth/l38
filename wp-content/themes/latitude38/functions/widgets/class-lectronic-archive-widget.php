@@ -120,6 +120,7 @@ class lectronic_archive_widget extends WP_Widget {
         $html[$year] = "<li class='year dropdown-submenu'><a href='#' class='year'>2000</a>". $html[$year];
 
         $year = 2007;
+        $html[$year] = "</ul></li>";
         $html[$year] = "<li><a href='/LectronicLat/StoryIndices/Aug2007Stories.html'>August</a></li>" . $html[$year];
         $html[$year] = "<li><a href='/LectronicLat/StoryIndices/July2007Stories.html'>July</a></li>" . $html[$year];
         $html[$year] = "<li><a href='/LectronicLat/StoryIndices/June2007Stories.html'>June</a></li>" . $html[$year];

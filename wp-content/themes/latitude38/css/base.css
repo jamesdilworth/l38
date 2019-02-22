@@ -1787,11 +1787,6 @@ body .gform_confirmation_message::before {
   margin-bottom: 40px;
   overflow: auto;
 }
-.single-classy .photo-gallery {
-  float: left;
-  width: 50%;
-  padding-right: 30px;
-}
 .single-classy .main-content {
   float: left;
   width: 50%;
@@ -1815,6 +1810,11 @@ body .gform_confirmation_message::before {
 .single-classy .seller_info {
   margin-top: 20px;
 }
+.single-classy .main-photo {
+  float: left;
+  width: 50%;
+  padding-right: 30px;
+}
 .single-classy .update-classy-ad {
   display: none;
   float: left;
@@ -1827,33 +1827,6 @@ body .gform_confirmation_message::before {
 .single-classy #edit_ad_asking_price {
   display: inline-block;
   width: auto;
-}
-.single-classy .main-photo-preview {
-  position: relative;
-}
-.single-classy .main-photo-preview ol.new-images {
-  list-style-type: none;
-  padding-left: 0;
-  margin-bottom: 0;
-}
-.single-classy .main-photo-preview .submit-new-image {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-.single-classy .main-image-fields label {
-  display: initial;
-  color: #f03059;
-  font-size: 13px !important;
-  font-weight: normal !important;
-  text-transform: none !important;
-}
-.single-classy .main-image-fields label:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.single-classy .main-image-fields input[type=file] {
-  opacity: 0;
 }
 .single-classy .subscription {
   clear: both;
@@ -1898,6 +1871,34 @@ body .gform_confirmation_message::before {
 }
 .single-classy .form-submit {
   margin: 10px 0;
+}
+
+.main-photo.editable .main-photo-preview {
+  position: relative;
+}
+.main-photo.editable .main-photo-preview ol.new-images {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.main-photo.editable .main-photo-preview .submit-new-image {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.main-photo.editable .main-image-fields label {
+  display: initial;
+  color: #f03059;
+  font-size: 13px !important;
+  font-weight: normal !important;
+  text-transform: none !important;
+}
+.main-photo.editable .main-image-fields label:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.main-photo.editable .main-image-fields input[type=file] {
+  opacity: 0;
 }
 
 .classy_widget .primary-filters {
@@ -2426,21 +2427,23 @@ body .gform_confirmation_message::before {
   font-size: 80%;
 }
 
+.page-my-account .main-photo {
+  float: left;
+  width: 300px;
+  padding-right: 30px;
+}
+.page-my-account .main-content {
+  float: left;
+  padding-bottom: 40px;
+}
 .page-my-account .my-profile {
   padding-top: 20px;
 }
-.page-my-account .my-profile .img {
-  width: 200px;
-  overflow: hidden;
-  float: left;
-}
 .page-my-account .my-profile .name {
-  margin-left: 220px;
   font-size: 140%;
   font-weight: 600;
 }
 .page-my-account .my-profile .location {
-  margin-left: 220px;
   color: #aaa;
 }
 .page-my-account .my-classies .ad {
