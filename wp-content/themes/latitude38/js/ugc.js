@@ -36,18 +36,9 @@ var Ugc = (function($) {
         }
     }
 
-    var addResults = function() {
-        // A bit of a klutz on the paged. Add another batch of results to the list.
-
-        // Get the more link... find the number inside it.... delete it.
-        // Form the query... send it
-        // Append it to the bottom
-        // Re-register event handler for the new more link.
-    }
-
     var updateResults = function(filter, val) {
         // Main filter query to reset the results for what we're looking for.
-        console.log('fired updateResults() with ' + filter + ' of ' + val);
+        // console.log('fired updateResults() with ' + filter + ' of ' + val);
 
         switch(filter) {
             case 'primary':
@@ -133,7 +124,6 @@ var Ugc = (function($) {
     };
 
     function updateMainImage() {
-        console.log('updating the main image');
         // Working through a tutorial that doesn't use jQuery...cool!
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
@@ -260,6 +250,12 @@ var Ugc = (function($) {
             evt.preventDefault();
             $('.main-content').toggle();
             $('.update-classy-ad').toggle();
+        });
+
+        $('.switch_magad_edit_mode').click(function(evt) {
+            evt.preventDefault();
+            $('.mag-body').toggle();
+            $('#update_magad').toggle();
         });
 
         // Handle the uploading of a new image.

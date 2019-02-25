@@ -1821,6 +1821,13 @@ body .gform_confirmation_message::before {
   width: 50%;
   padding-bottom: 40px;
 }
+.single-classy #update_magad {
+  display: none;
+}
+.single-classy #update_magad textarea {
+  width: 100%;
+  min-height: 120px;
+}
 .single-classy #edit_main_content {
   height: 250px;
 }
@@ -1844,7 +1851,7 @@ body .gform_confirmation_message::before {
   width: 50%;
 }
 .single-classy .subscription .magazine-preview {
-  max-width: 350px;
+  width: 350px;
   float: right;
   font-size: 90%;
   background-color: #fff;

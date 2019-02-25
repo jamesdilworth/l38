@@ -15,21 +15,16 @@
             <a href="/classyads/">&laquo; Back to Classies</a>
 
             <!-- STATUS NOTICES -->
-            <?php if( !empty( $_GET['updated'] ) ): ?>
-                <div class="response success">Classy Successfully Updated!</div>
+            <?php if( $ugc_updated ): ?>
+                <div class="response success"><?php _e('Profile successfully updated', 'textdomain'); ?></div>
             <?php endif; ?>
 
-            <?php if( !empty( $_GET['validation'] ) ): ?>
-                <?php if( $_GET['validation'] == 'emailnotvalid' ): ?>
-                    <div class="response fail"><?php _e('The given email address is not valid', 'textdomain'); ?></div>
-                <?php elseif( $_GET['validation'] == 'emailexists' ): ?>
-                    <div class="response fail"><?php _e('The given email address already exists', 'textdomain'); ?></div>
-                <?php elseif( $_GET['validation'] == 'passwordmismatch' ): ?>
-                    <div class="response failr"><?php _e('The given passwords did not match', 'textdomain'); ?></div>
-                <?php elseif( $_GET['validation'] == 'unknown' ): ?>
+            <?php if( $ugc_validation  ): ?>
+                <?php if( $ugc_validation == 'unknown' ): ?>
                     <div class="response fail"><?php _e('An unknown error occurred, please try again or contact the website administrator', 'textdomain'); ?></div>
                 <?php endif; ?>
             <?php endif; ?>
+
         </header>
 
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
@@ -126,7 +121,7 @@
                     -->
                     <div class="sale-terms"><?= $ad_sale_terms_label ?></div>
                     <h1><?= get_field('boat_length') ?>' <?= get_field('boat_model') ?>, <?= get_field('boat_year') ?>  </h1>
-                    <div class="field" class="field_ad_asking_price">
+                    <div class="field field_ad_asking_price">
                         <label for="ad_asking_price">Asking Price</label>
                         <div class="currencyinput dollar"><input class="text-input" name="ad_asking_price" type="text" id="edit_ad_asking_price" value="<?php the_field('ad_asking_price') ?>" /></div>
                     </div>
@@ -165,10 +160,19 @@
                     <div class="mag-body">
                         <span class="title"><?= $ad_title ?></span>
                         <span class="ad-mag-text"><?= get_field('ad_mag_text'); ?></span>
+                        <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>
                     </div>
-                    <a href="" class="edit_link">Edit Magazine Ad</a>
+                    <form class="jz-form" action="<?php the_permalink(); ?>" id="update_magad" name="update_magad" method="post">
+                        <span class="title"><?= $ad_title ?></span>
+                        <textarea name="ad_mag_text" maxlength="200" data-charlimit="200"><?= get_field('ad_mag_text'); ?></textarea>
+                        <div class="form-submit">
+                            <input type="submit" class="submit button" value="Update Magazine Copy" />
+                            <?php wp_nonce_field( 'update-magad' ) ?>
+                            <input name="action" type="hidden" id="action" value="update-magad" />
+                        </div>
+                        <div><a href="" class="edit_link switch_magad_edit_mode">Undo Edit</a></div>
+                    </form>
                 </div>
-
             </div>
             <?php endif; ?>
 

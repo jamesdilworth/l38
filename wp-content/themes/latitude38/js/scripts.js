@@ -173,6 +173,14 @@ var L38 = (function($) {
         });
     }
 
+    var autoSizeTextAreas = function() {
+        // Doesn't work when the item is hidden.. although there are workarounds. - https://stackoverflow.com/questions/14231481/read-scrollheight-of-div-with-a-displaynone-parent
+        $('textarea.autoheight').each(function() {
+            this.style.height = "";
+            this.style.height = this.scrollHeight + 3 + "px";
+        });
+    }
+
     var bindEventHandlers = function() {
         $('.cover').on('touchend',function(evt) {
             var $elem = $(this);
@@ -215,6 +223,7 @@ var L38 = (function($) {
 
         init: function() {
             bindEventHandlers();
+            autoSizeTextAreas();
             extraAnalytics();
             this.miniTabs();
             initializeMfp();
@@ -304,6 +313,24 @@ jQuery(document).ready(function($) {
             type: 'inline',
             src: "#add-classy-modal",
             modal:true
+        },
+        callbacks: {
+            beforeOpen: function() {
+                var opener = this.ev.prevObject.context.activeElement;
+                var adplan = $(opener).data('adplan');
+
+                switch(adplan) {
+                    case 'free' :
+                        $('input#choice_2_23_0').prop('checked', true).change();
+                        break;
+                    case 'basic' :
+                        $('input#choice_2_23_1').prop('checked', true).change();
+                        break;
+                    case 'premium' :
+                        $('input#choice_2_23_2').prop('checked', true).change();
+                        break;
+                }
+            }
         }
     });
 
