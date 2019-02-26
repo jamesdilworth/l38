@@ -1,6 +1,46 @@
 <?php
 /* Functions, Filters and Actions related to Classified Ads */
 
+add_action( 'gform_pre_submission_2', 'new_classy_pre_submission_handler' );
+function new_classy_pre_submission_handler( $form ) {
+
+    if($_POST['input_10'] == '376') {
+        // If it's a boat, set the title automatically from boat model.
+        $boat_model =  esc_attr(rgpost( 'input_9' ));
+        $boat_length = intval(preg_replace("/[^0-9\.]/", "", esc_attr(rgpost( 'input_11' ))));
+        $boat_year = preg_replace("/[^0-9\.]/", "", esc_attr(rgpost( 'input_12' )));
+
+        if($boat_length < 3 || $boat_length > 300) {
+            $boat_length = 10; // Default 10'
+            $_POST['input_11'] = $boat_length;
+        }
+
+        $this_year = intval(date ('Y'));
+        if($boat_year < 1850 || $boat_year > ($this_year + 2)) {
+            // Not a valid year, so set it to 1980?
+            $boat_year = 1980;
+            $_POST['input_12'] = $boat_year;
+        }
+        $_POST['input_1'] = "$boat_length' $boat_model, $boat_year";
+    }
+
+    // Clean the asking price.
+    $ad_asking_price = esc_attr( $_POST['input_8'] ); // Probably want to do some cleaning here as it's a searchable field.
+    $ad_asking_price = preg_replace("/[^0-9\.]/", "", $ad_asking_price);
+    $_POST['input_8'] = $ad_asking_price;
+}
+
+add_action( 'gform_after_create_post_2', 'finish_classy_post', 10, 3 );
+function finish_classy_post( $post_id, $entry, $form ) {
+
+    // Set items that are not set automatically by the post.
+    $sub_level = stristr(rgar( $entry, '23' ), "|", true);
+    update_field('ad_subscription_level', $sub_level , $post_id);
+
+}
+
+
+
 add_action('wp_ajax_update_classy_mainphoto', 'update_classy_mainphoto');
 function update_classy_mainphoto() {
     // Built with the help of : https://www.ibenic.com/wordpress-file-upload-with-ajax/

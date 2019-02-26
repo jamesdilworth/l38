@@ -142,12 +142,21 @@ function add_classy_from_lasso($lasso_id) {
         $mag_show_to = $row['issue_year'] .  $issue_month . '01'; // Print up to this date.
         if($row['renewal'] == 'Run Ad Every Month Until Cancelled') $mag_auto_renew = true;
 
+        // Fit the old model into the new model.
+        $ad_subscription_level = 'free';
+        if($row['status'] == 'Live on Website') {
+            $ad_subscription_level = 'basic';
+            if($row['pictureid01'] > 0) $ad_subscription_level = 'premium';
+        }
+
         // External URL's are often poorly formed.
         $external_url = $row['field03'];
         $proto_scheme = parse_url($external_url,PHP_URL_SCHEME);
         if((!stristr($proto_scheme,'http')) || (!stristr($proto_scheme,'https'))){
             $webAddress = 'http://'.$webAddress;
         }
+
+
 
         // Payment History
         $product_type = $row['renewal']; // 1 Month, 3 Month, 6 Month etc.
@@ -310,6 +319,7 @@ function add_classy_from_lasso($lasso_id) {
         $photo_option = $row['photo_option'] == 'yes_photo' ? true : false;
         update_field('ad_mag_show_photo', $photo_option, $new_post);
         update_field('ad_mag_run_to', $mag_show_to, $new_post);
+        update_field('ad_subscription_level', $ad_subscription_level, $new_post);
 
         // Transaction Meta
         update_field('ad_auto_renew', $mag_auto_renew, $new_post);

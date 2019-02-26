@@ -3,7 +3,9 @@
     require_once('includes/update-classy.php');
     get_header();
     wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
+
     $current_user = wp_get_current_user();
+
 
 ?>
 
@@ -34,6 +36,7 @@
                 // Seller Info
                 global $post;
                 $seller = get_user_by('id', get_the_author_meta('ID'));
+                $ad_subscription_level = get_field('ad_subscription_level');
 
                 // Main Image
                 $main_img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
@@ -145,15 +148,35 @@
             <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
             <div class="subscription">
                 <div class="desc">
-                    <h3>Your &lt;PURCHASE LEVEL&gt; Ad</h3>
+                    <h3>Your <?= ucfirst($ad_subscription_level); ?> Ad</h3>
 
-                    <p>Your print ad will appear in our December 2018 Issue. </p>
-                    <p>Last day to make changes for print is November 15th at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
-                    <p>This online ad will expire on December 31, 2018.</p>
-                    <p><a class='btn' style="background-color:#4d948c;">Mark as SOLD</a> <a class='btn' href=''>Renew for 1 Month - $40</a> <a class='btn' href=''>Renew for 3 Months - $80</a></p>
+                    <?php
+                        $ad_date = strtotime (get_field('ad_mag_run_to'));
+                        $prev_mo = $ad_date - 2419200;
+                        $next_mo = $ad_date + 2678400;
+                        $ad_edition = date('F Y', $ad_date);
+                        $last_edit = date('F', $prev_mo);
+                        $expires = date('F', $next_mo);
+                    ?>
+
+                    <?php if($ad_subscription_level != 'free') : ?>
+                        <p>Your print ad will appear in our <?= $ad_edition ?> Issue. </p>
+                        <p>Last day to make changes for print is <?= $last_edit ?> 15th at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
+                        <p>This online ad will expire on <?= $expires ?> 1st</p>
+                    <?php endif; ?>
+
+                    <p><a class='btn' style="background-color:#4d948c;">Mark as SOLD</a></p>
+
+                    <?php if($ad_subscription_level != 'free') : ?>
+                        <a class='btn' href=''>Renew for 1 Month - $40</a>
+                        <a class='btn' href=''>Renew for 3 Months - $80</a></p>
+                    <?php else : ?>
+                        <a class='btn' href=''>Upgrade to Print Ad - $40</a>
+                    <?php endif; ?>
 
                 </div>
 
+                <?php if($ad_subscription_level != 'free') : ?>
                 <div class="magazine-preview">
                     <div class="mag-section">&lt; SECTION &gt;</div>
                     <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
@@ -173,6 +196,7 @@
                         <div><a href="" class="edit_link switch_magad_edit_mode">Undo Edit</a></div>
                     </form>
                 </div>
+                <?php endif; ?>
             </div>
             <?php endif; ?>
 
