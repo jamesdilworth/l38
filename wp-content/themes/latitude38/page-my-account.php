@@ -13,10 +13,13 @@
 <div class="container">
 	<div class="row">
 
+
+
+
 		<div class="fl-content col-md-12 ?>">
 			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-                <!-- STATUS NOTICES --> 
+                <!-- STATUS NOTICES -->
                 <?php if( $ugc_updated ): ?>
                     <div class="response success"><?php _e('Profile successfully updated', 'textdomain'); ?></div>
                 <?php endif; ?>
@@ -45,7 +48,7 @@
                 <div class="tabbed">
 
                     <!-- Profile Page -->
-                    <div id="profile" class="my-profile acct-widget">
+                    <div id="profile" class="section my-profile acct-widget">
 
                         <div class="main-photo editable">
                             <div class="main-photo-preview"><?= $user_img_tag; ?></div>
@@ -68,7 +71,7 @@
                     </div>
 
                     <!-- Edit Stuff -->
-                    <div id="edit-profile">
+                    <div id="edit-profile" class="section">
 
                         <form class="jz-form" method="post" id="adduser" action="<?php the_permalink(); ?>">
     
@@ -136,7 +139,7 @@
 
                     $classies_by_me = new WP_Query( $args );
 
-                    echo '<div id="classies">';
+                    echo '<div id="classies"  class="section">';
 
                     if ( $classies_by_me->have_posts() ) {
 

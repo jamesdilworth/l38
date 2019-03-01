@@ -308,6 +308,14 @@ L38.preInit(); // Stuff to do ASAP before onLoad
 jQuery(document).ready(function($) {
     L38.init();
 
+    $('.login-register-link').magnificPopup({
+        items: {
+            type: 'inline',
+            src: "#login-register",
+            modal:true
+        }
+    });
+
     $('.add-classy-link').magnificPopup({
         items: {
             type: 'inline',

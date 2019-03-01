@@ -27,6 +27,32 @@ FLTheme::head();
 </head>
 
 <body <?php body_class(); ?> itemscope="itemscope" itemtype="https://schema.org/WebPage">
+
+
+<?php if (!is_user_logged_in()) { ?>
+    <div id="login-register" class="mfp-hide gf-modal">
+        <div class="login-form">
+            <form id="login" action="login" method="post">
+                <h1>Site Login</h1>
+                <p class="status"></p>
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username">
+
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password">
+
+                <a class="lost" href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a>
+                <input class="submit_button" type="submit" value="Login" name="submit">
+                <?php wp_nonce_field( 'ajax-login-nonce', 'security' ); ?>
+            </form>
+        </div>
+        <div class="register-form">
+            <h1>Join the Latitude 38 Community</h1>
+            <?php gravity_form(1, false, false, false, '', true, 10); ?>
+        </div>
+    </div>
+<?php } ?>
+
 <?php
 
 FLTheme::header_code();

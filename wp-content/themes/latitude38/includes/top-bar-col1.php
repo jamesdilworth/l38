@@ -26,7 +26,7 @@ if ( 'none' != $layout ) {
 	if (is_user_logged_in()) {
         echo "<a href='/my-account/'><i class='fa fa-user-circle'></i> My Account</a>";
     } else {
-        echo "<a href='/login/'><i class='fa fa-sign-in'></i> Sign In</a>";
+        echo "<a class='login-register-link' data-mfp-src='#login-register' href='/login/'><i class='fa fa-sign-in'></i> Sign In</a>";
     }
     echo "</div>";
 
