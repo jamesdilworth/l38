@@ -423,6 +423,13 @@
 	.cancel-reply-link				{ float:right; font-size:80%; }
 }
 
+.account.dropdown 					{
+	.dropdown-menu					{ background-color:$accent2; border:0; border-radius:0; margin-top:5px;
+		a 							{ display:block; padding:5px 8px;}
+	}
+}
+
+
 .page-my-account 					{
 
 	.main-photo 					{ float:left; width:300px; padding-right:30px;  }
