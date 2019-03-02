@@ -681,6 +681,44 @@ h4 {
   background-color: #fff;
 }
 
+.on_yellow {
+  color: #fff;
+  background-color: #ffc800;
+}
+.on_yellow h1 {
+  color: #fff;
+}
+.on_yellow h2 {
+  color: #fff;
+}
+.on_yellow h3 {
+  color: #fff;
+}
+.on_yellow a {
+  text-decoration: underline;
+}
+.on_yellow p {
+  color: #957504;
+}
+.on_yellow .subtitle {
+  color: #fff;
+}
+.on_yellow .figcaption,
+.on_yellow .fl-photo-caption,
+.on_yellow .caption {
+  color: #b09228;
+}
+.on_yellow .btn {
+  background-color: #79d6f4;
+  color: #fff;
+  font-weight: 400;
+  text-decoration: none;
+  margin-top: -3px;
+}
+.on_yellow .btn:hover {
+  background-color: #fff;
+}
+
 .on_grey {
   background-color: #f3f3f3;
 }
