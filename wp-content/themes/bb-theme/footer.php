@@ -29,14 +29,15 @@
 	<?php endif; ?>
 	<?php do_action( 'fl_page_close' ); ?>
 </div><!-- .fl-page -->
-<?php
 
-wp_footer();
+<!-- starting in on wp-footer(); -->
+<?php wp_footer(); ?>
 
-do_action( 'fl_body_close' );
+<!-- starting in on fl_body_close; -->
+<?php do_action( 'fl_body_close' ); ?>
 
-FLTheme::footer_code();
+<!-- starting in on footer_code(); -->
+<?php FLTheme::footer_code(); ?>
 
-?>
 </body>
 </html>

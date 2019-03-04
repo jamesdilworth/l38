@@ -91,11 +91,11 @@ h1, h2, h3, h4, h5, h6								{ text-transform:initial; }
 .mfp-arrow i								{ font-size:250%; }
 .mfp-arrow.arrow-right 						{ right:0; }
 
-#add-classy-modal {
+.gf-modal {
 	 .mfp-close,
 	 .mfp-close:active,
 	 .mfp-close:hover,
-	 .mfp-close:focus 						{ top:15px !important; color:#fff; }
+	 .mfp-close:focus 						{ right:6px; top:17px !important; color:#fff; }
 }
 
 /* Syntax Highlighter Overrrides */

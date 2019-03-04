@@ -7,6 +7,24 @@
     $current_user = wp_get_current_user();
 
 
+    /* DATES: FOR TESTING
+    $today = new DateTime('March 17');
+    $fake_placed_on = new DateTime('December 17, 2018');
+    $ad_placed_on = $fake_placed_on->format('F j, Y');
+    $expiry_epoch = calc_expiry(1, $ad_placed_on);
+    */
+
+    /* DATES: FOR REALZ */
+    $today = new DateTime();
+    $ad_placed_on = get_the_date('F j, Y');
+    $expiry_epoch = get_field('ad_expires');
+
+    $key_dates = get_dates_from_expiry($expiry_epoch);
+
+    $can_make_print_changes = $today < $key_dates['cutoff'] ? true : false;
+    $can_renew = $today < $key_dates['renewal_deadline'] ? true : false;
+    $expired = $today > $key_dates['expiry'] ? true : false;
+
 ?>
 
 <div class="container">
@@ -150,29 +168,41 @@
                 <div class="desc">
                     <h3>Your <?= ucfirst($ad_subscription_level); ?> Ad</h3>
 
-                    <?php
-                        $ad_date = strtotime (get_field('ad_mag_run_to'));
-                        $prev_mo = $ad_date - 2419200;
-                        $next_mo = $ad_date + 2678400;
-                        $ad_edition = date('F Y', $ad_date);
-                        $last_edit = date('F', $prev_mo);
-                        $expires = date('F', $next_mo);
-                    ?>
+                    <p>Your ad was placed on <?= $ad_placed_on; ?></p>
 
                     <?php if($ad_subscription_level != 'free') : ?>
-                        <p>Your print ad will appear in our <?= $ad_edition ?> Issue. </p>
-                        <p>Last day to make changes for print is <?= $last_edit ?> 15th at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
-                        <p>This online ad will expire on <?= $expires ?> 1st</p>
+
+                        <!-- <p>Today is <?= $today->format('F jS, Y') ?> </p> -->
+
+                        <?php if($today < $key_dates['ad_edition']) : ?>
+                            <p>Your print ad will appear in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue</p>
+                        <?php else : ?>
+                            <p>Your print ad appears in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue</p>
+                        <?php endif; ?>
+
+                        <?php if($can_make_print_changes) : ?>
+                            <p>Last day to make changes for print is <?= $key_dates['cutoff']->format('F jS, Y'); ?> at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
+                        <?php endif;  ?>
+
+                        <p>Renew before <?= $key_dates['renewal_deadline']->format('F jS, Y'); ?> to get it into the <?= $key_dates['next_ad_edition']->format('F'); ?> issue.<br>
+                            <a class='btn' href=''>Renew for 1 Month - $40</a>
+                            <a class='btn' href=''>Renew for 3 Months - $80</a>
+                        </p>
+
+                    <?php else : ?>
+                        <a class='btn' href=''>Upgrade to Print Ad - $40</a>
+                    <?php endif; ?>
+
+                    <?php if($expired) : ?>
+                        <p>This online ad expired on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
+                    <?php else : ?>
+                        <p>This online ad will expire on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
                     <?php endif; ?>
 
                     <p><a class='btn' style="background-color:#4d948c;">Mark as SOLD</a></p>
 
-                    <?php if($ad_subscription_level != 'free') : ?>
-                        <a class='btn' href=''>Renew for 1 Month - $40</a>
-                        <a class='btn' href=''>Renew for 3 Months - $80</a></p>
-                    <?php else : ?>
-                        <a class='btn' href=''>Upgrade to Print Ad - $40</a>
-                    <?php endif; ?>
+
+
 
                 </div>
 
@@ -183,8 +213,11 @@
                     <div class="mag-body">
                         <span class="title"><?= $ad_title ?></span>
                         <span class="ad-mag-text"><?= get_field('ad_mag_text'); ?></span>
-                        <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>
+                        <?php if($can_make_print_changes) : ?>
+                            <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>
+                        <?php endif; ?>
                     </div>
+                    <?php if($can_make_print_changes) : ?>
                     <form class="jz-form" action="<?php the_permalink(); ?>" id="update_magad" name="update_magad" method="post">
                         <span class="title"><?= $ad_title ?></span>
                         <textarea name="ad_mag_text" maxlength="200" data-charlimit="200"><?= get_field('ad_mag_text'); ?></textarea>
@@ -195,6 +228,7 @@
                         </div>
                         <div><a href="" class="edit_link switch_magad_edit_mode">Undo Edit</a></div>
                     </form>
+                    <?php endif; ?>
                 </div>
                 <?php endif; ?>
             </div>

@@ -258,32 +258,37 @@ var Ugc = (function($) {
             $('#update_magad').toggle();
         });
 
+        $('.toggle-login-register').click(function(evt) {
+            evt.preventDefault();
+            $('.login-form').toggle();
+            $('.register-form').toggle();
+        });
+
         // Handle the uploading of a new image.
         $('#main_photo_input').on('change', updateMainImage);
 
         // Perform AJAX login on form submit
         $('form#login').on('submit', function(e){
-            $('form#login p.status').show().text(ajax_login_object.loadingmessage);
+            e.preventDefault();
+            console.log('running ajax login')
+            $('form#login p.status').show().text("Sending user info, please wait...");
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: ajax_login_object.ajaxurl,
+                url: ajaxurl,
                 data: {
                     'action': 'ajaxlogin', //calls wp_ajax_nopriv_ajaxlogin
-                    'username': $('form#login #username').val(),
-                    'password': $('form#login #password').val(),
-                    'security': $('form#login #security').val() },
+                    'email': $('form#login #login-email').val(),
+                    'password': $('form#login #login-password').val(),
+                    'security': $('form#login #login-security').val() },
                 success: function(data){
                     $('form#login p.status').text(data.message);
                     if (data.loggedin == true){
-                        document.location.href = ajax_login_object.redirecturl;
+                        document.location.reload(true);
                     }
                 }
             });
-            e.preventDefault();
         });
-
-
     };
 
     return {

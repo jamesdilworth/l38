@@ -28,27 +28,27 @@ FLTheme::head();
 
 <body <?php body_class(); ?> itemscope="itemscope" itemtype="https://schema.org/WebPage">
 
-
-<?php if (!is_user_logged_in()) { ?>
+<?php if (!is_user_logged_in() && (!is_page('register'))) { ?>
     <div id="login-register" class="mfp-hide gf-modal">
-        <div class="login-form">
+        <div class="login-form gform_wrapper">
+            <h3 class="gform_title">Member Login</h3>
             <form id="login" action="login" method="post">
-                <h1>Site Login</h1>
                 <p class="status"></p>
-                <label for="username">Username</label>
-                <input id="username" type="text" name="username">
+                <label for="email">Email or username</label>
+                <input id="login-email" type="text" name="login-email">
 
                 <label for="password">Password</label>
-                <input id="password" type="password" name="password">
+                <input id="login-password" type="password" name="login-password">
 
-                <a class="lost" href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a>
-                <input class="submit_button" type="submit" value="Login" name="submit">
-                <?php wp_nonce_field( 'ajax-login-nonce', 'security' ); ?>
+                <div><a class="lost" href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a></div>
+                <div class="submit-field"><input class="btn" type="submit" value="Login" name="submit"></div>
+                <?php wp_nonce_field( 'ajax-login-nonce', 'login-security' ); ?>
             </form>
+            <div class="toggle-login-register">Not a member yet? <a href="">Join the Latitude 38 Community</a></div>
         </div>
         <div class="register-form">
-            <h1>Join the Latitude 38 Community</h1>
-            <?php gravity_form(1, false, false, false, '', true, 10); ?>
+            <?php gravity_form(1, true, false, false, '', true, 10); ?>
+            <div class="toggle-login-register">Already a member? <a href="">Sign in</a></div>
         </div>
     </div>
 <?php } ?>

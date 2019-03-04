@@ -389,7 +389,6 @@
 	.dropdown-submenu .dropdown-menu>li>a 	{ color:#999;  }
 }
 
-
 .fl-comments 						{
 	.fl-comments-list-title			{ margin-bottom:25px; }
 	.time-since 					{ color:#ccc; font-size:80%; padding-left:10px; font-weight:300;}
@@ -424,11 +423,19 @@
 }
 
 .account.dropdown 					{
-	.dropdown-menu					{ background-color:$accent2; border:0; border-radius:0; margin-top:5px;
-		a 							{ display:block; padding:5px 8px;}
+	.dropdown-menu					{ background-color:#1a9fcd; border:0; border-radius:0; margin-top:8px; margin-left:11px; padding:0;
+		a 							{ display:block; padding:7px 8px;}
+		a:hover						{ background-color:$accent2; text-decoration:none; }
 	}
 }
 
+#login-register	 					{ max-width:600px;
+	.lost 							{ font-size:85%; }
+	.submit-field					{ text-align:right; }
+	.register-form					{ display:none; }
+
+	.toggle-login-register 			{ font-size:90%; text-align:center; background-color:#fff6e1; margin: -20px; margin-top: 40px; padding: 10px 20px; }
+}
 
 .page-my-account 					{
 

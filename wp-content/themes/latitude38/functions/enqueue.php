@@ -1,6 +1,6 @@
 <?php
 
-function S4O_add_site_scripts() {
+function L38_add_site_scripts() {
 
     // Enqueue Scripts
     wp_enqueue_script( 'pre-scripts', get_stylesheet_directory_uri(). '/js/pre-scripts.js', array('jquery'), filemtime( FL_CHILD_THEME_DIR . '/js/pre-scripts.js'), false ); // Early scripts for header.
@@ -14,12 +14,13 @@ function S4O_add_site_scripts() {
         // BB only loads waypoints if a module has animation. To enable non bb waypoints on pages, we have to call this sepaarately.
         wp_enqueue_script('jquery-waypoints', '/wp-content/plugins/bb-plugin/js/jquery.waypoints.min.js', array('jquery'), filemtime(ABSPATH . 'wp-content/plugins/bb-plugin/js/jquery.waypoints.min.js'), true);
     }
-    // Hubspot Forms
-    // wp_enqueue_script( 'hubspot-forms',  '//js.hsforms.net/forms/v2.js', array(), '', false );
-    
+
+    if (function_exists('gravity_form_enqueue_scripts') && !is_user_logged_in()) {
+        gravity_form_enqueue_scripts(1, true); // Site Registration present on all pages when logged out.
+    }
+
     // Google Fonts
     // wp_enqueue_style( 'roboto slab', '//fonts.googleapis.com/css?family=Roboto+Slab:400,300', array(), '400300' );
 
-    // Stylesheets included from /classes/class-fl-child-theme.php
 }
-add_action( 'wp_enqueue_scripts', 'S4O_add_site_scripts' );
+add_action( 'wp_enqueue_scripts', 'L38_add_site_scripts' );

@@ -387,11 +387,12 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
 }
 
-#add-classy-modal .mfp-close,
-#add-classy-modal .mfp-close:active,
-#add-classy-modal .mfp-close:hover,
-#add-classy-modal .mfp-close:focus {
-  top: 15px !important;
+.gf-modal .mfp-close,
+.gf-modal .mfp-close:active,
+.gf-modal .mfp-close:hover,
+.gf-modal .mfp-close:focus {
+  right: 6px;
+  top: 17px !important;
   color: #fff;
 }
 
@@ -1118,13 +1119,13 @@ button, input[type=button], input[type=submit] {
 }
 
 button:hover, input[type=button]:hover, input[type=submit]:hover {
-  background-color: #79d6f4;
+  background-color: #7ae2c5;
   border: 0;
   color: #fff;
 }
 
 button:active, input[type=button]:active, input[type=submit]:active {
-  background-color: #79d6f4;
+  background-color: #7ae2c5;
   border: 0;
   color: #fff;
 }
@@ -1143,6 +1144,11 @@ input[type=file] {
   margin: 10px 0;
   font-size: 15px;
   color: #aaa;
+}
+
+input[type=submit] {
+  font-size: 1em;
+  margin: 0;
 }
 
 label {
@@ -1301,10 +1307,26 @@ body .gform_wrapper label.gfield_label {
   font-size: 90%;
 }
 body .gform_wrapper .top_label div.ginput_container {
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 body .gform_wrapper .gform_footer {
   margin-top: 5px;
+}
+body .gform_wrapper .gform_page_footer {
+  border-top: 0;
+}
+body .gform_wrapper div.validation_error {
+  font-size: 90%;
+  font-weight: initial;
+}
+body .gform_wrapper .validation_message {
+  font-weight: initial;
+}
+body .gform_wrapper .gfield_password_strength {
+  font-size: 0.8em;
+  margin: 0;
+  padding: 3px 5px;
+  border: 0;
 }
 body .gform_confirmation_wrapper {
   padding: 20px 10px;
@@ -2435,14 +2457,41 @@ body .gform_confirmation_message::before {
 }
 
 .account.dropdown .dropdown-menu {
-  background-color: #018db9;
+  background-color: #1a9fcd;
   border: 0;
   border-radius: 0;
-  margin-top: 5px;
+  margin-top: 8px;
+  margin-left: 11px;
+  padding: 0;
 }
 .account.dropdown .dropdown-menu a {
   display: block;
-  padding: 5px 8px;
+  padding: 7px 8px;
+}
+.account.dropdown .dropdown-menu a:hover {
+  background-color: #018db9;
+  text-decoration: none;
+}
+
+#login-register {
+  max-width: 600px;
+}
+#login-register .lost {
+  font-size: 85%;
+}
+#login-register .submit-field {
+  text-align: right;
+}
+#login-register .register-form {
+  display: none;
+}
+#login-register .toggle-login-register {
+  font-size: 90%;
+  text-align: center;
+  background-color: #fff6e1;
+  margin: -20px;
+  margin-top: 40px;
+  padding: 10px 20px;
 }
 
 .page-my-account .main-photo {

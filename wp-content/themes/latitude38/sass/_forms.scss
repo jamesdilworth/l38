@@ -1,11 +1,13 @@
 /* STD Forms */
 button, input[type=button], input[type=submit] { border:0;  }
-button:hover, input[type=button]:hover, input[type=submit]:hover { background-color:$accent1; border:0; color:#fff; }
-button:active, input[type=button]:active, input[type=submit]:active { background-color:$accent1; border:0; color:#fff;  }
+button:hover, input[type=button]:hover, input[type=submit]:hover { background-color:$accent3; border:0; color:#fff; }
+button:active, input[type=button]:active, input[type=submit]:active { background-color:$accent3; border:0; color:#fff;  }
 
 input[type=text], input[type=password], input[type=email], input[type=tel], input[type=date], input[type=month], input[type=week], input[type=time], input[type=number], input[type=search], input[type=url], textarea { font-size:initial; padding:4px 8px;  }
 input.small 				{ width:100px; }
 input[type=file] 			{ line-height: 1em; margin:10px 0; font-size:15px; color:#aaa;  }
+
+input[type=submit]			{ font-size: 1em; margin:0; }
 
 label 						{ padding-left:3px; font-weight:500; font-size:90%; margin:10px 0 0; }
 
@@ -21,7 +23,7 @@ ul.horizontal								{ overflow:auto; margin:5px 0; padding:0;
 /* GRAVITY FORMS DEFAULT STYLING */
 .gf-modal  	 								{ position: relative; padding:20px; background:#fff; width:auto;  max-width:800px;  margin:20px auto;
 	.gform_footer							{ text-align:right; }
-	.gform_wrapper 							{ margin:0; }
+	.gform_wrapper 							{ margin:0;  }
 	.gform_wrapper h3.gform_title			{ margin:-20px; padding:20px; margin-bottom:20px; background-color:$accent2; color:#fff; text-transform:uppercase;}
 }
 
@@ -64,8 +66,14 @@ body										{
 	.gform_wrapper ul li.field_description_below div.ginput_container_checkbox { margin-top:0; }
 	.gform_wrapper .field_sublabel_below .ginput_complex.ginput_container label { display:none; }
 	.gform_wrapper label.gfield_label		{ font-weight:500; font-size:90%; }
-	.gform_wrapper .top_label div.ginput_container { margin-top:0; }
+	.gform_wrapper .top_label div.ginput_container { margin-top:0 !important; }
 	.gform_wrapper .gform_footer			{ margin-top:5px; }
+
+	.gform_wrapper .gform_page_footer 		{ border-top:0; }
+
+	.gform_wrapper div.validation_error		{ font-size:90%; font-weight:initial;}
+	.gform_wrapper .validation_message		{ font-weight:initial; }
+	.gform_wrapper .gfield_password_strength { font-size:0.8em; margin:0; padding:3px 5px; border:0; }
 
 	.gform_confirmation_wrapper				{ padding: 20px 10px; margin: 25px auto;  }
 	.gform_wrapper h3.gform_title 			{ font-weight:300; font-size:24px; }
@@ -93,7 +101,6 @@ body										{
 
 /* My Custom Forms */
 .jz-form				{
-
 	.left-half 			{ width:49.9%; float:left; margin-bottom:10px; padding-right:15px; }
 	.right-half 		{ width:49.9%; display:inline-block; margin-bottom:10px; }
 }
