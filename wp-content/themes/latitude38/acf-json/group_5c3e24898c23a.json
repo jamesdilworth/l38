@@ -1,0 +1,121 @@
+{
+    "key": "group_5c3e24898c23a",
+    "title": "Classy's: Core",
+    "fields": [
+        {
+            "key": "field_5c3e248ceeb17",
+            "label": "Magazine Copy",
+            "name": "ad_mag_text",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": "",
+            "rows": ""
+        },
+        {
+            "key": "field_5c7c1671ce52d",
+            "label": "Ad Expires",
+            "name": "ad_expires",
+            "type": "date_picker",
+            "instructions": "Set this to the END of the month that the ad should last appear. So if the ad will appear in September 2019 issue, set the expiry date to Sep 30, 2019.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d\/m\/Y",
+            "return_format": "U",
+            "first_day": 1
+        },
+        {
+            "key": "field_5c5338f252b57",
+            "label": "Subscription Level",
+            "name": "ad_subscription_level",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "free": "Free (Online Only)",
+                "basic": "Basic",
+                "premium": "Premium"
+            },
+            "default_value": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_5c3e2653a983d",
+            "label": "Auto Renew?",
+            "name": "ad_auto_renew",
+            "type": "true_false",
+            "instructions": "Should the ad auto-renew and charge the customer?",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_5c3e1add12468",
+            "label": "External URL",
+            "name": "ad_external_url",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "classy"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1551666972
+}
