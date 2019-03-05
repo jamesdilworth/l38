@@ -1112,6 +1112,14 @@ h1 .private_notice {
   margin-left: 5px;
 }
 
+/* Ad Banners */
+.ad_midway {
+  text-align: center;
+  border-bottom: 1px solid #e6e6e6;
+  margin-top: -20px;
+  margin-bottom: 40px;
+}
+
 /* STD Forms */
 button, input[type=button], input[type=submit] {
   border: 0;
