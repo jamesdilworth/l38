@@ -79,8 +79,7 @@ class lectronic_stories_widget extends WP_Widget {
                 'day' => $pubdate[2],
                 'meta_key' => 'sort_order',
                 'orderby' => "meta_value_num",
-                'order' => 'ASC',
-                'category__not_in' => array(199)
+                'order' => 'ASC'
             );
 
             $output = "";
@@ -127,14 +126,14 @@ class lectronic_stories_widget extends WP_Widget {
                         }
 
                         // Alt-Header is defers to (low pri) first category -> first tag -> custom (pri)
-
                         $b = $a = $alt_header = NULL;
-
                         $b = get_the_tags();
                         if($b) $alt_header = $b[0]->name;
 
                         $a = get_field('alt_header');
                         if($a) $alt_header = $a;
+
+                        if(in_category('199')) $alt_header = "Sponsored Story";
 
                         // $inner_output .= get_the_category_list();
                         $inner_output .= "<div class='alt_header'>$alt_header</div>";

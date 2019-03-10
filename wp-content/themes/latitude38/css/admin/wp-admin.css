@@ -19,3 +19,7 @@
 .acf-field-585c1561ee5e9 .description           { display:inline-block; margin:0; }
 .acf-field-585c1561ee5e9 .acf-label label       { padding-left:10px; }
 .acf-field-585c1561ee5e9 .acf-true-false        { float:left; margin-top:5px; margin-left: -7px; }
+
+/* Advanced Ads Override */
+.advads-placements-table tbody tr td:nth-child(2)   { color:#cd1212; font-weight:bold; font-size:1em; }
+.advads-placements-table .usage-link                { font-weight:normal; }
