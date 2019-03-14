@@ -2,6 +2,7 @@
 // INCLUDES
 include_once('functions/ajax.php'); // AJAX calls.
 include_once('functions/bb-config.php'); // BB Press custom config
+include_once('functions/walkers.php'); // Walkers
 include_once('functions/helpers.php'); // Miscellaneous functions
 include_once('functions/wp_dropdown_posts.php'); // Should get moved into a site-specific plugin.
 include_once('functions/custom_post_types.php'); // Definitions for the custom post types

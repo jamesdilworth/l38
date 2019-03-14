@@ -40,6 +40,14 @@ var Ugc = (function($) {
         // Main filter query to reset the results for what we're looking for.
         // console.log('fired updateResults() with ' + filter + ' of ' + val);
 
+        if(!(data.temp_primary)) { // It hasn't been set by filter... so we'll need to set it ourself.
+            console.log('temp_primary')
+            $('.secondary-cats>.popular-category').each(function () {
+                var the_id = this.id;
+                data.temp_primary = the_id.split('adcat-')[1];
+            });
+        }
+
         switch(filter) {
             case 'primary':
                 // Show secondary cats in LH Nav.
@@ -65,18 +73,13 @@ var Ugc = (function($) {
                 data.search = val;
                 break;
             case 'tax_input[adcat][]':
-                if(!(data.temp_primary)) { // We're adding a secondary adcat for the first time.
-                    data.temp_primary = data.adcat; // hold our primary adcat
-                    data.adcat = [val];
-                } else { // We're working with adcat in secondary mode....
-                    data.adcat = [];
-                    $('.secondary-cats input:checked').each(function() {
-                        data.adcat.push($(this).val());
-                    });
-                    if(data.adcat.length === 0) {
-                        // no secondary cats detected, set the adcat back to our primary
-                        data.adcat = data.temp_primary;
-                    }
+                data.adcat = [];
+                $('.secondary-cats input:checked').each(function() {
+                    data.adcat.push($(this).val());
+                });
+                if(data.adcat.length === 0) {
+                    // no secondary cats detected, set the adcat back to our primary
+                    data.adcat = data.temp_primary;
                 }
                 break;
             default:
@@ -104,10 +107,8 @@ var Ugc = (function($) {
             success: function(response) {
                 // Remove the button.
                 if(response !== "" && filter !== 'more-ads') {
-                    console.log('not more');
                     $('#classyad_listing').html(response);
                 } else if(response !== "") {
-                    console.log('more');
                     $('#classyad_listing .spinner').remove();
                     $('#classyad_listing').append(response);
                 } else {

@@ -28,7 +28,17 @@ class magazine_archive_widget extends WP_Widget {
 
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'magtype' ) ); ?>"><?php _e( 'Magazine Type:' ); ?></label>
-            <?php wp_dropdown_categories( array( 'show_option_all' => 'All', 'hide_empty'=> 0, 'taxonomy' => 'magtype', 'name' => $this->get_field_name("magtype"), 'value_field' => 'slug', 'selected' => $magtype[0] )); ?>
+            <?php
+                wp_dropdown_categories(
+                        array(
+                            'show_option_all' => 'All',
+                            'hide_empty'=> 0,
+                            'taxonomy' => 'magtype',
+                            'name' => $this->get_field_name("magtype"),
+                            'value_field' => 'slug',
+                            'selected' => $magtype[0]
+                        ));
+             ?>
         </p>
 
         <?php

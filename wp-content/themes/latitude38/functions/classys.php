@@ -1,6 +1,17 @@
 <?php
 /* Functions, Filters and Actions related to Classified Ads */
 
+// Redirect from new classy ads to home if not an editor, and we're on the live server.
+if(WP_ENV != 'dev' && !current_user_can('edit_posts')) {
+    define('CLASSIES', false);
+    if(stristr($_SERVER['REQUEST_URI'], 'new-classyads')) {
+        wp_redirect( '/' );
+        exit;
+    }
+} else {
+    define('CLASSIES', true);
+}
+
 // Schedule Emails.
 add_action('l38_classy_expiring_soon', 'l38_classy_reminder');
 function l38_classy_reminder($classy_id) {
@@ -8,8 +19,8 @@ function l38_classy_reminder($classy_id) {
 }
 
 // Called by....
-$args = array('classy_id' => $post->ID); // needs to be in an array. If multiple items, put them in an array of arrays... https://wordpress.stackexchange.com/questions/15475/using-wp-schedule-single-event-with-arguments-to-send-email
-wp_schedule_single_event(time(), 'l38_classy_expiring_soon', $args);
+// $args = array('classy_id' => $post->ID); // needs to be in an array. If multiple items, put them in an array of arrays... https://wordpress.stackexchange.com/questions/15475/using-wp-schedule-single-event-with-arguments-to-send-email
+// wp_schedule_single_event(time(), 'l38_classy_expiring_soon', $args);
 
 // Pre-render the Gravity forms.
 add_filter( 'gform_pre_render_2', 'populate_adcats' );
@@ -281,13 +292,13 @@ function get_the_classys($instance = array()) {
     $defaults = array(
         'post_type' => 'classy',
         'posts_per_page' => 20,
+        'paged' => 1,
         'orderby' => 'modified',
         'order' => 'DESC'
     );
     $args = wp_parse_args((array) $instance, $defaults);
 
     $output = "";
-
     $ads = new WP_Query($args);
     if ( $ads->have_posts() ) {
         // $output = "<div class='totals'>" . $ads->max_num_pages . " ads match your search</div>";

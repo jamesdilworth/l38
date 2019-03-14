@@ -211,11 +211,12 @@
 		}
 	}
 
-	.secondary-cats 	{ display:none;
-		li 				{ list-style-type:none; }
-		li label 		{ margin-top:0; }
-		&>li>label 		{ display:none; }
-		.children 		{ display: none; }
+	.secondary-cats 				{
+		li 							{ list-style-type:none; }
+		li label 					{ margin-top:0; }
+		&>li>label 					{ display:none; }
+		.children 					{ display: none; }
+		.popular-category .children { display:block; }
 	}
 	.classyads 			{ margin-left: 325px; margin-right:-30px; }
 }

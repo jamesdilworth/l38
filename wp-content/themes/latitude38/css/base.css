@@ -1965,9 +1965,6 @@ body .gform_confirmation_message::before {
 .classy_widget .secondary-filters .max-min-filters input {
   display: inline-block;
 }
-.classy_widget .secondary-cats {
-  display: none;
-}
 .classy_widget .secondary-cats li {
   list-style-type: none;
 }
@@ -1979,6 +1976,9 @@ body .gform_confirmation_message::before {
 }
 .classy_widget .secondary-cats .children {
   display: none;
+}
+.classy_widget .secondary-cats .popular-category .children {
+  display: block;
 }
 .classy_widget .classyads {
   margin-left: 325px;
