@@ -117,7 +117,7 @@ function customize_editor_admin() {
 }
 add_action('wp_dashboard_setup', 'customize_editor_admin' );
 
-// Remove the Advanced Ads sales page for non-admins. 
+// Remove the Advanced Ads sales page for non-admins.
 function advancedads_remove_mainsubpage() {
     if(!current_user_can('manage_options')) {
         $page = remove_submenu_page( 'advanced-ads', 'advanced-ads' );
@@ -125,6 +125,13 @@ function advancedads_remove_mainsubpage() {
 }
 add_action( 'admin_menu', 'advancedads_remove_mainsubpage', 999 );
 
+// Remove specified widgets from the dashboard for non-admins.
+function remove_dashboardwidgets() {
+    if(!current_user_can('manage_options')) {
+        remove_meta_box( 'advads_dashboard_widget', 'dashboard', 'side' );
+    }
+}
+add_action('wp_dashboard_setup', 'remove_dashboardwidgets' );
 
 // Stop Editors from creating admins or deleting admins
 class JPB_User_Caps {
