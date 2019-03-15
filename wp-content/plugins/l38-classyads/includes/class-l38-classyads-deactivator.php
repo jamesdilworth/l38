@@ -3,11 +3,11 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       http://example.com
+ * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    L38_Classyads
+ * @subpackage L38_Classyads/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    L38_Classyads
+ * @subpackage L38_Classyads/includes
+ * @author     James D <james@jamesdilworth.com>
  */
-class Plugin_Name_Deactivator {
+class L38_Classyads_Deactivator {
 
 	/**
 	 * Short Description. (use period)

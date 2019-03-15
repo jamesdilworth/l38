@@ -3,11 +3,11 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       http://example.com
+ * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    L38_Classyads
+ * @subpackage L38_Classyads/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    L38_Classyads
+ * @subpackage L38_Classyads/includes
+ * @author     James D <james@jamesdilworth.com>
  */
-class Plugin_Name_Loader {
+class L38_Classyads_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
@@ -82,8 +82,7 @@ class Plugin_Name_Loader {
 	}
 
 	/**
-	 * A utility function that is used to register the actions and hooks into a single
-	 * collection.
+	 * A utility function that is used to register the actions and hooks into a single collection.
 	 *
 	 * @since    1.0.0
 	 * @access   private

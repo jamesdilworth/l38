@@ -158,7 +158,7 @@ class classy_ads_widget extends WP_Widget {
             // Secondary Level Categories
             echo '    <div class="secondary-cats filter">';
             echo '      <label>Types</label>';
-            wp_terms_checklist(0, array('taxonomy' => 'adcat', 'popular_cats' => array($selected_adcat_term_id), 'walker' => new Walker_Secondary_Category_Checklist($adcats) )); // This outputs all the categories... we then have to filter that with CSS & Javascript.
+            wp_terms_checklist(0, array('taxonomy' => 'adcat', 'popular_cats' => array($selected_adcat_term_id))); // This outputs all the categories... we then have to filter that with CSS & Javascript.
             echo '    </div>';
 
             // Max and Min Length... show only if it's a boat!

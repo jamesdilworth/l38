@@ -3,11 +3,11 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/admin
+ * @package    L38_Classyads
+ * @subpackage L38_Classyads/admin
  */
 
 /**
@@ -16,11 +16,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/admin
- * @author     Your Name <email@example.com>
+ * @package    L38_Classyads
+ * @subpackage L38_Classyads/admin
+ * @author     James D <james@jamesdilworth.com>
  */
-class Plugin_Name_Admin {
+class L38_Classyads_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -65,14 +65,13 @@ class Plugin_Name_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
+		 * defined in L38_Classyads_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Plugin_Name_Loader will then create the relationship
+		 * The L38_Classyads_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/l38-classyads-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -88,16 +87,25 @@ class Plugin_Name_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
+		 * defined in L38_Classyads_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Plugin_Name_Loader will then create the relationship
+		 * The L38_Classyads_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/l38-classyads-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+
+    public function add_plugin_admin_menu() {
+
+        /*
+         * Add a settings page for this plugin to the Settings menu.
+         * More on Administration Menus: http://codex.wordpress.org/Administration_Menus
+          */
+        add_options_page( 'Latitude 38: Classy Ads', 'L38 Classies', 'manage_options', $this->plugin_name, array($this, 'display_plugin_setup_page')
+        );
+    }
 
 }

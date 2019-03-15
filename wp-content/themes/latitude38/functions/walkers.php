@@ -6,7 +6,7 @@ class Walker_Secondary_Category_Checklist extends Walker {
     // Creates a filtered list of categories only showing categories defined as 'popular categories'
     // I use this to filter the items in classy ads.
 
-    // Actually.. this might not be neceessary at all if I just use the popular-category argument to send over the selected adcat. Indeed, I can just use CSS to hide the other options. 
+    // Actually.. this became moot as I figured out I can just use the popular-category argument to send over the selected adcat and filter with that. Indeed, I can just use CSS to hide the other options.
 
     public $tree_type = 'category';
     public $db_fields = array(

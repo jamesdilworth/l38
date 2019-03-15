@@ -1,11 +1,24 @@
 <?php
 
 /**
-* Plugin Name:        Latitude 38 Classified Ads
- * Description:       Enables users to post boats for sale, business opportunities etc.
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              www.jamesdilworth.com
+ * @since             1.0.0
+ * @package           L38_Classyads
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Latitude 38 Classy Ads
+ * Plugin URI:        https://www.latitude38.com/classyads/
+ * Description:       Runs the core functions of the Latitude 38 Classified System
  * Version:           1.0.0
  * Author:            James Dilworth
- * Author URI:        http://www.jamesdilworth.com/
+ * Author URI:        https://www.jamesdilworth.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       l38-classyads
@@ -22,28 +35,28 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '1.0.0' );
+define( 'L38_CLASSYADS_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-l38-classyads-activator.php
  */
-function activate_plugin_name() {
+function activate_l38_classyads() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads-activator.php';
-	Plugin_Name_Activator::activate();
+	L38_Classyads_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-l38-classyads-deactivator.php
  */
-function deactivate_plugin_name() {
+function deactivate_l38_classyads() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads-deactivator.php';
-	Plugin_Name_Deactivator::deactivate();
+	L38_Classyads_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_plugin_name' );
-register_deactivation_hook( __FILE__, 'deactivate_plugin_name' );
+register_activation_hook( __FILE__, 'activate_l38_classyads' );
+register_deactivation_hook( __FILE__, 'deactivate_l38_classyads' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -60,10 +73,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads.php';
  *
  * @since    1.0.0
  */
-function run_plugin_name() {
+function run_l38_classyads() {
 
-	$plugin = new Plugin_Name();
+	$plugin = new L38_Classyads();
 	$plugin->run();
 
 }
-run_plugin_name();
+run_l38_classyads();

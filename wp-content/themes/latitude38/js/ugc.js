@@ -41,7 +41,6 @@ var Ugc = (function($) {
         // console.log('fired updateResults() with ' + filter + ' of ' + val);
 
         if(!(data.temp_primary)) { // It hasn't been set by filter... so we'll need to set it ourself.
-            console.log('temp_primary')
             $('.secondary-cats>.popular-category').each(function () {
                 var the_id = this.id;
                 data.temp_primary = the_id.split('adcat-')[1];
