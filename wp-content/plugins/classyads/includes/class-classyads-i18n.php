@@ -9,8 +9,8 @@
  * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    L38_Classyads
- * @subpackage L38_Classyads/includes
+ * @package    Classyads
+ * @subpackage Classyads/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    L38_Classyads
- * @subpackage L38_Classyads/includes
+ * @package    Classyads
+ * @subpackage Classyads/includes
  * @author     James D <james@jamesdilworth.com>
  */
-class L38_Classyads_i18n {
+class Classyads_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class L38_Classyads_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'l38-classyads',
+			'classyads',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

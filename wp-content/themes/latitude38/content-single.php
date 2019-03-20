@@ -7,6 +7,7 @@ $show_cats = 0;
 <?php do_action( 'fl_before_post' ); ?>
 
 <!-- inner template is content-single.php -->
+
 <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="https://schema.org/BlogPosting">
 
 	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>

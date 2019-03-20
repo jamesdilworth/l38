@@ -1,11 +1,9 @@
 <?php
     acf_form_head();
-    require_once('includes/update-classy.php');
+    require_once('update-classy.php');
     get_header();
-    wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
 
     $current_user = wp_get_current_user();
-
 
     /* DATES: FOR TESTING
     $today = new DateTime('March 17');
@@ -18,6 +16,7 @@
     $today = new DateTime();
     $ad_placed_on = get_the_date('F j, Y');
     $expiry_epoch = get_field('ad_expires');
+    $expiry_epoch = !empty($expiry_epoch) ? $expiry_epoch : time();
 
     $key_dates = get_dates_from_expiry($expiry_epoch);
 

@@ -6,8 +6,8 @@
  * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    L38_Classyads
- * @subpackage L38_Classyads/includes
+ * @package    Classyads
+ * @subpackage Classyads/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    L38_Classyads
- * @subpackage L38_Classyads/includes
+ * @package    Classyads
+ * @subpackage Classyads/includes
  * @author     James D <james@jamesdilworth.com>
  */
-class L38_Classyads_Loader {
+class Classyads_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
@@ -116,11 +116,11 @@ class L38_Classyads_Loader {
 	public function run() {
 
 		foreach ( $this->filters as $hook ) {
-			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+            add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
 		foreach ( $this->actions as $hook ) {
-			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+            add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
 	}

@@ -1,6 +1,4 @@
 <?php
-
-
 add_action( 'admin_bar_menu', 'S4O_remove_items', 999 );
 function S4O_remove_items( $wp_admin_bar ) {
     $wp_admin_bar->remove_node( 'wp-logo' );

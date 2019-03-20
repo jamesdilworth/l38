@@ -1,7 +1,9 @@
 <?php
 
 /**
- * The plugin bootstrap file
+ * The plugin bootstrap file.. based apon WP Plugin Boilerplate. Explained well in
+ * this article.
+ * https://code.tutsplus.com/articles/object-oriented-programming-in-wordpress-building-the-plugin-i--cms-21083
  *
  * This file is read by WordPress to generate the plugin information in the plugin
  * admin area. This file also includes all of the dependencies used by the plugin,
@@ -10,7 +12,7 @@
  *
  * @link              www.jamesdilworth.com
  * @since             1.0.0
- * @package           L38_Classyads
+ * @package           Classyads
  *
  * @wordpress-plugin
  * Plugin Name:       Latitude 38 Classy Ads
@@ -21,7 +23,7 @@
  * Author URI:        https://www.jamesdilworth.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       l38-classyads
+ * Text Domain:       classyads
  * Domain Path:       /languages
  */
 
@@ -35,34 +37,40 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'L38_CLASSYADS_VERSION', '1.0.0' );
+define( 'CLASSYADS_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-l38-classyads-activator.php
+ * This action is documented in includes/class-classyads-activator.php
+ *
+ * Reference
+ *
+ * Plural : Classyads
+ * Singular : Classy
+ *
  */
-function activate_l38_classyads() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads-activator.php';
-	L38_Classyads_Activator::activate();
+function activate_classyads() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-classyads-activator.php';
+	Classyads_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-l38-classyads-deactivator.php
+ * This action is documented in includes/class-classyads-deactivator.php
  */
-function deactivate_l38_classyads() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads-deactivator.php';
-	L38_Classyads_Deactivator::deactivate();
+function deactivate_classyads() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-classyads-deactivator.php';
+	Classyads_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_l38_classyads' );
-register_deactivation_hook( __FILE__, 'deactivate_l38_classyads' );
+register_activation_hook( __FILE__, 'activate_classyads' );
+register_deactivation_hook( __FILE__, 'deactivate_classyads' );
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-classyads.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,10 +81,11 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-l38-classyads.php';
  *
  * @since    1.0.0
  */
-function run_l38_classyads() {
+function run_classyads() {
 
-	$plugin = new L38_Classyads();
+	$plugin = new Classyads();
 	$plugin->run();
 
 }
-run_l38_classyads();
+run_classyads();
+

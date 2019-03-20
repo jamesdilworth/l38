@@ -4,7 +4,7 @@ if ( ! function_exists( 'wp_terms_checklist' ) ) {
 }
 
 
-class classy_ads_widget extends WP_Widget {
+class classyads_listing_widget extends WP_Widget {
     function __construct() {
         // process
         $widget_ops = array(

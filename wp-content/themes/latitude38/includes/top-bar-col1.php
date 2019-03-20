@@ -23,7 +23,7 @@ if ( 'none' != $layout ) {
 	}
 
 	echo "<div class='login-container'>";
-	if (is_user_logged_in() && CLASSIES) { ?>
+	if (is_user_logged_in() && ACCESS_CLASSIES) { ?>
 
         <div class="account dropdown">
             <a href='/my-account/'><i class='fa fa-user-circle' style="padding-right:3px;"></i> My Account</a>

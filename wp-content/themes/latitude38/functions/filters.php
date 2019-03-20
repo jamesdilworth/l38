@@ -128,7 +128,7 @@ add_filter('query_vars', function ($qvars) {
 });
 
 /* Customize the caption shortcode to output copyrights, etc. */
-function L38_img_caption_shortcode( $a , $attr, $content = null) {
+function l38_img_caption_shortcode( $a , $attr, $content = null) {
 
     $atts = shortcode_atts( array(
         'id'      => '',
@@ -223,7 +223,7 @@ function L38_img_caption_shortcode( $a , $attr, $content = null) {
     return $html;
 }
 //Add the filter to override the standard shortcode
-add_filter( 'img_caption_shortcode', 'L38_img_caption_shortcode', 10, 3 );
+add_filter( 'img_caption_shortcode', 'l38_img_caption_shortcode', 10, 3 );
 
 
 /**

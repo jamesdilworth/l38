@@ -8,8 +8,8 @@
  * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    L38_Classyads
- * @subpackage L38_Classyads/public/partials
+ * @package    Classyads
+ * @subpackage Classyads/public/partials
  */
 ?>
 

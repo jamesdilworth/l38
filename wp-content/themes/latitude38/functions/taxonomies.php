@@ -115,36 +115,4 @@ function define_boattypes() {
 }
 add_action( 'init', 'define_boattypes', 0 );
 
-// Ad Category... example Schooner, Motoryacht, etc.
-function define_adcats() {
-    $labels = array(
-        'name'				=> _x( 'Ad Cats', 'taxonomy general name' ),
-        'singular_name'		=> _x( 'Ad Cat', 'taxonomy singular name' ),
-        'search_items'		=>  __( 'Search Boats' ),
-        'all_items'			=> __( 'All Ad Types' ),
-        'edit_item'			=> __( 'Edit Ad Type' ),
-        'update_item'		=> __( 'Update Ad Type' ),
-        'add_new_item'		=> __( 'Add New Ad Type' ),
-        'new_item_name'		=> __( 'New Ad Type' ),
-        'menu_name'			=> __( 'Ad Types' )
-    );
-
-    register_taxonomy( 'adcat', array('classy'), array(
-        'hierarchical'	=> true,
-        'labels'		=> $labels,
-        'capabilities' => array(
-            'assign_terms' => 'read',
-        ),
-        // This allows anyone with 'read' to pull from wp_terms_checklist, but they still need to be logged in?!?!?!
-        // Added to make WP_terms checklist work for non-logged in users. https://stackoverflow.com/questions/36164916/wp-terms-checklist-checkboxes-are-disabled-in-the-subscriber-profile
-        'show_ui'	    => true,
-        'show_in_quick_edit' => true,
-        'query_var'		=> true,
-        'rewrite'		=> array(
-            'slug'			=> 'adtype',
-            'with_front'	=> true
-        )
-    ));
-}
-add_action( 'init', 'define_adcats', 0 );
 

@@ -14,7 +14,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
      *
      * The available arguments are as follows:
      *
-     * @author James Dilworth... based on the version made by Myles McNamara
+     * @author based on the version made by Myles McNamara
      * @website https://smyl.es
      * @updated March 29, 2016
      *

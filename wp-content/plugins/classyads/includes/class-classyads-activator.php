@@ -6,8 +6,8 @@
  * @link       www.jamesdilworth.com
  * @since      1.0.0
  *
- * @package    L38_Classyads
- * @subpackage L38_Classyads/includes
+ * @package    Classyads
+ * @subpackage Classyads/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    L38_Classyads
- * @subpackage L38_Classyads/includes
+ * @package    Classyads
+ * @subpackage Classyads/includes
  * @author     James D <james@jamesdilworth.com>
  */
-class L38_Classyads_Activator {
+class Classyads_Activator {
 
 	/**
 	 * Short Description. (use period)
