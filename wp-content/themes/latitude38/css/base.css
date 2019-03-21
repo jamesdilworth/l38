@@ -1492,8 +1492,8 @@ button:active, input[type=button]:active, input[type=submit]:active {
 }
 .magazine-archive .cover:before {
   content: "";
-  width: 180px;
-  height: 232px;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
@@ -1785,15 +1785,46 @@ button:active, input[type=button]:active, input[type=submit]:active {
   .lectronic-edition.four-story .normal.story:last-child {
     margin-right: 0;
   }
-  .lectronic-edition.five-story .main .desc, .lectronic-edition.six-story .main .desc, .lectronic-edition.seven-story .main .desc, .lectronic-edition.eight-story .main .desc {
-    display: none;
+  .lectronic-edition.five-story .main.story .title {
+    font-size: 180%;
   }
-  .lectronic-edition.five-story .story, .lectronic-edition.six-story .story, .lectronic-edition.seven-story .story, .lectronic-edition.eight-story .story {
+  .lectronic-edition.five-story .main.story .image {
+    float: left;
+    width: 50%;
+    height: 275px;
+    padding-top: 0;
+    margin-right: 20px;
+  }
+  .lectronic-edition.five-story .main.story .alt_header {
+    margin-top: 0;
+  }
+  .lectronic-edition.five-story .normal.story {
+    float: left;
+    width: 48%;
+    margin-right: 2%;
+  }
+  .lectronic-edition.five-story .normal.story:nth-child(2n+1) {
+    margin-right: 0;
+  }
+  .lectronic-edition.six-story .main.story .title, .lectronic-edition.seven-story .main.story .title {
+    font-size: 180%;
+  }
+  .lectronic-edition.six-story .main.story .image, .lectronic-edition.seven-story .main.story .image {
+    float: left;
+    width: 50%;
+    height: 275px;
+    padding-top: 0;
+    margin-right: 20px;
+  }
+  .lectronic-edition.six-story .main.story .alt_header, .lectronic-edition.seven-story .main.story .alt_header {
+    margin-top: 0;
+  }
+  .lectronic-edition.six-story .normal.story, .lectronic-edition.seven-story .normal.story {
     float: left;
     width: 32%;
     margin-right: 2%;
   }
-  .lectronic-edition.five-story .story:nth-child(3n), .lectronic-edition.six-story .story:nth-child(3n), .lectronic-edition.seven-story .story:nth-child(3n), .lectronic-edition.eight-story .story:nth-child(3n) {
+  .lectronic-edition.six-story .normal.story:nth-child(3n+1), .lectronic-edition.seven-story .normal.story:nth-child(3n+1) {
     margin-right: 0;
   }
 }

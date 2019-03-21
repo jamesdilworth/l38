@@ -103,7 +103,7 @@
 	.tabs 					{ display:none; } /* By default, don't display the the tabs */
 	.magazine-cover			{ float:left; margin:20px; }
 	.cover 					{ width:180px; height:232px; position:relative; background-size:cover;
-		&:before 			{ content:""; width:180px; height:232px; opacity:0; position:absolute;  background-color:rgba(0,0,0,0.5); }
+		&:before 			{ content:""; width:100%; height:100%; opacity:0; position:absolute;  background-color:rgba(0,0,0,0.5); }
 		.links 				{ color:#fff; font-size:90%; position:absolute; width:100%; bottom:0; padding:10px; z-index:5; display:none; }
 		a 					{ color:#fff; display:block; width:100%; border:1px solid #fff; margin-top:5px; padding:2px 5px; text-align:center;
 			&:visited		{ color:#fff; text-decoration:none; }
@@ -227,16 +227,30 @@
 			}
 		}
 
-		&.five-story,
-		&.six-story,
-		&.seven-story,
-		&.eight-story
-		{
-			.main .desc 	{ display:none; }
-			.story			{ float:left; width:32%; margin-right:2%;
-				&:nth-child(3n) { margin-right:0; }
+		&.five-story {
+			.main.story 	{
+				.title 		{ font-size:180%; }
+				.image	 	{ float:left; width:50%; height:275px; padding-top:0; margin-right:20px; }
+				.alt_header		{ margin-top:0; }
+			}
+
+			.normal.story	{ float:left; width:48%; margin-right:2%;
+				&:nth-child(2n+1) { margin-right:0; }
 			}
 		}
+		&.six-story, &.seven-story {
+			.main.story 	{
+				.title 		{ font-size:180%; }
+				.image	 	{ float:left; width:50%; height:275px; padding-top:0; margin-right:20px; }
+				.alt_header		{ margin-top:0; }
+			}
+
+			.normal.story			{ float:left; width:32%; margin-right:2%;
+				&:nth-child(3n+1) { margin-right:0; }
+			}
+		}
+
+
 	}
 }
 
