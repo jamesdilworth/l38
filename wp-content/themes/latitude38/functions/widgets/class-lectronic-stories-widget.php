@@ -133,7 +133,7 @@ class lectronic_stories_widget extends WP_Widget {
                         $a = get_field('alt_header');
                         if($a) $alt_header = $a;
 
-                        if(in_category('199')) $alt_header = "Sponsored Story";
+                        if(in_category('199')) $alt_header = "Sponsored Post";
 
                         // $inner_output .= get_the_category_list();
                         $inner_output .= "<div class='alt_header'>$alt_header</div>";
