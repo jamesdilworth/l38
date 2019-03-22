@@ -1806,6 +1806,9 @@ button:active, input[type=button]:active, input[type=submit]:active {
   .lectronic-edition.five-story .normal.story:nth-child(2n+1) {
     margin-right: 0;
   }
+  .lectronic-edition.six-story .main.story, .lectronic-edition.seven-story .main.story {
+    height: auto !important;
+  }
   .lectronic-edition.six-story .main.story .title, .lectronic-edition.seven-story .main.story .title {
     font-size: 180%;
   }

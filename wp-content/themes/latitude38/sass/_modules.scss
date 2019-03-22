@@ -239,7 +239,7 @@
 			}
 		}
 		&.six-story, &.seven-story {
-			.main.story 	{
+			.main.story 	{ height:auto !important;
 				.title 		{ font-size:180%; }
 				.image	 	{ float:left; width:50%; height:275px; padding-top:0; margin-right:20px; }
 				.alt_header		{ margin-top:0; }
