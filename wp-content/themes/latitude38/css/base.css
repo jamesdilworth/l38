@@ -1785,6 +1785,9 @@ button:active, input[type=button]:active, input[type=submit]:active {
   .lectronic-edition.four-story .normal.story:last-child {
     margin-right: 0;
   }
+  .lectronic-edition.five-story .main.story {
+    height: auto !important;
+  }
   .lectronic-edition.five-story .main.story .title {
     font-size: 180%;
   }

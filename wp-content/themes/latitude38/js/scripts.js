@@ -208,7 +208,7 @@ var S4O = (function($) {
             // Sometimes I stuff in CSS layout stuff in here... such as equalization
             if(w > 768) {
                 $('.equalize').equalize('innerHeight');
-                $('.four-story').equalize({children: '.normal.story'});
+                $('.four-story, .five-story, .six-story, .seven-story').equalize({children: '.normal.story'});
             }
 
         },

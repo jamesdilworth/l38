@@ -165,8 +165,8 @@ class lectronic_stories_widget extends WP_Widget {
                     case 2: $output .= 'two-story'; break;
                     case 3: $output .= 'three-story'; break;
                     case 4: $output .= 'four-story'; break;
-                    case 5: $output .= 'five-story equalize'; break;
-                    case 6: $output .= 'six-story equalize'; break;
+                    case 5: $output .= 'five-story'; break;
+                    case 6: $output .= 'six-story'; break;
                     case 7: $output .= 'seven-story'; break;
                     case 8: $output .= 'eight-story'; break;
                 }
