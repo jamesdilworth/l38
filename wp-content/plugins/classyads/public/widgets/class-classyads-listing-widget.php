@@ -11,7 +11,7 @@ class classyads_listing_widget extends WP_Widget {
             'classname' => 'classy_ads',
             'description' => 'Shows a listing of Classified Ads'
         );
-        parent::__construct('classy_ads_widget','L38: Classy Classifieds', $widget_ops);
+        parent::__construct('classy_ads_widget','L38: Classyads Listing', $widget_ops);
     }
 
     public function form($instance) {
@@ -91,8 +91,7 @@ class classyads_listing_widget extends WP_Widget {
 
         extract($args);
 
-        // Enqueue assoc classy script.
-        wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('plugins','scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
+        Classyads_Public::enqueue_view_scripts();
 
         // Config Vars
         $outerpost_id = $post->ID;

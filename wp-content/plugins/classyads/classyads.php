@@ -11,14 +11,14 @@
  * that starts the plugin.
  *
  * @link              www.jamesdilworth.com
- * @since             1.0.0
+ * @since             0.1.0
  * @package           Classyads
  *
  * @wordpress-plugin
  * Plugin Name:       Latitude 38 Classy Ads
  * Plugin URI:        https://www.latitude38.com/classyads/
  * Description:       Runs the core functions of the Latitude 38 Classified System
- * Version:           1.0.0
+ * Version:           0.1.0
  * Author:            James Dilworth
  * Author URI:        https://www.jamesdilworth.com/
  * License:           GPL-2.0+
@@ -34,10 +34,49 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Start at version 0.1.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'CLASSYADS_VERSION', '1.0.0' );
+define( 'CLASSYADS_VERSION', '0.1.0' );
+
+/**
+ * We're constantly calling file paths, so let's set these up now.
+ */
+define( "CLASSYADS_FILE", __FILE__ );
+define( "CLASSYADS_PATH", plugin_dir_path( CLASSYADS_FILE )); // includes trailing slash.
+define( "CLASSYADS_URL", plugins_url() . "/" . basename(CLASSYADS_PATH) . "/");
+
+global $classyads_config;
+$classyads_config = array(
+    'test' => 'test',
+    'plans' => array(
+        'free' => array(
+            'name' => 'Free (Online Only)',
+            'amount' => 0,
+            'months' => 1,
+            'in_print' => false,
+            'multiple_photos' => false
+        ),
+        'basic' => array(
+            'name' => 'Basic',
+            'amount' => 20,
+            'months' => 1,
+            'in_print' => true,
+            'multiple_photos' => false
+        ),
+        'premium' => array(
+            'name' => 'Premium',
+            'amount' => 60,
+            'months' => 3,
+            'in_print' => true,
+            'multiple_photos' => true
+        )
+    )
+);
+
+/**
+ * Comoposer dependencies.
+ */
 
 /**
  * The code that runs during plugin activation.
@@ -50,7 +89,7 @@ define( 'CLASSYADS_VERSION', '1.0.0' );
  *
  */
 function activate_classyads() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-classyads-activator.php';
+	require_once CLASSYADS_PATH . 'includes/class-classyads-activator.php';
 	Classyads_Activator::activate();
 }
 
@@ -59,7 +98,7 @@ function activate_classyads() {
  * This action is documented in includes/class-classyads-deactivator.php
  */
 function deactivate_classyads() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-classyads-deactivator.php';
+	require_once CLASSYADS_PATH . 'includes/class-classyads-deactivator.php';
 	Classyads_Deactivator::deactivate();
 }
 
@@ -70,7 +109,7 @@ register_deactivation_hook( __FILE__, 'deactivate_classyads' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-classyads.php';
+require CLASSYADS_PATH . 'includes/class-classyads.php';
 
 /**
  * Begins execution of the plugin.
@@ -79,12 +118,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-classyads.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since    0.1.0
  */
 function run_classyads() {
 
-	$plugin = new Classyads();
-	$plugin->run();
+	$classyads = new Classyads();
+    $classyads->run();
 
 }
 run_classyads();

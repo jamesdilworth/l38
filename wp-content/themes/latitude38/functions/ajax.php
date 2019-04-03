@@ -19,6 +19,7 @@ function update_profile_mainphoto() {
 
     $current_user = wp_get_current_user();
 
+    PC::debug($data);
 
     $output = "";
 
@@ -59,7 +60,7 @@ function update_profile_mainphoto() {
             'post_title'     => 'User Avatar: ' . $current_user->first_name . ' ' . $current_user->last_name,
             'post_content'   => '',
             'post_status'    => 'inherit',
-            'post_author'   => $current_user
+            'post_author'   => $current_user->ID
         );
 
         $old_thumbnail_id = $current_user->user_avatar;
@@ -68,8 +69,9 @@ function update_profile_mainphoto() {
         }
 
         // Insert the attachment.
+        PC::debug($attachment);
+        PC::debug($filename);
         $attach_id = wp_insert_attachment( $attachment, $filename );
-
 
         // Generate the metadata for the attachment, and update the database record.
         $attach_data = wp_generate_attachment_metadata( $attach_id,  $filename );

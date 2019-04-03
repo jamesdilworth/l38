@@ -45,12 +45,6 @@ ul.horizontal								{ overflow:auto; margin:5px 0; padding:0;
 .gform_wrapper .gfield_error .gfield_label  { color:#c31717; }
 .gform_wrapper .validation_message 			{ color:#c31717; }
 
-/* Classy Ad Form */
-.single-classy .acf-form 					{
-	.acf-field 								{ border-top:0; }
-
-}
-
 /* Rebalance the checkboxes and radio buttons */
 .gform_wrapper.gf_browser_chrome .gfield_checkbox li input,
 .gform_wrapper.gf_browser_chrome .gfield_checkbox li input[type=checkbox],
@@ -103,4 +97,19 @@ body										{
 .jz-form				{
 	.left-half 			{ width:49.9%; float:left; margin-bottom:10px; padding-right:15px; }
 	.right-half 		{ width:49.9%; display:inline-block; margin-bottom:10px; }
+
+	ul.list-3col 		{ margin-top:10px;
+		li 				{ width:33%; display:inline-block; font-size:90%;}
+	}
+
+	.field				{
+		&.one-third		{ width:33%; display:inline-block; padding-right:20px;}
+	}
+}
+
+
+
+/* Classy Ad Form */
+.single-classy .acf-form 					{
+	.acf-field 								{ border-top:0; }
 }

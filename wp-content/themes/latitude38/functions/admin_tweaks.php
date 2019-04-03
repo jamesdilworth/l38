@@ -1,29 +1,30 @@
 <?php
 
 /* Include custom admin css */
-function s4o_custom_admin() {
+function L38_custom_admin() {
     echo '<link rel="stylesheet" type="text/css"  href="//netdna.bootstrapcdn.com/font-awesome/latest/css/font-awesome.css">';
     echo '<link rel="stylesheet" type="text/css" href="' . get_bloginfo('stylesheet_directory') . '/css/admin/wp-admin.css" />';
 }
-add_action( 'admin_head', 's4o_custom_admin' );
+add_action( 'admin_head', 'L38_custom_admin' );
+
+/* Add CSS for the Login Page */
+function L38_custom_login_style() {
+    echo '<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />';
+    echo '<link rel="stylesheet" type="text/css" href="' . get_bloginfo('stylesheet_directory') . '/css/admin/login.css" />';
+}
+add_action('login_head', 'L38_custom_login_style');
 
 // Filter Yoast Meta Priority to the bottom
 add_filter( 'wpseo_metabox_prio', function() { return 'low';});
 
-// Filter enforce strong passwords plugin to not apply to any role... doesn't seem to work!
-function modify_enforce_strong_passwords_caps() {
-    return array('edit-pages');
-}
-add_filter( 'slt_fsp_caps_check', 'modify_enforce_strong_passwords_caps', 20 );
-
 /* Registers Editor stylesheet for TinyMCE */
-function s4o_add_editor_styles() {
+function L38_add_editor_styles() {
     add_editor_style( 'css/admin/editor-styles.css' );
 }
-add_action( 'admin_init', 's4o_add_editor_styles' );
+add_action( 'admin_init', 'L38_add_editor_styles' );
 
 /* Let's customize the visual editor a little*/
-function s4o_mce_buttons( $buttons ) {
+function L38_mce_buttons( $buttons ) {
     /*
     if(($key = array_search('formatselect', $buttons)) !== false) {
         unset($buttons[$key]);
@@ -31,17 +32,17 @@ function s4o_mce_buttons( $buttons ) {
     */
     return $buttons;
 }
-// add_filter( 'mce_buttons', 's4o_mce_buttons' );
+// add_filter( 'mce_buttons', 'L38_mce_buttons' );
 
 // Customize mce editor font sizes
-function s4o_mce_changes( $initArray ){
+function L38_mce_changes( $initArray ){
 
     // Add block format elements you want to show in dropdown
     $initArray['block_formats'] = 'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Pre=pre;Code=code';
 
     return $initArray;
 }
-add_filter( 'tiny_mce_before_init', 's4o_mce_changes' );
+add_filter( 'tiny_mce_before_init', 'L38_mce_changes' );
 
 /**
  * Use this as a structure to move some of the menu items around... we're not actually using Yoast GA - JD.
@@ -106,67 +107,6 @@ function Move_ACF_Subtitle() {
 }
 add_action( 'admin_head', 'Move_ACF_Subtitle' );
 
-// Hook into the 'wp_dashboard_setup' action to register our function
-function customize_editor_admin() {
-    if(!current_user_can('activate_plugins')) {
-        // Not an admin.
-        // remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
-        remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
-        remove_meta_box( 'simple_history_dashboard_widget', 'dashboard', 'side' );
-    }
-}
-add_action('wp_dashboard_setup', 'customize_editor_admin' );
 
-// Stop Editors from creating admins or deleting admins
-class JPB_User_Caps {
-    // Add our filters
-    function __construct() {
-        add_filter( 'editable_roles', array(&$this, 'editable_roles') );
-        add_filter( 'map_meta_cap', array(&$this, 'map_meta_cap'), 10, 4 );
-    }
 
-    // Remove 'Administrator' from the list of roles if the current user is not an admin
-    function editable_roles( $roles ){
-        if( isset( $roles['administrator'] ) && !current_user_can('administrator') ){
-            unset( $roles['administrator']);
-        }
-        return $roles;
-    }
-
-    // If someone is trying to edit or delete and admin and that user isn't an admin, don't allow it
-    function map_meta_cap( $caps, $cap, $user_id, $args ){
-
-        switch( $cap ){
-            case 'edit_user':
-            case 'remove_user':
-            case 'promote_user':
-                if( isset($args[0]) && $args[0] == $user_id )
-                    break;
-                elseif( !isset($args[0]) )
-                    $caps[] = 'do_not_allow';
-                $other = new WP_User( absint($args[0]) );
-                if( $other->has_cap( 'administrator' ) ){
-                    if(!current_user_can('administrator')){
-                        $caps[] = 'do_not_allow';
-                    }
-                }
-                break;
-            case 'delete_user':
-            case 'delete_users':
-                if( !isset($args[0]) )
-                    break;
-                $other = new WP_User( absint($args[0]) );
-                if( $other->has_cap( 'administrator' ) ){
-                    if(!current_user_can('administrator')){
-                        $caps[] = 'do_not_allow';
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        return $caps;
-    }
-}
-$jpb_user_caps = new JPB_User_Caps();
 

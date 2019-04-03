@@ -31,13 +31,14 @@ var Ugc = (function($) {
     }
 
     function updateMainImage() {
-        // Working through a tutorial that doesn't use jQuery...cool!
+        // Working through a tutorial that doesn't use jQuery...:)
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
         var form = document.getElementById('main-photo-form');
         var preview = document.querySelector('.main-photo-preview');
         var input = document.querySelector('#main_photo_input');
 
+        //
         while(preview.firstChild) {
             preview.removeChild(preview.firstChild);
         }
@@ -138,31 +139,10 @@ var Ugc = (function($) {
     }
 
     var setupHandlers = function() {
-        // Handle the uploading of a new image.
-        $('#main_photo_input').on('change', updateMainImage);
 
-        // Perform AJAX login on form submit
-        $('form#login').on('submit', function(e){
-            e.preventDefault();
-            console.log('running ajax login')
-            $('form#login p.status').show().text("Sending user info, please wait...");
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: ajaxurl,
-                data: {
-                    'action': 'ajaxlogin', //calls wp_ajax_nopriv_ajaxlogin
-                    'email': $('form#login #login-email').val(),
-                    'password': $('form#login #login-password').val(),
-                    'security': $('form#login #login-security').val() },
-                success: function(data){
-                    $('form#login p.status').text(data.message);
-                    if (data.loggedin == true){
-                        document.location.reload(true);
-                    }
-                }
-            });
-        });
+        // Handle the uploading of a new image.
+        $("#main-photo-form input[name='main_photo_input']").on('change', updateMainImage);
+
     };
 
     return {

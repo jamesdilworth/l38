@@ -68,9 +68,6 @@ while ( $_SERVER['REQUEST_METHOD'] == 'POST' && !empty( $_POST['action'] )) {
             update_post_meta( $post->ID, 'boat_location', $boat_location );
         }
 
-        /* Let plugins hook in, like ACF who is handling the profile picture all by itself. Got to love the Elliot */
-        // do_action('edit_user_profile_update', $current_user->ID);
-
         /* We got here, assuming everything went OK */
         $ugc_updated=true;
         break;

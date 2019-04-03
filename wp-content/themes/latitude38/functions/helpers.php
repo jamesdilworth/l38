@@ -1,37 +1,5 @@
 <?php
 
-// Used to lookup a classy ad by it's old Lasso ID. This was used in the import process, but can probably be removed once the migration is successful.
-
-
-// Strips external characters from a phone number.
-function sanitize_purpose_phone_input( $input ) {
-    $input = preg_replace( "/[^0-9]/", "", $input );
-    if ( strlen( $input ) == 10 ) {
-        if ( is_numeric( $input ) ) {
-            return intval( $input );
-        }
-    }
-}
-
-// Dump $object to error log
-function var_error_log( $object=null ){
-    ob_start();                    // start buffer capture
-    var_dump( $object );           // dump the values
-    $contents = ob_get_contents(); // put the buffer into a variable
-    ob_end_clean();                // end capture
-    error_log( $contents );        // log contents of the result of var_dump( $object )
-}
-
-// Outputs the name of the template file being used for this page.
-function get_current_template( $echo = false ) {
-    if( !isset( $GLOBALS['current_theme_template'] ) )
-        return false;
-    if( $echo )
-        echo $GLOBALS['current_theme_template'];
-    else
-        return $GLOBALS['current_theme_template'];
-}
-
 // Gets dates for the most recent number of Lectronic Latitudes. By default, the most recent.
 // Returns an array of dates?
 function days_with_posts($qty = 1, $date = NULL) {
@@ -50,7 +18,7 @@ function days_with_posts($qty = 1, $date = NULL) {
     return $dayswithposts;
 }
 
-// Assemble lightbox link for opening magazine at a certain page.
+// Assemble lightbox link for opening issuu at a certain page.
 function get_pdf_link($core_url, $page) {
     // Style was ..61956248
     // Single Page is 62432579
@@ -98,10 +66,3 @@ function display_social_sharing_buttons() {
     echo $content;
 }
 
-/* Redirects people to the home page if they're not logged in. */
-function check_page_security() {
-    if( !is_user_logged_in() ) {
-        wp_redirect( home_url() );
-        exit();
-    }
-}

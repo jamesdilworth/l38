@@ -1,9 +1,12 @@
 <?php
-    acf_form_head();
-    require_once('update-classy.php');
+    Classyads_Public::enqueue_view_scripts();
+    Classyads_Public::enqueue_form_scripts();
+
     get_header();
 
+    global $post;
     $current_user = wp_get_current_user();
+    $classyad = new Classyad($post->ID);
 
     /* DATES: FOR TESTING
     $today = new DateTime('March 17');
@@ -23,27 +26,13 @@
     $can_make_print_changes = $today < $key_dates['cutoff'] ? true : false;
     $can_renew = $today < $key_dates['renewal_deadline'] ? true : false;
     $expired = $today > $key_dates['expiry'] ? true : false;
-
 ?>
 
 <div class="container">
     <div class="row">
-
         <header class="jz-header">
             <div class="lectronic-logo"><img src="/wp-content/themes/latitude38/images/classy_headline.png"></div>
             <a href="/classyads/">&laquo; Back to Classies</a>
-
-            <!-- STATUS NOTICES -->
-            <?php if( $ugc_updated ): ?>
-                <div class="response success"><?php _e('Profile successfully updated', 'textdomain'); ?></div>
-            <?php endif; ?>
-
-            <?php if( $ugc_validation  ): ?>
-                <?php if( $ugc_validation == 'unknown' ): ?>
-                    <div class="response fail"><?php _e('An unknown error occurred, please try again or contact the website administrator', 'textdomain'); ?></div>
-                <?php endif; ?>
-            <?php endif; ?>
-
         </header>
 
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
@@ -51,7 +40,7 @@
 
             <?php
                 // Seller Info
-                global $post;
+
                 $seller = get_user_by('id', get_the_author_meta('ID'));
                 $ad_subscription_level = get_field('ad_subscription_level');
 
@@ -91,15 +80,14 @@
                 <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
                     <div class="public edit_link"><a href="" class="switch_public_edit_mode">Edit</a></div>
                 <?php endif; ?>
-                <div class="sale-terms"><?= $ad_sale_terms_label ?></div>
+                <div class="sale-terms" id="_view_sale_terms_label"><?= $ad_sale_terms_label ?></div>
                 <h1><?= $ad_title ?>  </h1>
-                <div class="price"><?php echo money_format('%.0n', get_field('ad_asking_price')); ?></div>
-                <div class="location"><?php echo get_field('boat_location'); ?></div>
+                <div class="price" id="_view_ad_asking_price"><?= $classyad->custom_fields['ad_asking_price'] ?></div>
+                <div class="location" id="_view_boat_location"><?= $classyad->custom_fields['boat_location']; ?></div>
+                <div class="content" id="_view_maintext"><?php the_content(); ?></div>
 
-                <div class="content"><?php the_content(); ?></div>
-
-                <?php if($ad_external_url) : ?>
-                    <div class="external_url">More info at: <a href="<?= $ad_external_url; ?>"><?= $ad_external_url; ?></a></div>
+                <?php if($classyad->custom_fields['ad_external_url']) : ?>
+                    <div class="external_url" id="_view_ad_external_url">More info at: <a href="<?= $classyad->custom_fields['ad_external_url']; ?>"><?= $classyad->custom_fields['ad_external_url']; ?></a></div>
                 <?php endif; ?>
 
                 <div class="seller_info">
@@ -125,7 +113,7 @@
 
             <div class="update-classy-ad" >
                 <div class="edit_link"><a href="" class="switch_public_edit_mode">Leave Edit Mode</a></div>
-                <form class="jz-form" action="<?php the_permalink(); ?>" id="update_classy_public" name="update_classy_public" method="post">
+                <form class="jz-form"  id="update_classy_public" name="update_classy_public" method="post">
 
                     <!-- <div class="field">
                         <?php
@@ -150,14 +138,18 @@
                         <input class="text-input" name="boat_location" type="text" id="edit_boat_location" value="<?php the_field('boat_location'); ?>" />
                     </div>
                     <div class="field">
-                        <label for="boat_location">Description</label>
-                        <textarea name="main_content" id="edit_main_content"><?php echo strip_tags(get_the_content(), '<p>'); ?></textarea>
+                        <label for="maintext">Description</label>
+                        <textarea name="maintext" id="edit_maintext"><?php echo strip_tags(get_the_content(), '<p>'); ?></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="ad_external_url">External URL (optional)</label>
+                        <input class="text-input" name="ad_external_url" type="text" id="edit_ad_external_url" value="<?php the_field('ad_external_url'); ?>" />
                     </div>
                     <div class="form-submit">
                         <input type="submit" id="updateclassy" class="submit button" value="Update Ad" />
-                        <?php wp_nonce_field( 'update-classy' ) ?>
-                        <input name="honey-name" value="" type="text" style="display:none;"></input>
-                        <input name="action" type="hidden" id="action" value="update-classy" />
+                        <?php wp_nonce_field( 'update_classyad', '_update_classyad_nonce' ) ?>
+                        <input name="post_id" value="<?=$post->ID ?>" type="text" style="display:none;">
+                        <input name="action" type="hidden" id="action" value="update_classyad" />
                     </div><!-- .form-submit -->
                 </form>
             </div>
@@ -199,10 +191,6 @@
                     <?php endif; ?>
 
                     <p><a class='btn' style="background-color:#4d948c;">Mark as SOLD</a></p>
-
-
-
-
                 </div>
 
                 <?php if($ad_subscription_level != 'free') : ?>

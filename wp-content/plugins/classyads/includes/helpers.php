@@ -1,5 +1,9 @@
 <?php
 
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Create Classified WP Query.
  *
@@ -95,4 +99,12 @@ function get_dates_from_expiry($epoch) {
     $key_dates['next_ad_edition'] = $next_ad_edition;
 
     return $key_dates;
+}
+
+
+
+function classyads_get_plan_amount($plan) {
+    global $classyads_config;
+    $plan = $classyads_config['plans'][$plan];
+    return $plan['amount'];
 }

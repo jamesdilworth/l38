@@ -9,7 +9,6 @@ class Classyads_Import {
         $this->version = $version; // The version... used for enqueuing.
     }
 
-
     /**
      * AJAX function to handle importing a classy from the old system.
      *
@@ -158,7 +157,6 @@ class Classyads_Import {
                 // update_user_meta($wp_user_id, 'state', $row['state']);
                 // update_user_meta($wp_user_id, 'zip', $row['zip']);
                 update_user_meta($wp_user_id, 'othercontact', $user_row['othercontact']);
-
 
             } else {
                 $wp_user_id = 1;

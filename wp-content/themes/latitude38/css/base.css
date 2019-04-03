@@ -1276,11 +1276,6 @@ ul.horizontal li {
   color: #c31717;
 }
 
-/* Classy Ad Form */
-.single-classy .acf-form .acf-field {
-  border-top: 0;
-}
-
 /* Rebalance the checkboxes and radio buttons */
 .gform_wrapper.gf_browser_chrome .gfield_checkbox li input,
 .gform_wrapper.gf_browser_chrome .gfield_checkbox li input[type=checkbox],
@@ -1390,6 +1385,24 @@ body .gform_confirmation_message::before {
   width: 49.9%;
   display: inline-block;
   margin-bottom: 10px;
+}
+.jz-form ul.list-3col {
+  margin-top: 10px;
+}
+.jz-form ul.list-3col li {
+  width: 33%;
+  display: inline-block;
+  font-size: 90%;
+}
+.jz-form .field.one-third {
+  width: 33%;
+  display: inline-block;
+  padding-right: 20px;
+}
+
+/* Classy Ad Form */
+.single-classy .acf-form .acf-field {
+  border-top: 0;
 }
 
 .single-issue .cover {
@@ -1797,111 +1810,6 @@ body .gform_confirmation_message::before {
   }
 }
 
-.single-classy h1 {
-  margin-top: -5px;
-  margin-bottom: -5px;
-}
-.single-classy header.cpt-title {
-  padding: 10px;
-}
-.single-classy article.fl-post {
-  padding: 10px;
-  margin-bottom: 40px;
-  overflow: auto;
-}
-.single-classy .main-content {
-  float: left;
-  width: 50%;
-  padding-bottom: 40px;
-}
-.single-classy .sale-terms {
-  text-transform: uppercase;
-  color: #aaa;
-}
-.single-classy .price {
-  color: #82b4a9;
-  font-size: 140%;
-}
-.single-classy .location {
-  text-transform: uppercase;
-  color: #aaa;
-}
-.single-classy .content {
-  margin-top: 20px;
-}
-.single-classy .seller_info {
-  margin-top: 20px;
-}
-.single-classy .main-photo {
-  float: left;
-  width: 50%;
-  padding-right: 30px;
-}
-.single-classy .update-classy-ad {
-  display: none;
-  float: left;
-  width: 50%;
-  padding-bottom: 40px;
-}
-.single-classy #update_magad {
-  display: none;
-}
-.single-classy #update_magad textarea {
-  width: 100%;
-  min-height: 120px;
-}
-.single-classy #edit_main_content {
-  height: 250px;
-}
-.single-classy #edit_ad_asking_price {
-  display: inline-block;
-  width: auto;
-}
-.single-classy .subscription {
-  clear: both;
-  overflow: auto;
-  background-color: #f6f6f6;
-  border-radius: 5px;
-  padding: 8px 20px;
-  margin: 20px -10px;
-}
-.single-classy .subscription h3 {
-  margin-top: 5px;
-}
-.single-classy .subscription .desc {
-  float: left;
-  width: 50%;
-}
-.single-classy .subscription .magazine-preview {
-  width: 350px;
-  float: right;
-  font-size: 90%;
-  background-color: #fff;
-  padding: 3px 8px;
-}
-.single-classy .subscription .magazine-preview .mag-section {
-  color: #fff;
-  font-size: 120%;
-  padding: 10px;
-  margin: 10px 0;
-  text-align: center;
-  font-style: italic;
-  text-transform: uppercase;
-  background-color: #018db9;
-}
-.single-classy .subscription .magazine-preview .mag-img {
-  height: 200px;
-  background-size: cover;
-  background-position: bottom;
-}
-.single-classy .subscription .magazine-preview .title {
-  text-transform: uppercase;
-  font-weight: bold;
-}
-.single-classy .form-submit {
-  margin: 10px 0;
-}
-
 .main-photo.editable .main-photo-preview {
   position: relative;
 }
@@ -1928,97 +1836,6 @@ body .gform_confirmation_message::before {
 }
 .main-photo.editable .main-image-fields input[type=file] {
   opacity: 0;
-}
-
-.classy_widget .primary-filters {
-  background-color: #f6f6f6;
-  padding: 5px 10px;
-  text-align: center;
-  margin: 20px 0;
-}
-.classy_widget .primary-filters li {
-  display: inline-block;
-  margin-right: 15px;
-}
-.classy_widget .secondary-filters {
-  background-color: #f6f6f6;
-  width: 300px;
-  margin-right: 10px;
-  float: left;
-  padding: 20px;
-}
-.classy_widget .secondary-filters h3 {
-  margin-top: 0;
-}
-.classy_widget .secondary-filters .filter {
-  margin-bottom: 10px;
-}
-.classy_widget .secondary-filters .search-filter input {
-  display: inline-block;
-  width: 90%;
-}
-.classy_widget .secondary-filters .search-filter i {
-  margin-left: -30px;
-  color: #018db9;
-  padding-top: 4px;
-}
-.classy_widget .secondary-filters .max-min-filters input {
-  display: inline-block;
-}
-.classy_widget .secondary-cats li {
-  list-style-type: none;
-}
-.classy_widget .secondary-cats li label {
-  margin-top: 0;
-}
-.classy_widget .secondary-cats > li > label {
-  display: none;
-}
-.classy_widget .secondary-cats .children {
-  display: none;
-}
-.classy_widget .secondary-cats .popular-category .children {
-  display: block;
-}
-.classy_widget .classyads {
-  margin-left: 325px;
-  margin-right: -30px;
-}
-
-.classyads .ad {
-  position: relative;
-  float: left;
-  width: 370px;
-  height: 240px;
-  margin-right: 30px;
-  margin-bottom: 25px;
-  background-size: cover;
-  background-position: bottom;
-}
-.classyads .meta {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  padding: 5px 10px;
-}
-.classyads .title {
-  font-weight: bold;
-  text-transform: uppercase;
-}
-.classyads .title a {
-  color: #fff;
-}
-.classyads .price {
-  font-size: 90%;
-  margin-top: -5px;
-  font-weight: 600;
-}
-.classyads .location {
-  font-size: 85%;
-  font-weight: 300;
-  margin-top: -5px;
 }
 
 /* Are these the lectronic stories on archive pages... if so, we should update the css to match the standard. */
