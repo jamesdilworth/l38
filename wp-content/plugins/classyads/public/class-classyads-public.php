@@ -40,9 +40,9 @@ class Classyads_Public
      * Static function as we call this from widgets and page templates?
      */
     public static function enqueue_form_scripts() {
+        global $classyads_config;
         // wp_enqueue_style( 'filepond', 'https://unpkg.com/filepond/dist/filepond.css', array());
         // wp_enqueue_style( 'filepond-image-preview', 'https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css', array('filepond'));
-
 
         // Enqueue Filepond... an image upload library.
         // wp_enqueue_script( 'filepond-jquery', 'https://unpkg.com/jquery-filepond/filepond.jquery.js', array( 'jquery', 'filepond' ), '0.1.0', true );
@@ -50,7 +50,11 @@ class Classyads_Public
         // wp_enqueue_script( 'filepond-plugin-file-encode', 'https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js', array(), CLASSYADS_VERSION, true );
         // wp_enqueue_script( 'filepond', 'https://unpkg.com/filepond/dist/filepond.min.js', array(), CLASSYADS_VERSION, true );
 
-        wp_enqueue_script( 'classyads-forms', CLASSYADS_URL . 'public/js/classyads-forms.js', array('jzugc'), CLASSYADS_VERSION, true ); // load scripts in footer
+        $import_vars = array(
+            'plans' => $classyads_config['plans'],
+        );
+        wp_enqueue_script( 'classyads-forms', CLASSYADS_URL . 'public/js/classyads-forms.js', array('jzugc'), filemtime( CLASSYADS_PATH . 'public/js/classyads-forms.js'), true ); // load scripts in footer
+        wp_localize_script( 'classyads-forms', 'localized', $import_vars );
     }
 
     public function register_classyads_widgets() {

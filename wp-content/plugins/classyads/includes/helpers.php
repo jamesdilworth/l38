@@ -52,59 +52,6 @@ function get_the_classys($instance = array()) {
 }
 
 
-/*
- *  Returns array of datetime objects about an ad, based on the expiry date in unixtime.
- */
-function get_dates_from_expiry($epoch) {
-
-    if(!isset($epoch)) return false;
-
-    $today = new DateTime();
-    $day = $today->format('d');
-
-
-    $expirydate = new DateTime();
-    $expirydate->setTimestamp($epoch);
-
-    $cutoff = clone $expirydate;
-    $cutoff->setDate($cutoff->format('Y'), ($cutoff->format('m') -1), 15);
-
-    // Initially the renewal deadline is before the next cutoff.
-    $renewal_deadline = clone $cutoff;
-    $renewal_deadline->modify('+1 month');
-
-    // But if it's already passed, we still want to convince them to renew for the following month.
-    if($today > $renewal_deadline) {
-        $renewal_deadline = clone $today;
-        if(absint($day) < 15) {
-            $renewal_deadline->setDate($today->format('Y'), $today->format('m'), 15);
-        } else {
-            $renewal_deadline->modify('next month');
-            $renewal_deadline->modify($renewal_deadline->format('Y') . $renewal_deadline->format('m') . "-15");
-        }
-    }
-
-    $ad_edition = clone $cutoff;
-    $ad_edition->modify('+1 month');
-    $ad_edition->modify('first day of ' . $ad_edition->format('F'));
-
-    $next_ad_edition = clone $renewal_deadline;
-    $next_ad_edition->modify('+1 month');
-
-    $key_dates = array();
-    $key_dates['expiry'] = $expirydate;
-    $key_dates['cutoff'] = $cutoff;
-    $key_dates['renewal_deadline'] = $renewal_deadline;
-    $key_dates['ad_edition'] = $ad_edition;
-    $key_dates['next_ad_edition'] = $next_ad_edition;
-
-    return $key_dates;
-}
 
 
 
-function classyads_get_plan_amount($plan) {
-    global $classyads_config;
-    $plan = $classyads_config['plans'][$plan];
-    return $plan['amount'];
-}

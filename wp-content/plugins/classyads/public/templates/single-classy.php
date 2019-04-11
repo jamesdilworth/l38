@@ -8,24 +8,10 @@
     $current_user = wp_get_current_user();
     $classyad = new Classyad($post->ID);
 
-    /* DATES: FOR TESTING
-    $today = new DateTime('March 17');
-    $fake_placed_on = new DateTime('December 17, 2018');
-    $ad_placed_on = $fake_placed_on->format('F j, Y');
-    $expiry_epoch = calc_expiry(1, $ad_placed_on);
-    */
+    $key_dates = $classyad->key_dates;
 
-    /* DATES: FOR REALZ */
-    $today = new DateTime();
-    $ad_placed_on = get_the_date('F j, Y');
-    $expiry_epoch = get_field('ad_expires');
-    $expiry_epoch = !empty($expiry_epoch) ? $expiry_epoch : time();
 
-    $key_dates = get_dates_from_expiry($expiry_epoch);
 
-    $can_make_print_changes = $today < $key_dates['cutoff'] ? true : false;
-    $can_renew = $today < $key_dates['renewal_deadline'] ? true : false;
-    $expired = $today > $key_dates['expiry'] ? true : false;
 ?>
 
 <div class="container">
@@ -40,7 +26,6 @@
 
             <?php
                 // Seller Info
-
                 $seller = get_user_by('id', get_the_author_meta('ID'));
                 $ad_subscription_level = get_field('ad_subscription_level');
 
@@ -139,58 +124,66 @@
                     </div>
                     <div class="field">
                         <label for="maintext">Description</label>
-                        <textarea name="maintext" id="edit_maintext"><?php echo strip_tags(get_the_content(), '<p>'); ?></textarea>
+                        <textarea name="maintext" id="edit_maintext"><?php echo get_the_content(); ?></textarea>
                     </div>
                     <div class="field">
                         <label for="ad_external_url">External URL (optional)</label>
-                        <input class="text-input" name="ad_external_url" type="text" id="edit_ad_external_url" value="<?php the_field('ad_external_url'); ?>" />
+                        <input class="text-input" name="ad_external_url" type="url" id="edit_ad_external_url" value="<?php the_field('ad_external_url'); ?>" />
                     </div>
                     <div class="form-submit">
                         <input type="submit" id="updateclassy" class="submit button" value="Update Ad" />
                         <?php wp_nonce_field( 'update_classyad', '_update_classyad_nonce' ) ?>
-                        <input name="post_id" value="<?=$post->ID ?>" type="text" style="display:none;">
+                        <input name="post_id" value="<?=$post->ID ?>" type="hidden" >
                         <input name="action" type="hidden" id="action" value="update_classyad" />
                     </div><!-- .form-submit -->
                 </form>
             </div>
 
-            <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
+            <?php
+                // DATES
+                if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) :
+             ?>
             <div class="subscription">
                 <div class="desc">
-                    <h3>Your <?= ucfirst($ad_subscription_level); ?> Ad</h3>
 
-                    <p>Your ad was placed on <?= $ad_placed_on; ?></p>
+                    <h3>Your <?= ucfirst($classyad->custom_fields['ad_subscription_level']); ?> Ad</h3>
+
+                    <p>Your ad was placed on <?= $key_dates['ad_placed_on']->format('D, F j, Y'); ?>.
 
                     <?php if($ad_subscription_level != 'free') : ?>
 
-                        <!-- <p>Today is <?= $today->format('F jS, Y') ?> </p> -->
-
-                        <?php if($today < $key_dates['ad_edition']) : ?>
-                            <p>Your print ad will appear in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue</p>
+                        <?php if($key_dates['today'] < $key_dates['ad_edition']) : ?>
+                            Your print ad will appear in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue.</p>
                         <?php else : ?>
-                            <p>Your print ad appears in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue</p>
+                            Your print ad appears in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue.</p>
                         <?php endif; ?>
 
-                        <?php if($can_make_print_changes) : ?>
+                        <?php if($key_dates['can_make_print_changes']) : ?>
                             <p>Last day to make changes for print is <?= $key_dates['cutoff']->format('F jS, Y'); ?> at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
                         <?php endif;  ?>
 
-                        <p>Renew before <?= $key_dates['renewal_deadline']->format('F jS, Y'); ?> to get it into the <?= $key_dates['next_ad_edition']->format('F'); ?> issue.<br>
-                            <a class='btn' href=''>Renew for 1 Month - $40</a>
-                            <a class='btn' href=''>Renew for 3 Months - $80</a>
-                        </p>
+                        <?php if($key_dates['has_expired']) : ?>
+                            This online ad expired on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
+                        <?php else : ?>
+                            This online ad will expire on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
+                        <?php endif; ?>
 
-                    <?php else : ?>
-                        <a class='btn' href=''>Upgrade to Print Ad - $40</a>
+                        <p>Renew before <?= $key_dates['renewal_deadline']->format('F jS, Y'); ?> to get it into the <?= $key_dates['next_ad_edition']->format('F'); ?> issue.</p>
+
+                        <p><a href='' class="renew btn">Renew for 1 Month</a>
+                            <!-- <a class='btn' href=''>Renew for 3 Months - $80</a> -->
+
+                   <?php else : ?>
+                       <?php if($key_dates['has_expired']) : ?>
+                           This online ad expired on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
+                       <?php else : ?>
+                           This online ad will expire on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
+                       <?php endif; ?>
+
+                        <p><a class='upgrade btn' href=''>Upgrade to Print Ad - $40</a>
                     <?php endif; ?>
 
-                    <?php if($expired) : ?>
-                        <p>This online ad expired on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
-                    <?php else : ?>
-                        <p>This online ad will expire on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
-                    <?php endif; ?>
-
-                    <p><a class='btn' style="background-color:#4d948c;">Mark as SOLD</a></p>
+                     <a style="background-color:#4d948c;" class="mark-as-sold btn">Mark as SOLD</a></p>
                 </div>
 
                 <?php if($ad_subscription_level != 'free') : ?>
@@ -199,19 +192,20 @@
                     <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
                     <div class="mag-body">
                         <span class="title"><?= $ad_title ?></span>
-                        <span class="ad-mag-text"><?= get_field('ad_mag_text'); ?></span>
-                        <?php if($can_make_print_changes) : ?>
+                        <span class="ad-mag-text" id="_view_ad_mag_text"><?= get_field('ad_mag_text'); ?></span>
+                        <?php if($key_dates['can_make_print_changes']) : ?>
                             <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>
                         <?php endif; ?>
                     </div>
-                    <?php if($can_make_print_changes) : ?>
+                    <?php if($key_dates['can_make_print_changes']) : ?>
                     <form class="jz-form" action="<?php the_permalink(); ?>" id="update_magad" name="update_magad" method="post">
                         <span class="title"><?= $ad_title ?></span>
-                        <textarea name="ad_mag_text" maxlength="200" data-charlimit="200"><?= get_field('ad_mag_text'); ?></textarea>
+                        <textarea name="ad_mag_text" maxlength="200" ><?= get_field('ad_mag_text'); ?></textarea>
                         <div class="form-submit">
                             <input type="submit" class="submit button" value="Update Magazine Copy" />
-                            <?php wp_nonce_field( 'update-magad' ) ?>
-                            <input name="action" type="hidden" id="action" value="update-magad" />
+                            <input name="post_id" value="<?=$post->ID ?>" type="hidden" >
+                            <?php wp_nonce_field( 'update_classyad', '_update_classyad_nonce' ) ?>
+                            <input name="action" type="hidden" id="action" value="update_classyad" />
                         </div>
                         <div><a href="" class="edit_link switch_magad_edit_mode">Undo Edit</a></div>
                     </form>

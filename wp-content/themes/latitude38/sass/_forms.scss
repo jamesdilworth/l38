@@ -93,21 +93,6 @@ body										{
 	}
 }
 
-/* My Custom Forms */
-.jz-form				{
-	.left-half 			{ width:49.9%; float:left; margin-bottom:10px; padding-right:15px; }
-	.right-half 		{ width:49.9%; display:inline-block; margin-bottom:10px; }
-
-	ul.list-3col 		{ margin-top:10px;
-		li 				{ width:33%; display:inline-block; font-size:90%;}
-	}
-
-	.field				{
-		&.one-third		{ width:33%; display:inline-block; padding-right:20px;}
-	}
-}
-
-
 
 /* Classy Ad Form */
 .single-classy .acf-form 					{

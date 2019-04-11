@@ -1,58 +1,10 @@
 <?php
 
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
- * @since      0.1.0
- * @package    Jzugc_
- * @subpackage Jzugc/includes
- * @author     James Dilworth <james@jd.com>
- */
-class Jzugc_ {
+class Jzugc {
 
-	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      Jzugc_Loader    $loader    Maintains and registers all hooks for the plugin.
-	 */
 	protected $loader;
-
-	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-	 */
 	protected $plugin_name;
-
-	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
-	 */
 	protected $version;
-
-	/**
-	 * Define the core functionality of the plugin.
-	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
-	 *
-	 * @since    0.1.0
-	 */
 	public function __construct() {
 		if ( defined( 'JZUGC_VERSION' ) ) {
 			$this->version = JZUGC_VERSION;
@@ -70,6 +22,9 @@ class Jzugc_ {
 
 	private function load_dependencies() {
 
+        // Responsible for defining all non-path config variables.
+        require_once JZUGC_PATH . 'includes/class-jzugc-config.php';
+
 	    // Responsible for orchestrating the actions and filters of the core plugin.
 		require_once JZUGC_PATH . 'includes/class-jzugc-loader.php';
 
@@ -81,6 +36,9 @@ class Jzugc_ {
 
         // Responsible for defining all ajax listeners
         require_once JZUGC_PATH . 'includes/class-jzugc-ajax.php';
+
+        // Integration with Auth net libraries....
+        require_once JZUGC_PATH  . 'includes/class-jzugc-payments.php';
 
         // Responsible for defining all actions that occur in the admin area.
 		require_once JZUGC_PATH . 'admin/class-jzugc-admin.php';

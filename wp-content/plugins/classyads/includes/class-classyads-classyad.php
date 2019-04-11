@@ -5,13 +5,15 @@ class Classyad {
     public $post_id;
     public $post; // Holds the post object.
     public $owner; // ID of the classy owner?
-    public $primary_cat; // Type of Object we're looking at.
+    public $primary_cat; // Type of object we're looking at.
 
     public $errors; // Holds array of 'field' => 'error' codes made while creating or updating an ad.
 
     public $title;
     public $main_image_url;
-    public $custom_fields;
+    public $custom_fields; // Will hold the custom meta fields.
+    public $key_dates; // Will hold an array of key dates.
+    public $plan;
 
     public $status; // 'loaded', 'not a classy', 'doesnt exist', empty?
 
@@ -25,6 +27,7 @@ class Classyad {
             'ad_mag_text' => '',
             'as_asking_price' => '',
             'ad_external_url' => '',
+            'ad_subscription_level' => 'free'
         );
         $this->custom_fields = $default_values;
 
@@ -45,33 +48,20 @@ class Classyad {
 
             $this->post_id = $post_id; // Set the Post ID since we use this a lot.
             $this->owner = $this->post->post_author; // And the owner ID since we also use this a lot.
-            $loaded_fields = get_fields($post_id); // ACF Function - https://www.advancedcustomfields.com/resources/get_fields/
+            $loaded_fields = get_post_meta($post_id);
 
             foreach($loaded_fields as $field => $value) {
-                $loaded_fields[$field] = $this->prepareOutput($field, $value);
+                $loaded_fields[$field] = $this->prepareOutput($field, $value[0]);
             }
 
             $this->custom_fields = array_merge($this->custom_fields, $loaded_fields);
+            $this->key_dates = $this->lookupKeyDates();
+            $this->plan = $this->lookup_plan();
+
             $this->status = 'loaded';
         } else {
             $this->status = "failed to load classy";
         }
-    }
-
-    public function prepareOutput($field, $value) {
-        // Filters used to clean or prepare output.... for example preparing dates, currency, etc.
-
-        switch($field) {
-            case 'ad_asking_price' :
-                return money_format('%.0n', $value);
-                break;
-            default:
-                // didn't find any custom stuff, so just return $fieldname;
-                break;
-        }
-
-        // If it didn't match anything, just return it.
-        return $value;
     }
 
     /**
@@ -87,13 +77,13 @@ class Classyad {
             $data['boat_length'] = isset($data['boat_length']) ? $data['boat_length'] : $this->custom_fields['boat_length'];
             $data['boat_model'] = isset($data['boat_model']) ? $data['boat_model'] : $this->custom_fields['boat_model'];
 
-            $title = $data['boat_length'] . 'ft ' . $data['boat_model'] . ', ' . $data['boat_year'];
+            $this->title = $data['boat_length'] . 'ft ' . $data['boat_model'] . ', ' . $data['boat_year'];
         } else {
-            $title = $data['title'];
+            $this->title = $data['title'];
         }
 
         $new_post_args = array(
-            'post_title'    => $title,
+            'post_title'    => $this->title,
             'post_content'  => $data['maintext'],
             'post_status'   => 'draft', // until we've charged the card and everything.
             'post_type' => 'classy'
@@ -108,7 +98,7 @@ class Classyad {
             $this->status = "Saved";
         } else {
             PC::debug("Uh-oh... it failed (" . $new_post_id . ")");
-            $this->status = "Failed to Create";
+            $this->status = "Failed to create";
             return false;
         }
 
@@ -125,37 +115,32 @@ class Classyad {
         }
 
         // Now let's start updating the meta.
-        if(isset($data['ad_asking_price'])) $this->custom_fields['ad_asking_price'] = update_field('ad_asking_price', preg_replace('/[^0-9]/', '', $data['ad_asking_price']), $new_post_id); // <!-- NEED TO FILTER THIS!
-        if(isset($data['ad_external_url'])) $this->custom_fields['ad_external_url'] = update_field('ad_external_url', $data['external_url'], $new_post_id);
-        if(isset($data['ad_sale_terms'])) $this->custom_fields['ad_sale_terms'] = update_field('ad_sale_terms', $data['ad_sale_terms'], $new_post_id); // TODO Decide if we're going to use this!
-        if(isset($data['boat_location'])) $this->custom_fields['boat_location'] = update_field('boat_location', $data['boat_location'], $new_post_id); // Not really a boat only field.
+        if(isset($data['ad_asking_price'])) $this->update_field('ad_asking_price', $data['ad_asking_price']);
+        if(isset($data['ad_external_url'])) $this->update_field('ad_external_url', $data['ad_external_url']);
+        if(isset($data['ad_sale_terms'])) $this->update_field('ad_sale_terms', $data['ad_sale_terms']); // TODO Decide if we're going to use this!
+        if(isset($data['boat_location'])) $this->update_field('boat_location', $data['boat_location']); // Not really a boat only field.
 
         // Print Meta
-        if(isset($data[''])) $this->custom_fields['ad_mag_text'] = update_field('ad_mag_text', $data['ad_mag_text'], $new_post_id);
+        if(isset($data['ad_mag_text'])) $this->update_field('ad_mag_text', $data['ad_mag_text']);
 
         // Featured Image
         if(isset($data['featured_image'])) {
             $featured_image_id = $this->uploadImage($data['featured_image']);
             set_post_thumbnail($new_post_id, $featured_image_id);
         }
-
-        // Handle Additional Images...
+        // TODO!!! Handle Additional Images...
 
         // Boats
-        if(isset($data['boat_year'])) $this->custom_fields['boat_year'] =  update_field('boat_year', $data['boat_year'], $new_post_id);
-        if(isset($data['boat_length'])) $this->custom_fields['boat_length'] = update_field('boat_length', $data['boat_length'], $new_post_id);
-        if(isset($data['boat_model'])) $this->custom_fields['boat_model'] =  update_field('boat_model', $data['boat_model'], $new_post_id);
+        if(isset($data['boat_year'])) $this->update_field('boat_year', $data['boat_year']);
+        if(isset($data['boat_length'])) $this->update_field('boat_length', $data['boat_length']);
+        if(isset($data['boat_model'])) $this->update_field('boat_model', $data['boat_model']);
 
-        /*
-        if(isset($data[''])) update_field('ad_mag_title', $data['ad_header'], $new_post_id);
-        if(isset($data[''])) update_field('ad_mag_show_photo', $photo_option, $new_post_id);
-        update_field('ad_expires', $mag_show_to, $new_post_id);
-        update_field('ad_subscription_level', $ad_subscription_level, $new_post_id);
-        update_field('ad_auto_renew', $mag_auto_renew, $new_post_id);
-        */
+        // Set the subscription level
+        if(isset($data['ad_subscription_level'])) $this->update_field('ad_subscription_level', $data['ad_subscription_level']);
+        // Set Expiry Dates
+        $this->setExpiry($this->calculateExpiry($data['ad_subscription_level']));
 
         return $new_post_id;
-
     }
 
     public function uploadImage(&$file) {
@@ -218,19 +203,28 @@ class Classyad {
         }
     }
 
+    /**
+     * Centralized validation function. Returns true if no problems, and the error if not.
+     */
     public function validate_field($field, $value) {
         // TODO our validtion functions.
 
         switch ($field) {
             case 'maintext' :
-                // Check it's not empty.
+                // TODO! Check it's not empty.
                 break;
             case 'ad_asking_price' :
-                // It should resolve to an integer or (free)
+                // TODO! It should resolve to an integer or (free)
+                break;
+            case 'boat_year' :
+                // TODO! Check it's a year!
+                break;
+            case 'boat_length' :
+                // TODO! Should boil down to an integer.
                 break;
         }
-
-        return $value;
+        // No validation errors, return false.
+        return false;
     }
 
     /* Save the value of a field, and return the sanitized version to the user. */
@@ -238,42 +232,87 @@ class Classyad {
         // TODO - Think through the sanitization here
         // TODO - Some fields shouldn't be editable by the user... for example expiry.
 
+        // first validate the field.
+        $validation_error = $this->validate_field($field, $value);
+        if($validation_error) {
+            // Didn't validate. Log the error and return false.
+            $this->errors[$field] = $validation_error;
+            return false;
+        }
+
+        // Now we can filter, sanitize and save.
         switch ($field) {
+            case 'title' :
+                sanitize_text_field($value);
+                break;
             case 'maintext' :
-                // TODO... should probably be careful about calling this, as it revises the whole post!
-                $post_content = esc_attr($value);
-                wp_update_post(array( 'ID' => $this->post_id, 'post_content' => $post_content ), true);
+                // Main Content is an exception as it's not a meta field....
+                $value = wp_kses_data($value);
+                wp_update_post(array( 'ID' => $this->post_id, 'post_content' => $value ), true);
+                // ....so we'll return right away.
+                return $this->custom_fields[$field] = $this->prepareOutput($field, $value);
                 break;
             case 'ad_asking_price':
-                $ad_asking_price = esc_attr($value);
-                $ad_asking_price = preg_replace("/[^0-9\.]/", "", $ad_asking_price);
-                update_post_meta( $this->post_id, 'ad_asking_price', $ad_asking_price );
+                $value = preg_replace("/[^0-9\.]/", "", $value);
                 break;
             case 'ad_mag_text' :
-                $ad_mag_text = esc_attr($value);
-                update_post_meta( $this->post_id, 'ad_mag_text', $ad_mag_text );
+                $value = sanitize_textarea_field(wp_kses($value, array()));
+                break;
+            case 'ad_subscription_level':
                 break;
             case 'ad_external_url' :
-                $ad_mag_text = esc_attr($value);
-                update_post_meta( $this->post_id, 'ad_mag_text', $ad_mag_text );
+                $value = esc_url($value);
+                break;
+            case 'boat_length' :
+                $value = intval($value);
+                break;
+            case 'boat_year':
+                $value = intval($value);
+                break;
+            case 'boat_model':
+                $value = wp_strip_all_tags($value);
                 break;
             case 'boat_location':
-                $boat_location = esc_attr($value);
-                update_post_meta( $this->post_id, 'boat_location', $boat_location );
+                $value = wp_strip_all_tags($value);
                 break;
             default :
-                return false; // If this isn't an approved field. Don't save it. It could be a nonce, a self-injected field. Who knows!
+                // PC::debug('I don\'t think we want to save ' . $field . ' , correct?');
+                return false; // Since this isn't an approved field. Don't save it. It could be a nonce, a self-injected field. Who knows!
                 break;
         }
 
-        // And update the view field.
-        $this->custom_fields[$field] = $this->prepareOutput($field, $value);
-        return $this->custom_fields[$field];
+        // Save the field.
+        update_post_meta( $this->post_id, $field, $value );
+
+        // Update the custom_field and return that value.
+        return $this->custom_fields[$field] = $this->prepareOutput($field, $value);
     }
 
-    public function setExpiry($date) {
+    public function prepareOutput($field, $value) {
+        // Filters used to clean or prepare output.... for example preparing dates, currency, etc.
 
+        switch($field) {
+            case 'title' :
+                $value = esc_html($value);
+                break;
+            case 'maintext' :
+                $value = wp_rel_nofollow( balanceTags( $value, true));
+                break;
+            case 'ad_asking_price' :
+                $value = money_format('%.0n', $value);
+                break;
+            case 'ad_external_url' :
+                $value = esc_url($value);
+                break;
+            default:
+                // didn't find any custom stuff, so just return $fieldname;
+                break;
+        }
+
+        // If it didn't match anything, just return it.
+        return $value;
     }
+
 
     /**
      * Calculate the expiry date based on the plan they signed up with, and a placement date.
@@ -286,40 +325,56 @@ class Classyad {
             $placement_date = new DateTime($placement_date);
         }
 
-        /**
-         * For a print ad, the expiry will be the end of the month that the ad will run. So, for an ad placed on Dec 10,
-         * the cutoff is Dec 15, and it'll run on Jan 1st. So the ad will expire Jan 30th.  But if the ad was placed on Dec 20,
-         * it missed the cutoff, so will run in Feb's issue, and expires on Feb 28. So calculating the cutoff date is key to
-         * calculating the expiry.
-         */
-        $cutoff = clone $placement_date;
-        $cutoff->setDate($cutoff->format('Y'), $cutoff->format('m'), 15);
-        if($cutoff < $placement_date) {
-            $cutoff->modify('+1 month');
-        }
+        $months = $this->get_plan_duration($plan);
 
-        /* By default, we'll place an ad for one month, but this depends on the plan. */
-        switch ($plan) {
-            case 'online' :
-                break;
-            case '3month':
-                break;
-            default :
-                $months = 1; // How many months the ad should run.
-                break;
-        }
+        if($this->is_print_ad()) {
+            /**
+             * For a print ad, the expiry will be the end of the month that the ad will run. So, for an ad placed on Dec 10,
+             * the cutoff is Dec 15, and it'll run on Jan 1st. So the ad will expire Jan 30th.  But if the ad was placed on Dec 20,
+             * it missed the cutoff, so will run in Feb's issue, and expires on Feb 28. So calculating the cutoff date is key to
+             * calculating the expiry.
+             */
+            $cutoff = clone $placement_date;
+            $cutoff->setDate($cutoff->format('Y'), $cutoff->format('m'), 15);
+            if($cutoff < $placement_date) {
+                $cutoff->modify('+1 month');
+            }
 
-        $expirydate = clone $cutoff;
-        if($months > 1 ) {
-            $expirydate->modify('+' . $months . ' months');
+            $expirydate = clone $cutoff;
+            if($months > 1 ) {
+                $expirydate->modify('+' . $months . ' months');
+            } else {
+                $expirydate->modify('+1 month');
+            }
+            $expirydate->modify('last day of ' . $expirydate->format('F'));
+
         } else {
-            $expirydate->modify('+1 month');
+
+            $expirydate = clone $placement_date;
+            if($months > 1 ) {
+                $expirydate->modify('+' . $months . ' months');
+            } else {
+                $expirydate->modify('+1 month');
+            }
         }
-        $expirydate->modify('last day of ' . $expirydate->format('F'));
+        return $expirydate->format('Ymd');
+    }
 
-        // return $expirydate->format('U');
+    public function setExpiry($date) {
+        // This is currently held in an ACF field as yyyymmdd
+        update_post_meta( $this->post_id, 'ad_expires', $date );
+        $this->custom_fields['ad_expires'] = $date;
 
-        return $expirydate;
+    }
+
+    public function lookupExpiry($format = 'Ymd') {
+        // First check to see if the expire date is loaded into the custom fields...
+        $ad_expires = get_post_meta($this->post_id, 'ad_expires', true);
+
+        $expire_obj = new DateTime($ad_expires);
+        $ad_expires = $expire_obj->format($format);
+
+        return $ad_expires;
     }
 
     /**
@@ -331,18 +386,116 @@ class Classyad {
      * - etc.
      */
     public function lookupKeyDates() {
-        $key_dates = Array();
+        $ad_placed = new DateTime(get_the_date('', $this->post_id));
+
+        $today = new DateTime();
+        $day = $today->format('d');
+
+        $expirydate = new DateTime($this->lookupExpiry());
+
+        $cutoff = clone $expirydate;
+        $cutoff->setDate($cutoff->format('Y'), ($cutoff->format('m') -1), 15);
+
+        // Initially the renewal deadline is before the next cutoff.
+        $renewal_deadline = clone $cutoff;
+        $renewal_deadline->modify('+1 month');
+
+        // But if it's already passed, we still want to convince them to renew for the following month.
+        if($today > $renewal_deadline) {
+            $renewal_deadline = clone $today;
+            if(absint($day) < 15) {
+                $renewal_deadline->setDate($today->format('Y'), $today->format('m'), 15);
+            } else {
+                $renewal_deadline->modify('next month');
+                $renewal_deadline->modify($renewal_deadline->format('Y') . $renewal_deadline->format('m') . "-15");
+            }
+        }
+
+        $ad_edition = clone $cutoff;
+        $ad_edition->modify('+1 month');
+        $ad_edition->modify('first day of ' . $ad_edition->format('F'));
+
+        $next_ad_edition = clone $ad_edition;
+        $next_ad_edition->modify('+1 month');
+
+        $today = new DateTime(); // Fake it with new DateTime('December 17, 2018');
+
+
+        $key_dates = array();
+        // KEY DATES
+        $key_dates['today'] = $today;
+        $key_dates['ad_placed_on'] = $ad_placed;
+        $key_dates['expiry'] = $expirydate;
+        $key_dates['cutoff'] = $cutoff;
+        $key_dates['renewal_deadline'] = $renewal_deadline;
+        $key_dates['ad_edition'] = $ad_edition;
+        $key_dates['next_ad_edition'] = $next_ad_edition;
+
+        // BOOLS...
+        $key_dates['can_make_print_changes'] = $today < $key_dates['cutoff'] ? true : false;
+        $key_dates['can_renew'] = $today < $key_dates['renewal_deadline'] ? true : false;
+        $key_dates['has_expired'] = $today > $key_dates['expiry'] ? true : false;
+
+        $this->key_dates = $key_dates;
 
         return $key_dates;
     }
 
-    public function upgradePlan() {
-        // Let's say someone starts with an online only plan, but now wants to upgrade to a paid plan.
+    public function lookup_plan() {
+        global $classyads_config;
+        $plan_name = get_post_meta($this->post_id, 'ad_subscription_level', true);
+        if(!empty($plan_name)) {
+           $this->plan = $classyads_config['plans'][$plan_name];
+        } else {
+            return false;
+        }
     }
 
-    public function getPlanAmount() {
-        // Returns the amount the plan costs.
-        return 20;
+    public function get_plan_amount($plan) {
+        global $classyads_config;
+        $plan = $classyads_config['plans'][$plan];
+        if (isset($plan)) {
+            return $plan['amount'];
+        } else {
+            $this->errors['plan'] = 'Could not find plan in the system';
+            return 0;
+        }
+    }
+
+    private function get_plan_duration($plan)
+    {
+        global $classyads_config;
+        $plan = $classyads_config['plans'][$plan];
+        if (isset($plan)) {
+            return $plan['months'];
+        } else {
+            $this->errors['plan'] = 'Could not find plan in the system';
+            return 1;
+        }
+    }
+
+    public function is_print_ad() {
+        global $classyads_config;
+        $plan_name = $this->custom_fields['ad_subscription_level'];
+        $plan = $classyads_config['plans'][$plan_name];
+        if(isset($plan) && $plan['in_print'])
+            return true;
+        else
+            return false;
+    }
+
+    public function publish() {
+        // We could have used wp_publish_post(), but this doesn't setup a permalink, so this is more robust. http://alexking.org/blog/2011/09/19/wp_publish_post-does-not-set-post_
+        wp_update_post(array(
+            'ID' => $this->post_id,
+            'post_status' => 'publish'
+            )
+        );
+    }
+
+
+    public function upgradePlan() {
+        // Let's say someone starts with an online only plan, but now wants to upgrade to a paid plan.
     }
 
     public function delete() {
@@ -350,10 +503,11 @@ class Classyad {
     }
 
     public function renew() {
-        // Depending on the plan, this will require them to
+        // Depending on the plan, this will require them to renew, using their old credit card number?
     }
 
     public function expire() {
+        // For ease of lookup, we'll want a post status of 'expired' - We'll need to change this automatically with a cron job.
         // This will need to be triggered, but when it is... expire the ad, and make it so that it no longer shows up in listings,
         // but still shows up in the dashboard.
     }

@@ -9,27 +9,26 @@ global $classyads_config; //
 ?>
 
 <div class="create_classyad_container">
-    <h3 id="this_title"><?=$title ?></h3>
-    <div class="response"></div>
+    <h2 id="this_title"><?=$title ?></h2>
 
     <form id="create_classyad" class="create_classyad jz-form" enctype="multipart/form-data">
-        <section>
+
+        <section class="choose_plan">
             <h3>Choose a Plan</h3>
             <div class="field">
-                <label for="ad_subscription_level"></label>
+                <label for="ad_subscription_level">Choose your Plan</label>
                 <select name="ad_subscription_level">
                     <?php
                     foreach($classyads_config['plans'] as $key => $plan) {
-                        // TODO! - Put so,me logic in here to change the pricing based on the types available.
-                        echo "<option value='$key'>" . $plan['name'] . " - $" . $plan['amount'] . "</option>";
+                        echo "<option value='$key' data-amount='" . $plan['amount'] . "'>" . $plan['name'] . " - $" . $plan['amount'] . "</option>";
                     }
                     ?>
                 </select>
             </div>
         </section>
-        <section>
-            <h3>Online Listing</h3>
 
+        <section class="online_listing">
+            <h3>Online Listing</h3>
             <?php if($primary_adcat != 'boats') : ?>
             <div class="field">
                 <label for="title">Title</label>
@@ -48,7 +47,7 @@ global $classyads_config; //
             </div>
 
             <?php if( $primary_adcat == 'boats') : ?>
-                <fieldset class="boat_info">
+                <div>
                     <div class="one-third field">
                         <label>Boat Model</label>
                         <input type="text" name="boat_model" placeholder="example: Catalina 30" required>
@@ -61,9 +60,8 @@ global $classyads_config; //
                         <label>Manufacture Year</label>
                         <input type="text" name="boat_year" required>
                     </div>
-                </fieldset>
+                </div>
             <?php endif; ?>
-
             <div class="field ">
                 <label for="adcats">Categories</label>
                 <ul class="list-3col">
@@ -75,20 +73,30 @@ global $classyads_config; //
                     ?>
                 </ul>
             </div>
-            <div class="field">
-                <label>Location</label>
-                <input type="text" name="boat_location" placeholder="Example: Sausalito, CA or La Paz, Mexico">
+            <div>
+                <div class="one-half field">
+                    <label>Location</label>
+                    <input type="text" name="boat_location" placeholder="Example: Sausalito, CA or La Paz, Mexico">
+                </div>
+                <div class="one-half field">
+                    <label>External URL</label>
+                    <input type="url" name="ad_external_url" placeholder="http://www....">
+                </div>
             </div>
         </section>
-        <section>
+
+
+        <section class="magazine_listing">
             <h3>Magazine Listing</h3>
             <p>Your online listing can be accompanied by a 40 word listing in the classifieds section of the magazine. </p>
             <div class="field">
                 <label for="ad_mag_text">Copy for the magazine:</label>
-                <textarea name="ad_mag_text" id="ad_mag_text"></textarea>
+                <textarea name="ad_mag_text"></textarea>
             </div>
         </section>
-        <section>
+
+
+        <section class="upload_images">
             <h3>Images</h3>
             <div class="field">
                 <label for="photos">Upload Featured Image</label>
@@ -106,20 +114,14 @@ global $classyads_config; //
             </div>
             -->
         </section>
-        <section>
-            <h3>Your Contact Info</h3>
-            <p>Your contact information will be masked:</p>
-            <fieldset>
-                <div class="field">
-                    <label for="preferred_name">Show name as:</label>
-                    <input type="text" name="preferred_name">
-                </div>
-            </fieldset>
 
+        <section class="contact_info">
+            <h3>Contact Info</h3>
+            <p>Your contact information will be masked:</p>
             <div class="field">
                 <label for="email">Available Contact Method(s)</label>
-                <input type="checkbox" value="email"> Email
-                <input type="checkbox" value="phone"> Phone
+                <input type="checkbox" name="preferred_contact_method" value="email"> Email
+                <input type="checkbox" name="preferred_contact_method" value="phone"> Phone
             </div>
             <div class="field">
                 <label for="email">Email</label>
@@ -131,7 +133,7 @@ global $classyads_config; //
             </div>
         </section>
 
-        <section>
+        <section class="payment_info">
             <h3>Payment</h3>
             <div class="fieldset">
                 <div class="field">
@@ -139,26 +141,25 @@ global $classyads_config; //
                     <input type="text" name="card_number">
                 </div>
 
-                <div class="field">
+                <div class="field one-third">
                     <label for="expires">Expires</label>
-                    <select name="card_month" id="">
-                        <option value="">Month</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
-                    </select>
-                    <select name="card_year" id="year">
-                        <option value="">Year</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option><option value="2036">2036</option><option value="2037">2037</option><option value="2038">2038</option>
-                    </select>
+                    <div class="inputgroup">
+                        <select name="card_month" id="">
+                            <option value="">Month</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                        </select>
+                        <select name="card_year" id="year">
+                            <option value="">Year</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option><option value="2036">2036</option><option value="2037">2037</option><option value="2038">2038</option>
+                        </select>
+                    </div>
                 </div>
-
-                <div class="field">
+                <div class="field one-third">
                     <label for="cvv2">Security Code</label>
                     <input type="text" name="cvv2" value="" autocomplete="off" pattern="[0-9]*" title="Only digits are allowed" placeholder="CVV">
                 </div>
-
                 <div class="field">
                     <label for="cardholder">Cardholder Name</label>
                     <input type="text" name="cardholder">
                 </div>
-
                 <div class="fieldset">
                     <legend>Cardholder Billing Address (Needed for Payment)</legend>
                     <div class="field">
@@ -182,18 +183,15 @@ global $classyads_config; //
                         <input type="text" name="zip" >
                     </div>
                 </div>
-
             </div>
         </section>
 
         <?php wp_nonce_field( 'create_classyad', '_create_classyad_nonce' ) ?>
-
         <input type="hidden" name="post_id" value="0">
         <input type="hidden" name="action" value="create_classyad">
         <input type="hidden" name="primary_adcat" value="<?= $primary_adcat_id ?>">
 
-        <div class="submit field">
-            <input type="submit" value="Submit">
-        </div>
+        <p style="text-align:right; margin-top:30px;"><input type="submit" value="Submit"></p>
+
     </form>
 </div>

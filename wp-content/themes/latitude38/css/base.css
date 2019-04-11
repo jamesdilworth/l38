@@ -1374,32 +1374,6 @@ body .gform_confirmation_message::before {
   margin-right: 15px;
 }
 
-/* My Custom Forms */
-.jz-form .left-half {
-  width: 49.9%;
-  float: left;
-  margin-bottom: 10px;
-  padding-right: 15px;
-}
-.jz-form .right-half {
-  width: 49.9%;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-.jz-form ul.list-3col {
-  margin-top: 10px;
-}
-.jz-form ul.list-3col li {
-  width: 33%;
-  display: inline-block;
-  font-size: 90%;
-}
-.jz-form .field.one-third {
-  width: 33%;
-  display: inline-block;
-  padding-right: 20px;
-}
-
 /* Classy Ad Form */
 .single-classy .acf-form .acf-field {
   border-top: 0;

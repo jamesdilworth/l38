@@ -44,7 +44,7 @@ require JZUGC_PATH . 'includes/class-jzugc.php';
  */
 function run_jzugc() {
 
-    $plugin = new Jzugc_();
+    $plugin = new Jzugc();
     $plugin->run();
 
 }

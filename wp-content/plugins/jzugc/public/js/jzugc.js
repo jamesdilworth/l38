@@ -66,7 +66,6 @@ var Jzugc = (function($) {
 
     	// Validate that it's not more than a certain size.
 		// Load the preview box with a copy of the image.
-
         // Constrain proportions?
         // Crop and other stuff.
 

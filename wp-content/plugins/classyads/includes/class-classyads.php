@@ -53,9 +53,6 @@ class Classyads {
         // Event functions... such as garbage collection, setting expiries, and reminders.
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/events.php';
 
-        // Event functions... such as garbage collection, setting expiries, and reminders.
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/payments.php';
-
         // Responsible for defining internationalization functionality of the plugin.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-classyads-i18n.php';
 
@@ -87,12 +84,10 @@ class Classyads {
 	}
 
     private function define_setup_hooks() {
-
-        $classyads_setup = new Classyads_Setup();
-
-        $this->loader->add_action('init', $classyads_setup, 'define_classy_cpt');
-        $this->loader->add_action('init', $classyads_setup, 'define_adcat_tax');
-        $this->loader->add_action('init', $classyads_setup, 'define_post_statuses');
+        add_action('init', 'Classyads_Setup::define_classy_cpt');
+        add_action('init', 'Classyads_Setup::define_adcat_tax');
+        add_action('init', 'Classyads_Setup::define_post_statuses');
+        add_action( 'plugins_loaded', 'Classyads_Setup::checkDB' );
     }
 
     private function define_ajax_listeners() {
@@ -128,7 +123,6 @@ class Classyads {
     }
 
 	private function define_public_hooks() {
-
 		$classyads_public = new Classyads_Public( $this->get_plugin_name(), $this->get_version() );
 
         // SINGLE TEMPLATE FOR CLASSIES

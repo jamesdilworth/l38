@@ -1,5 +1,9 @@
 <?php
 
+// Suppress the editorial calendar for Magazines
+add_filter('edcal_show_calendar_magazine', function() { return false; });
+add_filter('edcal_show_calendar_classy', function() { return false; });
+
 /* Include custom admin css */
 function L38_custom_admin() {
     echo '<link rel="stylesheet" type="text/css"  href="//netdna.bootstrapcdn.com/font-awesome/latest/css/font-awesome.css">';

@@ -46,33 +46,9 @@ define( "CLASSYADS_FILE", __FILE__ );
 define( "CLASSYADS_PATH", plugin_dir_path( CLASSYADS_FILE )); // includes trailing slash.
 define( "CLASSYADS_URL", plugins_url() . "/" . basename(CLASSYADS_PATH) . "/");
 
-global $classyads_config;
-$classyads_config = array(
-    'test' => 'test',
-    'plans' => array(
-        'free' => array(
-            'name' => 'Free (Online Only)',
-            'amount' => 0,
-            'months' => 1,
-            'in_print' => false,
-            'multiple_photos' => false
-        ),
-        'basic' => array(
-            'name' => 'Basic',
-            'amount' => 20,
-            'months' => 1,
-            'in_print' => true,
-            'multiple_photos' => false
-        ),
-        'premium' => array(
-            'name' => 'Premium',
-            'amount' => 60,
-            'months' => 3,
-            'in_print' => true,
-            'multiple_photos' => true
-        )
-    )
-);
+require_once(CLASSYADS_PATH . 'includes/class-classyads-config.php');
+
+
 
 /**
  * Comoposer dependencies.

@@ -5,19 +5,31 @@ class Classyads_Ajax {
 
     }
 
-    /**
-     * Receives the AJAX Classy Create Post
-     * Validate, Filter, Sanitize the Arguments... and then pass to create the Ad,
-     */
-    public function create_classyad() {
-
-        $current_user = wp_get_current_user();
+    public function renew_classyad() {
 
         if (!is_user_logged_in()) {
             // Not a valid user to perform this operation.
             wp_die();
         }
+        $current_user = wp_get_current_user();
+        check_ajax_referer('renew_classyad', '_renew_classyad_nonce');
+        $posted_data =  isset( $_POST ) ? $_POST : array();
 
+        // We're looking at the amount.
+
+        // We need to
+
+    }
+
+    /**
+     * Receives the AJAX Classy Create Post
+     * Validate, Filter, Sanitize the Arguments... and then pass to create the Ad,
+     */
+    public function create_classyad() {
+        $current_user = wp_get_current_user();
+        if (!is_user_logged_in()) {
+            wp_die();
+        }
         check_ajax_referer('create_classyad', '_create_classyad_nonce');
 
         $posted_data =  isset( $_POST ) ? $_POST : array();
@@ -33,23 +45,50 @@ class Classyads_Ajax {
         } else {
             // it's a new ad... create it.
             $classyad = new Classyad();
-            $classyad->create($data);
+            $data['post_id'] = $classyad->create($data);
         }
 
-        $response_data = array();
-
-        // Then if the CC is authorized, it'll go live.
-        if(empty($classyad->errors)) {
-            $amount = classyads_get_plan_amount($data['ad_subscription_level']);
-            $response_data['payment_response'] = chargeCreditCard($amount, $data);
-        }
+        $json_response = array();
 
         if(empty($classyad->errors)) {
-            $response_data['msg'] = "Your Classy Ad has been added successfully. It can now be seen at.... ";
-            wp_send_json_success($response_data);
-        } else {
-            $response_data['msg'] = "We had problems updating your classified ad. Your card has not yet been charged. Please correct the following problems: ";
-            wp_send_json_error($response_data);
+            // Then if the CC is authorized, it'll go live.
+            $amount = $classyad->get_plan_amount($data['ad_subscription_level']);
+            if($amount > 0) {
+                // Augment the $data array with outstanding fields.
+                $data['post_author'] = $current_user->ID;
+                $data['payment_description'] = "Latitude 38: New Classified Ad ($classyad->post_id) for $classyad->title, expiring " . $classyad->lookupExpiry('F jS, Y' );
+
+                // Start up the payment system
+                $payment = new Jzugc_Payment();
+                $ready = $payment->validateFields($data);
+                if($ready) {
+                    $payment_success = $payment->chargeCreditCard($amount, $data);
+                    if($payment_success) {
+                        // SUCCESS!!!!
+                        $classyad->publish();
+                        $json_response['msg'] = "Your Classy Ad has been added successfully. It can now be seen online at " . get_permalink($classyad->post_id);
+                        wp_send_json_success($json_response);
+
+                    } else { // PAYMENT DECLINED AT PROCESSOR
+                        $json_response['errors'] = $payment->errors;
+                        $json_response['msg'] = "Your payment information wasn't accepted by our processor. Please try again";
+                        wp_send_json_error($json_response);
+                    }
+                } else { // FAILED VALIDATION
+                    $json_response['errors'] = $payment->errors;
+                    $json_response['msg'] = "Your payment information does not seem to be valid. Please try again";
+                    wp_send_json_error($json_response);
+                }
+            } else {
+                // NO PAYMENT NECESSARY. SUCCESS
+                $classyad->publish();
+                $json_response['msg'] = "Your Classy Ad has been added successfully. It can now be seen online at " . get_permalink($classyad->post_id);
+                wp_send_json_success($json_response);
+            }
+        } else { // REQUIRED FIELDS FAILED VALIDATION
+            $json_response['errors'] = $classyad->errors;
+            $json_response['msg'] = "We had problems creating your classified ad. Your card has not yet been charged. Please correct the following problems: ";
+            wp_send_json_error($json_response);
         }
     }
 

@@ -9,32 +9,28 @@
  * @package    Classyads
  * @subpackage Classyads/includes
  */
+$l38_db_version = 1.1;
 
-/**
- * Fired during plugin activation.
- *
- * This class defines all code necessary to run during the plugin's activation.
- *
- * @since      0.1.0
- * @package    Classyads
- * @subpackage Classyads/includes
- * @author     James D <james@jamesdilworth.com>
- */
 class Classyads_Activator {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    0.1.0
-	 */
-	public static function activate() {
+    public function __construct() {
 
-	    // Parts of this plugin rely on common registration components as set up by my UGC Plugin
+    }
+
+    public static function activate() {
+        global $wpdb;
+
+        // Parts of this plugin rely on common registration components as set up by my UGC Plugin
         if ( ! is_plugin_active( 'jzugc/jzugc.php' )) {
             // Stop activation redirect and show error
             wp_die('Sorry, but this plugin requires Jaymz\'s UGC Toolkit Plugin to be installed and active. <br><a href="' . admin_url( 'plugins.php' ) . '">&laquo; Return to Plugins</a>');
         }
+
+        Classyads_Setup::setupDB();
+
 	}
+
+
+
+
 }

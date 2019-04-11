@@ -33,6 +33,9 @@ class Jzugc_Public {
 
         // Toast is a whole class of plugins that handle notifications.... I'm using this one with the classyads, but might not be the best way forward.
         wp_enqueue_script( 'toast', JZUGC_URL . 'public/js/jquery.toast.js', array( 'jquery' ), $this->version, true );
+        wp_enqueue_script( 'jquery-validate', JZUGC_URL . 'public/js/jquery.validate.min.js', array( 'jquery' ), '1.19', true );
+        wp_enqueue_script( 'jquery-steps', JZUGC_URL . 'public/js/jquery.steps.min.js', array( 'jquery' ), '1.1', true );
+
 	}
 
 	public function init_jzugc_public() {
