@@ -507,6 +507,11 @@ class Classyad {
     }
 
     public function expire() {
+
+        wp_update_post(array(
+            'ID'           => $this->post_id,
+            'post_status'   => 'expired'
+        ));
         // For ease of lookup, we'll want a post status of 'expired' - We'll need to change this automatically with a cron job.
         // This will need to be triggered, but when it is... expire the ad, and make it so that it no longer shows up in listings,
         // but still shows up in the dashboard.

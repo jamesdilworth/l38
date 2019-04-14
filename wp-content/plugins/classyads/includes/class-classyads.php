@@ -53,6 +53,7 @@ class Classyads {
         // Event functions... such as garbage collection, setting expiries, and reminders.
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/events.php';
 
+
         // Responsible for defining internationalization functionality of the plugin.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-classyads-i18n.php';
 
@@ -88,6 +89,7 @@ class Classyads {
         add_action('init', 'Classyads_Setup::define_adcat_tax');
         add_action('init', 'Classyads_Setup::define_post_statuses');
         add_action( 'plugins_loaded', 'Classyads_Setup::checkDB' );
+        add_action( 'classy_cleanup_hook', 'Classyads_Setup::classy_cleanup' ); // This is our custom daily cleanup hook.
     }
 
     private function define_ajax_listeners() {
@@ -112,6 +114,7 @@ class Classyads {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $classyads_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $classyads_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_footer', $classyads_admin, 'localize_footer_scripts', 10); // Call this seperately, so that it grabs an updated version of localize_vars
 
         $this->loader->add_action( 'admin_menu', $classyads_admin, 'add_plugin_admin_menu' ); // Add menu item
         $this->loader->add_action('admin_init', $classyads_admin, 'options_update'); // Options Update
@@ -119,6 +122,10 @@ class Classyads {
         // Add Settings link to the plugin
         $classyads_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php' );
         $this->loader->add_filter( 'plugin_action_links_' . $classyads_basename, $classyads_admin, 'add_action_links' );
+
+        $this->loader->add_action('admin_head-post.php', $classyads_admin,'add_post_status_list'); // Add Expired to Drop Down... called this in the head so that the vars are available to add to the scripts below.
+        $this->loader->add_filter( 'display_post_states', $classyads_admin,'display_expired_state' ); // Add Post Status to Classy List.
+
 
     }
 

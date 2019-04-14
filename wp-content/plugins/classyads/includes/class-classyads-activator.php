@@ -26,6 +26,11 @@ class Classyads_Activator {
             wp_die('Sorry, but this plugin requires Jaymz\'s UGC Toolkit Plugin to be installed and active. <br><a href="' . admin_url( 'plugins.php' ) . '">&laquo; Return to Plugins</a>');
         }
 
+        // Create a new hook 'classy_cleanup_hook' and schedule it to run daily.
+        if ( ! wp_next_scheduled( 'classy_cleanup_hook' ) ) {
+            wp_schedule_event( time(), 'daily', 'classy_cleanup_hook' );
+        }
+
         Classyads_Setup::setupDB();
 
 	}

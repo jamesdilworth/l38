@@ -24,45 +24,32 @@ class Classyads_Admin {
 
 	private $plugin_name;
 	private $version; // This is carried down so that the enqueues can cachebust.
+    private $localize_vars;
 
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->localize_vars = array(
+		    'is_classy' => false,
+		    'is_expired' => false,
+            'test' => 'hello'
+        );
 	}
 
 	public function enqueue_styles() {
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Classyads_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Classyads_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/classyads-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, CLASSYADS_URL . 'admin/css/classyads-admin.css', array(), $this->version, 'all' );
 	}
 
 
 	public function enqueue_scripts() {
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Classyads_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Classyads_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/classyads-admin.js', array( 'jquery' ), $this->version, false );
-
+	    wp_enqueue_script( 'classyads-admin', CLASSYADS_URL . 'admin/js/classyads-admin.js', array( 'jquery' ), filemtime( CLASSYADS_PATH . 'admin/js/classyads-admin.js'), true );
 	}
+
+	public function localize_footer_scripts() {
+	    wp_localize_script( 'classyads-admin', 'localized',  $this->localize_vars );
+    }
+
 
     public function add_plugin_admin_menu() {
         /**
@@ -86,6 +73,34 @@ class Classyads_Admin {
         );
         return array_merge(  $settings_link, $links );
 
+    }
+
+    public function add_post_status_list() {
+	    /**
+         * We add the post status to the admin area with Javascript. Here, we're checking the post status and then
+         * passing the variables into the localized version of the Javascript.
+         */
+        global $post;
+        if($post->post_type == 'classy'){
+            if($post->post_status == 'expired'){
+                $this->localize_vars['is_classy_expired'] = true;
+            }
+            $this->localize_vars['is_classy_post_page'] = true;
+        }
+    }
+
+    public function display_expired_state( $states ) {
+	    /**
+         * This is hooked into the main dashboard view of the classies to show the expired state.
+         */
+        global $post;
+        $arg = get_query_var( 'post_status' );
+        if($arg != 'expired'){ // if we haven't searched by
+            if($post->post_status == 'expired'){
+                return array('Expired');
+            }
+        }
+        return $states;
     }
 
     /**

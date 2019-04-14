@@ -115,12 +115,20 @@ class Classyads_Setup {
 
      public static function define_post_statuses() {
          register_post_status( 'expired', array(
-             'label'          => _x( 'Expired', 'post' ),
-             'public'         => true,
-             'internal'       => false,
+             'label'                    => _x( 'Expired', 'post' ),
+             'public'                   => true,
+             'internal'                 => false,
+             'exclude_from_search'       => true,
+             'show_in_admin_all_list'    => false,
+             'show_in_admin_status_list' => true,
              'label_count'    => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>' )
          ) );
      }
+
+     public static function classy_cleanup() {
+         classyads_expire_ads(); // TODO!!! - Currently in events.php  - Move ehre.
+     }
+
 }
 Classyads_Setup::init();
 
