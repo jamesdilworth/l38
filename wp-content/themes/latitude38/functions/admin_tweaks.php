@@ -23,7 +23,7 @@ add_filter( 'wpseo_metabox_prio', function() { return 'low';});
 
 /* Registers Editor stylesheet for TinyMCE */
 function L38_add_editor_styles() {
-    add_editor_style( 'css/admin/editor-styles.css' );
+    add_editor_style(trailingslashit(get_stylesheet_directory_uri()) . 'css/admin/editor-styles.css?v=' . filemtime(trailingslashit(get_stylesheet_directory()) . 'css/admin/editor-styles.css'));
 }
 add_action( 'admin_init', 'L38_add_editor_styles' );
 
