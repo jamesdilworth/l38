@@ -124,7 +124,7 @@ class Classyad {
         if(isset($data['ad_mag_text'])) $this->update_field('ad_mag_text', $data['ad_mag_text']);
 
         // Featured Image
-        if(isset($data['featured_image'])) {
+        if(isset($data['featured_image']) && $data['featured_image']['size'] > 0) {
             $featured_image_id = $this->uploadImage($data['featured_image']);
             set_post_thumbnail($new_post_id, $featured_image_id);
         }
@@ -141,6 +141,15 @@ class Classyad {
         $this->setExpiry($this->calculateExpiry($data['ad_subscription_level']));
 
         return $new_post_id;
+    }
+
+    /**
+     * Updates the Classy with data submitted from a form.
+     */
+    public function update($data) {
+        foreach($data as $field => $value) {
+            $result = $this->update_field($field, $value);
+        }
     }
 
     public function uploadImage(&$file) {
@@ -211,9 +220,12 @@ class Classyad {
 
         switch ($field) {
             case 'maintext' :
-                // TODO! Check it's not empty.
+                // TODO! Check it's not empty... or has the min/.
                 break;
             case 'ad_asking_price' :
+                if (!preg_match("/^[0-9]+(\.[0-9]{2})?$/", $value)) {
+                    return "Your asking price should be a number (Enter zero if you don't want to set a price)";
+                }
                 // TODO! It should resolve to an integer or (free)
                 break;
             case 'boat_year' :
@@ -493,7 +505,6 @@ class Classyad {
         );
     }
 
-
     public function upgradePlan() {
         // Let's say someone starts with an online only plan, but now wants to upgrade to a paid plan.
     }
@@ -503,18 +514,22 @@ class Classyad {
     }
 
     public function renew() {
-        // Depending on the plan, this will require them to renew, using their old credit card number?
+        // Depending on the plan...
+        // * Look up and bill the card number a certain amount.
+        // * Renew the ad through a certain date ,
+        // * Make sure the post_status is set back to publish.
+
+        $update = wp_update_post( array(
+            "ID" => $post->ID,
+            "post_status" => "publish"
+        ));
     }
 
     public function expire() {
-
         wp_update_post(array(
             'ID'           => $this->post_id,
             'post_status'   => 'expired'
         ));
-        // For ease of lookup, we'll want a post status of 'expired' - We'll need to change this automatically with a cron job.
-        // This will need to be triggered, but when it is... expire the ad, and make it so that it no longer shows up in listings,
-        // but still shows up in the dashboard.
     }
 
     public function update_classy_mainphoto() {

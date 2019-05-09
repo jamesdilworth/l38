@@ -15,7 +15,7 @@ function sanitize_purpose_phone_input( $input ) {
 }
 
 // Dump $object to error log
-function var_error_log( $object=null ){
+function var_error_log( $object=null ) {
     ob_start();                    // start buffer capture
     var_dump( $object );           // dump the values
     $contents = ob_get_contents(); // put the buffer into a variable

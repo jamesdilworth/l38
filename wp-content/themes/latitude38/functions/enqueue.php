@@ -6,7 +6,6 @@ function L38_add_site_scripts() {
     wp_enqueue_script( 'pre-scripts', get_stylesheet_directory_uri(). '/js/pre-scripts.js', array('jquery'), filemtime( FL_CHILD_THEME_DIR . '/js/pre-scripts.js'), false ); // Early scripts for header.
     wp_enqueue_script( 'plugins', get_stylesheet_directory_uri().'/js/plugins.js', array('jquery','fl-automator'), filemtime( FL_CHILD_THEME_DIR . '/js/plugins.js'), true ); // load plugins in footer
     wp_enqueue_script( 'scripts', get_stylesheet_directory_uri(). '/js/scripts.js', array('plugins'), filemtime( FL_CHILD_THEME_DIR . '/js/scripts.js'), true ); // load scripts in footer
-    wp_enqueue_script( 'ugc', get_stylesheet_directory_uri(). '/js/ugc.js', array('scripts'), filemtime( FL_CHILD_THEME_DIR . '/js/ugc.js'), true ); // load scripts in footer
 
 
     if(is_front_page()) {

@@ -69,7 +69,7 @@ function JZ_wpcats_no_top_float( $args, $post_id ) {
 
 
 // Preprocess WYSIWYG text pasted in from Word, etc.... it filters out everything but what's in the whitelist.
-function configure_tinymce($in) {
+function JZ_configure_tinymce($in) {
     $in['paste_preprocess'] = "function(plugin, args) {
     // Strip all HTML tags except those we have whitelisted
     var whitelist = 'p,h1,h2,h3,h4,h5,h6,ul,li,ol,table,tr,td,th,tbody,thead,img,a,br';

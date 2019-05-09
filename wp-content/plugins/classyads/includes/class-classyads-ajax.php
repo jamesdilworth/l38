@@ -42,6 +42,7 @@ class Classyads_Ajax {
             // If the post_id has been set, we're updating the ad after errors rather than saving the original.
             // and he should be the owner.
             $classyad = new Classyad($data['post_id']);
+            $classyad->update($data);
         } else {
             // it's a new ad... create it.
             $classyad = new Classyad();
@@ -49,6 +50,7 @@ class Classyads_Ajax {
         }
 
         $json_response = array();
+        if($classyad->post_id > 0)  $json_response['post_id'] = $classyad->post_id;
 
         if(empty($classyad->errors)) {
             // Then if the CC is authorized, it'll go live.
@@ -66,7 +68,8 @@ class Classyads_Ajax {
                     if($payment_success) {
                         // SUCCESS!!!!
                         $classyad->publish();
-                        $json_response['msg'] = "Your Classy Ad has been added successfully. It can now be seen online at " . get_permalink($classyad->post_id);
+                        $json_response['msg'] = "Your Classy Ad has been added successfully.";
+                        $json_response['url'] = get_permalink($classyad->post_id);
                         wp_send_json_success($json_response);
 
                     } else { // PAYMENT DECLINED AT PROCESSOR
@@ -82,7 +85,8 @@ class Classyads_Ajax {
             } else {
                 // NO PAYMENT NECESSARY. SUCCESS
                 $classyad->publish();
-                $json_response['msg'] = "Your Classy Ad has been added successfully. It can now be seen online at " . get_permalink($classyad->post_id);
+                $json_response['msg'] = "Your Classy Ad has been added successfully. ";
+                $json_response['url'] = get_permalink($classyad->post_id);
                 wp_send_json_success($json_response);
             }
         } else { // REQUIRED FIELDS FAILED VALIDATION
@@ -108,29 +112,22 @@ class Classyads_Ajax {
         }
 
         $new_data = $_REQUEST;
-        unset($new_data['action'], $new_data['_wp_http_referer'], $new_data['_update_classyad_nonce']);
 
-        foreach($new_data as $field => $value) {
-            $result = $classyad->validate_field($field, $value);
-        }
+        // strip the post related fields
+        unset($new_data['action'], $new_data['_wp_http_referer'], $new_data['_update_classyad_nonce'], $new_data['post_id']);
 
-        $errors = Array();
-        $wins = Array();
-        foreach($new_data as $field => $value) {
-            $result = $classyad->update_field($field, $value);
-            if($result) {
-                if($result == 'Saved') {
-                    $errors[$field] = $result; // The error message?
-                } else {
-                    $wins[$field] = $result;
-                }
+        $classyad->update($new_data);
+
+        if(empty($classyad->errors)) {
+            $json_response['fields'] = array();
+            foreach($new_data as $key=>$value) {
+                $json_response['fields'][$key] = $classyad->custom_fields[$key];
             }
-        }
-
-        if(empty($errors)) {
-            wp_send_json_success($wins);
+            wp_send_json_success($json_response);
         } else {
-            wp_send_json_error($errors);
+            $json_response['errors'] = $classyad->errors;
+            $json_response['msg'] = "We had problems updating your classified ad. Please correct the following problems: ";
+            wp_send_json_error($json_response);
         }
 
     }
@@ -162,7 +159,7 @@ class Classyads_Ajax {
         $new_image_id = $classyad->uploadImage($data['main_photo']);
         $classyad->setFeaturedImage($new_image_id);
 
-        echo "Success";
+        echo "Success!";
         wp_die();
     }
 

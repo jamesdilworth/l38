@@ -194,6 +194,9 @@
 .single-classy .seller_info {
   margin-top: 20px;
 }
+.single-classy .external_url {
+  margin-top: 10px;
+}
 .single-classy .main-photo {
   float: left;
   width: 50%;
@@ -229,10 +232,6 @@
 }
 .single-classy .subscription h3 {
   margin-top: 5px;
-}
-.single-classy .subscription .desc {
-  float: left;
-  width: 50%;
 }
 .single-classy .subscription .magazine-preview {
   width: 350px;

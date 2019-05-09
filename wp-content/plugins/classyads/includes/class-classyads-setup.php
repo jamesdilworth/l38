@@ -115,18 +115,49 @@ class Classyads_Setup {
 
      public static function define_post_statuses() {
          register_post_status( 'expired', array(
-             'label'                    => _x( 'Expired', 'post' ),
+             'label'                    => 'Expired',
              'public'                   => true,
              'internal'                 => false,
              'exclude_from_search'       => true,
-             'show_in_admin_all_list'    => false,
+             'show_in_admin_all_list'    => true,
              'show_in_admin_status_list' => true,
              'label_count'    => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>' )
-         ) );
+         ));
      }
 
      public static function classy_cleanup() {
-         classyads_expire_ads(); // TODO!!! - Currently in events.php  - Move ehre.
+         // find adverts with status 'publish' which exceeded expiration date
+         // (_expiration_date is a timestamp)
+         $posts = new WP_Query( array(
+             "post_type" => "classy",
+             "post_status" => "publish",
+             'posts_per_page' => -1,
+             'meta_query' => array(
+                 array(
+                     'key' => 'ad_expires', // Check the start date field
+                     'value' => date("Y-m-d"), // Set today's date
+                     'compare' => '<', // Return the ones less than today's date
+                     'type' => 'DATE' // Let WordPress know we're working with date
+                 )
+             ),
+         ));
+
+         if( $posts->post_count ) {
+             // echo "<table><tr><th>ID</th><th>Title</th><th>Expires</th><th>Status</th></tr>";
+             foreach($posts->posts as $post) {
+
+                 $posts->the_post();
+                 echo "<tr><td>" . get_the_ID() . "</td><td>". get_the_title() . "</td><td>" . get_field('ad_expires') . "</td><td>" . $post->post_status . "</td></tr>";
+
+                 // change post status to expired.
+                 $update = wp_update_post( array(
+                     "ID" => $post->ID,
+                     "post_status" => "expired"
+                 ));
+
+             } // endforeach
+             // echo "</table>";
+         } // endif
      }
 
 }

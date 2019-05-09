@@ -337,6 +337,7 @@
   width: 33%;
   display: inline-block;
   padding-right: 20px;
+  vertical-align: top;
 }
 .jz-form .field.one-third:nth-child(3) {
   margin-right: 0;
@@ -345,9 +346,28 @@
   width: calc(100% / 2 - 20px);
   display: inline-block;
   margin-right: 20px;
+  vertical-align: top;
 }
 .jz-form .field.one-half:nth-child(2) {
   margin-right: 0;
+}
+
+/* VALIDATION */
+label.error {
+  font-size: 90%;
+  color: #c00;
+  margin-top: 3px;
+}
+
+input.error,
+textarea.error {
+  border-color: #c00 !important;
+}
+
+/* COUNTER - Counter elements near textarea */
+.counter-container {
+  font-size: 90%;
+  color: #aaa;
 }
 
 /* TOAST */

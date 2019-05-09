@@ -15,6 +15,7 @@ function get_the_classys($instance = array()) {
     $defaults = array(
         'post_type' => 'classy',
         'posts_per_page' => 20,
+        'post_status' => 'publish',
         'paged' => 1,
         'orderby' => 'modified',
         'order' => 'DESC'

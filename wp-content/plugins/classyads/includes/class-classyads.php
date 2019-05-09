@@ -125,7 +125,7 @@ class Classyads {
 
         $this->loader->add_action('admin_head-post.php', $classyads_admin,'add_post_status_list'); // Add Expired to Drop Down... called this in the head so that the vars are available to add to the scripts below.
         $this->loader->add_filter( 'display_post_states', $classyads_admin,'display_expired_state' ); // Add Post Status to Classy List.
-
+        $this->loader->add_action('acf/save_post', $classyads_admin,'handle_acf_saved', 20);
 
     }
 
@@ -138,6 +138,8 @@ class Classyads {
         // WIDGETS
         $this->loader->add_action('widgets_init', $classyads_public, 'register_classyads_widgets');
 
+        // ADD CLASSIES INTO MY-ACCOUNT PAGE
+        $this->loader->add_filter('jzugc_my_account_sections', $classyads_public, 'add_classy_my_account');
     }
 
     private function define_import_hooks() {

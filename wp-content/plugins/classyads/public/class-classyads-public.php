@@ -75,6 +75,11 @@ class Classyads_Public
         return $template;
     }
 
+    public function add_classy_my_account($sections) {
+        $sections['My Classies'] = CLASSYADS_PATH . 'public/templates/my-account-classy-list.php';
+        return $sections;
+    }
+
     public function setup_account_screen() {
         // TODO Set up the screen on the my-account dashboard. This should tie into the dashboard we created with jzugc.
 

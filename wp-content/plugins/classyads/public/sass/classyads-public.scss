@@ -16,6 +16,7 @@
 	.location 					{ text-transform:uppercase;  color:#aaa;  }
 	.content					{ margin-top:20px; }
 	.seller_info				{ margin-top:20px; }
+	.external_url				{ margin-top:10px; }
 	.main-photo 				{ float:left; width:50%; padding-right:30px;  }
 
 	.update-classy-ad 			{ display:none; float:left; width:50%; padding-bottom:40px;  }
@@ -28,7 +29,7 @@
 
 	.subscription				{ clear:both; overflow:auto; background-color:$super-light-grey; border-radius:5px; padding:8px 20px; margin:20px -10px;
 		h3 						{ margin-top:5px; }
-		.desc 					{ float:left; width:50%; }
+		.desc 					{ }
 		.magazine-preview 		{ width:350px; float:right; font-size:90%; background-color:#fff; padding:3px 8px;
 			.mag-section		{ color:#fff; font-size:120%; padding:10px; margin:10px 0; text-align:center; font-style:italic; text-transform:uppercase; background-color:$accent2; }
 			.mag-img 			{ height:200px; background-size:cover; background-position:bottom; }

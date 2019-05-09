@@ -10,14 +10,17 @@
 
     $key_dates = $classyad->key_dates;
 
-
-
 ?>
 
 <div class="container">
     <div class="row">
         <header class="jz-header">
             <div class="lectronic-logo"><img src="/wp-content/themes/latitude38/images/classy_headline.png"></div>
+
+            <?php if(is_user_logged_in() && $current_user->ID == $post->post_author && isset($_REQUEST['created']) && $_REQUEST['created'] == 'new') :?>
+                <div class="success response">Your ad has been successfully created.</div>
+            <?php endif; ?>
+
             <a href="/classyads/">&laquo; Back to Classies</a>
         </header>
 
@@ -49,6 +52,7 @@
                 <?php if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) : ?>
 
                     <div class="main-image-fields">
+                        <?php // This is still handled through JZUGC JS ?>
                         <form id="main-photo-form" action="/" method="POST">
                             <label for="main_photo_input" class="">Change Main Photo (Max 2MB)</label>
                             <input type="file" id="main_photo_input" name="main_photo_input" accept="image/*" />
@@ -97,8 +101,8 @@
             </div>
 
             <div class="update-classy-ad" >
-                <div class="edit_link"><a href="" class="switch_public_edit_mode">Leave Edit Mode</a></div>
                 <form class="jz-form"  id="update_classy_public" name="update_classy_public" method="post">
+                    <a href="" class="edit_link switch_public_edit_mode">Leave Edit Mode</a>
 
                     <!-- <div class="field">
                         <?php
@@ -144,6 +148,33 @@
                 if(is_user_logged_in() && ($current_user->ID == $post->post_author || current_user_can('edit_posts'))) :
              ?>
             <div class="subscription">
+                <?php if($ad_subscription_level != 'free') : ?>
+                    <div class="magazine-preview">
+                        <div class="mag-section">&lt; SECTION &gt;</div>
+                        <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
+                        <div class="mag-body">
+                            <span class="title"><?= $ad_title ?></span>
+                            <span class="ad-mag-text" id="_view_ad_mag_text"><?= get_field('ad_mag_text'); ?></span>
+                            <?php if($key_dates['can_make_print_changes']) : ?>
+                                <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if($key_dates['can_make_print_changes']) : ?>
+                            <form class="jz-form" action="<?php the_permalink(); ?>" id="update_magad" name="update_magad" method="post">
+                                <span class="title"><?= $ad_title ?></span>
+                                <textarea name="ad_mag_text" maxlength="200" ><?= get_field('ad_mag_text'); ?></textarea>
+                                <div class="form-submit">
+                                    <input type="submit" class="submit button" value="Update Magazine Copy" />
+                                    <input name="post_id" value="<?=$post->ID ?>" type="hidden" >
+                                    <?php wp_nonce_field( 'update_classyad', '_update_classyad_nonce' ) ?>
+                                    <input name="action" type="hidden" id="action" value="update_classyad" />
+                                </div>
+                                <div><a href="" class="edit_link switch_magad_edit_mode">Undo Edit</a></div>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="desc">
 
                     <h3>Your <?= ucfirst($classyad->custom_fields['ad_subscription_level']); ?> Ad</h3>
@@ -185,33 +216,6 @@
 
                      <a style="background-color:#4d948c;" class="mark-as-sold btn">Mark as SOLD</a></p>
                 </div>
-
-                <?php if($ad_subscription_level != 'free') : ?>
-                <div class="magazine-preview">
-                    <div class="mag-section">&lt; SECTION &gt;</div>
-                    <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
-                    <div class="mag-body">
-                        <span class="title"><?= $ad_title ?></span>
-                        <span class="ad-mag-text" id="_view_ad_mag_text"><?= get_field('ad_mag_text'); ?></span>
-                        <?php if($key_dates['can_make_print_changes']) : ?>
-                            <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>
-                        <?php endif; ?>
-                    </div>
-                    <?php if($key_dates['can_make_print_changes']) : ?>
-                    <form class="jz-form" action="<?php the_permalink(); ?>" id="update_magad" name="update_magad" method="post">
-                        <span class="title"><?= $ad_title ?></span>
-                        <textarea name="ad_mag_text" maxlength="200" ><?= get_field('ad_mag_text'); ?></textarea>
-                        <div class="form-submit">
-                            <input type="submit" class="submit button" value="Update Magazine Copy" />
-                            <input name="post_id" value="<?=$post->ID ?>" type="hidden" >
-                            <?php wp_nonce_field( 'update_classyad', '_update_classyad_nonce' ) ?>
-                            <input name="action" type="hidden" id="action" value="update_classyad" />
-                        </div>
-                        <div><a href="" class="edit_link switch_magad_edit_mode">Undo Edit</a></div>
-                    </form>
-                    <?php endif; ?>
-                </div>
-                <?php endif; ?>
             </div>
             <?php endif; ?>
 

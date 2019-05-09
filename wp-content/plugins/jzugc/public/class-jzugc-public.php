@@ -32,9 +32,10 @@ class Jzugc_Public {
         wp_enqueue_script( 'jzugc', JZUGC_URL . 'public/js/jzugc.js', array( 'jquery' ), $this->version, true );
 
         // Toast is a whole class of plugins that handle notifications.... I'm using this one with the classyads, but might not be the best way forward.
-        wp_enqueue_script( 'toast', JZUGC_URL . 'public/js/jquery.toast.js', array( 'jquery' ), $this->version, true );
+        wp_enqueue_script( 'jquery-toast', JZUGC_URL . 'public/js/jquery.toast.js', array( 'jquery' ), $this->version, true );
         wp_enqueue_script( 'jquery-validate', JZUGC_URL . 'public/js/jquery.validate.min.js', array( 'jquery' ), '1.19', true );
         wp_enqueue_script( 'jquery-steps', JZUGC_URL . 'public/js/jquery.steps.min.js', array( 'jquery' ), '1.1', true );
+        wp_enqueue_script( 'jquery-simplycountable', JZUGC_URL . 'public/js/jquery.simplyCountable.js', array( 'jquery' ), '0.4.2', true );
 
 	}
 
@@ -55,9 +56,19 @@ class Jzugc_Public {
 
             // Enable the user with no privileges to run ajax_login() in AJAX
             add_action( 'wp_ajax_nopriv_ajaxlogin', 'ajax_login' );
-
         }
     }
+
+    public function define_jzugc_templates($template) {
+
+        if (is_page('my-account')) {
+            return JZUGC_PATH . 'public/templates/page-my-account.php';
+        } else if(is_page('edit-profile')) {
+            return JZUGC_PATH . 'public/templates/page-edit-profile.php';
+        }
+        return $template;
+    }
+
 
     // Called by Shortcode to build the login menu in the toolbar.
     public function createLoginMenu($atts) {
@@ -90,7 +101,4 @@ class Jzugc_Public {
         }
         return $url;
     }
-
-
-
 }

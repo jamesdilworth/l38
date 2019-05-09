@@ -89,6 +89,33 @@ class Classyads_Admin {
         }
     }
 
+    public function handle_acf_saved($post_id) {
+	    // This gets fired after the post is saved through ACF.
+
+        // bail early if no ACF data
+        if( empty($_POST['acf']) ) {
+            return;
+        }
+
+        // If the expired post has an expire date after today, unexpire it.
+        /* Actually, this is not really necessary, as it is obvious.
+        if(get_post_status($post_id) == 'expired') {
+            $date = get_field('ad_expires', $post_id);
+            $date = strtotime($date);
+            if($date > time()) {
+                // PC::debug('Post should no longer be expired');
+            }
+        }
+        */
+
+        // array of field values
+        // $fields = $_POST['acf'];
+
+        // specific field value
+        // $field = $_POST['acf']['field_abc123'];
+    }
+
+
     public function display_expired_state( $states ) {
 	    /**
          * This is hooked into the main dashboard view of the classies to show the expired state.

@@ -8,36 +8,50 @@ var ClassyadsForms = (function($) {
 
     var ajaxurl = '/wp-admin/admin-ajax.php';
     var plans = localized.plans; // Populate plans with localize script?
+    var validator;
+    var payment_form;
 
     var handleAjaxErrors = function() {
         // Universal function to highlight the fields that contain errors.
     };
 
     var changePlan = function() {
+
+        /**
+         *  TODO!!! Refer to plans as to whether the option:
+         *  - Requires payment.
+         *  - Allows mag text.
+         *  - How much mag text
+         *  - Multiple Images
+         */
+
         var selected_plan = $(this).children("option:selected").val();
         var plan_options = plans[selected_plan]; // This should now hold an array of all the plan options :)
 
-        if(plan_options.amount == 0) {
-            $('section.payment_info').hide();
+        if(plan_options.amount === 0) {
+            payment_form = $('section.payment_info').detach(); // TODO!!! - Remove from the form, so that validation doesn't fire.
         } else {
-            $('section.payment_info').show();
+            $('section.contact_info').after(payment_form);
         }
-
-        // Update the Layout Depending on the Plan.
-        // If it's free, we don't need payment information, so hide those steps.
-
     };
 
     var initializePlaceadForm = function() {
         // Initialize wizard
         var $form = $("form#create_classyad");
 
-        $form.validate({
-            errorLabelContainer: 'span',
-            debug: true
+        validator = $form.validate({
+            submitHandler: function(form, evt) {
+                createClassyAd(form, evt);
+            }
         });
 
-        $form.find('[name=ad_subscription_level]').change(changePlan);
+        $form.find('[name=ad_mag_text]').simplyCountable({
+            maxCount    : 200,
+            strictMax   : true,
+            counter     : '.magazine_listing .counter'
+        });
+
+        $form.find('[name=ad_subscription_level]').change(changePlan).trigger('change');
         /*
          $form.steps({
              headerTag: "h3",
@@ -75,15 +89,13 @@ var ClassyadsForms = (function($) {
      * Fired on Place Classy Ad Form Submission.
      *
      * @param evt
-     * @param this - should refer to the form.
+     * @param form - should refer to the form.
      */
-    var createClassyAd = function(evt) {
-        evt.preventDefault(); // Prevent Auto Submission
-        var formData = new FormData(this);
+    var createClassyAd = function(form, evt) {
+        var formData = new FormData(form);
 
         // Any additional client side validation.
-
-        $.Toast.showToast({'title': 'Creating your Ad...','icon':'loading'});
+        var waitingToast = $.Toast.showToast({'title': 'Creating your Ad...', 'icon':'loading', 'duration': 0 });
 
         var create_classyad_call = $.ajax({
             url: ajaxurl,
@@ -92,19 +104,29 @@ var ClassyadsForms = (function($) {
             contentType: false, // Stop jQuery from reinterpreting the contentType.
             processData: false, // Stop jQuery from re-processing the formData
             dataType: 'json',
-            data: formData,
-            error: function(response) {
-                var message = response.msg;
-                $.Toast.showToast({'title': message,'icon':'error', 'duration':3000});
-            },
-            success: function(response) {
-                $.Toast.showToast({'title': 'Sweet. Your ad has been created','icon':'success', 'duration':3000});
-                // TODO!!! - Hide the form... show some text that does the confirmation.
-            },
-            complete: function() {
+            data: formData
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ': ' + errorThrown);
+            $.Toast.showToast({'title': errorThrown, 'icon':'error', 'duration':6000});
+        }).done(function(response) {
+            if(response.success) {
                 $.Toast.hideToast();
+                // Replace form with confirmation, and a link to the new page.
+                $.Toast.showToast({'title': 'Sweet. Your ad has been created','icon':'success', 'duration':3000});
+                document.location.href = response.data.url + '?created=new';
+            } else {
+                // Failed with a reason.
+                $.Toast.hideToast();
+                $(form).find('[name=post_id]').val(response.data.post_id);
+                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':0});
+                if(response.data.errors) {
+                    validator.showErrors(response.data.errors);
+                }
             }
+            // TODO!!! - Hide the form... show some text that does the confirmation.
         });
+
+        evt.preventDefault(); // Prevent Default Submission
     };
 
     /**
@@ -114,6 +136,7 @@ var ClassyadsForms = (function($) {
     var updateClassyAd = function(evt) {
         evt.preventDefault();
         var $button = $(this).find("input[type='submit']");
+        var $edit_toggle = $(this).find('.edit_link');
         var formData = new FormData(this);
 
         // Any additional client side validation.
@@ -141,60 +164,12 @@ var ClassyadsForms = (function($) {
                 var data = response.data;
                 $.Toast.showToast({'title': 'Your ad has been updated','icon':'success'});
 
-                // Update the plain text part of the screen with the success values?
-                // TODO... maybe we should let PHP do the formatting, and then return the html from that part of the template. This makes it easier when dealing with hidden fields etc. Just less to do on the front end.
-                for(var field in data) {
-                    if (data.hasOwnProperty(field)) {
-                        $('#_view_' + field).html(data[field]);
+                for(var field in data.fields) {
+                    if (data.fields.hasOwnProperty(field)) {
+                        $('#_view_' + field).html(data.fields[field]);
                     }
                 }
-                $('.main-content .switch_public_edit_mode').trigger('click'); // And hide the form.
-                $button.val('Update').prop('disabled', false);
-            },
-            complete: function() {
-                $.Toast.hideToast();
-            }
-        });
-    };
-
-    var updateMagText = function(evt) {
-        evt.preventDefault();
-        var $button = $(this).find("input[type='submit']");
-        var formData = new FormData(this);
-
-        // Any additional client side validation.
-        $.Toast.showToast({'title': 'Updating your Ad...','icon':'loading'});
-
-        // Disable the Update Button
-        $button.val('...').prop('disabled', true);
-
-        // Overlay a spinner.
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            timeout: 5000,
-            contentType: false, // Stop jQuery from reinterpreting the contentType.
-            processData: false, // Stop jQuery from re-processing the formData
-            dataType: 'json',
-            data: formData,
-            error: function(response) {
-                var message = response.msg;
-                $.Toast.showToast({'title': message,'icon':'error'});
-                $button.val('Try Again').prop('disabled', false);
-
-            },
-            success: function(response) {
-                var data = response.data;
-                $.Toast.showToast({'title': 'Your ad has been updated','icon':'success'});
-
-                // Update the plain text part of the screen with the success values?
-                // TODO... maybe we should let PHP do the formatting, and then return the html from that part of the template. This makes it easier when dealing with hidden fields etc. Just less to do on the front end.
-                for(var field in data) {
-                    if (data.hasOwnProperty(field)) {
-                        $('#_view_' + field).html(data[field]);
-                    }
-                }
-                $('.mag-body .switch_magad_edit_mode').trigger('click'); // And hide the form.
+                $edit_toggle.trigger('click'); // And hide the form.
                 $button.val('Update').prop('disabled', false);
             },
             complete: function() {
@@ -238,17 +213,14 @@ var ClassyadsForms = (function($) {
         });
 
         // Form Submissions
-        $('form#create_classyad').submit(createClassyAd);
-        $('form#update_magad').submit(updateMagText);
+        // $('form#create_classyad').submit(createClassyAd) ... now handled with initializePlaceadForm();
+        $('form#update_magad').submit(updateClassyAd);
         $('form#update_classy_public').submit(updateClassyAd);
 
         // Other Dynamic Events that'll require a popup probably.
         $('.mark-as-sold.btn').click(markAsSold);
         $('.renew.btn').click(renewAd);
         $('.upgrade.btn').click(upgradeAd);
-
-
-
     };
 
     function initializeFilepond() {

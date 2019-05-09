@@ -8,7 +8,9 @@
 require_once JZUGC_PATH . 'vendor/autoload.php';
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
-define("AUTHORIZENET_LOG_FILE", CLASSYADS_PATH . "logs/anet_log");
+
+$uploads = wp_get_upload_dir();
+define("AUTHORIZENET_LOG_FILE", $uploads['basedir'] . "logs/anet_log");
 
 class Jzugc_Payment
 {
@@ -196,7 +198,7 @@ class Jzugc_Payment
                 }
                 // Or, print errors if the API request wasn't successful
             } else {
-                echo "Transaction Failed \n";
+                $output .= "Transaction Failed \n";
                 $tresponse = $response->getTransactionResponse();
 
                 if ($tresponse != null && $tresponse->getErrors() != null) {

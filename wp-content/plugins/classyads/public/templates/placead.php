@@ -43,7 +43,7 @@ global $classyads_config; //
 
             <div class="field">
                 <label for="ad_asking_price">Price</label>
-                <input type="text" name="ad_asking_price" id="ad_asking_price" required>
+                <div class="currencyinput dollar"><input type="text" name="ad_asking_price" id="ad_asking_price" required></div>
             </div>
 
             <?php if( $primary_adcat == 'boats') : ?>
@@ -80,7 +80,7 @@ global $classyads_config; //
                 </div>
                 <div class="one-half field">
                     <label>External URL</label>
-                    <input type="url" name="ad_external_url" placeholder="http://www....">
+                    <input type="url" name="ad_external_url" data-msg="Enter a valid URL (Start with http://)" placeholder="http://www....">
                 </div>
             </div>
         </section>
@@ -88,10 +88,11 @@ global $classyads_config; //
 
         <section class="magazine_listing">
             <h3>Magazine Listing</h3>
-            <p>Your online listing can be accompanied by a 40 word listing in the classifieds section of the magazine. </p>
+            <p>Your online listing can be accompanied by a 200 character listing in the classifieds section of the magazine. </p>
             <div class="field">
                 <label for="ad_mag_text">Copy for the magazine:</label>
                 <textarea name="ad_mag_text"></textarea>
+                <div class="counter-container"><span class="counter"></span> characters remaining</div>
             </div>
         </section>
 
@@ -135,7 +136,7 @@ global $classyads_config; //
 
         <section class="payment_info">
             <h3>Payment</h3>
-            <div class="fieldset">
+            <div class="fieldset" id="create_add_payment_fields">
                 <div class="field">
                     <label for="card_number">Credit Card Number</label>
                     <input type="text" name="card_number">
@@ -144,21 +145,21 @@ global $classyads_config; //
                 <div class="field one-third">
                     <label for="expires">Expires</label>
                     <div class="inputgroup">
-                        <select name="card_month" id="">
+                        <select name="card_month" id="" required>
                             <option value="">Month</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
                         </select>
-                        <select name="card_year" id="year">
+                        <select name="card_year" id="year" required>
                             <option value="">Year</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option><option value="2036">2036</option><option value="2037">2037</option><option value="2038">2038</option>
                         </select>
                     </div>
                 </div>
                 <div class="field one-third">
                     <label for="cvv2">Security Code</label>
-                    <input type="text" name="cvv2" value="" autocomplete="off" pattern="[0-9]*" title="Only digits are allowed" placeholder="CVV">
+                    <input type="text" name="cvv2" value="" required autocomplete="off" pattern="[0-9]*" title="Only digits are allowed" placeholder="CVV">
                 </div>
                 <div class="field">
                     <label for="cardholder">Cardholder Name</label>
-                    <input type="text" name="cardholder">
+                    <input type="text" name="cardholder" required>
                 </div>
                 <div class="fieldset">
                     <legend>Cardholder Billing Address (Needed for Payment)</legend>

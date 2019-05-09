@@ -48,10 +48,7 @@
         },
         hideToast: function () {
             if ($(wrapSelector).length) {
-                $(wrapSelector).fadeOut(500);
-                setTimeout(function () {
-                    $(wrapSelector).empty().remove()
-                }, 1000);
+                $(wrapSelector).empty().remove();
             } else {
                 return;
             }

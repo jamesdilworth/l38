@@ -34,16 +34,22 @@
 
 
 	.field				{
-		&.one-third		{ width:33%; display:inline-block; padding-right:20px;
+		&.one-third		{ width:33%; display:inline-block; padding-right:20px; vertical-align:top;
 			&:nth-child(3) { margin-right:0; }
 		}
-		&.one-half		{ width: calc(100% / 2 - 20px);display:inline-block; margin-right:20px;
+		&.one-half		{ width: calc(100% / 2 - 20px); display:inline-block; margin-right:20px; vertical-align:top;
 			&:nth-child(2) { margin-right:0; }
 		}
 	}
 }
 
+/* VALIDATION */
+label.error				{ font-size:90%; color:#c00; margin-top:3px; }
+input.error,
+textarea.error			{ border-color:#c00 !important;  }
 
+/* COUNTER - Counter elements near textarea */
+.counter-container 		{ font-size:90%; color:#aaa; }
 
 /* TOAST */
 .toast-wrap 			{ position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; margin: auto; background: rgba(0, 0, 0, .2);

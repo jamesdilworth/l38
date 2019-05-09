@@ -58,8 +58,8 @@ class Jzugc {
 	private function define_ajax_listeners() {
         $jzugc_ajax = new Jzugc_Ajax();
 
-        $this->loader->add_action( 'wp_ajax_nopriv_ajaxlogin', $jzugc_ajax, 'ajax_login' ); // Listen for AJAX Login.
-        // Listen for async file uploads.
+        $this->loader->add_action('wp_ajax_nopriv_ajaxlogin', $jzugc_ajax, 'ajax_login' ); // Listen for AJAX Login.
+        $this->loader->add_action('wp_ajax_update_profile_mainphoto', $jzugc_ajax, 'update_profile_mainphoto'); // Upload Profile Photo.
 
     }
 
@@ -84,6 +84,9 @@ class Jzugc {
 		$this->loader->add_action( 'wp_enqueue_scripts', $jzugc_public, 'enqueue_scripts' );
 
         $this->loader->add_action( 'init', $jzugc_public,'init_jzugc_public');
+
+        // Set up our first couple pages.
+        $this->loader->add_filter('page_template', $jzugc_public, 'define_jzugc_templates');
 
         $this->loader->add_filter('register', $jzugc_public, 'set_register_url');
         $this->loader->add_filter('login_redirect', $jzugc_public,'login_redirect', 10, 3 );

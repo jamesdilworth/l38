@@ -25,3 +25,13 @@ function JZUGC_suggest_username($username) {
 
     return $username;
 }
+
+/* Check if a slug exists.. used in activation before we create a page. */
+function JZUGC_slug_exists($post_name) {
+    global $wpdb;
+    if($wpdb->get_row("SELECT post_name FROM wp_posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A')) {
+        return true;
+    } else {
+        return false;
+    }
+}
