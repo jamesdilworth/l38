@@ -22,8 +22,9 @@ if ( 'none' != $layout ) {
 		));
 	}
 
-	echo do_shortcode('[jzugc-login-menu]');
-
+    if ( shortcode_exists( 'jzugc-login-menu' ) ) {
+        echo do_shortcode('[jzugc-login-menu]');
+    }
 
     if ( 'social' == $col_layout || 'text-social' == $col_layout || 'menu-social' == $col_layout ) {
         self::social_icons( false );
