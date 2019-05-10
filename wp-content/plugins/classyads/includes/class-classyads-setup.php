@@ -1,7 +1,7 @@
 <?php
 class Classyads_Setup {
 
-    public static $l38_db_version = '1.2.1';
+    public static $l38_db_version = '1.2.2';
     public static $transactions_table_sql;
 
     public static function init() {
@@ -10,10 +10,12 @@ class Classyads_Setup {
         $table_name = $wpdb->prefix . "l38_transactions";
         $charset_collate = $wpdb->get_charset_collate();
 
+        // UPDATE THE $l38_db_version if you make changes to this!
         self::$transactions_table_sql = "CREATE TABLE $table_name (
           id mediumint(9) NOT NULL AUTO_INCREMENT,
           user_id mediumint(9) NOT NULL,
           post_id mediumint(9),
+          amount decimal(10,2),
           gateway tinytext NOT NULL,
           transaction_id bigint NOT NULL,
           cim_profile_id bigint,

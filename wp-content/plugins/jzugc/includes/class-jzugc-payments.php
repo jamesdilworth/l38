@@ -88,6 +88,7 @@ class Jzugc_Payment
             'post_id' => $data['post_id'],
             'gateway' => 'pending',
             'transaction_id' => '0',
+            'amount' => $amount,
             'transaction_msg' => 'pending...',
             'description' => $data['payment_description'],
             'created' => date("Y-m-d H:i:s")

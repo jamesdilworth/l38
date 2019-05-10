@@ -90,7 +90,7 @@
                                 echo $phone;
                         }
                      ?>
-                    <div class="contact_email"><a href=''>Send a Message</a></div>
+                    <div class="contact_email"><a href="javascript:alert('functionality coming soon....')">Send a Message</a></div>
                     <?php
                     $othercontact = $seller->othercontact; // This needs to be pulled verbosely as it is set through __GET
                     if(!empty($othercontact)) {
@@ -150,7 +150,7 @@
             <div class="subscription">
                 <?php if($ad_subscription_level != 'free') : ?>
                     <div class="magazine-preview">
-                        <div class="mag-section">&lt; SECTION &gt;</div>
+                        <div class="mag-section"><?php echo $classyad->getMagazineCat(); ?></div>
                         <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
                         <div class="mag-body">
                             <span class="title"><?= $ad_title ?></span>
@@ -179,11 +179,12 @@
 
                     <h3>Your <?= ucfirst($classyad->custom_fields['ad_subscription_level']); ?> Ad</h3>
 
-                    <p>Your ad was placed on <?= $key_dates['ad_placed_on']->format('D, F j, Y'); ?>.
+                    <!-- <p>Your ad was first placed on <?= $key_dates['ad_placed_on']->format('F j, Y'); ?>. -->
 
                     <?php if($ad_subscription_level != 'free') : ?>
 
                         <?php if($key_dates['today'] < $key_dates['ad_edition']) : ?>
+                            <?php // TODO!!!! - If they're three months out, it'll appear in May, June, and July issues. ?>
                             Your print ad will appear in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue.</p>
                         <?php else : ?>
                             Your print ad appears in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue.</p>

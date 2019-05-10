@@ -7,6 +7,9 @@
     $current_user = wp_get_current_user();
     $user_img = $current_user->user_avatar;
     $user_img_tag = wp_get_attachment_image($user_img, 'thumbnail');
+    if(empty($user_img_tag)) {
+        $user_img_tag = '<img src="' . JZUGC_URL . 'public/images/anon-user.png">';
+    }
 
     $sections = array(
         'My Account' => JZUGC_PATH . 'public/partials/partial-my-account.php',
@@ -57,7 +60,7 @@
                 <?php
                     foreach($sections as $name=>$path) {
                         $slug = sanitize_title($name);
-                        echo "<div id='$slug' class='section $slug acct-widget'>";
+                        echo "<div id='$slug' class='section $slug'>";
                         include($path);
                         echo "</div>";
                     }

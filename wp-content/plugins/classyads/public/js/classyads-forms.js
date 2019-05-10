@@ -166,7 +166,7 @@ var ClassyadsForms = (function($) {
 
                 for(var field in data.fields) {
                     if (data.fields.hasOwnProperty(field)) {
-                        $('#_view_' + field).html(data.fields[field]);
+                        $('#_view_' + field).html(data.fields[field].replace(/\\/g, ""));
                     }
                 }
                 $edit_toggle.trigger('click'); // And hide the form.

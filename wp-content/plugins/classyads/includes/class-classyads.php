@@ -53,6 +53,8 @@ class Classyads {
         // Event functions... such as garbage collection, setting expiries, and reminders.
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/events.php';
 
+        // Mish mash of non-oo functions that help us do certain things.
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-classyads-import.php';
 
         // Responsible for defining internationalization functionality of the plugin.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-classyads-i18n.php';

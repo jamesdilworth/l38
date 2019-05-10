@@ -4,6 +4,7 @@ global $classyads_config;
 $classyads_config = array(
     'plans' => array(
         'free' => array(
+            'status' => 'active',
             'name' => 'Free (Online Only)',
             'amount' => 0,
             'months' => 1,
@@ -14,6 +15,7 @@ $classyads_config = array(
             'categories' => array('boats','gear')
         ),
         'basic' => array(
+            'status' => 'active',
             'name' => 'Basic',
             'amount' => 20,
             'months' => 1,
@@ -30,6 +32,31 @@ $classyads_config = array(
             )
         ),
         'premium' => array(
+            'status' => 'active',
+            'name' => 'Premium',
+            'amount' => 60,
+            'months' => 1,
+            'description' => "",
+            'in_print' => true,
+            'print_chars' => '250',
+            'print_photo' => true,
+            'multiple_photos' => true,
+            'categories' => array('boats')
+        ),
+        'premium2' => array(
+            'status' => 'inactive',
+            'name' => 'Premium',
+            'amount' => 100,
+            'months' => 2,
+            'description' => "",
+            'in_print' => true,
+            'print_chars' => '250',
+            'print_photo' => true,
+            'multiple_photos' => true,
+            'categories' => array('boats')
+        ),
+        'premium3' => array(
+            'status' => 'inactive',
             'name' => 'Premium',
             'amount' => 60,
             'months' => 3,
@@ -38,7 +65,7 @@ $classyads_config = array(
             'print_chars' => '250',
             'print_photo' => true,
             'multiple_photos' => true,
-            'categories' => array('boats','gear')
+            'categories' => array('boats')
         )
     )
 );

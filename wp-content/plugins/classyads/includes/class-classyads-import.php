@@ -4,6 +4,12 @@ class Classyads_Import {
     private $plugin_name;
     private $version;
 
+    static $db_host = "localhost";
+    static $db_user = "root";
+    static $db_pass = "jaymz0";
+    static $db_name = "l38_munge";
+
+
     public function __construct( $plugin_name, $version ) {
         $this->plugin_name = $plugin_name; // The name of the plugin.
         $this->version = $version; // The version... used for enqueuing.
@@ -15,20 +21,18 @@ class Classyads_Import {
      * @reauires access to the Lassso DB
      * @param $lasso_id - The original ID of the lasso classy.
      */
-    public function add_classy_from_lasso($lasso_id) {
+    public static function add_classy_from_lasso($lasso_id) {
         global $wpdb;
         $output = "";
 
         if(empty($lasso_id)) {
             $lasso_id = $_REQUEST['lasso_id'];
-
         }
-        error_log('starting add_classy_from_lasso with ' . $lasso_id);
 
         require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
         // First check this post doesn't already exist!
-        $post_exists = $this->get_post_from_lasso_id($lasso_id);
+        $post_exists = Classyads_Import::get_post_from_lasso_id($lasso_id);
         if($post_exists) {
             $output .= "<div class='warning'>This classy already exists in Wordpress as " . $post_exists . "</div>";
             echo $output;
@@ -36,7 +40,7 @@ class Classyads_Import {
         }
 
         // Go through all the active classies
-        $db = new mysqli('localhost', 'root', 'jaymz0', 'l38_munge');
+        $db = new mysqli(self::$db_host, self::$db_user, self::$db_pass, self::$db_name);
         if($db->connect_errno > 0){
             die('Unable to connect to database [' . $db->connect_error . ']');
         }
@@ -47,55 +51,51 @@ class Classyads_Import {
             die('There was an error running the query [' . $db->error . ']');
         }
 
-        while($row = $result->fetch_assoc()){
+        while($row = $result->fetch_assoc()) {
 
-            // User info
-            $lasso_user_id = $row['customerid'];
+            $data = array();
 
             // Core Post Info
             $title = $row['ad_header'];
             $maintext = $row['ad_text'];
-            $featured_image_url = '';
 
+            // TODO! Figure out our mapping here.
             $sale_terms = 'sale';
-            if($row['category'] == 'Partnerships') $sale_terms = 'partnership';
+            if ($row['category'] == 'Partnerships') $sale_terms = 'partnership';
 
-            // Magazine Specific
-            $issue_month = $row['issue_monthnum'];
-            if(strlen($row['issue_monthnum'] == 1)) $issue_month = '0' . $issue_month;
-            $mag_show_to = $row['issue_year'] .  $issue_month . '28'; // Print up to this date.
-            if($row['renewal'] == 'Run Ad Every Month Until Cancelled') $mag_auto_renew = true;
-
-            // Fit the old model into the new model.
+            // Fit the old model into the new model. - TODO! - Check this still makes sense.
             $ad_subscription_level = 'free';
-            if($row['status'] == 'Live on Website') {
+            if ($row['status'] == 'Live on Website') {
                 $ad_subscription_level = 'basic';
-                if($row['pictureid01'] > 0) $ad_subscription_level = 'premium';
+                if ($row['pictureid01'] > 0) $ad_subscription_level = 'premium';
             }
 
             // External URL's are often poorly formed.
-            $external_url = $row['field03'];
-            $proto_scheme = parse_url($external_url,PHP_URL_SCHEME);
-            if((!stristr($proto_scheme,'http')) || (!stristr($proto_scheme,'https'))){
-                $webAddress = 'http://'.$webAddress;
+            if(!empty($row['field03'])) {
+                $external_url = $row['field03'];
+                $proto_scheme = parse_url($external_url, PHP_URL_SCHEME);
+                if ((!stristr($proto_scheme, 'http')) || (!stristr($proto_scheme, 'https'))) {
+                    $external_url = 'http://' . $external_url;
+                }
+            } else {
+                $external_url = "";
             }
 
-            // Payment History
-            $product_type = $row['renewal']; // 1 Month, 3 Month, 6 Month etc.
-            $cim_customerid = $row['cim_customerid'];
-            $cim_transactionid = $row['cim_transactionid'];
-
-            // Admin fields
-            $admin_notes = ""; // There is not currently a section for this.
-
-            // Create the right user... some have default entries in the class_table.
+            /**
+             * =========================================================================================================
+             * CREATE THE USER?.... some have default entries in the class_table.
+             * =========================================================================================================
+             */
+            $lasso_user_id = $row['customerid'];
             $firstname = $row['cc_firstname'];
             $lastname = $row['cc_lastname'];
-            $user_email = $row['ad_email'];
+            $email = $row['ad_email'];
+            $password = $row['pzwrrd'];
+
             $user_row = array();
 
-            if(!empty($row['customerid'])) {
-                // Check there is a customer associated in the latitude system.
+            if (!empty($lasso_user_id)) {
+                // Check there is an associated customer row in the latitude system.
                 $user_sql = "SELECT * FROM lat_customers WHERE id = " . $lasso_user_id;
 
                 if (!$user_result = $db->query($user_sql)) {
@@ -103,24 +103,25 @@ class Classyads_Import {
                 }
 
                 while ($user_row = $user_result->fetch_assoc()) {
-                    // Check to see if this user already exists in our system?
-                    $firstname =  $user_row['first'] ?  $user_row['first'] : $user_row['bill_firstname'];
+                    // If so, the customer row will take priority.
+                    $firstname = $user_row['first'] ? $user_row['first'] : $user_row['bill_firstname'];
                     $lastname = $user_row['last'] ? $user_row['last'] : $user_row['bill_lastname'];
-                    if($user_row['email']) $user_email = $user_row['email'];
+                    if ($user_row['email']) $email = $user_row['email'];
+                    if ($user_row['pwd']) $password = $user_row['pwd'];
                 }
                 $user_result->free();
             }
 
-            if($user_email) {
-                $wp_user = get_user_by('email', $user_email); // Check this user doesn't already exist..
+            if ($email) {
+                $wp_user = get_user_by('email', $email); // Check if this user already exists in Wordpress..
 
-                $username = sanitize_text_field(strtolower($firstname) . strtolower($lastname));
-
-                if(!$wp_user) {
+                // If not... create a new user.
+                if (!$wp_user) {
+                    $username = sanitize_text_field(strtolower($firstname) . strtolower($lastname));
                     $wp_user_id = wp_insert_user(array(
                             'user_login' => $username,
-                            'user_pass' => $user_row['password'],
-                            'user_email' => $user_email,
+                            'user_pass' => $password,
+                            'user_email' => $email,
                             'first_name' => ucwords(strtolower($firstname)),
                             'last_name' => ucwords(strtolower($lastname)),
                             'display_name' => ucwords(strtolower($firstname)) . ' ' . ucwords(strtolower($lastname)),
@@ -128,100 +129,144 @@ class Classyads_Import {
                         )
                     );
 
-                    if( is_wp_error($wp_user_id)) {
+                    if (is_wp_error($wp_user_id)) {
                         $output .= $wp_user_id->get_error_message();
                         $wp_user_id = 1; // Just create it with admin user.
                     }
+                    // Else, associate the existing user before we update the other fields.
                 } else {
                     $wp_user_id = $wp_user->ID;
                 }
 
                 // Sort out phone numbers and store them as plain numbers.
-                $phone = $row['areacode'] . $row['phone'];
-                if($user_row['areacode']) {
+                $phone = "";
+                if (isset($user_row['areacode'])) {
                     // We'll take that.
-                    $phone = $user_row['areacode'] .  $user_row['phone'];
-                }
-                if(empty($phone)) {
-                    // Last try with billing data
+                    $phone = $user_row['areacode'] . $user_row['phone'];
+                } else if(isset($row['areacode'])) {
+                    // Just take from the classies?
+                    $phone = $row['areacode'] . $row['phone'];
+                } else if(isset($user_row['bill_areacode'])) {
                     $phone = $user_row['bill_areacode'] . $user_row['bill_phone'];
                 }
                 $phone = sanitize_purpose_phone_input($phone);
 
-                update_user_meta($wp_user_id, 'sex', $user_row['sex']);
-                update_user_meta($wp_user_id, 'birthdate', strtotime($user_row['created']) - ($row['age'] * 31557600));
+                // UPDATE USER META
+                if (isset($user_row['cim_customerid'])) update_user_meta($wp_user_id, 'cim_id', $user_row['cim_customerid']);
+                if (isset($user_row['sex'])) update_user_meta($wp_user_id, 'sex', $user_row['sex']);
+                if (isset($user_row['age'])) update_user_meta($wp_user_id, 'birthdate', strtotime($user_row['created']) - ($row['age'] * 31557600));
+
                 update_user_meta($wp_user_id, 'phone', $phone);
-                // update_user_meta($wp_user_id, 'address1', $row['address']);
-                // update_user_meta($wp_user_id, 'address2', $row['address2']);
-                // update_user_meta($wp_user_id, 'city', $row['city']);
-                // update_user_meta($wp_user_id, 'state', $row['state']);
-                // update_user_meta($wp_user_id, 'zip', $row['zip']);
-                update_user_meta($wp_user_id, 'othercontact', $user_row['othercontact']);
+                if(isset($user_row['address']))update_user_meta($wp_user_id, 'address1', $row['address']);
+                if(isset($user_row['address2']))update_user_meta($wp_user_id, 'address2', $row['address2']);
+                if(isset($user_row['city']))update_user_meta($wp_user_id, 'city', $row['city']);
+                if(isset($user_row['state']))update_user_meta($wp_user_id, 'state', $row['state']);
+                if(isset($user_row['zip'])) update_user_meta($wp_user_id, 'zip', $row['zip']);
+
+                if(isset($user_row['othercontact'])) update_user_meta($wp_user_id, 'othercontact', $user_row['othercontact']);
+                update_user_meta($wp_user_id, 'lasso_user_id', $lasso_user_id);
 
             } else {
+                // No email address associated... no key to create a user, so let's just create it under user 1?
                 $wp_user_id = 1;
             }
 
-
-            // Look up the image
-            if(!empty($row['pictureid01'])) {
-                $image_sql = "SELECT * FROM class_pix WHERE id = " . $row['pictureid01'];
-
-                if (!$image_result = $db->query($image_sql)) {
-                    die('There was an error running the query [' . $db->error . ']');
-                }
-                while ($image_row = $image_result->fetch_assoc()) {
-                    $featured_image_url = 'http://www.latitude38.com/classifieds/uploads/img_classy_576/' . $image_row['this_file'];
-                }
-
-                $image_result->free();
-            }
-
-            // Now let's add the post into Wordpress
+            /**
+             * =========================================================================================================
+             * CREATE THE POST
+             * TODO... really we should just pass the data array to Classyad class!
+             * =========================================================================================================
+             */
             $new_post_args = array(
-                'post_title'    => $title,
-                'post_content'  => $maintext,
-                'post_status'   => 'publish',
-                'post_date' => $row['created'],
-                'post_author'   => $wp_user_id,
+                'post_title' => $title,
+                'post_content' => $maintext,
+                'post_status' => 'publish',
+                'post_date' => $row['date_display'],
+                'post_author' => $wp_user_id,
                 'post_modified' => $row['modified'],
                 'post_type' => 'classy'
             );
 
-            // Figure out the categories
-            switch($row['category']) {
-                case 'Dinghies, Liferafts & Rowboats':
-                    $adcat = array('dinks');
-                    break;
-                case 'Multihull':
-                    $adcat = array('multihull', 'sail');
-                    break;
-                case 'Power & Houseboats':
-                    $adcat = array('motoryacht');
-                    break;
-                default:
-                    $adcat = array('sail');
-            }
-
             // Insert the post into the database.
-            require_once( ABSPATH . 'wp-admin/includes/post.php' );
-            $new_post = wp_insert_post( $new_post_args );
-            if(!empty($new_post)) {
+            require_once(ABSPATH . 'wp-admin/includes/post.php');
+            $new_post = wp_insert_post($new_post_args);
+            if (!empty($new_post)) {
                 $output .= "<div class='success'>Inserted new Ad (<a href='/?p=$new_post'>$new_post</a>) successfully</div>";
             } else {
                 $output .= "<span style='color:red'>Uh-oh... it failed ($new_post)</span><br>";
             }
+            $classy_ad = new Classyad($new_post);
 
-            // Set the Categories
+            /**
+             * =========================================================================================================
+             * FIGURE OUT THE CATEGORIES
+             * =========================================================================================================
+             */
+            //
+            switch ($row['category']) {
+                case 'Dinghies, Liferafts & Rowboats':
+                    $adcat = array('boats','dinks');
+                    break;
+                case 'Multihull':
+                    $adcat = array('boats','multihull', 'sail');
+                    break;
+                case 'Classics':
+                    $adcat = array('boats','classic','sail');
+                    break;
+                case 'Power & Houseboats':
+                    $adcat = array('boats','power');
+                    break;
+                default:
+                    $adcat = array('boats','sail');
+            }
+
             $terms = wp_set_object_terms($new_post, $adcat, 'adcat');
-            if( is_wp_error($terms)) {
+            if (is_wp_error($terms)) {
                 $output .= $terms->get_error_message();
             }
 
-            // Now let's start updating the meta.
-            update_field('location', $row['location'], $new_post);
+            /**
+             * =========================================================================================================
+             * FIGURE OUT AND SET THE EXPIRY DATE
+             * =========================================================================================================
+             */
+            $mag_auto_renew = false;
+            $date_display = $row['date_display'];
+            $renew = $row['renewal'];
+            $ad_expires = "";
 
-            // Core Meta
+            update_field('ad_subscription_level', $ad_subscription_level, $new_post);
+            $classy_ad->custom_fields['ad_subscription_level'] = $ad_subscription_level;
+
+            if (isset($renew)) {
+                switch ($renew) {
+                    case "Run Ad for 1 Month":
+                        $ad_expires = $classy_ad->calculateExpiry('premium', $date_display);
+                        break;
+                    case "Run Ad for 2 Months":
+                        $ad_expires = $classy_ad->calculateExpiry('premium2', $date_display);
+                        break;
+                    case "Run Ad for 3 Months":
+                        $ad_expires = $classy_ad->calculateExpiry('premium3', $date_display);
+                        break;
+                    case "Run Ad Every Month Until Cancelled":
+                        $ad_expires = $classy_ad->calculateExpiry('premium', $date_display);
+                        $mag_auto_renew = true;
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $ad_expires = $classy_ad->calculateExpiry('premium', $date_display);
+            }
+            update_field('ad_expires', $ad_expires, $new_post);
+
+
+            /**
+             * =========================================================================================================
+             * UPDATE META
+             * =========================================================================================================
+             */
             update_field('lasso_classy_id', $row['id'], $new_post);
             update_field('ad_asking_price', preg_replace('/[^0-9]/', '', $row['boat_price']), $new_post); // <!-- NEED TO FILTER THIS!
             update_field('ad_external_url', $external_url, $new_post);
@@ -237,29 +282,41 @@ class Classyads_Import {
             update_field('ad_mag_title', $row['ad_header'], $new_post);
             update_field('ad_mag_text', $maintext, $new_post);
 
-            $photo_option = $row['photo_option'] == 'yes_photo' ? true : false;
-            update_field('ad_mag_show_photo', $photo_option, $new_post);
-            update_field('ad_expires', $mag_show_to, $new_post);
-            update_field('ad_subscription_level', $ad_subscription_level, $new_post);
-
             // Transaction Meta
             update_field('ad_auto_renew', $mag_auto_renew, $new_post);
 
-            /* Add featured image */
-            if(isset($featured_image_url)) {
+            /**
+             * =========================================================================================================
+             * Get the external image URL, sideload it, and attach the ID.
+             * =========================================================================================================
+             */
+            if(!empty($row['pictureid01']) && $row['pictureid01'] != 0) {
+                $image_sql = "SELECT * FROM class_pix WHERE id = " . $row['pictureid01'];
+
+                if (!$image_result = $db->query($image_sql)) {
+                    die('There was an error running the query [' . $db->error . ']');
+                }
+                while ($image_row = $image_result->fetch_assoc()) {
+                    $external_image_url = 'http://www.latitude38.com/classifieds/uploads/img_classy_576/' . $image_row['this_file'];
+                }
+
+                $image_result->free();
+            }
+
+            if(isset($external_image_url)) {
 
                 // URL to the WordPress logo
                 $timeout_seconds = 10;
 
                 // Download file to temp dir
-                $temp_file = download_url($featured_image_url, $timeout_seconds );
+                $temp_file = download_url($external_image_url, $timeout_seconds );
                 $filetype = wp_check_filetype( $temp_file , null );
 
                 if ( !is_wp_error( $temp_file ) ) {
 
                     // Array based on $_FILE as seen in PHP file uploads
                     $file = array(
-                        'name'     => basename($featured_image_url), // ex: wp-header-logo.png
+                        'name'     => basename($external_image_url), // ex: wp-header-logo.png
                         'type'     => $filetype['type'],
                         'tmp_name' => $temp_file,
                         'error'    => 0,
@@ -307,18 +364,41 @@ class Classyads_Import {
                         update_field('credit', ucwords($firstname . ' ' . $lastname), $attach_id);
 
                     }
-
                 } else {
                     $output .= "<div class='notice'>" . $temp_file->get_error_message();
                     $output .= " - No image could be attached</div>";
                 }
+            }
+
+            /**
+             * =========================================================================================================
+             * LOG THE MOST RECENT TRANSACTION!
+             * =========================================================================================================
+             */
+            // Jzugc_Payment
+            if(isset($row['cim_transactionid'])) {
+                $tx_data = array(
+                    'post_id' => $new_post,
+                    'user_id' => $wp_user_id,
+                    'gateway' => 'auth-net',
+                    'transaction_msg' => "Legacy Payment Record: ",
+                    'description' => 'Latitude38: New Classified Ad for (' . $new_post . ')',
+                    'created' => $row['date_display'],
+                    'amount' => $row['cc_amount'],
+                    'transaction_id' => '0', // This is not recorded in the old system.
+                    'cim_profile_id' => $row['cim_customerid'],
+                    'cim_payment_profile_id' => $row['cim_transactionid']
+                );
+
+                $wpdb->insert( $wpdb->prefix . 'l38_transactions', $tx_data );
+                $order_id = $wpdb->insert_id;
             }
         }
         echo $output;
         die();
     }
 
-    public function get_post_from_lasso_id($classy_id) {
+    public static function get_post_from_lasso_id($classy_id) {
         // Look up to see if the Classified exists...
         $wp_id = false;
         $args = array(

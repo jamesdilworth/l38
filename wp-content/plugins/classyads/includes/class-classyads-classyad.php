@@ -89,6 +89,10 @@ class Classyad {
             'post_type' => 'classy'
         );
 
+        if(isset($data['wp_user_id'])) {
+            $new_post_args['post_author'] = $data['wp_user_id'];
+        }
+
         // Insert the post into the database.
         require_once( ABSPATH . 'wp-admin/includes/post.php' );
         $new_post_id = wp_insert_post( $new_post_args );
@@ -127,7 +131,11 @@ class Classyad {
         if(isset($data['featured_image']) && $data['featured_image']['size'] > 0) {
             $featured_image_id = $this->uploadImage($data['featured_image']);
             set_post_thumbnail($new_post_id, $featured_image_id);
+        } else if(isset($data['external_image_url'])) {
+            // TODO!!! The import script has a sideload of an image.
+
         }
+
         // TODO!!! Handle Additional Images...
 
         // Boats
@@ -150,6 +158,10 @@ class Classyad {
         foreach($data as $field => $value) {
             $result = $this->update_field($field, $value);
         }
+    }
+
+    public function sideloadImage($url) {
+        // For sideloading an image from the old site.
     }
 
     public function uploadImage(&$file) {
@@ -206,7 +218,6 @@ class Classyad {
 
     public function removeImage($attach_id) {
         // TODO... empty it from the array of images
-
         if (false === wp_delete_attachment($attach_id)) {
             error_log('Wasn\'t able to delete the old attachment after ajax upload of the new one');
         }
@@ -216,7 +227,7 @@ class Classyad {
      * Centralized validation function. Returns true if no problems, and the error if not.
      */
     public function validate_field($field, $value) {
-        // TODO our validtion functions.
+        // TODO ... a lot of these still need to be defined.
 
         switch ($field) {
             case 'maintext' :
@@ -503,6 +514,47 @@ class Classyad {
             'post_status' => 'publish'
             )
         );
+    }
+
+    public function getMagazineCat() {
+        // Output the Category that this ad should appear in the magazine?
+        $adcats = wp_get_post_terms( $this->post_id, 'adcat');
+
+        $section = "TBD";
+        if(has_term('boats', 'adcat', $this->post_id)) {
+            // It's a boat....
+            if(has_term(array('dinks'), 'adcat', $this->post_id)) {
+                $section = "Dinghies, Liferafts and Rowboats";
+            }
+            else if(has_term(array('power','rib','houseboat'), 'adcat', $this->post_id)) {
+                $section = "Power & Houseboats";
+            }
+            else if(has_term(array('classic'), 'adcat', $this->post_id)) {
+                $section = "Classic Boats";
+            }
+            else if(has_term(array('multihull'), 'adcat', $this->post_id)) {
+                $section = "Multihulls";
+            }
+            else {
+                $length = $this->custom_fields['boat_length'];
+                if($length >= 51) {
+                    $section = "51 Feet and Over";
+                } else if ($length >= 40 ) {
+                    $section = "40 to 50 Feet";
+                } else if ($length >= 35 ) {
+                    $section = "35 to 39 Feet";
+                } else if ($length >= 32 ) {
+                    $section = "32 to 34 Feet";
+                } else if ($length >= 29 ) {
+                    $section = "29 to 31 Feet";
+                } else if ($length >= 25 ) {
+                    $section = "25 to 28 Feet";
+                } else if ($length < 25) {
+                    $section = "24 Feet and Under";
+                }
+            }
+        }
+        return $section;
     }
 
     public function upgradePlan() {
