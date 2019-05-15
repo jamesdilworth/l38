@@ -87,9 +87,9 @@ class Classyads {
 	}
 
     private function define_setup_hooks() {
-        add_action('init', 'Classyads_Setup::define_classy_cpt');
-        add_action('init', 'Classyads_Setup::define_adcat_tax');
-        add_action('init', 'Classyads_Setup::define_post_statuses');
+        add_action( 'init', 'Classyads_Setup::define_classy_cpt');
+        add_action( 'init', 'Classyads_Setup::define_adcat_tax');
+        add_action( 'init', 'Classyads_Setup::define_post_statuses');
         add_action( 'plugins_loaded', 'Classyads_Setup::checkDB' );
         add_action( 'classy_cleanup_hook', 'Classyads_Setup::classy_cleanup' ); // This is our custom daily cleanup hook.
     }
@@ -102,6 +102,10 @@ class Classyads {
 
         // AD UPDATES
         $this->loader->add_action('wp_ajax_update_classyad',  $classyads_ajax, 'update_classyad');
+
+        // AD RENEWALS
+        $this->loader->add_action('wp_ajax_renew_classyad',  $classyads_ajax, 'renew_classyad');
+
 
         // UGC AJAX EDITING SCRIPTS...
         $this->loader->add_action('wp_ajax_update_classy_mainphoto', $classyads_ajax,  'update_classy_mainphoto');

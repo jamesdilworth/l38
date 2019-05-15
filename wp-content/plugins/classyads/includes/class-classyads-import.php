@@ -4,12 +4,6 @@ class Classyads_Import {
     private $plugin_name;
     private $version;
 
-    static $db_host = "localhost";
-    static $db_user = "root";
-    static $db_pass = "jaymz0";
-    static $db_name = "l38_munge";
-
-
     public function __construct( $plugin_name, $version ) {
         $this->plugin_name = $plugin_name; // The name of the plugin.
         $this->version = $version; // The version... used for enqueuing.
@@ -40,7 +34,7 @@ class Classyads_Import {
         }
 
         // Go through all the active classies
-        $db = new mysqli(self::$db_host, self::$db_user, self::$db_pass, self::$db_name);
+        $db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, LASSO_DB);
         if($db->connect_errno > 0){
             die('Unable to connect to database [' . $db->connect_error . ']');
         }
@@ -151,8 +145,16 @@ class Classyads_Import {
                 }
                 $phone = sanitize_purpose_phone_input($phone);
 
-                // UPDATE USER META
-                if (isset($user_row['cim_customerid'])) update_user_meta($wp_user_id, 'cim_id', $user_row['cim_customerid']);
+                // UPDATE USER META... transaction ID is stored wrongly in lasso.
+                if (isset($user_row['cim_customerid'])) update_user_meta($wp_user_id, 'cim_profile_id', $user_row['cim_customerid']);
+
+                $last_payment = new Jzugc_Payment();
+                $payment_profile = $last_payment->getCustomerPaymentProfile($user_row['cim_customerid'], $user_row['cim_transactionid']);
+
+
+
+                if (isset($user_row['cim_transactionid'])) add_user_meta($wp_user_id, 'cim_payment_profile_id', $user_row['cim_transactionid']);
+
                 if (isset($user_row['sex'])) update_user_meta($wp_user_id, 'sex', $user_row['sex']);
                 if (isset($user_row['age'])) update_user_meta($wp_user_id, 'birthdate', strtotime($user_row['created']) - ($row['age'] * 31557600));
 

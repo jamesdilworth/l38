@@ -2,15 +2,17 @@
 /**
  * General purpose billing library to connect with Authorize.net.
  *
+ *
+ * For PRODUCTION use:
+ * $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::PRODUCTION);
  */
-
 
 require_once JZUGC_PATH . 'vendor/autoload.php';
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
 $uploads = wp_get_upload_dir();
-define("AUTHORIZENET_LOG_FILE", $uploads['basedir'] . "logs/anet_log");
+define("AUTHORIZENET_LOG_FILE", $uploads['basedir'] . "/logs/anet_log");
 
 class Jzugc_Payment
 {
@@ -18,9 +20,18 @@ class Jzugc_Payment
     public $errors;
 
     private $order_id;
+    private $user;
 
-    public function __construct()
-    {
+    public function __construct(&$user = null) {
+        $this->user = $user; // This should be our JZ_User object.
+
+        /* Create a log file for payments */
+        $upload = wp_upload_dir();
+        $upload_dir = $upload['basedir'];
+        $upload_dir = $upload_dir . '/logs';
+        if (! is_dir($upload_dir)) {
+            mkdir( $upload_dir, 0700 );
+        }
 
     }
 
@@ -73,16 +84,21 @@ class Jzugc_Payment
         return $success;
     }
 
-
     /**
-     * Initialize an order to get the order ID prior to credit card processing.
+     * Charge Credit Card is a one-stop transaction request taking the whole order info and processing it.
+     * It will try and create a whole new cim_profile.
+     * If there's a duplicate, it will fail.
+     *
      */
-    public function chargeCreditCard($amount, $data) {
+    public function chargeCreditCard($amount, $data, &$user = null) {
         global $wpdb;
-        $user = wp_get_current_user();
+
+        if($user == null)
+            $user = $this->user;
+        if($user == null)
+            $user = new JZ_User($data['post_author']); // Important... it needs to be the users credit card, not the administrators - lol!
 
         // Check if current user has a cim?
-
         $order_info = array(
             'user_id' => $user->ID,
             'post_id' => $data['post_id'],
@@ -143,6 +159,9 @@ class Jzugc_Payment
         $customerData->setId($user->ID);
         $customerData->setEmail($user->user_email); // Customer email.
 
+        $profile = new AnetAPI\CustomerProfilePaymentType();
+        $profile->setCreateProfile(true); // This will create a new customer profile.
+
         // Create a TransactionRequestType object and add the previous objects to it
         $transactionRequestType = new AnetAPI\TransactionRequestType();
         $transactionRequestType->setTransactionType("authCaptureTransaction");
@@ -151,6 +170,7 @@ class Jzugc_Payment
         $transactionRequestType->setOrder($order);
         $transactionRequestType->setBillTo($customerAddress);
         $transactionRequestType->setCustomer($customerData);
+        $transactionRequestType->setProfile($profile);
 
         // Assemble the complete transaction request
         $request = new AnetAPI\CreateTransactionRequest();
@@ -166,9 +186,9 @@ class Jzugc_Payment
         $success = false;
         if ($response != null) {
             // Check to see if the API request was successfully received and acted upon
+
             if ($response->getMessages()->getResultCode() == "Ok") {
-                // Since the API request was successful, look for a transaction response
-                // and parse it to display the results of authorizing the card
+                // Since the API request was successful, look for a transaction response and parse it to display the results of authorizing the card
 
                 $tresponse = $response->getTransactionResponse();
 
@@ -185,19 +205,46 @@ class Jzugc_Payment
                         'transaction_msg' => $tresponse->getMessages()[0]->getCode(),
                         'created' => current_time( 'mysql' )
                     );
+
+                    $presponse = $response->getProfileResponse();
+                    if ($presponse != null && $presponse->getMessages() != null && $presponse->getMessages()->getResultCode() != "Error") {
+
+                        $tx_data['cim_profile_id'] = $presponse->getCustomerProfileId();
+                        $payment_profiles = $presponse->getCustomerPaymentProfileIdList(); // should be an array of ID's, but since there's only one payment profile, we'll want the first.
+
+                        $tx_data['cim_payment_profile_id'] = $payment_profiles[0];
+                        $tx_data['cim_payment_profile'] = array(
+                            'id' => $tx_data['cim_payment_profile_id'],
+                            'last4' => substr($data['card_number'], -4),
+                            'expires' => zeroise($data['card_month'],2) . "/" . substr($data['card_year'],-2),
+                            'default' => true // Since this is the first.
+                        );
+
+                        $output .= " Successfully created customer profile with ID: " . $tx_data['cim_profile_id'] . "\n";
+                        $output .= " Payment profile ID should be  " . $tx_data['cim_payment_profile_id'] . "\n";
+
+                    } else {
+                        // TODO! - This might happen because a profile already exists!... in which case we might want to see if we can find it!
+                        $output .= "Couldn\'t create a profile. \n";
+                        if ($presponse->getMessages() != null) {
+                            $output .= " Error Code  : " . $presponse->getMessages()->getMessage()[0]->getCode() . "\n";
+                            $output .= " Error Message : " . $presponse->getMessages()->getMessage()[0]->getText() . "\n";
+                        }
+                    }
+
                     $this->concludeOrder($tx_data);
 
                     // IF SUCCESS, RETURN TRUE FROM THIS FUNCTION!
                     return true;
 
                 } else {
+                    // Print errors if the API request wasn't successful
                     $output .= "Transaction Failed \n";
                     if ($tresponse->getErrors() != null) {
                         $output .= " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
                         $output .= " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
                     }
                 }
-                // Or, print errors if the API request wasn't successful
             } else {
                 $output .= "Transaction Failed \n";
                 $tresponse = $response->getTransactionResponse();
@@ -225,43 +272,115 @@ class Jzugc_Payment
         return $success;
     }
 
-    function createCustomerProfileFromTransaction($transId)
+    function createCustomerPaymentProfile($cim_id, $data)
     {
-        /* Create a merchantAuthenticationType object with authentication details retrieved from the constants file */
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $merchantAuthentication->setName(\JzugcConfig::MERCHANT_ID);
-        $merchantAuthentication->setTransactionKey(\JzugcConfig::MERCHANT_KEY);
+        $merchantAuthentication->setName(\JzugcConfig::MERCHANT_LOGIN_ID);
+        $merchantAuthentication->setTransactionKey(\JzugcConfig::MERCHANT_TRANSACTION_KEY);
 
         // Set the transaction's refId
         $refId = 'ref' . time();
 
-        $customerProfile = new AnetAPI\CustomerProfileBaseType();
-        $customerProfile->setMerchantCustomerId("123212");
-        $customerProfile->setEmail(rand(0, 10000) . "@test" .".com");
-        $customerProfile->setDescription(rand(0, 10000) ."sample description");
+        // Create a Customer Profile Request
+        //  1. (Optionally) create a Payment Profile
+        //  2. (Optionally) create a Shipping Profile
+        //  3. Create a Customer Profile (or specify an existing profile)
+        //  4. Submit a CreateCustomerProfile Request
+        //  5. Validate Profile ID returned
 
-        $request = new AnetAPI\CreateCustomerProfileFromTransactionRequest();
-        $request->setMerchantAuthentication($merchantAuthentication);
-        $request->setTransId($transId);
+        // Set credit card information for payment profile
+        $creditCard = new AnetAPI\CreditCardType();
+        $creditCard->setCardNumber("4242424242424242");
+        $creditCard->setExpirationDate("2038-12");
+        $creditCard->setCardCode("142");
+        $paymentCreditCard = new AnetAPI\PaymentType();
+        $paymentCreditCard->setCreditCard($creditCard);
 
-        // You can either specify the customer information in form of customerProfileBaseType object
-        $request->setCustomer($customerProfile);
-        //  OR
-        // You can just provide the customer Profile ID
-        //$request->setCustomerProfileId("123343");
+        // Create the Bill To info for new payment type
+        $billto = new AnetAPI\CustomerAddressType();
+        $billto->setFirstName("Ellen".$phoneNumber);
+        $billto->setLastName("Johnson");
+        $billto->setCompany("Souveniropolis");
+        $billto->setAddress("14 Main Street");
+        $billto->setCity("Pecan Springs");
+        $billto->setState("TX");
+        $billto->setZip("44628");
+        $billto->setCountry("USA");
+        $billto->setPhoneNumber($phoneNumber);
+        $billto->setfaxNumber("999-999-9999");
 
-        $controller = new AnetController\CreateCustomerProfileFromTransactionController($request);
+        // Create a new Customer Payment Profile object
+        $paymentprofile = new AnetAPI\CustomerPaymentProfileType();
+        $paymentprofile->setCustomerType('individual');
+        $paymentprofile->setBillTo($billto);
+        $paymentprofile->setPayment($paymentCreditCard);
+        $paymentprofile->setDefaultPaymentProfile(true);
 
+        $paymentprofiles[] = $paymentprofile;
+
+        // Assemble the complete transaction request
+        $paymentprofilerequest = new AnetAPI\CreateCustomerPaymentProfileRequest();
+        $paymentprofilerequest->setMerchantAuthentication($merchantAuthentication);
+
+        // Add an existing profile id to the request
+        $paymentprofilerequest->setCustomerProfileId($cim_id);
+        $paymentprofilerequest->setPaymentProfile($paymentprofile);
+        $paymentprofilerequest->setValidationMode("liveMode"); // Use 'testMode' to perform a Luhn mod-10 check on the card number, without further validation. Use liveMode to submit a zero-dollar or one-cent transaction (depending on card type and processor support) to confirm the card number belongs to an active credit or debit account.
+
+        // Create the controller and get the response
+        $controller = new AnetController\CreateCustomerPaymentProfileController($paymentprofilerequest);
         $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
 
         if (($response != null) && ($response->getMessages()->getResultCode() == "Ok") ) {
-            echo "SUCCESS: PROFILE ID : " . $response->getCustomerProfileId() . "\n";
+            echo "Create Customer Payment Profile SUCCESS: " . $response->getCustomerPaymentProfileId() . "\n";
         } else {
-            echo "ERROR :  Invalid response\n";
+            echo "Create Customer Payment Profile: ERROR Invalid response\n";
             $errorMessages = $response->getMessages()->getMessage();
             echo "Response : " . $errorMessages[0]->getCode() . "  " .$errorMessages[0]->getText() . "\n";
+
         }
         return $response;
+    }
+
+
+
+    function getCustomerPaymentProfile($customerProfileId, $customerPaymentProfileId) {
+
+        $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+        $merchantAuthentication->setName(\JzugcConfig::MERCHANT_LOGIN_ID);
+        $merchantAuthentication->setTransactionKey(\JzugcConfig::MERCHANT_TRANSACTION_KEY);
+
+        // Set the transaction's refId
+        $refId = 'ref' . time();
+
+        //request requires customerProfileId and customerPaymentProfileId
+        $request = new AnetAPI\GetCustomerPaymentProfileRequest();
+        $request->setMerchantAuthentication($merchantAuthentication);
+        $request->setRefId( $refId);
+        $request->setCustomerProfileId($customerProfileId);
+        $request->setCustomerPaymentProfileId($customerPaymentProfileId);
+
+        $controller = new AnetController\GetCustomerPaymentProfileController($request);
+        $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $jz_payment_profile = array();
+        if(($response != null)){
+            if ($response->getMessages()->getResultCode() == "Ok")
+            {
+                $jz_payment_profile['cim_payment_profile_id'] = $response->getPaymentProfile()->getCustomerPaymentProfileId();
+                $jz_payment_profile['card_type'] = $response->getPaymentProfile()->getPayment()->getCreditCard()->getCardType();
+                $jz_payment_profile['last4'] = $response->getPaymentProfile()->getPayment()->getCreditCard()->getCardNumber();
+           }
+            else
+            {
+                PC::debug("GetCustomerPaymentProfile ERROR :  Invalid response\n");
+                $errorMessages = $response->getMessages()->getMessage();
+                PC::debug("Response : " . $errorMessages[0]->getCode() . "  " .$errorMessages[0]->getText() . "\n");
+            }
+        }
+        else{
+            return null;
+        }
+        return $jz_payment_profile;
     }
 
     function chargeCustomerProfile($profileid, $paymentprofileid, $amount)
@@ -341,7 +460,6 @@ class Jzugc_Payment
         return $response;
     }
 
-
     private function initializeOrder($order_data) {
         global $wpdb;
 
@@ -352,12 +470,25 @@ class Jzugc_Payment
 
     private function concludeOrder($tx_data) {
         global $wpdb;
+
+        if(isset($tx_data['cim_payment_profile'])) {
+            $cim_payment_profile = $tx_data['cim_payment_profile'];
+            unset($tx_data['cim_payment_profile']); // We don't want this going into the DB.
+        }
+
+        // Create a log in our transactions table.
+        // TODO! - This is fragile and will break if $tx_data changes. Clean $tx_data so nothing else is going in there! - array_intersect_key()
         $wpdb->update( $wpdb->prefix . 'l38_transactions',
             $tx_data,
             array( 'id' => $this->order_id ),
             null,
             array( '%d' )
         );
+
+        if(key_exists('cim_profile_id', $tx_data) && $this->user) {
+            add_user_meta($this->user->ID, 'cim_profile_id', $tx_data['cim_profile_id']);
+            add_user_meta($this->user->ID, 'cim_payment_profile', $cim_payment_profile);
+        }
     }
 
     private function check_cc($cc, $extra_check = false){

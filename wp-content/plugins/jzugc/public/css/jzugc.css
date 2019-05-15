@@ -296,6 +296,29 @@
   right: 10px;
 }
 
+.jz-modal {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  width: auto;
+  max-width: 800px;
+  margin: 20px auto;
+}
+.jz-modal .modal_footer {
+  text-align: right;
+}
+.jz-modal .wrapper {
+  margin: 0;
+}
+.jz-modal .wrapper h3.title {
+  margin: -20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #018db9;
+  color: #fff;
+  text-transform: uppercase;
+}
+
 /* My Custom Forms */
 .jz-form fieldset {
   background-color: #f6f6f6;

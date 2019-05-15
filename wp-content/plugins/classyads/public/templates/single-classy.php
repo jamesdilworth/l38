@@ -5,8 +5,9 @@
     get_header();
 
     global $post;
-    $current_user = wp_get_current_user();
+
     $classyad = new Classyad($post->ID);
+    $owner = new JZ_User($classyad->owner); //Note for payments sake, we need to be clear that THE USER IS NOT NECESSARILY THE OWNER.
 
     $key_dates = $classyad->key_dates;
 
@@ -202,7 +203,7 @@
 
                         <p>Renew before <?= $key_dates['renewal_deadline']->format('F jS, Y'); ?> to get it into the <?= $key_dates['next_ad_edition']->format('F'); ?> issue.</p>
 
-                        <p><a href='' class="renew btn">Renew for 1 Month</a>
+                        <p><a data-mfp-src='#renew_popup' class="renew-modal btn">Renew for 1 Month</a>
                             <!-- <a class='btn' href=''>Renew for 3 Months - $80</a> -->
 
                    <?php else : ?>
@@ -212,15 +213,110 @@
                            This online ad will expire on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
                        <?php endif; ?>
 
-                        <p><a class='upgrade btn' href=''>Upgrade to Print Ad - $40</a>
+                        <p><a class='upgradeplan-modal btn' data-mfp-src='#upgradeplan_popup' >Upgrade to Print Ad</a>
+
                     <?php endif; ?>
 
-                     <a style="background-color:#4d948c;" class="mark-as-sold btn">Mark as SOLD</a></p>
+                     <a style="background-color:#4d948c;" class="remove-ad btn">Take down this Ad</a></p>
                 </div>
             </div>
             <?php endif; ?>
 
+            <div id="renew_popup" class="mfp-hide jz-modal">
+                <div class="wrapper">
+                    <h3 class="title">Renew Ad</h3>
+                    <form name="renew_classyad" id="renew_classyad">
+                    <!--
+                    <div class="plan_options">
+                        <div class="plan">
+                            <div class="title">Online</div>
+                            <div class="price">Free</div>
+                            <ul class="features">
+                                <li>Option 1</li>
+                                <li>Option 2</li>
+                                <li>Option 3</li>
+                            </ul>
+                            <div class="select"><input type="radio" name="plan_choice" value="free"></div>
+                        </div>
+                        <div class="plan">
+                            <div class="title">Basic</div>
+                            <div class="price">$20</div>
+                            <ul class="features">
+                                <li>Option 1</li>
+                                <li>Option 2</li>
+                                <li>Option 3</li>
+                            </ul>
+                            <div class="select"><input type="radio" name="plan_choice" value="free"></div>
+                        </div>
+                        <div class="plan">
+                            <div class="title">Premium</div>
+                            <div class="price">$40</div>
+                            <ul class="features">
+                                <li>Option 1</li>
+                                <li>Option 2</li>
+                                <li>Option 3</li>
+                            </ul>
+                            <div class="select"><input type="radio" name="plan_choice" value="free"></div>
+                        </div>
+                    </div>
+                    -->
 
+                    <?php if($classyad->is_print_ad()) : ?>
+                        <p>This will extend your <?php echo $classyad->plan['name'] ?> ad for publication in our July 2019 Issue. This online ad will remain live until July 30, 2019</p>
+                    <?php endif; ?>
+
+                    <?php
+                       if(count($owner->cim_payment_profiles) > 1 ) {
+                           echo "<p>Choose a card:</p>";
+                            foreach($owner->cim_payment_profiles as $profile) {
+                                echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . "(" . $profile['expires'] . ")<br>";
+                            }
+                        } else if(count($owner->cim_payment_profiles) == 1) {
+                            $profile = $owner->cim_payment_profiles[0];
+                            echo "<p>We will charge your card (XXXX-XXXX-XXXX-" . $profile['last4'] . " (" . $profile['expires'] . ")) $" . $classyad->plan['amount'] . "</p>";
+                            echo '<input type="hidden" name="cim_payment_profile_id" value="' . $profile['id'] . '">';
+                        } else {
+                            echo "You have no saved payment methods. Please add some credit card info";
+                        }
+                    ?>
+
+                    <p style="text-align:center;"><a href="" class="btn ok-renew">OK</a> <a href="javascript:jQuery.magnificPopup.close();" class="secondary btn">Cancel</a></p>
+                    <p style="text-align:center;" class="alt-options"><a href="" class="show-alt-plans">Change Plan</a> | <a href="" class="show-alt-payment">Change Payment Method</a></p>
+                    <input type="hidden" name="plan_level" value="<?= $classyad->plan['type'] ?>
+                    <input type="hidden" name="post_id" value="<?= $classyad->post_id; ?>">
+                    <?php wp_nonce_field( 'renew_classyad', '_renew_classyad_nonce' ) ?>
+                    <input type="hidden" name="action" value="renew_classyad">
+
+                    </form>
+                </div>
+            </div>
+
+
+            <div id="upgradeplan_popup" class="mfp-hide jz-modal">
+                <div class="wrapper">
+                    <h3 class="title">Change Plan</h3>
+
+                    <p>The following plans are available for you to upgrade your ad.</p>
+                    <!--
+
+                    // Choose from one of the pricing options.
+                        - If it's a free ad... he can upgrade to the print ad for $40, and the ad will appear in the next publication.
+                        - If it's a paid ad... he could renew at the current level.
+                        - If it's a basic ad... he could upgrade to premium and get more features. Yes.
+                        - If it's expired... he could renew at any level.
+
+                    // If there is a CIM record, grab that, and offer to use that.
+                        - Also show the name on the card, last four digits etc.
+
+                    // Else, we'll need to get the cc info again from scratch.
+                    -->
+
+
+                    <p>This will charge your card $XX</p>
+
+                    <p style="text-align:center;"><a href="" class="renew-ok btn">OK</a> <a href="" class="mfp-close btn">Cancel</a></p>
+                </div>
+            </div>
 
 
             <div class="admin-updates">

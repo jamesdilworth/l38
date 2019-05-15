@@ -37,6 +37,9 @@ class Jzugc {
         // Responsible for defining all ajax listeners
         require_once JZUGC_PATH . 'includes/class-jzugc-ajax.php';
 
+        // Main User Class... Extends WP_User
+        require_once JZUGC_PATH . 'includes/class-jzugc-jzuser.php';
+
         // Integration with Auth net libraries....
         require_once JZUGC_PATH  . 'includes/class-jzugc-payments.php';
 
@@ -70,7 +73,8 @@ class Jzugc {
 		$this->loader->add_action( 'admin_enqueue_scripts', $jzugc_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $jzugc_admin, 'enqueue_scripts' );
 
-        $this->loader->add_filter('get_avatar', $jzugc_admin, 'acf_profile_avatar', 10, 5); // Alter to use meta field for profile avatar.
+        $this->loader->add_filter( 'get_avatar', $jzugc_admin, 'acf_profile_avatar', 10, 5); // Alter to use meta field for profile avatar.
+
         $this->loader->add_filter( 'display_post_states', $jzugc_admin, 'set_post_states', 10, 2 ); // Add post state to the User Profile and User Account Dashboard pages
         $this->loader->add_action( 'admin_notices', $jzugc_admin,  'add_post_notices' );
 

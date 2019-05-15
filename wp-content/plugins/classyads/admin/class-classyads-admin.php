@@ -41,7 +41,6 @@ class Classyads_Admin {
 		wp_enqueue_style( $this->plugin_name, CLASSYADS_URL . 'admin/css/classyads-admin.css', array(), $this->version, 'all' );
 	}
 
-
 	public function enqueue_scripts() {
 	    wp_enqueue_script( 'classyads-admin', CLASSYADS_URL . 'admin/js/classyads-admin.js', array( 'jquery' ), filemtime( CLASSYADS_PATH . 'admin/js/classyads-admin.js'), true );
 	}
@@ -50,17 +49,35 @@ class Classyads_Admin {
 	    wp_localize_script( 'classyads-admin', 'localized',  $this->localize_vars );
     }
 
-
     public function add_plugin_admin_menu() {
         /**
          * Add a settings page for this plugin to the Settings menu.  http://codex.wordpress.org/Administration_Menus
          */
-        add_options_page(
-            'Latitude 38: Classy Ads',
-            'L38 Classies',
+        add_submenu_page(
+            'edit.php?post_type=classy',
+            'L38 Classifieds: Settings',
+            'Settings',
             'manage_options',
-            $this->plugin_name, // slug
-            array($this, 'display_plugin_setup_page') // How does this work?
+            'settings',
+            array($this, 'display_settings_page')
+        );
+
+        add_submenu_page(
+            'edit.php?post_type=classy',
+            'L38 Classifieds: Transactions',
+            'Transactions',
+            'edit_pages',
+            'transactions',
+            array($this, 'display_transactions_page')
+        );
+
+        add_submenu_page(
+            'edit.php?post_type=classy',
+            'L38 Classifieds: Export',
+            'Export',
+            'edit_pages',
+            'export',
+            array($this, 'display_export_page')
         );
     }
 
@@ -85,12 +102,53 @@ class Classyads_Admin {
             if($post->post_status == 'expired'){
                 $this->localize_vars['is_classy_expired'] = true;
             }
+            if($post->post_status == 'removed'){
+                $this->localize_vars['is_classy_removed'] = true;
+            }
             $this->localize_vars['is_classy_post_page'] = true;
         }
     }
 
+    public function display_expired_state( $states ) {
+	    /**
+         * This is hooked into the main dashboard view of the classies to show the expired state.
+         */
+        global $post;
+        $arg = get_query_var( 'post_status' );
+
+        if($arg != 'expired'){ // if we haven't searched by
+            if($post->post_status == 'expired'){
+                return array('Expired');
+            }
+        }
+
+        if($arg != 'removed'){ // if we haven't searched by
+            if($post->post_status == 'removed'){
+                return array('Removed');
+            }
+        }
+
+        return $states;
+    }
+
+    public function display_transactions_page() {
+        include_once( 'partials/classyads-admin-transactions.php' );
+    }
+
+    public function display_export_page() {
+        include_once( 'partials/classyads-admin-export.php' );
+    }
+
+    public function display_settings_page() {
+        include_once( 'partials/classyads-admin-settings.php' );
+    }
+
+    public function options_update() {
+        register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
+    }
+
     public function handle_acf_saved($post_id) {
-	    // This gets fired after the post is saved through ACF.
+        // This gets fired after the post is saved through ACF.
 
         // bail early if no ACF data
         if( empty($_POST['acf']) ) {
@@ -115,31 +173,6 @@ class Classyads_Admin {
         // $field = $_POST['acf']['field_abc123'];
     }
 
-
-    public function display_expired_state( $states ) {
-	    /**
-         * This is hooked into the main dashboard view of the classies to show the expired state.
-         */
-        global $post;
-        $arg = get_query_var( 'post_status' );
-        if($arg != 'expired'){ // if we haven't searched by
-            if($post->post_status == 'expired'){
-                return array('Expired');
-            }
-        }
-        return $states;
-    }
-
-    /**
-     * Render the settings page for this plugin.
-     */
-    public function display_plugin_setup_page() {
-        include_once( 'partials/classyads-admin-display.php' );
-    }
-
-    public function options_update() {
-        register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
-    }
 
     public function validate($input) {
         // All checkboxes inputs

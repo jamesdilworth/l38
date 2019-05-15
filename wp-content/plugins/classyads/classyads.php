@@ -46,6 +46,8 @@ define( "CLASSYADS_FILE", __FILE__ );
 define( "CLASSYADS_PATH", plugin_dir_path( CLASSYADS_FILE )); // includes trailing slash.
 define( "CLASSYADS_URL", plugins_url() . "/" . basename(CLASSYADS_PATH) . "/");
 
+if(!defined('LASSO_DB')) define('LASSO_DB','latitude_db'); // This is the legacy lasso db for the import.
+
 require_once(CLASSYADS_PATH . 'includes/class-classyads-config.php');
 
 

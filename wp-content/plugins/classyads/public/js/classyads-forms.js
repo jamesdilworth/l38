@@ -118,7 +118,7 @@ var ClassyadsForms = (function($) {
                 // Failed with a reason.
                 $.Toast.hideToast();
                 $(form).find('[name=post_id]').val(response.data.post_id);
-                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':0});
+                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':4000});
                 if(response.data.errors) {
                     validator.showErrors(response.data.errors);
                 }
@@ -178,18 +178,56 @@ var ClassyadsForms = (function($) {
         });
     };
 
-    var markAsSold = function(evt) {
+    var removeAd = function(evt) {
         evt.preventDefault();
         alert('Mark as Sold - functionality Coming Soon....');
     };
 
-    var upgradeAd = function(evt) {
-        evt.preventDefault();
+    /**
+     * Handles form submission from a user wishing to upgrade the plan of the account they have.
+     * @param evt
+     */
+    var upgradePlan = function(evt) {
+        evt.preventDefault(); // Prevent Default Submission
         alert('Upgrade Ad - Functionality Coming Soon.... ');
     };
 
-    var renewAd = function(evt) {
+    var renewClassyAd = function(evt) {
+
+        var formData = new FormData(this);
+
+        var renew_classyad_call = $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            timeout: 5000,
+            contentType: false, // Stop jQuery from reinterpreting the contentType.
+            processData: false, // Stop jQuery from re-processing the formData
+            dataType: 'json',
+            data: formData
+        });
+
+        renew_classyad_call.fail(function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ': ' + errorThrown);
+            $.Toast.showToast({'title': errorThrown, 'icon':'error', 'duration':6000});
+        });
+
+        renew_classyad_call.done(function(response) {
+            if(response.success) {
+                $.Toast.hideToast();
+                // Replace form with confirmation, and a link to the new page.
+                $.Toast.showToast({'title': 'Sweet. Your ad has been renewed','icon':'success', 'duration':3000});
+                document.reload();
+            } else {
+                // Failed with a reason.
+                $.Toast.hideToast();
+                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':0});
+            }
+        });
+
         evt.preventDefault();
+
+        // On Submit...
+        // - AJAX update would update the plan details, along with a confirmation
         alert('Renew Ad - Functionality Coming Soon.... ');
     };
 
@@ -216,11 +254,13 @@ var ClassyadsForms = (function($) {
         // $('form#create_classyad').submit(createClassyAd) ... now handled with initializePlaceadForm();
         $('form#update_magad').submit(updateClassyAd);
         $('form#update_classy_public').submit(updateClassyAd);
+        $('form#renew_classyad').submit(renewClassyAd);
 
         // Other Dynamic Events that'll require a popup probably.
-        $('.mark-as-sold.btn').click(markAsSold);
-        $('.renew.btn').click(renewAd);
-        $('.upgrade.btn').click(upgradeAd);
+        $('.ok-renew.btn').click(function() { $('form#renew_classyad').submit(); })
+        $('.mark-as-sold.btn').click(removeAd);
+        $('.upgrade-plan.btn').click(upgradePlan);
+
     };
 
     function initializeFilepond() {
@@ -244,4 +284,10 @@ var ClassyadsForms = (function($) {
 
 jQuery(document).ready(function($) {
     ClassyadsForms.init();
+
+    $('.renew-modal').magnificPopup({
+        type: 'inline',
+        modal: true
+    });
+
 });

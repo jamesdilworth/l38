@@ -5,22 +5,6 @@ class Classyads_Ajax {
 
     }
 
-    public function renew_classyad() {
-
-        if (!is_user_logged_in()) {
-            // Not a valid user to perform this operation.
-            wp_die();
-        }
-        $current_user = wp_get_current_user();
-        check_ajax_referer('renew_classyad', '_renew_classyad_nonce');
-        $posted_data =  isset( $_POST ) ? $_POST : array();
-
-        // We're looking at the amount.
-
-        // We need to
-
-    }
-
     /**
      * Receives the AJAX Classy Create Post
      * Validate, Filter, Sanitize the Arguments... and then pass to create the Ad,
@@ -38,6 +22,8 @@ class Classyads_Ajax {
         // This now holds a whole bunch of stuff!
         $data = array_merge( $posted_data, $file_data );
 
+        $user = new JZ_User();
+
         if($data['post_id'] > 0) {
             // If the post_id has been set, we're updating the ad after errors rather than saving the original.
             // and he should be the owner.
@@ -50,6 +36,7 @@ class Classyads_Ajax {
         }
 
         $json_response = array();
+
         if($classyad->post_id > 0)  $json_response['post_id'] = $classyad->post_id;
 
         if(empty($classyad->errors)) {
@@ -61,7 +48,7 @@ class Classyads_Ajax {
                 $data['payment_description'] = "Latitude 38: New Classified Ad ($classyad->post_id) for $classyad->title, expiring " . $classyad->lookupExpiry('F jS, Y' );
 
                 // Start up the payment system
-                $payment = new Jzugc_Payment();
+                $payment = new Jzugc_Payment($user);
                 $ready = $payment->validateFields($data);
                 if($ready) {
                     $payment_success = $payment->chargeCreditCard($amount, $data);
@@ -161,6 +148,90 @@ class Classyads_Ajax {
 
         echo "Success!";
         wp_die();
+    }
+
+    /**
+     * Used for renewing and upgrading a classyad.
+     */
+    public function renew_classyad() {
+
+        if (!is_user_logged_in()) {
+            // Not a valid user to perform this operation.
+            wp_die();
+        }
+        check_ajax_referer('renew_classyad', '_renew_classyad_nonce');
+
+        $data =  isset( $_POST ) ? $_POST : array();
+
+        $user = wp_get_current_user(); // TODO!!!! - Find the filter on this and make it use JZ_User instead of WP_User!
+        $classyad = new Classyad($data['post_id']);
+        $owner = new JZ_User($classyad->owner); // This is the owner of the
+
+        if($user->ID == $classyad->owner || $user->has_cap('edit_pages')) {
+
+            $amount = $classyad->get_plan_amount($data['plan_level']);
+            if($amount > 0) {
+                // Augment the $data array with outstanding fields.
+                $data['post_author'] = $user->ID;
+                $data['payment_description'] = "Latitude 38: Renew Classified Ad ($classyad->post_id) for $classyad->title";
+
+                if($data['cim_payment_profile_id'] != 0 && isset($user->cim_profile_id)) {
+
+                    // Run the existing payment card.
+                    $payment = new Jzugc_Payment();
+                    $payment_success = $payment->chargeCustomerProfile($user->cim_id, $data['cim_payment_profile'], $amount);
+                    if($payment_success) {
+
+                        // SUCCESS!!!!
+                        $classyad->renew($data['plan_level']);
+                        $json_response['msg'] = "Your Classy Ad has been added successfully.";
+                        wp_send_json_success($json_response);
+
+                    } else { // PAYMENT DECLINED AT PROCESSOR
+                        $json_response['errors'] = $payment->errors;
+                        $json_response['msg'] = "Your payment information wasn't accepted by our processor. Please try again";
+                        wp_send_json_error($json_response);
+                    }
+
+                } else {
+                    wp_send_json_error('Sorry. There are no payment profiles to charge!');
+
+                    // In future we might allow them to enter card details right here.
+                    // For now they should do that from their payment profile page.
+                }
+
+            } else {
+                // NO PAYMENT NECESSARY. SUCCESS
+                $classyad->renew($data['plan_level']);
+                $json_response['msg'] = "Your Classy Ad has been renewed ";
+                wp_send_json_success($json_response);
+            }
+
+        } else {
+            // USER DOES NOT HAVE PERMISSIONS TO DO THIS?
+            wp_die();
+        }
+
+        PC::debug('Doing the Transaction');
+        if ( function_exists( 'SimpleLogger' ) ) {
+            SimpleLogger()->info( 'User {username} renewed this classyad {title} for ${amount}',
+                array(
+                    'username' => $user->user_nicename,
+                    'title' => $classyad->title,
+                    'amount' => $classyad->plan['amount'],
+                    '_initiator' => SimpleLoggerLogInitiators::WP_USER,
+                    '_user_id' => $user->ID,
+                    '_user_email' => $user->user_email
+                ));
+        }
+
+        // If the payment info is still default...
+        // Get the user's CIM
+        // Try and rebill the card.
+
+        // With success... change the expiry date by a month and respond.
+        // If failure... send back the reason.
+
     }
 
     /**

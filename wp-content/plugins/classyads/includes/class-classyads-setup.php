@@ -116,6 +116,17 @@ class Classyads_Setup {
      }
 
      public static function define_post_statuses() {
+
+         register_post_status( 'removed', array(
+             'label'                    => 'Removed',
+             'public'                   => true,
+             'internal'                 => false,
+             'exclude_from_search'       => true,
+             'show_in_admin_all_list'    => true,
+             'show_in_admin_status_list' => true,
+             'label_count'    => _n_noop( 'Removed <span class="count">(%s)</span>', 'Removed <span class="count">(%s)</span>' )
+         ));
+
          register_post_status( 'expired', array(
              'label'                    => 'Expired',
              'public'                   => true,
@@ -125,6 +136,9 @@ class Classyads_Setup {
              'show_in_admin_status_list' => true,
              'label_count'    => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>' )
          ));
+
+
+
      }
 
      public static function classy_cleanup() {

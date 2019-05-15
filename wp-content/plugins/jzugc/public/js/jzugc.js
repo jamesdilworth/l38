@@ -261,6 +261,23 @@ var Jzugc = (function($) {
 	}
 
     var setupHandlers = function() {
+
+        $('.login-register-link').magnificPopup({
+            items: {
+                type: 'inline',
+                src: "#login-register",
+                modal:true
+            }
+        });
+
+        $('.sign-up').magnificPopup({
+            items: {
+                type: 'inline',
+                src: "#sign-up",
+                modal:true
+            }
+        });
+
         // Perform AJAX login on form submit
         $('form#login').on('submit', ajaxLogMeIn);
         $("#main-photo-form input[name='main_photo_input']").on('change', updateMainImage);

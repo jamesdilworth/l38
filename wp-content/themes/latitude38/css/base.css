@@ -494,6 +494,9 @@ h2 + .subtitle {
 .btn.wide {
   width: 100%;
 }
+.btn.secondary {
+  background-color: #ccc;
+}
 
 .hitter {
   text-align: center;
@@ -2526,6 +2529,15 @@ body .gform_confirmation_message::before {
 }
 .archive .fl-archive-header .section-heading {
   margin-bottom: 0;
+}
+
+.page-classy-ads .classy_item {
+  background-color: #f6f6f6;
+  padding: 5px 10px;
+}
+.page-classy-ads .classy_item h3 {
+  font-size: 130%;
+  margin-top: 0;
 }
 
 .archive article .fl-post-thumb {

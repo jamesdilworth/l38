@@ -19,6 +19,9 @@
 
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
+    <h3>Define Plans</h3>
+
+    <!--
     <form method="post" name="classy_options" action="options.php" style="margin-top:20px;">
 
         <?php
@@ -58,5 +61,6 @@
         <?php submit_button('Save all changes', 'primary','submit', TRUE); ?>
 
     </form>
+    -->
 
 </div>

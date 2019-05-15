@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class to hold all the common functions and variables associated with a Classyad
+ * It'd be nice to just extend WP_Post, but this can't be done since WP_Post has been declared as final
+ */
+
 class Classyad {
 
     public $post_id;
@@ -62,6 +67,7 @@ class Classyad {
         } else {
             $this->status = "failed to load classy";
         }
+
     }
 
     /**
@@ -466,9 +472,10 @@ class Classyad {
 
     public function lookup_plan() {
         global $classyads_config;
+
         $plan_name = get_post_meta($this->post_id, 'ad_subscription_level', true);
         if(!empty($plan_name)) {
-           $this->plan = $classyads_config['plans'][$plan_name];
+           return $classyads_config['plans'][$plan_name];
         } else {
             return false;
         }
@@ -555,6 +562,16 @@ class Classyad {
             }
         }
         return $section;
+    }
+
+    public function getUpgradeOptions() {
+        // Return an array of qualifying plans for this post type.
+        $options = $this->getPlanOptions();
+    }
+
+    public function getPlanOptions() {
+        // Assemble an array of Plan options for this type of ad.
+        return array('');
     }
 
     public function upgradePlan() {

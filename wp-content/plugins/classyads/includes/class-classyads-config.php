@@ -1,9 +1,17 @@
 <?php
 
 global $classyads_config;
+
+/**
+ * I think choosing the keys by name was a bad idea.
+ * Now the key and value['type'] must be kept in sync.
+ * @var  $classyads_config
+ */
+
 $classyads_config = array(
     'plans' => array(
         'free' => array(
+            'type' => 'free',
             'status' => 'active',
             'name' => 'Free (Online Only)',
             'amount' => 0,
@@ -15,6 +23,7 @@ $classyads_config = array(
             'categories' => array('boats','gear')
         ),
         'basic' => array(
+            'type' => 'basic',
             'status' => 'active',
             'name' => 'Basic',
             'amount' => 20,
@@ -32,6 +41,7 @@ $classyads_config = array(
             )
         ),
         'premium' => array(
+            'type' => 'premium',
             'status' => 'active',
             'name' => 'Premium',
             'amount' => 60,
@@ -44,6 +54,7 @@ $classyads_config = array(
             'categories' => array('boats')
         ),
         'premium2' => array(
+            'type' => 'premium2',
             'status' => 'inactive',
             'name' => 'Premium',
             'amount' => 100,
@@ -56,6 +67,7 @@ $classyads_config = array(
             'categories' => array('boats')
         ),
         'premium3' => array(
+            'type' => 'premium3',
             'status' => 'inactive',
             'name' => 'Premium',
             'amount' => 60,
