@@ -71,7 +71,7 @@ class Classyads_Setup {
                 'capability_type' => 'post',
                 'menu_position' => 8,
                 'rewrite' => array(
-                    'slug' => 'classyads',
+                    'slug' => 'classyad',
                     'with_front' => false
                 ),
                 'menu_icon' => 'dashicons-screenoptions'

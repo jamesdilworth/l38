@@ -354,6 +354,97 @@
   margin-top: -5px;
 }
 
+.choose_plan {
+  text-align: center;
+}
+.choose_plan .plan {
+  position: relative;
+  background-color: #f6f6f6;
+  display: inline-block;
+  vertical-align: top;
+  width: 300px;
+  border: 10px solid #ccc;
+  border-radius: 10px;
+  margin: 20px;
+  padding-bottom: 60px;
+}
+.choose_plan .plan .price {
+  background-color: #aaa;
+  text-align: center;
+  padding: 10px;
+  font-size: 140%;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 -10px;
+}
+.choose_plan .plan .price .per-month {
+  font-size: 14px;
+}
+.choose_plan .plan .title {
+  font-size: 140%;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 20px 10px;
+}
+.choose_plan .plan .body {
+  padding: 20px 10px;
+}
+.choose_plan .plan .features li {
+  margin: 5px 0;
+  padding-top: 5px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.choose_plan .plan .cta {
+  position: absolute;
+  bottom: 10px;
+  margin-left: -10px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 115%;
+}
+.choose_plan .plan .btn {
+  width: 80%;
+  background-color: #ccc;
+}
+.choose_plan .plan:nth-child(2) {
+  background-color: #eaf7f3;
+  border-color: #7AE2C5;
+  color: #2f6556;
+}
+.choose_plan .plan:nth-child(2) .price {
+  background-color: #309c7e;
+}
+.choose_plan .plan:nth-child(2) .features li {
+  border-color: #cfede5;
+}
+.choose_plan .plan:nth-child(2) .btn {
+  background-color: #7AE2C5;
+}
+.choose_plan .plan:nth-child(3) {
+  background-color: #dcf6ff;
+  border-color: #79d6f4;
+  color: #125a71;
+}
+.choose_plan .plan:nth-child(3) .price {
+  background-color: #1a9fcd;
+}
+.choose_plan .plan:nth-child(3) .features li {
+  border-color: #c7e5ef;
+}
+.choose_plan .plan:nth-child(3) .btn {
+  background-color: #79d6f4;
+}
+.choose_plan .plan.unselected {
+  color: #aaa;
+}
+.choose_plan .plan.unselected .btn {
+  background-color: #ccc;
+}
+
+form.create_classyad #maintext {
+  min-height: 100px;
+}
 form.create_classyad .main-photo-preview img {
   max-width: 500px;
 }

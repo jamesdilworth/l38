@@ -75,7 +75,39 @@
 
 }
 
+.choose_plan 			{ text-align:center;
+	.plan 				{ position:relative; background-color:#f6f6f6; display:inline-block; vertical-align:top; width:300px; border:10px solid #ccc; border-radius:10px; margin:20px; padding-bottom:60px;
+		.price 			{ background-color:#aaa; text-align:center; padding:10px; font-size:140%; font-weight:700; color:#fff; margin:0 -10px;
+			.per-month 	{ font-size:14px; }
+		}
+		.title 			{ font-size:140%; text-transform:uppercase; font-weight:700; margin:20px 10px; }
+		.body 			{ padding:20px 10px;  }
+		.features li 	{ margin:5px 0; padding-top:5px;  border-bottom:1px solid #e6e6e6; }
+		.cta 			{ position:absolute; bottom:10px; margin-left:-10px; display:block; width:100%; text-align:center; font-size:115%; }
+		.btn			{ width:80%; background-color:#ccc;}
+
+		&:nth-child(2) 	{ background-color:#eaf7f3; border-color:#7AE2C5; color:#2f6556;
+			.price 		{ background-color:#309c7e;  }
+			.features li { border-color:#cfede5; }
+			.btn 		{ background-color:#7AE2C5;}
+
+		}
+		&:nth-child(3) 	{ background-color:#dcf6ff; border-color:#79d6f4; color:#125a71;
+			.price 		{ background-color:#1a9fcd; }
+			.features li { border-color:#c7e5ef; }
+			.btn 		{ background-color:#79d6f4; }
+		}
+
+		&.unselected 	{ color:#aaa;
+			.btn 		{ background-color:#ccc;}
+		}
+	}
+}
+
 form.create_classyad 	{
+
+	#maintext 			{ min-height:100px; }
+
 	.main-photo-preview {
 		img 			{ max-width:500px; }
 	}

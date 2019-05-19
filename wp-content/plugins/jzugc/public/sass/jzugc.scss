@@ -15,8 +15,11 @@
 	.modal_footer				{ text-align:right; }
 	.wrapper 					{ margin:0;  }
 	.wrapper h3.title			{ margin:-20px; padding:20px; margin-bottom:20px; background-color:#018db9; color:#fff; text-transform:uppercase;}
-}
+	.wrapper h3 .subtitle		{ font-size:70%; font-weight:300; text-transform:initial;}
 
+
+}
+.mfp-wrap .mfp-close 			{ color:#fff !important; }
 
 
 /* My Custom Forms */
@@ -34,8 +37,8 @@
 	.left-half 			{ width:49.9%; float:left; margin-bottom:10px; padding-right:15px; }
 	.right-half 		{ width:49.9%; display:inline-block; margin-bottom:10px; }
 
-	ul.list-3col 		{ margin-top:10px;
-		li 				{ width:33%; display:inline-block; font-size:90%;}
+	ul.list-3col 		{ margin-top:10px; padding-left:0;
+		li 				{ width:33%; display:inline-block; font-size:90%; padding-right:20px; }
 	}
 
 

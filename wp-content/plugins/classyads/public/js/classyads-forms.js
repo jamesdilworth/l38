@@ -9,80 +9,151 @@ var ClassyadsForms = (function($) {
     var ajaxurl = '/wp-admin/admin-ajax.php';
     var plans = localized.plans; // Populate plans with localize script?
     var validator;
-    var payment_form;
+    var form_sections = [];
+    var $form;
+    var $cloned_form;
+    var steps;
 
     var handleAjaxErrors = function() {
         // Universal function to highlight the fields that contain errors.
     };
 
-    var changePlan = function() {
+    /**
+     * When the user selects a plan, this will configure the form.
+     */
+    var changePlan = function(evt) {
+        evt.preventDefault();
 
-        /**
-         *  TODO!!! Refer to plans as to whether the option:
-         *  - Requires payment.
-         *  - Allows mag text.
-         *  - How much mag text
-         *  - Multiple Images
-         */
+        var plan_type = $(this).data('plan'); // Link that kicks off this function defines the plan.
+        var plan_options = plans[plan_type]; // This should now hold an array of all the plan options :)
 
-        var selected_plan = $(this).children("option:selected").val();
-        var plan_options = plans[selected_plan]; // This should now hold an array of all the plan options :)
-
-        if(plan_options.amount === 0) {
-            payment_form = $('section.payment_info').detach(); // TODO!!! - Remove from the form, so that validation doesn't fire.
+        if(steps === 'active') {
+            console.log('destroying steps');
+            // When the steps container is reinitiated after mfp-close, it's all fucked up. Not quite sure why,
+            // but seems like it's best just to destroy the steps, and allow user to use it as a single page
+            // form in the meantime. After destroy, steps never seems to work correctly again. :(
+            // what's more, destroying the steps strips the classnames off the sections, so this seems broken too. :(
+            $form.steps("destroy");
+            steps = 'destroyed';
+            $("form#create_classyad").remove();
+            $('#create_classyad_container .wrapper').append($cloned_form);
         } else {
-            $('section.contact_info').after(payment_form);
+            $form = $("form#create_classyad");
+            $cloned_form = $form.clone();
         }
-    };
 
-    var initializePlaceadForm = function() {
-        // Initialize wizard
-        var $form = $("form#create_classyad");
+        // Set the value of our form field.... v. important!
+        $form.find('[name=ad_subscription_level]').val(plan_type);
 
-        validator = $form.validate({
-            submitHandler: function(form, evt) {
-                createClassyAd(form, evt);
+        // Highlight the chosen plan
+        // $('.plan_options .plan').removeClass('active').addClass('unselected').find('.btn.choose_plan').text('Choose');
+        // $(this).parents('.plan').removeClass('unselected').addClass('active');
+        // $(this).text('Selected');
+
+        // Hide CC stuff if the plan is free.
+        if(plan_options.amount === 0) {
+            form_sections.payment = $('section.payment_info').detach(); // TODO!!! - Remove from the form, so that validation doesn't fire.
+        } else {
+            $('section.contact_info').after(form_sections.payment);
+        }
+
+        // Hide/show magazine text options if available.
+        if(plan_options.in_print) {
+            if(typeof form_sections.admag !== 'undefined') {
+                $('section.online_listing').after(form_sections.admag);
             }
-        });
+        } else {
+            form_sections.admag = $('section.magazine_listing').detach();
+        }
 
+        // Hide/show image upload if available.
+        if(plan_options.multiple_photos) {
+            if(typeof form_sections.mulitple_photos !== 'undefined') {
+                $('section.upload_images').append(form_sections.mulitple_photos);
+            }
+        } else {
+            form_sections.mulitple_photos = $('.section_upload_mulitple').detach();
+        }
+
+        if(plan_options.multiple_photos) {
+            if(typeof form_sections.mulitple_photos !== 'undefined') {
+                $('section.upload_images').append(form_sections.mulitple_photos);
+            }
+        } else {
+            form_sections.mulitple_photos = $('.section_upload_multiple').detach();
+        }
+
+        // Move the h3's outside the sections so that steps can work with them.
+
+        if(typeof(steps) === 'undefined') {
+            $('#create_classyad section h3').each(function() {
+                var parentelem = $(this).parents('section');
+                $(this).insertBefore(parentelem);
+            });
+
+            $('.submit_container').hide();
+
+            console.log('launching steps');
+            $form.steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                autoFocus: true,
+                onStepChanging: function (event, currentIndex, newIndex)
+                {
+                    // Always allow previous action even if the current form is not valid!
+                    if (currentIndex > newIndex)
+                    {
+                        return true;
+                    }
+
+                    $form.validate().settings.ignore = ":disabled,:hidden";
+                    return $form.valid();
+                },
+                onFinishing: function (event, currentIndex)
+                {
+                    // $form.validate().settings.ignore = ":disabled";
+                    return $form.valid();
+                },
+                onFinished: function (event, currentIndex)
+                {
+                    $form.submit();
+                }
+            });
+            steps = 'active';
+
+        } else {
+            // This only necessary when we're not using steps.
+            validator = $form.validate({
+                submitHandler: function(form, evt) {
+                    createClassyAd(form, evt);
+                }
+            });
+        }
+
+        $form.submit(createClassyAd);
+
+        // rebind the image handlers
+        $form.find('.jzugc_image').on('change', Jzugc.preProcessImage);
+
+        // Set the number of characters on the ad_mag_text.
+        // This needs to be after the steps declaration, so that it works.
         $form.find('[name=ad_mag_text]').simplyCountable({
-            maxCount    : 200,
+            maxCount    : plan_options.print_chars,
             strictMax   : true,
             counter     : '.magazine_listing .counter'
         });
 
-        $form.find('[name=ad_subscription_level]').change(changePlan).trigger('change');
-        /*
-         $form.steps({
-             headerTag: "h3",
-             bodyTag: "section",
-             transitionEffect: "slideLeft",
-             autoFocus: true,
-             onStepChanging: function (event, currentIndex, newIndex)
-             {
-                 // Allways allow previous action even if the current form is not valid!
-                 if (currentIndex > newIndex)
-                 {
-                     return true;
-                 }
+        // Open form in a mfp window
+        $.magnificPopup.open({
+            items: {
+                src: $('#create_classyad_container'),
+                type: 'inline',
+                modal: true
+            }
+        });
 
-                 // $form.validate().settings.ignore = ":disabled,:hidden";
-                 // return $form.valid();
-                 return true;
-             },
-             onFinishing: function (event, currentIndex)
-             {
-                 // $form.validate().settings.ignore = ":disabled";
-                 return $form.valid();
-             },
-             onFinished: function (event, currentIndex)
-             {
-                 $form.submit();
-                 alert("Submitted!");
-             }
-         });
-         */
-     };
+    };
 
 
     /**
@@ -91,8 +162,8 @@ var ClassyadsForms = (function($) {
      * @param evt
      * @param form - should refer to the form.
      */
-    var createClassyAd = function(form, evt) {
-        var formData = new FormData(form);
+    var createClassyAd = function(evt) {
+        var formData = new FormData(this);
 
         // Any additional client side validation.
         var waitingToast = $.Toast.showToast({'title': 'Creating your Ad...', 'icon':'loading', 'duration': 0 });
@@ -113,7 +184,9 @@ var ClassyadsForms = (function($) {
                 $.Toast.hideToast();
                 // Replace form with confirmation, and a link to the new page.
                 $.Toast.showToast({'title': 'Sweet. Your ad has been created','icon':'success', 'duration':3000});
-                document.location.href = response.data.url + '?created=new';
+                var pause = setTimeout(function() {
+                    document.location.href = response.data.url + '?created=new';
+                }, 2000);
             } else {
                 // Failed with a reason.
                 $.Toast.hideToast();
@@ -193,7 +266,7 @@ var ClassyadsForms = (function($) {
     };
 
     var renewClassyAd = function(evt) {
-
+        evt.preventDefault();
         var formData = new FormData(this);
 
         var renew_classyad_call = $.ajax({
@@ -214,21 +287,19 @@ var ClassyadsForms = (function($) {
         renew_classyad_call.done(function(response) {
             if(response.success) {
                 $.Toast.hideToast();
+                $.magnificPopup.close();
                 // Replace form with confirmation, and a link to the new page.
                 $.Toast.showToast({'title': 'Sweet. Your ad has been renewed','icon':'success', 'duration':3000});
                 document.reload();
             } else {
                 // Failed with a reason.
                 $.Toast.hideToast();
-                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':0});
+                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':3000});
             }
         });
 
-        evt.preventDefault();
-
         // On Submit...
         // - AJAX update would update the plan details, along with a confirmation
-        alert('Renew Ad - Functionality Coming Soon.... ');
     };
 
     /**
@@ -256,8 +327,15 @@ var ClassyadsForms = (function($) {
         $('form#update_classy_public').submit(updateClassyAd);
         $('form#renew_classyad').submit(renewClassyAd);
 
+        $('#card_admin_override').change(function() {
+            if(this.checked) {
+                $('#create_add_payment_fields').toggle('fast', 'linear');
+            }
+        });
+
         // Other Dynamic Events that'll require a popup probably.
-        $('.ok-renew.btn').click(function() { $('form#renew_classyad').submit(); })
+        $('.btn.choose_plan').click(changePlan);
+        $('.ok-renew.btn').click(function(evt) { evt.preventDefault(); $('form#renew_classyad').submit(); })
         $('.mark-as-sold.btn').click(removeAd);
         $('.upgrade-plan.btn').click(upgradePlan);
 
@@ -276,7 +354,7 @@ var ClassyadsForms = (function($) {
     return {
         init: function() {
             setupEventHandlers();
-            initializePlaceadForm();
+            // initializePlaceadForm();
             // initializeFilepond();
         }
     };

@@ -31,7 +31,7 @@ var ClassyadsView = (function($) {
      */
     var updateResults = function(filter, val) {
 
-        console.log('Running UpdateResults in classyads-view.js');
+        // console.log('Running UpdateResults in classyads-view.js');
 
         if(!(listing_data.temp_primary)) { // It hasn't been set by filter... so we'll need to set it ourself.
             $('.secondary-cats>.popular-category').each(function () {

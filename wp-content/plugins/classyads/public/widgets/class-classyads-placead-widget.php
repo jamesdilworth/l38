@@ -26,14 +26,12 @@ class classyads_placead_widget extends WP_Widget {
         // widget form in dashboard
         $defaults = array(
             'title' => 'Place a Classy Ad',
-            'primary_adcat' => '',
-            'options' => array('')
+            'primary_adcat' => ''
         );
         $instance = wp_parse_args((array) $instance, $defaults);
 
         $title = $instance['title'];
         $primary_adcat = $instance['primary_adcat'];
-        $options = (array) $instance['options'];
 
         ?>
         <p>Title: <input class="widefat"
@@ -55,22 +53,7 @@ class classyads_placead_widget extends WP_Widget {
                     ));
             ?>
         </p>
-
-        <label for="<?php echo esc_attr( $this->get_field_id( 'options' )); ?>"><?php _e( 'Options:' ); ?></label>
-        <ul class="nodots">
-            <?php
-                $valid_options = array(
-                    'an_option' => 'Dummy Option',
-                );
-                $fid = $this->get_field_id('options[]') ;
-                $fn = $this->get_field_name('options[]') ;
-                foreach($valid_options as $opt => $title) {
-                    $checked = in_array($opt, $options) ? 'checked' : '' ;
-                    echo "<li><input type='checkbox' id='$fid' name='$fn' value='$opt' $checked>$title</li>";
-                }
-            ?>
-        </ul>
-         <?php
+        <?php
     }
 
     public function update($new_instance, $old_instance) {
@@ -79,12 +62,12 @@ class classyads_placead_widget extends WP_Widget {
 
         $instance['title'] = sanitize_text_field($new_instance['title']);
         $instance['primary_adcat'] = $new_instance['primary_adcat'];
-        $instance['options'] = $new_instance['options'];
 
         return $instance;
     }
 
     public function widget($args, $instance) {
+        $current_jzuser = new JZ_User(get_current_user_id());
         extract($args);
 
         Classyads_Public::enqueue_view_scripts();
@@ -98,10 +81,9 @@ class classyads_placead_widget extends WP_Widget {
         $secondary_adcats = get_term_children($primary_adcat_id, 'adcat');
 
         // TODO... only show the form if the user is logged in!
-        // include... login form
 
         // Embed the form HTML.... which we'll put in a seperate partials file.
-        include(CLASSYADS_PATH . 'public/templates/placead.php');
+        include(CLASSYADS_PATH . 'public/templates/form-placead.php');
 
     }
 }

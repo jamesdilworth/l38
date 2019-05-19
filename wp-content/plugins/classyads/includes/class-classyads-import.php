@@ -96,12 +96,14 @@ class Classyads_Import {
                     die('There was an error running the query [' . $db->error . ']');
                 }
 
-                while ($user_row = $user_result->fetch_assoc()) {
+                $user_row = array();
+                while ($urow = $user_result->fetch_assoc()) {
                     // If so, the customer row will take priority.
-                    $firstname = $user_row['first'] ? $user_row['first'] : $user_row['bill_firstname'];
-                    $lastname = $user_row['last'] ? $user_row['last'] : $user_row['bill_lastname'];
-                    if ($user_row['email']) $email = $user_row['email'];
-                    if ($user_row['pwd']) $password = $user_row['pwd'];
+                    $firstname = $urow['first'] ? $urow['first'] : $urow['bill_firstname'];
+                    $lastname = $urow['last'] ? $urow['last'] : $urow['bill_lastname'];
+                    if ($urow['email']) $email = $urow['email'];
+                    if ($urow['pwd']) $password = $urow['pwd'];
+                    $user_row = $row;
                 }
                 $user_result->free();
             }
@@ -146,14 +148,12 @@ class Classyads_Import {
                 $phone = sanitize_purpose_phone_input($phone);
 
                 // UPDATE USER META... transaction ID is stored wrongly in lasso.
-                if (isset($user_row['cim_customerid'])) update_user_meta($wp_user_id, 'cim_profile_id', $user_row['cim_customerid']);
+                if (isset($user_row['cim_customerid'])) {
+                    update_user_meta($wp_user_id, 'cim_profile_id', $user_row['cim_customerid']);
 
-                $last_payment = new Jzugc_Payment();
-                $payment_profile = $last_payment->getCustomerPaymentProfile($user_row['cim_customerid'], $user_row['cim_transactionid']);
-
-
-
-                if (isset($user_row['cim_transactionid'])) add_user_meta($wp_user_id, 'cim_payment_profile_id', $user_row['cim_transactionid']);
+                    $payment_profile = Jzugc_Payment::lookupPaymentProfileDeets($user_row['cim_customerid'], $user_row['cim_transactionid']);
+                    if ($payment_profile) add_user_meta($wp_user_id, 'cim_payment_profile', $payment_profile);
+                }
 
                 if (isset($user_row['sex'])) update_user_meta($wp_user_id, 'sex', $user_row['sex']);
                 if (isset($user_row['age'])) update_user_meta($wp_user_id, 'birthdate', strtotime($user_row['created']) - ($row['age'] * 31557600));

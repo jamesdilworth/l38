@@ -68,8 +68,9 @@
 .wizard > .steps .number {
   background-color: #aaa;
   color: #fff;
+  font-size: 80%;
   border-radius: 50%;
-  padding: 3px 10px;
+  padding: 1px 6px;
 }
 .wizard > .steps > ul > li {
   float: left;
@@ -318,6 +319,15 @@
   color: #fff;
   text-transform: uppercase;
 }
+.jz-modal .wrapper h3 .subtitle {
+  font-size: 70%;
+  font-weight: 300;
+  text-transform: initial;
+}
+
+.mfp-wrap .mfp-close {
+  color: #fff !important;
+}
 
 /* My Custom Forms */
 .jz-form fieldset {
@@ -350,11 +360,13 @@
 }
 .jz-form ul.list-3col {
   margin-top: 10px;
+  padding-left: 0;
 }
 .jz-form ul.list-3col li {
   width: 33%;
   display: inline-block;
   font-size: 90%;
+  padding-right: 20px;
 }
 .jz-form .field.one-third {
   width: 33%;

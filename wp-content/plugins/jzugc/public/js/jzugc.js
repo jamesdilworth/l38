@@ -48,7 +48,6 @@ var Jzugc = (function($) {
         });
 
         $inputs.on('change', preProcessImage);
-
     }
 
     function updateMainImage() {
@@ -288,7 +287,8 @@ var Jzugc = (function($) {
         init: function() {
             setupHandlers();
             setupBetterImageHandling();
-        }
+        },
+        preProcessImage: preProcessImage
     };
 })(jQuery);
 

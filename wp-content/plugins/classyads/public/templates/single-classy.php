@@ -73,7 +73,7 @@
                 <div class="sale-terms" id="_view_sale_terms_label"><?= $ad_sale_terms_label ?></div>
                 <h1><?= $ad_title ?>  </h1>
                 <div class="price" id="_view_ad_asking_price"><?= $classyad->custom_fields['ad_asking_price'] ?></div>
-                <div class="location" id="_view_boat_location"><?= $classyad->custom_fields['boat_location']; ?></div>
+                <div class="location" id="_view_boat_location"><?php if(isset($classyad->custom_fields['boat_location'])) $classyad->custom_fields['boat_location']; ?></div>
                 <div class="content" id="_view_maintext"><?php the_content(); ?></div>
 
                 <?php if($classyad->custom_fields['ad_external_url']) : ?>
@@ -184,15 +184,15 @@
 
                     <?php if($ad_subscription_level != 'free') : ?>
 
-                        <?php if($key_dates['today'] < $key_dates['ad_edition']) : ?>
+                        <?php if($key_dates['today'] < $key_dates['expiry']) : ?>
                             <?php // TODO!!!! - If they're three months out, it'll appear in May, June, and July issues. ?>
-                            Your print ad will appear in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue.</p>
+                            Your print ad will appear in our <?= $key_dates['expiry']->format('F Y'); ?> Issue.</p>
                         <?php else : ?>
-                            Your print ad appears in our <?= $key_dates['ad_edition']->format('F Y'); ?> Issue.</p>
+                            Your print ad appears in our <?= $key_dates['expiry']->format('F Y'); ?> Issue.</p>
                         <?php endif; ?>
 
                         <?php if($key_dates['can_make_print_changes']) : ?>
-                            <p>Last day to make changes for print is <?= $key_dates['cutoff']->format('F jS, Y'); ?> at 5pm. Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
+                            <p>Last day to make changes for <?= $key_dates['next_magazine_for_print']->format('F Y') ?> issue is <?= $key_dates['cutoff']->format('F jS, Y'); ?> at 5pm. </p>
                         <?php endif;  ?>
 
                         <?php if($key_dates['has_expired']) : ?>
@@ -210,7 +210,7 @@
                        <?php if($key_dates['has_expired']) : ?>
                            This online ad expired on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
                        <?php else : ?>
-                           This online ad will expire on <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
+                           This online ad will be visible until <?= $key_dates['expiry']->format('F jS, Y'); ?></p>
                        <?php endif; ?>
 
                         <p><a class='upgradeplan-modal btn' data-mfp-src='#upgradeplan_popup' >Upgrade to Print Ad</a>
@@ -218,7 +218,11 @@
                     <?php endif; ?>
 
                      <a style="background-color:#4d948c;" class="remove-ad btn">Take down this Ad</a></p>
+
+                     <p>Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
                 </div>
+
+
             </div>
             <?php endif; ?>
 
@@ -262,14 +266,14 @@
                     -->
 
                     <?php if($classyad->is_print_ad()) : ?>
-                        <p>This will extend your <?php echo $classyad->plan['name'] ?> ad for publication in our July 2019 Issue. This online ad will remain live until July 30, 2019</p>
+                        <p>This will extend your <?php echo $classyad->plan['name'] ?> ad for publication in our <?= $classyad->key_dates['next_ad_edition']->format('F Y') ?> Issue. </p>
                     <?php endif; ?>
 
                     <?php
                        if(count($owner->cim_payment_profiles) > 1 ) {
                            echo "<p>Choose a card:</p>";
                             foreach($owner->cim_payment_profiles as $profile) {
-                                echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . "(" . $profile['expires'] . ")<br>";
+                                echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
                             }
                         } else if(count($owner->cim_payment_profiles) == 1) {
                             $profile = $owner->cim_payment_profiles[0];
@@ -282,7 +286,7 @@
 
                     <p style="text-align:center;"><a href="" class="btn ok-renew">OK</a> <a href="javascript:jQuery.magnificPopup.close();" class="secondary btn">Cancel</a></p>
                     <p style="text-align:center;" class="alt-options"><a href="" class="show-alt-plans">Change Plan</a> | <a href="" class="show-alt-payment">Change Payment Method</a></p>
-                    <input type="hidden" name="plan_level" value="<?= $classyad->plan['type'] ?>
+                    <input type="hidden" name="plan_level" value="<?= $classyad->plan['type'] ?>">
                     <input type="hidden" name="post_id" value="<?= $classyad->post_id; ?>">
                     <?php wp_nonce_field( 'renew_classyad', '_renew_classyad_nonce' ) ?>
                     <input type="hidden" name="action" value="renew_classyad">

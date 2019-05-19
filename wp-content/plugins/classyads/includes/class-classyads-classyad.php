@@ -59,6 +59,7 @@ class Classyad {
                 $loaded_fields[$field] = $this->prepareOutput($field, $value[0]);
             }
 
+            $this->title = $this->post->post_title;
             $this->custom_fields = array_merge($this->custom_fields, $loaded_fields);
             $this->key_dates = $this->lookupKeyDates();
             $this->plan = $this->lookup_plan();
@@ -393,6 +394,7 @@ class Classyad {
         // This is currently held in an ACF field as yyyymmdd
         update_post_meta( $this->post_id, 'ad_expires', $date );
         $this->custom_fields['ad_expires'] = $date;
+        $this->lookupKeyDates(); // Recalculates everything.
 
     }
 
@@ -422,12 +424,18 @@ class Classyad {
 
         $expirydate = new DateTime($this->lookupExpiry());
 
-        $cutoff = clone $expirydate;
-        $cutoff->setDate($cutoff->format('Y'), ($cutoff->format('m') -1), 15);
+        // The cutoff is the next magazine cutoff date... this relates to the magazine, not this classyad!!!
+        $cutoff = new DateTime('15 ' . $today->format('F Y'));
+        if($cutoff < $today) {
+            $cutoff->modify('+1 month');
+        }
+
+        // If you placed an ad today, this would be the next magazine it would get into!
+        $next_magazine_for_print = clone $cutoff;
+        $next_magazine_for_print->modify('last day of next month');
 
         // Initially the renewal deadline is before the next cutoff.
-        $renewal_deadline = clone $cutoff;
-        $renewal_deadline->modify('+1 month');
+        $renewal_deadline = new DateTime('15 ' . $expirydate->format('F Y'));
 
         // But if it's already passed, we still want to convince them to renew for the following month.
         if($today > $renewal_deadline) {
@@ -440,15 +448,15 @@ class Classyad {
             }
         }
 
-        $ad_edition = clone $cutoff;
-        $ad_edition->modify('+1 month');
-        $ad_edition->modify('first day of ' . $ad_edition->format('F'));
+        // This would be the first day of the last month that this ad is ready for.
+        $last_ad_edition = clone $expirydate;
+        $last_ad_edition->modify('first day of this month');
 
-        $next_ad_edition = clone $ad_edition;
-        $next_ad_edition->modify('+1 month');
+        // If they were to extend for a month, this would be the edition.
+        $next_ad_edition = clone $renewal_deadline;
+        $next_ad_edition->modify('first day of next month');
 
         $today = new DateTime(); // Fake it with new DateTime('December 17, 2018');
-
 
         $key_dates = array();
         // KEY DATES
@@ -456,17 +464,16 @@ class Classyad {
         $key_dates['ad_placed_on'] = $ad_placed;
         $key_dates['expiry'] = $expirydate;
         $key_dates['cutoff'] = $cutoff;
+        $key_dates['next_magazine_for_print'] = $next_magazine_for_print;
         $key_dates['renewal_deadline'] = $renewal_deadline;
-        $key_dates['ad_edition'] = $ad_edition;
-        $key_dates['next_ad_edition'] = $next_ad_edition;
+        $key_dates['next_ad_edition'] = $next_ad_edition; // The edition after that.
 
         // BOOLS...
-        $key_dates['can_make_print_changes'] = $today < $key_dates['cutoff'] ? true : false;
+        $key_dates['can_make_print_changes'] = $cutoff < $last_ad_edition  ? true : false;
         $key_dates['can_renew'] = $today < $key_dates['renewal_deadline'] ? true : false;
         $key_dates['has_expired'] = $today > $key_dates['expiry'] ? true : false;
 
         $this->key_dates = $key_dates;
-
         return $key_dates;
     }
 
@@ -582,16 +589,42 @@ class Classyad {
         // Delete a Classy Ad... under what circumstances would we do this?
     }
 
-    public function renew() {
-        // Depending on the plan...
-        // * Look up and bill the card number a certain amount.
-        // * Renew the ad through a certain date ,
-        // * Make sure the post_status is set back to publish.
+    public function renew($plan = null) {
+        global $classyads_config;
 
-        $update = wp_update_post( array(
-            "ID" => $post->ID,
-            "post_status" => "publish"
-        ));
+        if(!isset($plan)) {
+            $plan = $this->custom_fields['ad_subscription_level'];
+        } else {
+            // We might be changing the plan... so make sure this gets set.
+            update_field('ad_subscription', 'plan');
+        }
+
+        $expirydate = $this->key_dates['expiry'];
+        $today = new DateTime();
+        if($today > $expirydate) {
+            $expirydate = $today;
+            // Already Expired.
+            $update = wp_update_post( array(
+                "ID" => $this->ID,
+                "post_status" => "publish"
+            ));
+
+        }
+        $is_print_ad = $classyads_config['plans'][$plan]['in_print'];
+        $plan_extension_in_months = $classyads_config['plans'][$plan]['months'];
+
+        // Knock it up x months... making sure to keep clear of some weird behavior when adding months. - https://stackoverflow.com/questions/3602405/php-datetimemodify-adding-and-subtracting-months
+        $day = $expirydate->format('j');
+        $expirydate->modify('first day of +' . $plan_extension_in_months . ' month');
+        $expirydate->modify('+' . (min($day, $expirydate->format('t')) - 1) . ' days');
+
+        // If it's a print ad... the expiry date should be at least the end of the next printable month.
+        if($is_print_ad && $expirydate < $this->key_dates['next_magazine_for_print']) {
+            $expirydate = $this->key_dates['next_magazine_for_print'];
+        }
+
+        $this->setExpiry($expirydate->format('Ymd'));
+
     }
 
     public function expire() {
@@ -697,6 +730,15 @@ class Classyad {
 
     public function get_the_status() {
         return $this->status;
+    }
+
+
+    // Magic method to detect variables.
+    function __get($key) {
+        switch ($key) {
+            case 'key_dates' :
+                return $this->lookupKeyDates();
+        }
     }
 
 }
