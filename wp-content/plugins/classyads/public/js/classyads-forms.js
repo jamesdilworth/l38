@@ -12,7 +12,7 @@ var ClassyadsForms = (function($) {
     var form_sections = [];
     var $form;
     var $cloned_form;
-    var steps;
+    var steps = 'disabled';
 
     var handleAjaxErrors = function() {
         // Universal function to highlight the fields that contain errors.
@@ -39,7 +39,7 @@ var ClassyadsForms = (function($) {
             $('#create_classyad_container .wrapper').append($cloned_form);
         } else {
             $form = $("form#create_classyad");
-            $cloned_form = $form.clone();
+            // cloned_form = $form.clone();
         }
 
         // Set the value of our form field.... v. important!
@@ -85,7 +85,7 @@ var ClassyadsForms = (function($) {
 
         // Move the h3's outside the sections so that steps can work with them.
 
-        if(typeof(steps) === 'undefined') {
+        if(typeof steps === 'undefined') {
             $('#create_classyad section h3').each(function() {
                 var parentelem = $(this).parents('section');
                 $(this).insertBefore(parentelem);

@@ -41,7 +41,7 @@ global $classyads_config; //
             <div class="subtitle">(You'll be able to edit your ad after placing it.)</div>
         </h3>
         <div class="notice"></div>
-        <form id="create_classyad" class="create_classyad jz-form" enctype="multipart/form-data">
+        <form id="create_classyad" class="create_classyad jz-form" enctype="multipart/form-data" method="post"><?php // TODO! - We need a non-ajax backup submit! ?>
 
             <section class="online_listing">
                 <h3>Online Listing</h3>

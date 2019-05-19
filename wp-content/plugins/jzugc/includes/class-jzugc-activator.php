@@ -43,7 +43,7 @@ class Jzugc_Activator {
         $upload_dir = $upload['basedir'];
         $upload_dir = $upload_dir . '/logs';
         if (! is_dir($upload_dir)) {
-            mkdir( $upload_dir, 0700 );
+            mkdir( $upload_dir, 0770 );
         }
 
 	}
