@@ -79,6 +79,15 @@ class Classyads_Admin {
             'export',
             array($this, 'display_export_page')
         );
+
+        add_submenu_page(
+            'edit.php?post_type=classy',
+            'L38 Classifieds: Import from Lasso',
+            'Import',
+            'edit_pages',
+            'import',
+            array($this, 'display_import_page')
+        );
     }
 
     public function add_action_links( $links ) {
@@ -141,6 +150,10 @@ class Classyads_Admin {
 
     public function display_settings_page() {
         include_once( 'partials/classyads-admin-settings.php' );
+    }
+
+    public function display_import_page() {
+        include_once( 'partials/classyads-admin-import.php' );
     }
 
     public function options_update() {
