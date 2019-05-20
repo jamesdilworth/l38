@@ -82,7 +82,6 @@ class Classyads_Ajax {
                 }
 
             } else {
-                PC::debug('no payment.');
                 // NO PAYMENT NECESSARY. SUCCESS
                 $classyad->publish();
                 $json_response['msg'] = "Your Classy Ad has been added successfully. ";

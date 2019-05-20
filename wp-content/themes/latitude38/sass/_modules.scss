@@ -373,6 +373,14 @@
 	.toggle-login-register 			{ font-size:90%; text-align:center; background-color:#fff6e1; margin: -20px; margin-top: 40px; padding: 10px 20px; }
 }
 
+.classy_items 						{ overflow:auto; text-align:center;
+	.classy_item					{ position:relative; vertical-align:top; display:inline-block; width:30%; margin-right:3%; margin-bottom:30px;  background-color:$super-light-grey; padding:10px;
+		&:hover						{ background-color:#f0f0f0;}
+	}
+	h3 								{ margin-top:0; }
+	.place-link 					{ text-align:center; font-size:90%; }
+}
+
 .page-my-account 					{
 	.main-photo 					{ float:left; width:300px; padding-right:30px;  }
 	.main-content 					{ float:left;  padding-bottom:40px;   }

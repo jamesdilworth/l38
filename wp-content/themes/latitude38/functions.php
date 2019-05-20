@@ -23,7 +23,7 @@ add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form'
 // Used to set the standard monetary system for the classifieds.
 setlocale(LC_MONETARY, 'en_US.UTF-8');
 
-// Temporarily eedirect from new classy ads to home if not an editor, and we're on the live server.
+/* Temporarily eedirect from new classy ads to home if not an editor, and we're on the live server.
 if(WP_ENV == 'dev' || current_user_can('edit_posts')) {
     define('ACCESS_CLASSIES', true);
 } else {
@@ -34,5 +34,6 @@ if(stristr($_SERVER['REQUEST_URI'], 'new-classyads') && !ACCESS_CLASSIES) {
     wp_redirect( '/' );
     exit;
 }
+*/
 
 

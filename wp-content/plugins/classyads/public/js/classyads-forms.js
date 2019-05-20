@@ -22,6 +22,7 @@ var ClassyadsForms = (function($) {
      * When the user selects a plan, this will configure the form.
      */
     var changePlan = function(evt) {
+        console.log('initialized plan');
         evt.preventDefault();
 
         var plan_type = $(this).data('plan'); // Link that kicks off this function defines the plan.
@@ -131,8 +132,6 @@ var ClassyadsForms = (function($) {
             });
         }
 
-        $form.submit(createClassyAd);
-
         // rebind the image handlers
         $form.find('.jzugc_image').on('change', Jzugc.preProcessImage);
 
@@ -157,13 +156,15 @@ var ClassyadsForms = (function($) {
 
 
     /**
-     * Fired on Place Classy Ad Form Submission.
+     * Fired on Place Classy Ad Form Submission. This is placed from the validator script in changePlan()
      *
      * @param evt
      * @param form - should refer to the form.
      */
-    var createClassyAd = function(evt) {
-        var formData = new FormData(this);
+    var createClassyAd = function(form, evt) {
+        var formData = new FormData(form);
+
+        evt.preventDefault(); // Prevent Default Submission
 
         // Any additional client side validation.
         var waitingToast = $.Toast.showToast({'title': 'Creating your Ad...', 'icon':'loading', 'duration': 0 });
@@ -184,9 +185,11 @@ var ClassyadsForms = (function($) {
                 $.Toast.hideToast();
                 // Replace form with confirmation, and a link to the new page.
                 $.Toast.showToast({'title': 'Sweet. Your ad has been created','icon':'success', 'duration':3000});
+
                 var pause = setTimeout(function() {
                     document.location.href = response.data.url + '?created=new';
                 }, 2000);
+
             } else {
                 // Failed with a reason.
                 $.Toast.hideToast();
@@ -199,7 +202,7 @@ var ClassyadsForms = (function($) {
             // TODO!!! - Hide the form... show some text that does the confirmation.
         });
 
-        evt.preventDefault(); // Prevent Default Submission
+
     };
 
     /**
