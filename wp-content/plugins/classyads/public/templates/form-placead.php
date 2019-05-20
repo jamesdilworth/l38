@@ -105,7 +105,7 @@ global $classyads_config; //
 
             <section class="magazine_listing">
                 <h3>Magazine Listing</h3>
-                <p>Your online listing can be accompanied by a <span class="_no_chars"200</span> character listing in the classifieds section of the magazine. </p>
+                <p>Your online listing can be accompanied by a <span class="_no_chars">200</span> character listing in the classifieds section of the magazine. </p>
                 <div class="field">
                     <label for="ad_mag_text">Copy for the magazine:</label>
                     <textarea name="ad_mag_text"></textarea>

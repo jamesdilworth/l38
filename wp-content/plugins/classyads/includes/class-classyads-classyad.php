@@ -78,6 +78,7 @@ class Classyad {
 
         $primary_cat = get_term_by('id', $data['primary_adcat'], 'adcat');
 
+
         if($primary_cat->slug == 'boats') {
             // Required Defaults
             $data['boat_year'] = isset($data['boat_year']) ? $data['boat_year'] : $this->custom_fields['boat_year'];

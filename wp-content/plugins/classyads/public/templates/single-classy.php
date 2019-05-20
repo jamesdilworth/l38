@@ -8,8 +8,26 @@
 
     $classyad = new Classyad($post->ID);
     $owner = new JZ_User($classyad->owner); //Note for payments sake, we need to be clear that THE USER IS NOT NECESSARILY THE OWNER.
-
     $key_dates = $classyad->key_dates;
+
+    // Seller Info
+    $ad_subscription_level = get_field('ad_subscription_level');
+
+    // Main Image
+    $main_img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
+
+    // Technical items
+    $ad_sale_terms_obj = get_field_object('ad_sale_terms');
+    $ad_sale_terms_value = $ad_sale_terms_obj['value'];
+    $ad_sale_terms_label = $ad_sale_terms_obj['choices'][$ad_sale_terms_value];
+
+    // Meta
+    $ad_external_url = get_field('ad_external_url');
+
+    // Title... it's going to need some more logic for the gear
+    if($classyad->primary_cat == 'boats') {
+        $classyad->title = get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year');
+    }
 
 ?>
 
@@ -27,26 +45,6 @@
 
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
         <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="https://schema.org/BlogPosting">
-
-            <?php
-                // Seller Info
-                $seller = get_user_by('id', get_the_author_meta('ID'));
-                $ad_subscription_level = get_field('ad_subscription_level');
-
-                // Main Image
-                $main_img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
-
-                // Technical items
-                $ad_sale_terms_obj = get_field_object('ad_sale_terms');
-                $ad_sale_terms_value = $ad_sale_terms_obj['value'];
-                $ad_sale_terms_label = $ad_sale_terms_obj['choices'][$ad_sale_terms_value];
-
-                // Meta
-                $ad_external_url = get_field('ad_external_url');
-
-                // Title... it's going to need some more logic for the gear.
-                $ad_title = get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year');
-            ?>
 
             <div class="main-photo editable">
                 <div class="main-photo-preview"><img src="<?= $main_img ?>" alt="For Sale: <?php the_title(); ?>"></div>
@@ -71,7 +69,7 @@
                     <div class="public edit_link"><a href="" class="switch_public_edit_mode">Edit</a></div>
                 <?php endif; ?>
                 <div class="sale-terms" id="_view_sale_terms_label"><?= $ad_sale_terms_label ?></div>
-                <h1><?= $ad_title ?>  </h1>
+                <h1 class="title" id="_view_title"><?= $classyad->title ?></h1>
                 <div class="price" id="_view_ad_asking_price"><?= $classyad->custom_fields['ad_asking_price'] ?></div>
                 <div class="location" id="_view_boat_location"><?php if(isset($classyad->custom_fields['boat_location'])) $classyad->custom_fields['boat_location']; ?></div>
                 <div class="content" id="_view_maintext"><?php the_content(); ?></div>
@@ -81,9 +79,9 @@
                 <?php endif; ?>
 
                 <div class="seller_info">
-                    <div class="contact_name"><?= $seller->first_name; ?> <?= $seller->last_name; ?> </div>
+                    <div class="contact_name"><?= $owner->first_name; ?> <?= $owner->last_name; ?> </div>
                     <?php
-                        $phone = $seller->phone;
+                        $phone = $owner->phone;
                         if(!empty($phone)) {
                             if(strlen($phone) == 10)
                                 echo '('.substr($phone, 0, 3).') '.substr($phone, 3, 3).'-'.substr($phone,6);
@@ -93,9 +91,9 @@
                      ?>
                     <div class="contact_email"><a href="javascript:alert('functionality coming soon....')">Send a Message</a></div>
                     <?php
-                    $othercontact = $seller->othercontact; // This needs to be pulled verbosely as it is set through __GET
+                    $othercontact = $owner->othercontact; // This needs to be pulled verbosely as it is set through __GET
                     if(!empty($othercontact)) {
-                        echo '<div class="contact_other">' . $seller->othercontact . '</div>';
+                        echo '<div class="contact_other">' . $owner->othercontact . '</div>';
                     }
                     ?>
                 </div>
@@ -118,7 +116,16 @@
                     </div>
                     -->
                     <div class="sale-terms"><?= $ad_sale_terms_label ?></div>
-                    <h1><?= get_field('boat_length') ?>' <?= get_field('boat_model') ?>, <?= get_field('boat_year') ?>  </h1>
+
+                    <?php if($classyad->primary_cat != 'boats') : ?>
+                        <div class="field field_title">
+                            <label for="title">Title</label>
+                            <input class="text-input" name="title" type="text" id="edit_title" value="<?= $classyad->title; ?>" />
+                        </div>
+                    <?php else :  ?>
+                        <h1><?= get_field('boat_length') ?>' <?= get_field('boat_model') ?>, <?= get_field('boat_year') ?>  </h1>
+                    <?php endif; ?>
+
                     <div class="field field_ad_asking_price">
                         <label for="ad_asking_price">Asking Price</label>
                         <div class="currencyinput dollar"><input class="text-input" name="ad_asking_price" type="text" id="edit_ad_asking_price" value="<?php the_field('ad_asking_price') ?>" /></div>
@@ -154,7 +161,7 @@
                         <div class="mag-section"><?php echo $classyad->getMagazineCat(); ?></div>
                         <div class="mag-img" style="background-image:url(<?= $main_img ?>);"></div>
                         <div class="mag-body">
-                            <span class="title"><?= $ad_title ?></span>
+                            <span class="title"><?= $classyad->title ?></span>
                             <span class="ad-mag-text" id="_view_ad_mag_text"><?= get_field('ad_mag_text'); ?></span>
                             <?php if($key_dates['can_make_print_changes']) : ?>
                                 <div><a href="" class="edit_link switch_magad_edit_mode">Edit Magazine Copy</a></div>

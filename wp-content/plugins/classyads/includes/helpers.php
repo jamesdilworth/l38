@@ -36,7 +36,7 @@ function get_the_classys($instance = array()) {
 
             $output .= "<div class='ad' style='background-image:url($img)'>";
             $output .= "  <div class='meta'>";
-            $output .= "    <div class='title'><a href='". get_the_permalink() ."'>" . get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year') . "</a></div>";
+            $output .= "    <div class='title'><a href='". get_the_permalink() ."'>" . get_the_title() . "</a></div>";
             $output .= "    <div class='price'>" . money_format('%.0n', (int) get_field('ad_asking_price')) . "</div>";
             $output .= "    <div class='location'>" . get_field('boat_location') . "</div>";
             $output .= "</div></div>";

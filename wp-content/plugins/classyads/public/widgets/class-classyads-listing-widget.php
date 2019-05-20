@@ -41,16 +41,16 @@ class classyads_listing_widget extends WP_Widget {
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'adcats' ) ); ?>"><?php _e( 'Ad Category:' ); ?></label>
             <?php wp_dropdown_categories(
-                    array(
-                        'show_option_all' => 'All',
-                        'depth' => 1,
-                        'hierarchical' => 1,
-                        'hide_empty'=> 0,
-                        'taxonomy' => 'adcat',
-                        'name' => $this->get_field_name("adcats"),
-                        'value_field' => 'slug',
-                        'selected' => $adcats
-                    ));
+                array(
+                    'show_option_all' => 'All',
+                    'depth' => 1,
+                    'hierarchical' => 1,
+                    'hide_empty'=> 0,
+                    'taxonomy' => 'adcat',
+                    'name' => $this->get_field_name("adcats"),
+                    'value_field' => 'slug',
+                    'selected' => $adcats
+                ));
             ?>
         </p>
 
