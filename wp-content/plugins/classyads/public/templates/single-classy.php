@@ -40,7 +40,7 @@
                 <div class="success response">Your ad has been successfully created.</div>
             <?php endif; ?>
 
-            <a href="/classyads/">&laquo; Back to Classies</a>
+            <a href="/classyads/<?= $classyad->primary_cat ?>">&laquo; Back to Classies</a>
         </header>
 
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
