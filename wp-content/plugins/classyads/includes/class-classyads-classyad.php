@@ -346,6 +346,9 @@ class Classyad {
             case 'ad_external_url' :
                 $value = esc_url($value);
                 break;
+            case 'phone' :
+                $value = JZUGC_format_phone($value);
+                break;
             default:
                 // didn't find any custom stuff, so just return $fieldname;
                 break;

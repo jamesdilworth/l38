@@ -80,7 +80,7 @@
 
                 <div class="seller_info">
                     <div class="contact_name"><?= $classyad->owner_deets['firstname']; ?> </div>
-                    <div class="contact_phone"><?= $classyad->owner_deets['phone'] ?></div>
+                    <div class="contact_phone"><?= JZUGC_format_phone($classyad->owner_deets['phone']); ?></div>
                     <div class="contact_email"><a href="javascript:alert('functionality coming soon....')">Send a Message</a></div>
                     <?php
                     $othercontact = $owner->othercontact; // This needs to be pulled verbosely as it is set through __GET
@@ -192,6 +192,8 @@
 
                         <?php if($key_dates['can_make_print_changes']) : ?>
                             <p>Last day to make changes for <?= $key_dates['next_magazine_for_print']->format('F Y') ?> issue is <?= $key_dates['cutoff']->format('F jS, Y'); ?> at 5pm. </p>
+                        <?php else : ?>
+                            <p>The cutoff to make changes to this print ad has passed.</p>
                         <?php endif;  ?>
 
                         <?php if($key_dates['has_expired']) : ?>
@@ -203,7 +205,7 @@
                         <p>Renew before <?= $key_dates['renewal_deadline']->format('F jS, Y'); ?> to get it into the <?= $key_dates['next_ad_edition']->format('F'); ?> issue.</p>
 
                         <p><a data-mfp-src='#renew_popup' class="renew-modal btn">Renew for 1 Month</a>
-                            <!-- <a class='btn' href=''>Renew for 3 Months - $80</a> -->
+                        <!-- <a class='btn' href=''>Renew for 3 Months - $80</a> -->
 
                    <?php else : ?>
                        <?php if($key_dates['has_expired']) : ?>
