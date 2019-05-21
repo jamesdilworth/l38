@@ -105,7 +105,7 @@ global $classyads_config; //
 
             <section class="magazine_listing">
                 <h3>Magazine Listing</h3>
-                <p>Your online listing can be accompanied by a <span class="_no_chars">200</span> character listing in the classifieds section of the magazine. </p>
+                <p>Your online listing can be accompanied by a <span class="_no_chars">200</span> character listing in the classifieds section of the magazine.  </p>
                 <div class="field">
                     <label for="ad_mag_text">Copy for the magazine:</label>
                     <textarea name="ad_mag_text"></textarea>
@@ -138,7 +138,21 @@ global $classyads_config; //
 
             <section class="contact_info">
                 <h3>Contact Info</h3>
-                <p>Your contact information will be masked when published:</p>
+                <p>Only change if needed. Your full name and email will be masked from spammers.</p>
+
+                <?php // Admin override to allow non-payment.
+
+                if(current_user_can('edit_posts')) {
+                ?>
+                    <input type='checkbox' name='override_owner' id="owner_admin_override" value="1"> <span class='admin_note'> Admin Override? Force new contact info (versus your own contact details)<br>
+                    <div class="field">
+                        <label for="email">Contact Name</label>
+                        <input type="text" name="override_name"  type="text" placeholder="<?= $current_jzuser->first_name ?>" >
+                    </div>
+                    <?php
+                }
+                ?>
+
                 <!--
                 <div class="field">
                     <label for="email">Available Contact Method(s)</label>
@@ -147,16 +161,16 @@ global $classyads_config; //
                 </div>
                 -->
                 <div class="field">
-                    <label for="email">Email</label>
-                    <input type="text" name="email"  type="email" value="<?= $current_jzuser->user_email ?>" >
+                    <label for="override_email">Email</label>
+                    <input type="text" name="override_email"  type="email" placeholder="<?= $current_jzuser->user_email ?>" >
                 </div>
                 <div class="field">
-                    <label for="phone">Phone</label>
-                    <input type="text" name="phone" type="tel" value="<?= $current_jzuser->phone ?>" >
+                    <label for="override_phone">Phone</label>
+                    <input type="text" name="override_phone" type="tel" placeholder="<?= JZUGC_format_phone($current_jzuser->phone); ?>" >
                 </div>
                 <div class="field">
-                    <label for="phone">Other</label>
-                    <input type="text" name="othercontact" type="text" value="<?= $current_jzuser->othercontact ?>" >
+                    <label for="override_other">Other</label>
+                    <input type="text" name="override_other" type="text" placeholder="<?= $current_jzuser->othercontact ?>" >
                 </div>
             </section>
 

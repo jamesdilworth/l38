@@ -44,7 +44,6 @@ var ClassyadsView = (function($) {
             case 'primary':
                 // Show secondary cats in LH Nav.
                 $('.secondary-cats').show(); // just for the first time
-                $('.secondary-cats input').removeAttr('disabled'); // Checkboxes are disabled for non-users by default in WP.
                 $('.secondary-cats .children').hide();
                 $('.secondary-cats input').prop('checked', false);
                 $('#adcat-' + val).find('.children').show();
@@ -120,6 +119,8 @@ var ClassyadsView = (function($) {
      * Initialize the Event Handlers on Items on Various Public Facing Classifieds Pages
      */
     var setupEventHandlers = function() {
+        $('.secondary-cats input').removeAttr('disabled'); // Checkboxes are disabled for non-users by default in WP.
+
         // Setup the handlers on Primary filters.
         $('.primary-filters input').on('change', function(evt) {
             updateResults('primary', $(this).val());

@@ -186,6 +186,105 @@ class Classyads_Admin {
         // $field = $_POST['acf']['field_abc123'];
     }
 
+    function output_classyads() {
+        $args = array(
+            'post_type' => 'classy',
+            'post_status' => 'publish',
+            'posts_per_page' => -1
+        );
+
+        // We want an ordered list, so let's initialize the array with everything in order :)
+        // This needs to match with what is coming in, so it's a little brittle.
+        $ads_by_cat = array(
+            "Dinghies, Liferafts and Rowboats" => array(),
+            "24 Feet and Under" => array(),
+            "25 to 28 Feet" => array(),
+            "29 to 31 Feet" => array(),
+            "32 to 34 Feet" => array(),
+            "35 to 39 Feet" => array(),
+            "40 to 50 Feet" => array(),
+            "51 Feet and Over" => array(),
+            "Power & Houseboats" => array(),
+            "Classic Boats" => array(),
+            "Multihulls" => array(),
+            "Partnerships" => array(),
+        );
+
+        $active_classies = new WP_Query($args);
+        if ( $active_classies->have_posts() ) {
+            while ($active_classies->have_posts() ) {
+                $active_classies->the_post();
+
+                $classyad = new Classyad(get_the_ID());
+
+
+                if(!($classyad->is_print_ad())) {
+                    // Don't include if this isn't a print ad.
+                    continue;
+                }
+
+                // It also needs to be valid into next month!!!! So not just alive today, but alive for the following month!
+                $expiry = $classyad->key_dates['expiry'];
+
+                // So... the expiry date should be at least a month away.
+                $check_date = new DateTime('first day of next month');
+                if($expiry < $check_date) {
+                    // It's not valid for next months print run.
+                    continue;
+                }
+
+                $item = array(
+                    'title' => $classyad->title . ", ",
+                    'location' => $classyad->custom_fields['boat_location'],
+                    'price' => $classyad->custom_fields['ad_asking_price'],
+                    'ad_mag_text' => $classyad->custom_fields['ad_mag_text'],
+                    'img' => "",
+                    'external_url' => isset($classyad->custom_fields['external_url']) ? $classyad->custom_fields['external_url'] : null,
+                    'owner_deets' => $classyad->owner_deets,
+                    'url' => get_the_permalink(),
+                    'id' => get_the_ID()
+                );
+
+                if($item['owner_deets']['phone'])
+                    $item['owner_deets']['phone'] = JZUGC_format_phone($item['owner_deets']['phone']);
+
+                if($classyad->plan['print_photo']) {
+                    $item['img'] = $classyad->main_image_url;
+                }
+
+                $mag_cat = $classyad->getMagazineCat();
+                $ads_by_cat[$mag_cat][] = $item;
+            }
+            wp_reset_postdata();
+        }
+
+        // Now let's iterate through the categories in the order that we want?
+        $output = "<table border='1' style='padding:3px;' class='export_table'>";
+        foreach($ads_by_cat as $cat_name => $list) {
+            $output .= "<tr><td class='section_title' colspan='3'>" . $cat_name . "</td></tr>";
+            if(is_array($list)) {
+                foreach($list as $ad) {
+                    $output .= "<tr><td class='selectable'>";
+                    $output .= "<b style='text-transform:uppercase'>{$ad['title']}</b>";
+                    if(!empty($ad['price'])) $output .= " " . $ad['price'] . ".";
+                    if(!empty($ad['location'])) $output .= " " . $ad['location'] . ".";
+                    if(!empty($ad['ad_mag_text'])) $output .= " " . $ad['ad_mag_text'] . ".";
+                    $output .= " Contact " . $ad['owner_deets']['firstname'] . " at " . $ad['owner_deets']['email'];
+                    if($ad['owner_deets']['phone']) $output .= " or " . $ad['owner_deets']['phone'];
+                    if($ad['owner_deets']['other']) $output .= " or " . $ad['owner_deets']['other'];
+                    if(isset($ad['external_url'])) $output .= "See more at " . $ad['external_url'];
+                    if(!empty($ad['img']))
+                        $output .= "</td><td class='unselectable'><img src='" . $ad['img'] . "' style='width:200px;'>";
+                    else
+                        $output .= "</td><td class='unselectable'>";
+                    $output .= "</td>";
+                    $output .= "<td class='unselectable'><a href='" .$ad['url'] . "' target='_blank'>" . $ad['id'] . "</a>";
+                }
+            }
+        }
+        $output .= "</table>";
+        echo $output;
+    }
 
     public function validate($input) {
         // All checkboxes inputs

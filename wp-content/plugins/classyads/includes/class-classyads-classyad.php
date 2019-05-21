@@ -10,15 +10,15 @@ class Classyad {
     public $post_id;
     public $post; // Holds the post object.
     public $owner; // ID of the classy owner?
-    public $primary_cat; // Type of object we're looking at.
 
     public $errors; // Holds array of 'field' => 'error' codes made while creating or updating an ad.
 
     public $title;
-    public $main_image_url;
-    public $custom_fields; // Will hold the custom meta fields.
+    public $primary_cat; // Type of object we're looking at.
+    public $custom_fields; // Will hold the rest of the custom meta fields.
+
     public $key_dates; // Will hold an array of key dates.
-    public $plan;
+    public $plan; // This holds the relevant plan array of items as listed in classyads_config
 
     public $status; // 'loaded', 'not a classy', 'doesnt exist', empty?
 
@@ -60,7 +60,9 @@ class Classyad {
             }
 
             $this->title = $this->post->post_title;
+            $this->primary_cat = wp_get_post_terms( $post_id, 'adcat', array("fields" => "slugs", "parent" => 0));
             $this->custom_fields = array_merge($this->custom_fields, $loaded_fields);
+
             $this->key_dates = $this->lookupKeyDates();
             $this->plan = $this->lookup_plan();
 
@@ -77,7 +79,6 @@ class Classyad {
     public function create($data) {
 
         $primary_cat = get_term_by('id', $data['primary_adcat'], 'adcat');
-
 
         if($primary_cat->slug == 'boats') {
             // Required Defaults
@@ -141,10 +142,15 @@ class Classyad {
             set_post_thumbnail($new_post_id, $featured_image_id);
         } else if(isset($data['external_image_url'])) {
             // TODO!!! The import script has a sideload of an image.
-
         }
 
         // TODO!!! Handle Additional Images...
+
+        // Preferred Contact Details... TODO - Add these to ACF.
+        if(isset($data['override_owner']) &&  $data['override_owner'] = 1) $this->update_field('override_owner', true);
+        if(isset($data['override_name'])) $this->update_field('override_name', $data['override_name']);
+        if(isset($data['override_phone'])) $this->update_field('override_phone', $data['override_phone']);
+        if(isset($data['override_other'])) $this->update_field('override_other', $data['override_other']);
 
         // Boats
         if(isset($data['boat_year'])) $this->update_field('boat_year', $data['boat_year']);
@@ -153,6 +159,10 @@ class Classyad {
 
         // Set the subscription level
         if(isset($data['ad_subscription_level'])) $this->update_field('ad_subscription_level', $data['ad_subscription_level']);
+
+        // Check overrides.
+        if(isset($data['boat_model'])) $this->update_field('boat_model', $data['boat_model']);
+
         // Set Expiry Dates
         $this->setExpiry($this->calculateExpiry($data['ad_subscription_level']));
 
@@ -284,6 +294,7 @@ class Classyad {
                 return $this->custom_fields[$field] = $this->prepareOutput($field, $value);
                 break;
             case 'ad_asking_price':
+                // TODO!!! - We should really allow any user input for the asking price, and then have a shadow field
                 $value = preg_replace("/[^0-9\.]/", "", $value);
                 break;
             case 'ad_mag_text' :
@@ -478,6 +489,13 @@ class Classyad {
         return $key_dates;
     }
 
+    public function lookupMainImageURL() {
+        if(!isset($this->main_image_url)) {
+            $this->main_image_url = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : false;
+        }
+        return $this->main_image_url;
+    }
+
     public function lookup_plan() {
         global $classyads_config;
 
@@ -487,6 +505,36 @@ class Classyad {
         } else {
             return false;
         }
+    }
+
+    public function lookupOwnerDetails() {
+        // If this ad is created by an admin who overrides the user, or imported without a user id, we'll set user_id of 1.
+        if(isset($this->custom_fields['override_owner']) || $this->owner == 1) {
+            $owner_details = array(
+                'firstname' => "",
+                'lastname' => "",
+                'display_name'  => isset($this->custom_fields['override_name']) ? $this->custom_fields['override_name'] : null,
+                'email' => isset($this->custom_fields['override_email']) ? $this->custom_fields['override_email'] : null,
+                'phone' => isset($this->custom_fields['override_phone']) ? $this->custom_fields['override_phone'] : null,
+                'other' => isset($this->custom_fields['override_other']) ? $this->custom_fields['override_other'] : null
+            );
+            if(!empty($owner_details['display_name']))
+                $owner_details['firstname'] = substr($owner_details['display_name'], 0, strpos($owner_details['display_name'], ' '));
+
+        } else {
+            $owner = new JZ_User($this->owner);
+            $owner_details = array(
+                'firstname' => $owner->first_name,
+                'lastname' => $owner->last_name,
+                'display_name'  => isset($this->custom_fields['override_name']) ? $this->custom_fields['override_name'] : $owner->display_name,
+                'email' => isset($this->custom_fields['override_email']) ? $this->custom_fields['override_email'] : $owner->user_email,
+                'phone' => isset($this->custom_fields['override_phone']) ? $this->custom_fields['override_phone'] : isset($owner->phone) ? $owner->phone : null,
+                'other' => isset($this->custom_fields['override_other']) ? $this->custom_fields['override_other'] : isset($owner->other) ? $owner->other : null
+            );
+        }
+        $this->owner_deets = $owner_details;
+        return $owner_details;
+
     }
 
     public function get_plan_amount($plan) {
@@ -531,23 +579,25 @@ class Classyad {
         );
     }
 
+    /* Output the Category that this ad should appear under in the magazine? */
     public function getMagazineCat() {
-        // Output the Category that this ad should appear in the magazine?
-        $adcats = wp_get_post_terms( $this->post_id, 'adcat');
 
-        $section = "TBD";
-        if(has_term('boats', 'adcat', $this->post_id)) {
+        // Load $adcats with a list of slugs that this item falls into.
+        $adcats = wp_get_post_terms( $this->post_id, 'adcat', array("fields" => "slugs"));
+
+        $section = "Uncategorized";
+        if(in_array('boats', $adcats)) {
             // It's a boat....
-            if(has_term(array('dinks'), 'adcat', $this->post_id)) {
+            if(in_array('dinks', $adcats)) {
                 $section = "Dinghies, Liferafts and Rowboats";
             }
             else if(has_term(array('power','rib','houseboat'), 'adcat', $this->post_id)) {
                 $section = "Power & Houseboats";
             }
-            else if(has_term(array('classic'), 'adcat', $this->post_id)) {
+            else if(in_array('classic', $adcats)) {
                 $section = "Classic Boats";
             }
-            else if(has_term(array('multihull'), 'adcat', $this->post_id)) {
+            else if(in_array('multihull', $adcats)) {
                 $section = "Multihulls";
             }
             else {
@@ -567,6 +617,20 @@ class Classyad {
                 } else if ($length < 25) {
                     $section = "24 Feet and Under";
                 }
+            }
+        } else if(in_array('jobs', $adcats)) {
+            $section = "Jobs";
+        } else if(in_array('gear', $adcats)) {
+            $section = "Gear";
+        } else if(in_array('property', $adcats)) {
+            $section = "Property";
+        } else if(in_array('other', $adcats)) {
+            $section = "Other";
+        } else {
+            // We don't know what it is??? Let's use the cat that we have.
+            $adcat = wp_get_post_terms( $this->post_id, 'adcat');
+            if(!empty($adcat)) {
+                $section = $adcat[0]->name;
             }
         }
         return $section;
@@ -739,6 +803,10 @@ class Classyad {
         switch ($key) {
             case 'key_dates' :
                 return $this->lookupKeyDates();
+            case 'main_image_url' :
+                return $this->lookupMainImageURL();
+            case 'owner_deets' :
+                return $this->lookupOwnerDetails();
         }
     }
 

@@ -134,43 +134,46 @@ class Classyads_Import {
                     $wp_user_id = $wp_user->ID;
                 }
 
-                // Sort out phone numbers and store them as plain numbers.
-                $phone = "";
-                if (isset($user_row['areacode'])) {
-                    // We'll take that.
-                    $phone = $user_row['areacode'] . $user_row['phone'];
-                } else if(isset($row['areacode'])) {
-                    // Just take from the classies?
-                    $phone = $row['areacode'] . $row['phone'];
-                } else if(isset($user_row['bill_areacode'])) {
-                    $phone = $user_row['bill_areacode'] . $user_row['bill_phone'];
+                if($wp_user_id != 1) {
+                    // Sort out phone numbers and store them as plain numbers.
+                    $phone = "";
+                    if (isset($user_row['areacode'])) {
+                        // We'll take that.
+                        $phone = $user_row['areacode'] . $user_row['phone'];
+                    } else if(isset($row['areacode'])) {
+                        // Just take from the classies?
+                        $phone = $row['areacode'] . $row['phone'];
+                    } else if(isset($user_row['bill_areacode'])) {
+                        $phone = $user_row['bill_areacode'] . $user_row['bill_phone'];
+                    }
+                    $phone = sanitize_purpose_phone_input($phone);
+
+                    // UPDATE USER META... transaction ID is stored wrongly in lasso.
+                    if (isset($user_row['cim_customerid'])) {
+                        update_user_meta($wp_user_id, 'cim_profile_id', $user_row['cim_customerid']);
+
+                        $payment_profile = Jzugc_Payment::lookupPaymentProfileDeets($user_row['cim_customerid'], $user_row['cim_transactionid']);
+                        if ($payment_profile) add_user_meta($wp_user_id, 'cim_payment_profile', $payment_profile);
+                    }
+
+                    if (isset($user_row['sex'])) update_user_meta($wp_user_id, 'sex', $user_row['sex']);
+                    if (isset($user_row['age'])) update_user_meta($wp_user_id, 'birthdate', strtotime($user_row['created']) - ($row['age'] * 31557600));
+
+                    update_user_meta($wp_user_id, 'phone', $phone);
+                    if(isset($user_row['address']))update_user_meta($wp_user_id, 'address1', $row['address']);
+                    if(isset($user_row['address2']))update_user_meta($wp_user_id, 'address2', $row['address2']);
+                    if(isset($user_row['city']))update_user_meta($wp_user_id, 'city', $row['city']);
+                    if(isset($user_row['state']))update_user_meta($wp_user_id, 'state', $row['state']);
+                    if(isset($user_row['zip'])) update_user_meta($wp_user_id, 'zip', $row['zip']);
+
+                    if(isset($user_row['othercontact'])) update_user_meta($wp_user_id, 'othercontact', $user_row['othercontact']);
+                    update_user_meta($wp_user_id, 'lasso_user_id', $lasso_user_id);
                 }
-                $phone = sanitize_purpose_phone_input($phone);
-
-                // UPDATE USER META... transaction ID is stored wrongly in lasso.
-                if (isset($user_row['cim_customerid'])) {
-                    update_user_meta($wp_user_id, 'cim_profile_id', $user_row['cim_customerid']);
-
-                    $payment_profile = Jzugc_Payment::lookupPaymentProfileDeets($user_row['cim_customerid'], $user_row['cim_transactionid']);
-                    if ($payment_profile) add_user_meta($wp_user_id, 'cim_payment_profile', $payment_profile);
-                }
-
-                if (isset($user_row['sex'])) update_user_meta($wp_user_id, 'sex', $user_row['sex']);
-                if (isset($user_row['age'])) update_user_meta($wp_user_id, 'birthdate', strtotime($user_row['created']) - ($row['age'] * 31557600));
-
-                update_user_meta($wp_user_id, 'phone', $phone);
-                if(isset($user_row['address']))update_user_meta($wp_user_id, 'address1', $row['address']);
-                if(isset($user_row['address2']))update_user_meta($wp_user_id, 'address2', $row['address2']);
-                if(isset($user_row['city']))update_user_meta($wp_user_id, 'city', $row['city']);
-                if(isset($user_row['state']))update_user_meta($wp_user_id, 'state', $row['state']);
-                if(isset($user_row['zip'])) update_user_meta($wp_user_id, 'zip', $row['zip']);
-
-                if(isset($user_row['othercontact'])) update_user_meta($wp_user_id, 'othercontact', $user_row['othercontact']);
-                update_user_meta($wp_user_id, 'lasso_user_id', $lasso_user_id);
-
             } else {
                 // No email address associated... no key to create a user, so let's just create it under user 1?
                 $wp_user_id = 1;
+
+                // And if we do this, we'll need to set up some override data later...
             }
 
             /**
@@ -286,6 +289,13 @@ class Classyads_Import {
 
             // Transaction Meta
             update_field('ad_auto_renew', $mag_auto_renew, $new_post);
+
+            // Add Contact Override data.
+            if($wp_user_id == 1) {
+                update_post_meta($new_post, 'override_name', $row['cc_firstname']);
+                update_post_meta($new_post, 'override_phone', '(' . $row['ad_areacode'] . ') ' . $row['ad_phone']);
+            }
+
 
             /**
              * =========================================================================================================

@@ -13,9 +13,6 @@
     // Seller Info
     $ad_subscription_level = get_field('ad_subscription_level');
 
-    // Main Image
-    $main_img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'medium') : get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
-
     // Technical items
     $ad_sale_terms_obj = get_field_object('ad_sale_terms');
     $ad_sale_terms_value = $ad_sale_terms_obj['value'];
@@ -28,6 +25,9 @@
     if($classyad->primary_cat == 'boats') {
         $classyad->title = get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year');
     }
+
+    $main_img = $classyad->main_image_url;
+    if(empty($main_img)) $main_img = get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png'
 
 ?>
 
@@ -79,16 +79,8 @@
                 <?php endif; ?>
 
                 <div class="seller_info">
-                    <div class="contact_name"><?= $owner->first_name; ?> <?= $owner->last_name; ?> </div>
-                    <?php
-                        $phone = $owner->phone;
-                        if(!empty($phone)) {
-                            if(strlen($phone) == 10)
-                                echo '('.substr($phone, 0, 3).') '.substr($phone, 3, 3).'-'.substr($phone,6);
-                            else
-                                echo $phone;
-                        }
-                     ?>
+                    <div class="contact_name"><?= $classyad->owner_deets['firstname']; ?> </div>
+                    <div class="contact_phone"><?= $classyad->owner_deets['phone'] ?></div>
                     <div class="contact_email"><a href="javascript:alert('functionality coming soon....')">Send a Message</a></div>
                     <?php
                     $othercontact = $owner->othercontact; // This needs to be pulled verbosely as it is set through __GET
@@ -169,7 +161,7 @@
                         </div>
                         <?php if($key_dates['can_make_print_changes']) : ?>
                             <form class="jz-form" action="<?php the_permalink(); ?>" id="update_magad" name="update_magad" method="post">
-                                <span class="title"><?= $ad_title ?></span>
+                                <span class="title"><?= $classyad->title ?></span>
                                 <textarea name="ad_mag_text" maxlength="200" ><?= get_field('ad_mag_text'); ?></textarea>
                                 <div class="form-submit">
                                     <input type="submit" class="submit button" value="Update Magazine Copy" />
@@ -237,66 +229,32 @@
                 <div class="wrapper">
                     <h3 class="title">Renew Ad</h3>
                     <form name="renew_classyad" id="renew_classyad">
-                    <!--
-                    <div class="plan_options">
-                        <div class="plan">
-                            <div class="title">Online</div>
-                            <div class="price">Free</div>
-                            <ul class="features">
-                                <li>Option 1</li>
-                                <li>Option 2</li>
-                                <li>Option 3</li>
-                            </ul>
-                            <div class="select"><input type="radio" name="plan_choice" value="free"></div>
-                        </div>
-                        <div class="plan">
-                            <div class="title">Basic</div>
-                            <div class="price">$20</div>
-                            <ul class="features">
-                                <li>Option 1</li>
-                                <li>Option 2</li>
-                                <li>Option 3</li>
-                            </ul>
-                            <div class="select"><input type="radio" name="plan_choice" value="free"></div>
-                        </div>
-                        <div class="plan">
-                            <div class="title">Premium</div>
-                            <div class="price">$40</div>
-                            <ul class="features">
-                                <li>Option 1</li>
-                                <li>Option 2</li>
-                                <li>Option 3</li>
-                            </ul>
-                            <div class="select"><input type="radio" name="plan_choice" value="free"></div>
-                        </div>
-                    </div>
-                    -->
 
-                    <?php if($classyad->is_print_ad()) : ?>
-                        <p>This will extend your <?php echo $classyad->plan['name'] ?> ad for publication in our <?= $classyad->key_dates['next_ad_edition']->format('F Y') ?> Issue. </p>
-                    <?php endif; ?>
+                        <?php if($classyad->is_print_ad()) : ?>
+                            <p>This will extend your <?php echo $classyad->plan['name'] ?> ad for publication in our <?= $classyad->key_dates['next_ad_edition']->format('F Y') ?> Issue. </p>
+                        <?php endif; ?>
 
-                    <?php
-                       if(count($owner->cim_payment_profiles) > 1 ) {
-                           echo "<p>Choose a card:</p>";
-                            foreach($owner->cim_payment_profiles as $profile) {
-                                echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
+                        <?php
+                           if(count($owner->cim_payment_profiles) > 1 ) {
+                               echo "<p>Choose a card:</p>";
+                                foreach($owner->cim_payment_profiles as $profile) {
+                                    echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
+                                }
+                            } else if(count($owner->cim_payment_profiles) == 1) {
+                                $profile = $owner->cim_payment_profiles[0];
+                                echo "<p>We will charge your card (XXXX-XXXX-XXXX-" . $profile['last4'] . " (" . $profile['expires'] . ")) $" . $classyad->plan['amount'] . "</p>";
+                                echo '<input type="hidden" name="cim_payment_profile_id" value="' . $profile['id'] . '">';
+                            } else {
+                                echo "You have no saved payment methods. Please add some credit card info";
                             }
-                        } else if(count($owner->cim_payment_profiles) == 1) {
-                            $profile = $owner->cim_payment_profiles[0];
-                            echo "<p>We will charge your card (XXXX-XXXX-XXXX-" . $profile['last4'] . " (" . $profile['expires'] . ")) $" . $classyad->plan['amount'] . "</p>";
-                            echo '<input type="hidden" name="cim_payment_profile_id" value="' . $profile['id'] . '">';
-                        } else {
-                            echo "You have no saved payment methods. Please add some credit card info";
-                        }
-                    ?>
+                        ?>
 
-                    <p style="text-align:center;"><a href="" class="btn ok-renew">OK</a> <a href="javascript:jQuery.magnificPopup.close();" class="secondary btn">Cancel</a></p>
-                    <p style="text-align:center;" class="alt-options"><a href="" class="show-alt-plans">Change Plan</a> | <a href="" class="show-alt-payment">Change Payment Method</a></p>
-                    <input type="hidden" name="plan_level" value="<?= $classyad->plan['type'] ?>">
-                    <input type="hidden" name="post_id" value="<?= $classyad->post_id; ?>">
-                    <?php wp_nonce_field( 'renew_classyad', '_renew_classyad_nonce' ) ?>
-                    <input type="hidden" name="action" value="renew_classyad">
+                        <p style="text-align:center;"><a href="" class="btn ok-renew">OK</a> <a href="javascript:jQuery.magnificPopup.close();" class="secondary btn">Cancel</a></p>
+                        <p style="text-align:center;" class="alt-options"><a href="" class="show-alt-plans">Change Plan</a> | <a href="" class="show-alt-payment">Change Payment Method</a></p>
+                        <input type="hidden" name="plan_level" value="<?= $classyad->plan['type'] ?>">
+                        <input type="hidden" name="post_id" value="<?= $classyad->post_id; ?>">
+                        <?php wp_nonce_field( 'renew_classyad', '_renew_classyad_nonce' ) ?>
+                        <input type="hidden" name="action" value="renew_classyad">
 
                     </form>
                 </div>
@@ -329,12 +287,6 @@
                 </div>
             </div>
 
-
-            <div class="admin-updates">
-
-                <?php // acf_form(); ?>
-
-            </div>
         </article>
     <?php endwhile;
     endif; ?>

@@ -20,10 +20,10 @@ $classyads_config = array(
             'in_print' => false,
             'print_photo' => false,
             'multiple_photos' => false,
-            'categories' => array('boats','gear','jobs'),
+            'categories' => array('boats','gear'),
             'features' => array(
                 'The right price!',
-                'Unlimited words',
+                'Items under $1000',
                 'One Picture',
             )
         ),
@@ -40,10 +40,10 @@ $classyads_config = array(
             'multiple_photos' => false,
             'categories' => array('boats','gear'),
             'features' => array(
-                'Online Posting',
-                '250 char ad in next issue',
-                'Unlimited words',
-                'Picture for online post',
+                'Online & Magazine Posting',
+                '250 Char Magazine Ad',
+                'Unlimited Words Online',
+                'Picture Online',
             )
         ),
         'premium' => array(
@@ -59,10 +59,10 @@ $classyads_config = array(
             'multiple_photos' => true,
             'categories' => array('boats'),
             'features' => array(
-                '400 character ad in next issue',
+                '400 Character Magazine Ad',
                 'Picture in the magazine',
                 'Online posting with multiple photos',
-                'Preferred placement in search results'
+                'Preferred Placement in Search Results'
             )
         ),
         'job' => array(

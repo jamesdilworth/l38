@@ -330,9 +330,18 @@ var ClassyadsForms = (function($) {
         $('form#update_classy_public').submit(updateClassyAd);
         $('form#renew_classyad').submit(renewClassyAd);
 
+        // Create Form Interractions
         $('#card_admin_override').change(function() {
             if(this.checked) {
                 $('#create_add_payment_fields').toggle('fast', 'linear');
+            }
+        });
+        $('#owner_admin_override').change(function() {
+            if(this.checked) {
+                $('input[name=override_name]').val(' ').attr('placeholder', '');
+                $('input[name=override_email]').val(' ').attr('placeholder', '');
+                $('input[name=override_phone]').val(' ').attr('placeholder', '');
+                $('input[name=override_other]').val(' ').attr('placeholder', '');
             }
         });
 

@@ -35,3 +35,7 @@ function JZUGC_slug_exists($post_name) {
         return false;
     }
 }
+
+function JZUGC_format_phone($number) {
+    return preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $number). "\n";
+}
