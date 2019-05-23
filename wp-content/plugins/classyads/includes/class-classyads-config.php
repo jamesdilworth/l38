@@ -14,6 +14,12 @@ $classyads_config = array(
             'type' => 'free',
             'status' => 'active',
             'name' => 'Free (Online Only)',
+            'duration_options' => array(
+                array(
+                    'months' => 1,
+                    'amount' => 30
+                ),
+            ),
             'amount' => 0,
             'months' => 1,
             'description' => "",
@@ -31,6 +37,20 @@ $classyads_config = array(
             'type' => 'basic',
             'status' => 'active',
             'name' => 'Basic',
+            'duration_options' => array(
+                array(
+                    'months' => 1,
+                    'amount' => 30
+                ),
+                array(
+                    'months' => 3,
+                    'amount' => 60
+                ),
+                array(
+                    'months' => 6,
+                    'amount' => 100
+                )
+            ),
             'amount' => 30,
             'months' => 1,
             'description' => "",
@@ -50,6 +70,20 @@ $classyads_config = array(
             'type' => 'premium',
             'status' => 'active',
             'name' => 'Premium',
+            'duration_options' => array(
+                array(
+                    'months' => 1,
+                    'amount' => 60
+                ),
+                array(
+                    'months' => 3,
+                    'amount' => 100
+                ),
+                array(
+                    'months' => 6,
+                    'amount' => 150
+                )
+            ),
             'amount' => 60,
             'months' => 1,
             'description' => "",

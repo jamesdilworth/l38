@@ -193,6 +193,12 @@ var L38 = (function($) {
                 return false;
             }
         });
+
+        $('.toggle-login-register').click(function(evt) {
+            evt.preventDefault();
+            $('.login-form').toggle();
+            $('.register-form').toggle();
+        });
     };
 
     var reorgDOM = function() {

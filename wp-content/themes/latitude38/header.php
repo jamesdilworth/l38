@@ -44,10 +44,10 @@ FLTheme::head();
                 <div class="submit-field"><input class="btn" type="submit" value="Login" name="submit"></div>
                 <?php wp_nonce_field( 'ajax-login-nonce', 'login-security' ); ?>
             </form>
-            <div class="toggle-login-register">Not a member yet? <a href="">Join the Latitude 38 Community</a></div>
+            <div class="toggle-login-register">Not a member yet? <a href="/register/">Join the Latitude 38 Community</a></div>
         </div>
         <div class="register-form">
-            <?php gravity_form(1, true, false, false, '', true, 10); ?>
+            <?php gravity_form(3, true, false, false, '', true, 10); ?>
             <div class="toggle-login-register">Already a member? <a href="">Sign in</a></div>
         </div>
     </div>
