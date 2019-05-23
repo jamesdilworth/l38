@@ -1,5 +1,5 @@
 // Scripts for User Generated Content Actions
-alert('include once');
+
 var Jzugc = (function($) {
     "use strict";
 
@@ -254,7 +254,7 @@ var Jzugc = (function($) {
             success: function (data) {
                 $('form#login p.status').text(data.message);
                 if (data.loggedin === true) {
-                    // document.location.reload(true);
+                    document.location.reload(true);
                 }
             },
             error: function (data) {
