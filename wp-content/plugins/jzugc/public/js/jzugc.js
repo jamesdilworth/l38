@@ -1,4 +1,5 @@
 // Scripts for User Generated Content Actions
+alert('include once');
 var Jzugc = (function($) {
     "use strict";
 
@@ -238,7 +239,7 @@ var Jzugc = (function($) {
 	}
 
 	function ajaxLogMeIn(evt) {
-		evt.preventDefault();
+	    evt.preventDefault();
 		$('form#login p.status').show().text("Sending user info, please wait...");
 		$.ajax({
             type: 'POST',
@@ -253,8 +254,11 @@ var Jzugc = (function($) {
             success: function (data) {
                 $('form#login p.status').text(data.message);
                 if (data.loggedin === true) {
-                    document.location.reload(true);
+                    // document.location.reload(true);
                 }
+            },
+            error: function (data) {
+                // What?
             }
         });
 	}
@@ -276,6 +280,7 @@ var Jzugc = (function($) {
                 modal:true
             }
         });
+
 
         // Perform AJAX login on form submit
         $('form#login').on('submit', ajaxLogMeIn);

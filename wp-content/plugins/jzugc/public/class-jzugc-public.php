@@ -44,7 +44,7 @@ class Jzugc_Public {
 	    add_shortcode('jzugc-login-menu', array( $this, 'createLoginMenu'));
 
         if (!is_user_logged_in()) {
-            wp_enqueue_script( 'ugc', JZUGC_URL. 'public/js/jzugc.js', array(), filemtime( JZUGC_PATH . 'public/js/jzugc.js'), true ); // load scripts in footer
+            wp_enqueue_script( 'jzugc', JZUGC_URL. 'public/js/jzugc.js', array(), filemtime( JZUGC_PATH . 'public/js/jzugc.js'), true ); // load scripts in footer
 
             /*
             wp_localize_script( 'ajax-login-script', 'ajax_login_object', array(
