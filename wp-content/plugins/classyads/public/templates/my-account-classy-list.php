@@ -17,18 +17,41 @@ if ( $classies_by_me->have_posts() ) {
 
         $classies_by_me->the_post();
 
-        $status = 'live'; // Calculate this from the last day of the ad.
-        $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(),'thumbnail') : get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
+        $classyad = new Classyad(get_the_ID());
 
+        $main_img = $classyad->main_image_url;
+        if(empty($main_img)) $main_img = get_bloginfo('stylesheet_directory') .  '/images/default-classy-ad-centered.png';
+
+        $primary_cat = get_term_by('slug', $classyad->primary_cat, 'adcat');
+        $primary_cat_name = !empty($primary_cat) ? $primary_cat->name : "Uncategorized";
+
+        $excerpt = $classyad->custom_fields['ad_mag_text'];
+        if(empty($excerpt)) {
+
+            ob_start();
+
+            if(function_exists('the_advanced_excerpt')) {
+                the_advanced_excerpt('length=140&length_type=characters&no_custom=0&finish=sentence&no_shortcode=1&ellipsis=&add_link=0&exclude_tags=p,div,img,b,figure,figcaption,strong,em,i,ul,li,a,ol,h1,h2,h3,h4');
+            } else {
+                the_excerpt();
+            }
+
+            $excerpt = ob_get_contents();
+            $excerpt = wp_strip_all_tags($excerpt);
+            ob_end_clean();
+            // it's an online ad only.
+        }
 
         echo "<div class='ad'>";
-        echo "  <div class='img'><img src='$img'></div>";
+        echo "  <div class='img'><img src='$main_img'></div>";
         echo "  <div class='info'>";
-        echo "    <div class='title'><a href='". get_the_permalink() . "'>" . get_field('boat_length') . "' " . get_field('boat_model') . ", " . get_field('boat_year') . "</a></div>";
-        echo "    <div class='price'>$" . get_field('ad_asking_price') . "</div>";
+        echo "    <div class='category'>$primary_cat_name</div>";
+        echo "    <div class='title'><a href='". get_the_permalink() . "'>$classyad->title</a></div>";
+        echo "    <div class='desc'>$excerpt</div>";
         echo "  </div><div class='options'>";
-        echo "    <div class='status'>Ad Runs to:<br>End " . get_field('ad_mag_run_to') . "</div>";
-        echo "    <div class=''><a class='btn small' href=''>Renew for 1 Month - $40</a></div>";
+        echo "    <div class='price'>" . $classyad->custom_fields['ad_asking_price']  . "</div>";
+        echo "    <div class='status'>Expires:&nbsp;" . $classyad->key_dates['expiry']->format('F j, Y') . "</div>";
+        echo "    <div class=''><a class='btn small' href=''>Renew</a> <a class='btn small secondary' href=''>Remove</a></div>";
         echo "  </div>";
         echo "</div>";
     }

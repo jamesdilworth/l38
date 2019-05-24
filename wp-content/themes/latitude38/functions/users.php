@@ -21,7 +21,6 @@ function auto_username( $username, $feed, $form, $entry ) {
     return $username;
 }
 
-<?php
 /**
  * Override the GF User Activation Template.
  * http://gravitywiz.com/customizing-gravity-forms-user-registration-activation-page

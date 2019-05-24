@@ -65,7 +65,7 @@ get_header(); ?>
                         <?php
                         echo '<p class="lead-in">';
                         if ( $signup->domain . $signup->path == '' ) {
-                            printf( __('Your account has been activated. You may now <a href="%1$s">log in</a> to the site using your email (%2$s) and the password you chose. If you are having trouble logging in, you can try and <a href="%3$s">reset your password</a>.'), network_site_url( 'wp-login.php', 'login' ),  $signup->user_email, network_site_url( 'wp-login.php?action=lostpassword', 'login' ) );
+                            printf( __('Your account has been activated. You may now <a href="%1$s">log in</a> to the site using your email (%2$s) and the password you chose. If you are having trouble logging in, try <a href="%3$s">resetting your password</a> before <a href="/contact-us/">contacting us</a>.'), network_site_url( 'wp-login.php', 'login' ),  $signup->user_email, network_site_url( 'wp-login.php?action=lostpassword', 'login' ) );
                         } else {
                             printf( __('Your site at <a href="%1$s">%2$s</a> is active. You may now log in to your site using your email (%3$s) and the password you chose. If you are having trouble logging in, you can try and <a href="%4$s">reset your password</a>.'), 'http://' . $signup->domain, $signup->domain, $signup->user_email, network_site_url( 'wp-login.php?action=lostpassword' ) );
                         }

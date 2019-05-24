@@ -5,7 +5,6 @@
  */
 
 global $classyads_config; //
-
 ?>
 
 <div class="choose_plan">
@@ -35,9 +34,19 @@ global $classyads_config; //
         ?>
 </div>
 
+
 <div id="create_classyad_container" class="mfp-hide jz-modal">
     <div class="wrapper">
-        <h3 class="title">Create Your Classy Ad
+
+    <?php
+    if (!is_user_logged_in()) {
+        echo "<h3 class='title'>Please Log In...</h3>";
+        echo "<p>Please <a href='/login/'>log in</a>, or <a href='/register/'>create an account</a> to place your classified ad. ";
+    } else { ?>
+
+
+
+    <h3 class="title">Create Your Classy Ad
             <div class="subtitle">(You'll be able to edit your ad after placing it.)</div>
         </h3>
         <div class="notice"></div>
@@ -197,5 +206,6 @@ global $classyads_config; //
             <input type="hidden" name="action" value="create_classyad">
             <input type="hidden" name="primary_adcat" value="<?= $primary_adcat_id ?>">
         </form>
+    <?php } // end the is_loggedin check ?>
     </div>
 </div>

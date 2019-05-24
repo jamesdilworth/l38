@@ -60,7 +60,8 @@ class Classyad {
             }
 
             $this->title = $this->post->post_title;
-            $this->primary_cat = wp_get_post_terms( $post_id, 'adcat', array("fields" => "slugs", "parent" => 0))[0];
+            $primary_cat = wp_get_post_terms( $post_id, 'adcat', array("fields" => "slugs", "parent" => 0));
+            $this->primary_cat = empty($primary_cat) ? "other" : $primary_cat[0];
             $this->custom_fields = array_merge($this->custom_fields, $loaded_fields);
 
             $this->key_dates = $this->lookupKeyDates();

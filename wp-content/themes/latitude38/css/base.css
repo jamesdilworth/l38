@@ -495,7 +495,10 @@ h2 + .subtitle {
   width: 100%;
 }
 .btn.secondary {
-  background-color: #ccc;
+  background-color: #4d948c;
+}
+.btn.secondary:hover {
+  background-color: #28605a;
 }
 
 .hitter {
@@ -2334,19 +2337,35 @@ body .gform_confirmation_message::before {
 }
 .page-my-account .my-classies .ad {
   width: 100%;
-  padding: 5px;
+  padding: 8px 12px;
+  margin-left: -8px;
   position: relative;
   margin-bottom: 5px;
   overflow: auto;
+  min-height: 140px;
 }
 .page-my-account .my-classies .ad:nth-child(even) {
   background-color: #f6f6f6;
+}
+.page-my-account .my-classies .category {
+  font-size: 80%;
+  margin: 0;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: -5px;
+  margin-top: -2px;
 }
 .page-my-account .my-classies .img {
   float: left;
   width: 150px;
 }
 .page-my-account .my-classies .price {
+  font-size: 110%;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.page-my-account .my-classies .desc {
+  margin-right: 180px;
   font-size: 90%;
 }
 .page-my-account .my-classies .img img {
@@ -2363,7 +2382,7 @@ body .gform_confirmation_message::before {
   position: absolute;
   right: 0;
   top: 0;
-  max-width: 250px;
+  width: 180px;
   padding-right: 10px;
   padding-top: 5px;
 }

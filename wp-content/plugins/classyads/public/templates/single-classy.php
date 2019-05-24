@@ -218,7 +218,7 @@
 
                     <?php endif; ?>
 
-                     <a style="background-color:#4d948c;" class="remove-ad btn">Take down this Ad</a></p>
+                     <a class="remove-ad  secondary btn">Take down this Ad</a></p>
 
                      <p>Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
                 </div>
