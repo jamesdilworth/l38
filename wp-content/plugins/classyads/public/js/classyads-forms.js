@@ -254,10 +254,7 @@ var ClassyadsForms = (function($) {
         });
     };
 
-    var removeAd = function(evt) {
-        evt.preventDefault();
-        alert('Mark as Sold - functionality Coming Soon....');
-    };
+
 
     /**
      * Handles form submission from a user wishing to upgrade the plan of the account they have.
@@ -266,6 +263,47 @@ var ClassyadsForms = (function($) {
     var upgradePlan = function(evt) {
         evt.preventDefault(); // Prevent Default Submission
         alert('Upgrade Ad - Functionality Coming Soon.... ');
+    };
+
+    // Used to set the correct fields in the form before opening the mfp window to allow a customer to renew.
+    var openRenewModal = function(evt) {
+        evt.preventDefault();
+        // Do stuff.
+    };
+
+    var removeClassyAd = function(evt) {
+        evt.preventDefault();
+
+        var formData = new FormData(this);
+
+        var remove_classyad_call = $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            timeout: 5000,
+            contentType: false, // Stop jQuery from reinterpreting the contentType.
+            processData: false, // Stop jQuery from re-processing the formData
+            dataType: 'json',
+            data: formData
+        });
+
+        remove_classyad_call.fail(function(jqXHR, textStatus, errorThrown) {
+            $.Toast.showToast({'title': errorThrown, 'icon':'error', 'duration':5000});
+        });
+
+        remove_classyad_call.done(function(response) {
+            if(response.success) {
+                $.Toast.hideToast();
+                $.magnificPopup.close();
+                // Replace form with confirmation, and a link to the new page.
+                $.Toast.showToast({'title': 'Your ad has been removed. It will no longer appear in search results','icon':'success', 'duration':3000});
+                window.location.href = "/my-account/#my-classies";
+            } else {
+                // Failed with a reason.
+                $.Toast.hideToast();
+                $.Toast.showToast({'title': response.data.msg, 'icon':'error', 'duration':3000});
+            }
+        });
+
     };
 
     var renewClassyAd = function(evt) {
@@ -284,7 +322,7 @@ var ClassyadsForms = (function($) {
 
         renew_classyad_call.fail(function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus + ': ' + errorThrown);
-            $.Toast.showToast({'title': errorThrown, 'icon':'error', 'duration':6000});
+            $.Toast.showToast({'title': errorThrown, 'icon':'error', 'duration':5000});
         });
 
         renew_classyad_call.done(function(response) {
@@ -324,11 +362,16 @@ var ClassyadsForms = (function($) {
             $('#update_magad').toggle();
         });
 
+        // These buttons submit associated forms.
+        $('.ok-renew.btn').click(function(evt) { evt.preventDefault(); $('form#renew_classyad').submit(); });
+        $('.ok-remove.btn').click(function(evt) { evt.preventDefault(); $('form#remove_classyad').submit(); });
+
         // Form Submissions
         // $('form#create_classyad').submit(createClassyAd) ... now handled with initializePlaceadForm();
         $('form#update_magad').submit(updateClassyAd);
         $('form#update_classy_public').submit(updateClassyAd);
         $('form#renew_classyad').submit(renewClassyAd);
+        $('form#remove_classyad').submit(removeClassyAd);
 
         // Create Form Interractions
         $('#card_admin_override').change(function() {
@@ -347,9 +390,10 @@ var ClassyadsForms = (function($) {
 
         // Other Dynamic Events that'll require a popup probably.
         $('.btn.choose_plan').click(changePlan);
-        $('.ok-renew.btn').click(function(evt) { evt.preventDefault(); $('form#renew_classyad').submit(); })
-        $('.mark-as-sold.btn').click(removeAd);
         $('.upgrade-plan.btn').click(upgradePlan);
+
+        // Buttons from my-account view.
+        $('a.renew-this-ad-modal').click(openRenewModal);
 
     };
 
@@ -375,7 +419,13 @@ var ClassyadsForms = (function($) {
 jQuery(document).ready(function($) {
     ClassyadsForms.init();
 
+    // This only handles the popup on the single-classy template.
     $('.renew-modal').magnificPopup({
+        type: 'inline',
+        modal: true
+    });
+
+    $('.remove-modal').magnificPopup({
         type: 'inline',
         modal: true
     });

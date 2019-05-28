@@ -222,6 +222,33 @@ class Classyads_Ajax {
 
     }
 
+
+    /**
+     * Allows user to 'remove' a classified ad listing, by setting it's post-status to 'draft'
+     */
+    public function remove_classyad() {
+        // Check this is legit.
+        if(false == check_ajax_referer('remove_classyad', '_remove_classyad_nonce', false)) {
+            wp_send_json_error('Sorry. Something went wrong. Please refresh the page and try again.');
+        };
+
+        $current_user = wp_get_current_user();
+        $classyad = new Classyad($_REQUEST['post_id']);
+
+        if (!is_user_logged_in() || !($current_user->ID == $classyad->owner || current_user_can('edit_posts'))) {
+            // Not a valid user to perform this operation.
+            wp_send_json_error('Sorry. Something went wrong. Please log back in and try again.');
+        }
+
+        $result = $classyad->remove();
+
+        if($result) {
+            wp_send_json_success();
+        } else {
+            wp_send_json_error();
+        }
+    }
+
     /**
      * Update the main photo based on an upload from the form.
      * We'll want to change this, so that it receives the file, and

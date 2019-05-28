@@ -176,7 +176,6 @@
                 <?php endif; ?>
 
                 <div class="desc">
-
                     <h3>Your <?= ucfirst($classyad->custom_fields['ad_subscription_level']); ?> Ad</h3>
 
                     <!-- <p>Your ad was first placed on <?= $key_dates['ad_placed_on']->format('F j, Y'); ?>. -->
@@ -217,13 +216,9 @@
                         <p><a class='upgradeplan-modal btn' data-mfp-src='#upgradeplan_popup' >Upgrade to Print Ad</a>
 
                     <?php endif; ?>
-
-                     <a class="remove-ad  secondary btn">Take down this Ad</a></p>
-
+                     <a data-mfp-src='#remove_popup' class="remove-modal secondary btn">Take down this Ad</a></p>
                      <p>Questions: 415.383.8200 x 104 or <a href="">email us</a>.</p>
                 </div>
-
-
             </div>
             <?php endif; ?>
 
@@ -237,18 +232,18 @@
                         <?php endif; ?>
 
                         <?php
-                           if(count($owner->cim_payment_profiles) > 1 ) {
-                               echo "<p>Choose a card:</p>";
-                                foreach($owner->cim_payment_profiles as $profile) {
-                                    echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
-                                }
-                            } else if(count($owner->cim_payment_profiles) == 1) {
-                                $profile = $owner->cim_payment_profiles[0];
-                                echo "<p>We will charge your card (XXXX-XXXX-XXXX-" . $profile['last4'] . " (" . $profile['expires'] . ")) $" . $classyad->plan['amount'] . "</p>";
-                                echo '<input type="hidden" name="cim_payment_profile_id" value="' . $profile['id'] . '">';
-                            } else {
-                                echo "You have no saved payment methods. Please add some credit card info";
+                        if(count($owner->cim_payment_profiles) > 1 ) {
+                            echo "<p>Choose a card:</p>";
+                            foreach($owner->cim_payment_profiles as $profile) {
+                                echo "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> XXXX XXXX XXXX " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
                             }
+                        } else if(count($owner->cim_payment_profiles) == 1) {
+                            $profile = $owner->cim_payment_profiles[0];
+                            echo "<p>We will charge your card (XXXX-XXXX-XXXX-" . $profile['last4'] . " (" . $profile['expires'] . ")) $" . $classyad->plan['amount'] . "</p>";
+                            echo '<input type="hidden" name="cim_payment_profile_id" value="' . $profile['id'] . '">';
+                        } else {
+                            echo "You have no saved payment methods. Please add some credit card info";
+                        }
                         ?>
 
                         <p style="text-align:center;"><a href="" class="btn ok-renew">OK</a> <a href="javascript:jQuery.magnificPopup.close();" class="secondary btn">Cancel</a></p>
@@ -262,6 +257,19 @@
                 </div>
             </div>
 
+            <div id="remove_popup" class="mfp-hide jz-modal">
+                <div class="wrapper">
+                    <h3 class="title">Remove Ad?</h3>
+                    <form name="remove_classyad" id="remove_classyad">
+                        <p style="text-align:center;">Are you sure you wish to remove this listing?</p>
+                        <p style="text-align:center;"><a href="" class="btn ok-remove" data-postid="<?= $classyad->post_id; ?>">Yes! Remove this Ad</a> <a href="javascript:jQuery.magnificPopup.close();" class="secondary btn">Cancel</a></p>
+                        <input type="hidden" name="post_id" value="<?= $classyad->post_id; ?>">
+                        <input type="hidden" name="post_id" value="<?= $classyad->post_id; ?>">
+                        <input type="hidden" name="action" value="remove_classyad">
+                        <?php wp_nonce_field( 'remove_classyad', '_remove_classyad_nonce' ) ?>
+                    </form>
+                </div>
+            </div>
 
             <div id="upgradeplan_popup" class="mfp-hide jz-modal">
                 <div class="wrapper">
@@ -281,7 +289,6 @@
 
                     // Else, we'll need to get the cc info again from scratch.
                     -->
-
 
                     <p>This will charge your card $XX</p>
 

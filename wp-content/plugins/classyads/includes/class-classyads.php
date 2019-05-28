@@ -106,6 +106,8 @@ class Classyads {
         // AD RENEWALS
         $this->loader->add_action('wp_ajax_renew_classyad',  $classyads_ajax, 'renew_classyad');
 
+        // REMOVE AN AD
+        $this->loader->add_action('wp_ajax_remove_classyad',  $classyads_ajax, 'remove_classyad');
 
         // UGC AJAX EDITING SCRIPTS...
         $this->loader->add_action('wp_ajax_update_classy_mainphoto', $classyads_ajax,  'update_classy_mainphoto');

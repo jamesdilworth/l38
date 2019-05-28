@@ -51,7 +51,7 @@ if ( $classies_by_me->have_posts() ) {
         echo "  </div><div class='options'>";
         echo "    <div class='price'>" . $classyad->custom_fields['ad_asking_price']  . "</div>";
         echo "    <div class='status'>Expires:&nbsp;" . $classyad->key_dates['expiry']->format('F j, Y') . "</div>";
-        echo "    <div class=''><a class='btn small' href=''>Renew</a> <a class='btn small secondary' href=''>Remove</a></div>";
+        // echo "    <div class=''><a class='btn small renew-this-ad-modal' href='' data-postid='$classyad->post_id'>Renew</a> <a class='btn small secondary' href='' data-postid='$classyad->post_id'>Remove</a></div>";
         echo "  </div>";
         echo "</div>";
     }

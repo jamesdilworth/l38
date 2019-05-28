@@ -654,6 +654,14 @@ class Classyad {
         // Let's say someone starts with an online only plan, but now wants to upgrade to a paid plan.
     }
 
+    public function remove() {
+        // Remove the ad from publication.... by setting status to 'draft'.
+        return wp_update_post( array(
+            'ID'            => $this->post_id,
+            'post_status'   => 'draft'
+        ));
+    }
+
     public function delete() {
         // Delete a Classy Ad... under what circumstances would we do this?
     }
