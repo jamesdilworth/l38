@@ -329,6 +329,87 @@
   color: #fff !important;
 }
 
+.page-my-account .main-photo {
+  float: left;
+  width: 300px;
+  padding-right: 30px;
+}
+.page-my-account .main-content {
+  float: left;
+  padding-bottom: 40px;
+}
+.page-my-account .my-profile {
+  padding-top: 20px;
+}
+.page-my-account .my-profile .main-content {
+  min-width: 50%;
+  max-width: 70%;
+}
+.page-my-account .my-profile .name {
+  font-size: 140%;
+  font-weight: bold;
+}
+.page-my-account .my-profile .location {
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 20px;
+  font-size: 90%;
+}
+.page-my-account .my-classies .ad {
+  width: 100%;
+  padding: 8px 12px;
+  margin-left: -8px;
+  position: relative;
+  margin-bottom: 5px;
+  overflow: auto;
+  min-height: 140px;
+}
+.page-my-account .my-classies .ad:nth-child(even) {
+  background-color: #f6f6f6;
+}
+.page-my-account .my-classies .category {
+  font-size: 80%;
+  margin: 0;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: -5px;
+  margin-top: -2px;
+}
+.page-my-account .my-classies .img {
+  float: left;
+  width: 150px;
+}
+.page-my-account .my-classies .price {
+  font-size: 110%;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.page-my-account .my-classies .desc {
+  margin-right: 180px;
+  font-size: 90%;
+}
+.page-my-account .my-classies .img img {
+  height: 100px;
+}
+.page-my-account .my-classies .info {
+  margin-left: 160px;
+}
+.page-my-account .my-classies .title {
+  font-size: 115%;
+  font-weight: bold;
+}
+.page-my-account .my-classies .options {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 180px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+.page-my-account .my-classies .status {
+  font-size: 85%;
+}
+
 /* My Custom Forms */
 .jz-form fieldset {
   background-color: #f6f6f6;

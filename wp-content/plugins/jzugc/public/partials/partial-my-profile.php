@@ -14,5 +14,5 @@
 <div class="main-content">
     <div class="name"><?= $current_user->display_name; ?></div>
     <div class="location"><?= $current_user->user_location; ?></div>
-    <div class="desc"></div>
+    <div class="desc"><?= $current_user->description; ?></div>
 </div>

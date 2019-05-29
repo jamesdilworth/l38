@@ -11,8 +11,10 @@
         $user_img_tag = '<img src="' . JZUGC_URL . 'public/images/anon-user.png">';
     }
 
+    $jz_user = new JZ_User($current_user->ID);
+
     $sections = array(
-        'My Account' => JZUGC_PATH . 'public/partials/partial-my-account.php',
+        'My Profile' => JZUGC_PATH . 'public/partials/partial-my-profile.php',
         'Edit Profile' => JZUGC_PATH . 'public/partials/partial-edit-profile.php'
     );
 

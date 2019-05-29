@@ -380,31 +380,3 @@
 	h3 								{ margin-top:0; }
 	.place-link 					{ text-align:center; font-size:90%; }
 }
-
-.page-my-account 					{
-	.main-photo 					{ float:left; width:300px; padding-right:30px;  }
-	.main-content 					{ float:left;  padding-bottom:40px;   }
-
-	.my-profile 					{ padding-top:20px;
-		.name						{ font-size:140%; font-weight:600; }
-		.location 					{ color:#aaa; }
-	}
-
-	.my-classies 					{
-		.ad 						{ width:100%;  padding:8px 12px; margin-left:-8px; position:relative; margin-bottom:5px; overflow:auto; min-height:140px;
-			&:nth-child(even) 		{ background-color:$super-light-grey;  }
-		}
-		.category 					{ font-size:80%; margin:0; text-transform:uppercase; color:#aaa; margin-bottom:-5px; margin-top:-2px; }
-		.img 						{ float:left; width:150px; }
-		.price 						{ font-size:110%; font-weight:bold; margin-bottom:10px;}
-		.desc						{ margin-right:180px; font-size:90%; }
-		.img img					{ height:100px; }
-		.info						{ margin-left:160px; }
-		.title 						{ font-size:115%; font-weight:bold; }
-		.options 					{ position:absolute; right:0; top:0; width:180px; padding-right:10px; padding-top:5px;  }
-		.status 					{ font-size:85%; }
-
-
-
-	}
-}
