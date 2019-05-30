@@ -81,7 +81,17 @@
                 <div class="seller_info">
                     <div class="contact_name"><?= $classyad->owner_deets['firstname']; ?> </div>
                     <div class="contact_phone"><?= JZUGC_format_phone($classyad->owner_deets['phone']); ?></div>
-                    <div class="contact_email"><a href="javascript:alert('functionality coming soon....')">Send a Message</a></div>
+                    <div class="contact_email">
+                        <?php
+                            if(function_exists('eae_encode_str')) {
+                                $sl = '[encode link="mailto:' . $classyad->owner_deets['email'] . '"]' . $classyad->owner_deets['email'] . '[/encode]';
+                                echo do_shortcode($sl);
+                            } else {
+                                echo "<a href='" . $classyad->owner_deets['email'] . "'>" . $classyad->owner_deets['email'] . "</a>";
+                            }
+                        ?>
+                    </div>
+
                     <?php
                     $othercontact = $owner->othercontact; // This needs to be pulled verbosely as it is set through __GET
                     if(!empty($othercontact)) {
@@ -221,6 +231,14 @@
                 </div>
             </div>
             <?php endif; ?>
+
+
+            <?php
+
+                // Show Transactions associated with this account.
+
+
+            ?>
 
             <div id="renew_popup" class="mfp-hide jz-modal">
                 <div class="wrapper">
