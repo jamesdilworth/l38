@@ -9,8 +9,10 @@
     <?php
         echo "<p>Choose a card:</p>";
         $output = "";
+        $first = " checked";
         foreach($profiles as $profile) {
-            $output .=  "<input type='radio' name='cim_payment_profile_id' value='" . $profile['id'] . "'> xxxx xxxx xxxx " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
+            $output .=  "<input type='radio' name='cim_payment_profile_id' " . $first . " value='" . $profile['id'] . "'> xxxx xxxx xxxx " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
+            $first = "";
         }
 
         // Admin override to allow non-payment.

@@ -148,7 +148,9 @@ var ClassyadsForms = (function($) {
             items: {
                 src: $('#create_classyad_container'),
                 type: 'inline',
-                modal: true
+                closeOnContentClick: false,
+                closeOnBgClick: false,
+                showCloseBtn: true
             }
         });
 
@@ -185,7 +187,6 @@ var ClassyadsForms = (function($) {
                 $.Toast.hideToast();
                 // Replace form with confirmation, and a link to the new page.
                 $.Toast.showToast({'title': 'Sweet. Your ad has been created','icon':'success', 'duration':3000});
-
                 var pause = setTimeout(function() {
                     document.location.href = response.data.url + '?created=new';
                 }, 2000);
@@ -422,12 +423,14 @@ jQuery(document).ready(function($) {
     // This only handles the popup on the single-classy template.
     $('.renew-modal').magnificPopup({
         type: 'inline',
-        modal: true
+        closeOnContentClick: false,
+        closeOnBgClick: false,
+        showCloseBtn: true,
     });
 
     $('.remove-modal').magnificPopup({
         type: 'inline',
-        modal: true
+        modal:true
     });
 
 });

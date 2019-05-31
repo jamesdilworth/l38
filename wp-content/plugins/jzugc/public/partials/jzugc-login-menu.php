@@ -3,8 +3,8 @@
  * Provide a dropdown navigation menu for the dashboard, or for the sign-in button.
  */
 $sections = array(
-    'My Account' => JZUGC_PATH . 'public/partials/partial-my-account.php',
-    'Edit Profile' => JZUGC_PATH . 'public/partials/partial-edit-profile.php'
+    'My Profile' => JZUGC_PATH . 'public/partials/partial-my-account.php',
+    'Edit Account' => JZUGC_PATH . 'public/partials/partial-edit-profile.php'
 );
 
 if(has_filter('jzugc_my_account_sections')) {

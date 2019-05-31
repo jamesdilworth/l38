@@ -15,7 +15,7 @@
 
     $sections = array(
         'My Profile' => JZUGC_PATH . 'public/partials/partial-my-profile.php',
-        'Edit Profile' => JZUGC_PATH . 'public/partials/partial-edit-profile.php'
+        'Account Settings' => JZUGC_PATH . 'public/partials/partial-edit-profile.php'
     );
 
     if(has_filter('jzugc_my_account_sections')) {

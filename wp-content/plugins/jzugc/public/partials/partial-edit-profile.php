@@ -21,10 +21,6 @@
         <label for="phone"><?php _e('Phone', 'textdomain'); ?></label>
         <input class="text-input" name="phone" type="text" id="phone" value="<?php the_author_meta( 'phone', $current_user->ID ); ?>" />
     </p>
-    <p>
-        <label for="user_location">Where do you sail from (primarily)?</label>
-        <input class="text-input" name="user_location" type="text" id="user_location" value="<?php the_author_meta( 'user_location', $current_user->ID ); ?>" />
-    </p>
 
     <?php
     // action hook for plugin and extra fields

@@ -114,7 +114,7 @@ global $classyads_config; //
 
             <section class="magazine_listing">
                 <h3>Magazine Listing</h3>
-                <p>Your online listing can be accompanied by a <span class="_no_chars">200</span> character listing in the classifieds section of the magazine.  </p>
+                <p>This description will appear in the classifieds section of the magazine. No need to add a title, price, contact information etc. We'll do that for you.  </p>
                 <div class="field">
                     <label for="ad_mag_text">Copy for the magazine:</label>
                     <textarea name="ad_mag_text"></textarea>
@@ -147,8 +147,6 @@ global $classyads_config; //
 
             <section class="contact_info">
                 <h3>Contact Info</h3>
-                <p>Only change if needed. Your full name and email will be masked from spammers.</p>
-
                 <?php // Admin override to allow non-payment.
 
                 if(current_user_can('edit_posts')) {
@@ -161,14 +159,6 @@ global $classyads_config; //
                     <?php
                 }
                 ?>
-
-                <!--
-                <div class="field">
-                    <label for="email">Available Contact Method(s)</label>
-                    <input type="checkbox" name="preferred_contact_method" value="email"> Email
-                    <input type="checkbox" name="preferred_contact_method" value="phone"> Phone
-                </div>
-                -->
                 <div class="field">
                     <label for="override_email">Email</label>
                     <input type="text" name="override_email"  type="email" placeholder="<?= $current_jzuser->user_email ?>" >

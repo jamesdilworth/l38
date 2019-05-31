@@ -116,7 +116,12 @@ class Classyad {
             return false;
         }
 
-        // From this point on, the post has been created, so any further errors should not cause a complete failure, but instead add to $this->errors
+        /* From this point on, the post has been created, so any further errors should not cause a complete failure,
+         * but instead add to $this->errors
+         *
+         * NOTE... if you add new fields to this, you must also make sure they're registered in $this->update_field()!!
+         *
+         */
 
         // Set the Categories
         $data['adcats'] = Array();
@@ -125,7 +130,7 @@ class Classyad {
         $data['adcats'] = array_map('intval', $data['adcats']); // Make sure that the adcats are all integers.
         $terms = wp_set_object_terms($new_post_id, $data['adcats'], 'adcat');
         if( is_wp_error($terms)) {
-            PC::debug($terms->get_error_message());
+            // PC::debug($terms->get_error_message());
         }
 
         // Now let's start updating the meta.
@@ -149,7 +154,7 @@ class Classyad {
 
         // Preferred Contact Details... TODO - Add these to ACF.
         if(isset($data['override_owner']) &&  $data['override_owner'] = 1) $this->update_field('override_owner', true);
-        if(isset($data['override_name'])) $this->update_field('override_name', $data['override_name']);
+        if(isset($data['override_email'])) $this->update_field('override_email', $data['override_email']);
         if(isset($data['override_phone'])) $this->update_field('override_phone', $data['override_phone']);
         if(isset($data['override_other'])) $this->update_field('override_other', $data['override_other']);
 
@@ -318,8 +323,17 @@ class Classyad {
             case 'boat_location':
                 $value = wp_strip_all_tags($value);
                 break;
+            case 'override_email':
+                $value = sanitize_email($value);
+                break;
+            case 'override_phone':
+                break;
+            case 'override_other':
+                break;
+            case 'override_owner':
+                break;
             default :
-                // PC::debug('I don\'t think we want to save ' . $field . ' , correct?');
+                PC::debug('I don\'t think we want to save ' . $field . ' , correct?');
                 return false; // Since this isn't an approved field. Don't save it. It could be a nonce, a self-injected field. Who knows!
                 break;
         }
@@ -348,6 +362,9 @@ class Classyad {
                 $value = esc_url($value);
                 break;
             case 'phone' :
+                $value = JZUGC_format_phone($value);
+                break;
+            case 'override_phone' :
                 $value = JZUGC_format_phone($value);
                 break;
             default:
@@ -512,6 +529,7 @@ class Classyad {
     }
 
     public function lookupOwnerDetails() {
+
         // If this ad is created by an admin who overrides the user, or imported without a user id, we'll set user_id of 1.
         if(isset($this->custom_fields['override_owner']) || $this->owner == 1) {
             $owner_details = array(
@@ -532,13 +550,12 @@ class Classyad {
                 'lastname' => $owner->last_name,
                 'display_name'  => isset($this->custom_fields['override_name']) ? $this->custom_fields['override_name'] : $owner->display_name,
                 'email' => isset($this->custom_fields['override_email']) ? $this->custom_fields['override_email'] : $owner->user_email,
-                'phone' => isset($this->custom_fields['override_phone']) ? $this->custom_fields['override_phone'] : isset($owner->phone) ? $owner->phone : null,
-                'other' => isset($this->custom_fields['override_other']) ? $this->custom_fields['override_other'] : isset($owner->other) ? $owner->other : null
+                'phone' => isset($this->custom_fields['override_phone']) ? $this->custom_fields['override_phone'] : (isset($owner->phone) ? $owner->phone : null),
+                'other' => isset($this->custom_fields['override_other']) ? $this->custom_fields['override_other'] : (isset($owner->other) ? $owner->other : null)
             );
         }
         $this->owner_deets = $owner_details;
         return $owner_details;
-
     }
 
     public function get_plan_amount($plan) {
@@ -802,7 +819,7 @@ class Classyad {
     }
 
     public function get_the_ID() {
-        return $post_id;
+        return $this->post_id;
     }
 
     public function get_the_status() {

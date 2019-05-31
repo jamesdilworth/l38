@@ -266,21 +266,26 @@ var Jzugc = (function($) {
     var setupHandlers = function() {
 
         $('.login-register-link').magnificPopup({
+            closeOnContentClick: false,
+            closeOnBgClick: false,
+            showCloseBtn: true,
             items: {
                 type: 'inline',
-                src: "#login-register",
-                modal:true
+                src: "#login-register"
             }
         });
 
         $('.sign-up').magnificPopup({
+            closeOnContentClick: false,
+            closeOnBgClick: false,
+            showCloseBtn: true,
             items: {
                 type: 'inline',
-                src: "#sign-up",
-                modal:true
+                src: "#sign-up"
             }
         });
 
+        $('.mp-close').on('click', function(evt) { evt.preventDefault(); $.magnificPopup.close(); });
 
         // Perform AJAX login on form submit
         $('form#login').on('submit', ajaxLogMeIn);

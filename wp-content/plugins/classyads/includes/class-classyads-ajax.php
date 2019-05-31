@@ -56,7 +56,6 @@ class Classyads_Ajax {
                     // PC::debug('charging profile');
                     // They've chosen to bill an existing card.
                     $payment_success = $payment->chargeCustomerProfile($data, $data['cim_payment_profile_id']);
-
                 } else {
                     // PC::debug('charge card.');
                     // Validate card details and bill directly

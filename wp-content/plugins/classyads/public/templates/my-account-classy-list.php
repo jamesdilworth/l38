@@ -56,7 +56,15 @@ if ( $classies_by_me->have_posts() ) {
         echo "</div>";
     }
 } else {
-    echo "You have no Classified Ads. Post one now! It'll make you feel great!";
+    echo "<p>You have no Classified Ads. Why not post one now!</p>";
+    echo "<ul>";
+    echo "<li><a href='/classyads/boats/'>Sell a boat!</a>";
+    echo "<li><a href='/classyads/gear/'>Sell used gear</a>";
+    echo "<li><a href='/classyads/property/'>Sell or rent property</a>";
+    echo "<li><a href='/classyads/jobs/'>Post a job</a>";
+    echo "<li><a href='/classyads/other/'>More...</a>";
+
+
 }
 
 // echo "<p style='font-size:90%; margin-top:20px; font-style:italic;'>* Ads on automatic renewal that are not canceled by the 15th of the month at 5 p.m. will be charged with the credit card on file and appear in the next issue of our monthly magazine. Ads not renewed by this time will expire and not appear in the next issue. Ads remain online until the following issue is published. Business ads do not appear online.</p>";

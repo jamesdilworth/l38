@@ -224,8 +224,6 @@ class Jzugc_Payment
         );
         $order_id = $this->initializeOrder($order_info);
 
-        PC::debug($order_info);
-
         if(!$order_id) {
             // Wasn't able to initialize the order?
             return false;

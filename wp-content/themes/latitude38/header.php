@@ -41,7 +41,7 @@ FLTheme::head();
                 <input id="login-password" type="password" name="login-password">
 
                 <div><a class="lost" href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a></div>
-                <div class="submit-field"><input class="btn" type="submit" value="Login" name="submit"></div>
+                <div class="submit-field"><a class="backout btn mp-close">Cancel</a> <input class="btn" type="submit" value="Login" name="submit"></div>
                 <?php wp_nonce_field( 'ajax-login-nonce', 'login-security' ); ?>
             </form>
             <div class="toggle-login-register">Not a member yet? <a href="/register/">Join the Latitude 38 Community</a></div>
