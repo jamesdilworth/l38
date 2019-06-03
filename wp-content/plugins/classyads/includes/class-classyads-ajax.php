@@ -51,7 +51,6 @@ class Classyads_Ajax {
                 // Start up the payment system
                 $payment = new Jzugc_Payment($current_user->ID);
 
-                // PC::debug($data['cim_payment_profile_id']);
                 if(isset($data['cim_payment_profile_id'])) {
                     // They have an existing payment profile.
                     $cim_payment_profile_id = $data['cim_payment_profile_id'];

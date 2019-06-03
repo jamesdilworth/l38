@@ -185,20 +185,20 @@ global $classyads_config; //
 
                 // Admin override to allow non-payment.
                 if(current_user_can('edit_posts')) {
-                    $output .= "<input type='radio' name='cim_payment_profile_id' value='admin_override'> <span class='admin_note'>Admin Override: Don't Charge.. you can do manually through Authorize.Net interface<br>";
+                    $output .= "<input type='radio' name='cim_payment_profile_id' value='admin_override'> <span class='admin_note'>Admin Override: Don't Charge.<span><br>";
                 }
 
                 if(!empty($profiles)) {
                     // Owner already has a payment profile. Give him the options.
-                    $output .= "<p>Choose a card:</p>";
-
                     $first = " checked";
                     foreach($profiles as $profile) {
                         $output .=  "<input type='radio' name='cim_payment_profile_id' " . $first . " value='" . $profile['id'] . "'> xxxx xxxx xxxx " . $profile['last4'] . " (" . $profile['expires'] . ")<br>";
                         $first = "";
                     }
-                    $output .= "<input type='radio' name='cim_payment_profile_id' value='new_payment_method'> <a class='add-payment-link'>Add a New Payment Method</a>";
+                }
 
+                if(current_user_can('edit_posts') || !empty($profiles)) {
+                    $output .= "<input type='radio' name='cim_payment_profile_id' value='new_payment_method'> <a class='add-payment-link'>Add a New Payment Method</a>";
                 }
 
                 $output .= "</div>";
@@ -257,7 +257,7 @@ global $classyads_config; //
                 </div>
 
             </section>
-            <p style="text-align:right; margin-top:30px;" class="submit_container"><input type="submit" value="Submit"></p>
+            <p style="text-align:right; margin-top:30px;" class="submit_container"><a class="backout btn mp-close">Cancel</a>  <input type="submit" value="Submit"></p>
             <?php wp_nonce_field( 'create_classyad', '_create_classyad_nonce' ) ?>
             <input type="hidden" name="ad_subscription_level">
             <input type="hidden" name="post_id" value="0">

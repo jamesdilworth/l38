@@ -354,8 +354,10 @@ class Jzugc_Payment
             );
             // TODO!!! - There should be some logic here on the default... otherwise, we can have mulitple items with default selected.
 
-            // Save to the WP DB
-            add_user_meta($this->user->ID, 'cim_payment_profile', $cim_payment_profile);
+            // As long as this isn't an admin.... save to the WP DB
+            if(!current_user_can('edit_posts')) {
+                add_user_meta($this->user->ID, 'cim_payment_profile', $cim_payment_profile);
+            }
 
             // Now return the ID
             return $cim_payment_profile_id;
@@ -451,8 +453,8 @@ class Jzugc_Payment
             array( '%d' )
         );
 
-        // Update user record with cim records if it comes back with a new profile.
-        if(key_exists('cim_profile_id', $tx_data) && $this->user) {
+        // Update user record with cim records if it comes back with a new profile, and if the user isn't an admin.
+        if(key_exists('cim_profile_id', $tx_data) && $this->user && !current_user_can('edit_posts')) {
             update_user_meta($this->user->ID, 'cim_profile_id', $tx_data['cim_profile_id']);
             add_user_meta($this->user->ID, 'cim_payment_profile', $cim_payment_profile);
         }

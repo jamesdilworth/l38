@@ -155,18 +155,18 @@ var ClassyadsForms = (function($) {
                 showCloseBtn: true
             }
         });
-
     };
 
     // Initialize and handle layout for changes with the payment method... this fires when the radio button changes
     var changeCreatePayment = function() {
         // This is the code that handles changing radio buttons for payment method.
-        var val = $('input[name=cim_payment_profile_id]:checked').val();
-
-        if(val === 'new_payment_method') {
-            $('#create_add_payment_fields').show();
-        } else {
-            $('#create_add_payment_fields').hide();
+        if($('input[name=cim_payment_profile_id]').length > 0) {
+            var val = $('input[name=cim_payment_profile_id]:checked').val();
+            if(val === 'new_payment_method') {
+                $('#create_add_payment_fields').show();
+            } else {
+                $('#create_add_payment_fields').hide();
+            }
         }
     };
 
