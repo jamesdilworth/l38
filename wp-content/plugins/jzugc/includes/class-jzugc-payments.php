@@ -293,43 +293,36 @@ class Jzugc_Payment
         return false;
     }
 
-    function createCustomerPaymentProfile($cim_id, $data)
-    {
+    function createCustomerPaymentProfile($data) {
         // Set the transaction's refId
         $refId = 'ref' . time();
 
-        // Create a Customer Profile Request
-        //  1. (Optionally) create a Payment Profile
-        //  2. (Optionally) create a Shipping Profile
-        //  3. Create a Customer Profile (or specify an existing profile)
-        //  4. Submit a CreateCustomerProfile Request
-        //  5. Validate Profile ID returned
-
         // Set credit card information for payment profile
         $creditCard = new AnetAPI\CreditCardType();
-        $creditCard->setCardNumber("4242424242424242");
-        $creditCard->setExpirationDate("2038-12");
-        $creditCard->setCardCode("142");
+        $creditCard->setCardNumber(str_replace(" ", "", $data['card_number']) );
+        $creditCard->setExpirationDate( $data['card_year'] . '-' . zeroise($data['card_month'],2));
+        $creditCard->setCardCode($data['cvv2']);
         $paymentCreditCard = new AnetAPI\PaymentType();
         $paymentCreditCard->setCreditCard($creditCard);
 
-        // Create the Bill To info for new payment type
-        $billto = new AnetAPI\CustomerAddressType();
-        $billto->setFirstName("Ellen".$phoneNumber);
-        $billto->setLastName("Johnson");
-        $billto->setCompany("Souveniropolis");
-        $billto->setAddress("14 Main Street");
-        $billto->setCity("Pecan Springs");
-        $billto->setState("TX");
-        $billto->setZip("44628");
-        $billto->setCountry("USA");
-        $billto->setPhoneNumber($phoneNumber);
-        $billto->setfaxNumber("999-999-9999");
+        // Set the customer's Bill To address
+        $customerAddress = new AnetAPI\CustomerAddressType();
+        $cardholder_name = explode(' ', $data['cardholder']);
+        $first_name = $cardholder_name[0];
+        $last_name = end($cardholder_name);
+        reset($cardholder_name); // Compensates for the above line, just in case we were to use it again.
+        $customerAddress->setFirstName($first_name);
+        $customerAddress->setLastName($last_name);
+        $customerAddress->setAddress($data['address1']);
+        $customerAddress->setCity($data['city']);
+        $customerAddress->setState($data['state']);
+        $customerAddress->setZip($data['zip']);
+        if(isset($data['country'])) $customerAddress->setCountry($data['country']);
 
         // Create a new Customer Payment Profile object
         $paymentprofile = new AnetAPI\CustomerPaymentProfileType();
         $paymentprofile->setCustomerType('individual');
-        $paymentprofile->setBillTo($billto);
+        $paymentprofile->setBillTo($customerAddress);
         $paymentprofile->setPayment($paymentCreditCard);
         $paymentprofile->setDefaultPaymentProfile(true);
 
@@ -340,25 +333,41 @@ class Jzugc_Payment
         $paymentprofilerequest->setMerchantAuthentication($this->merchantAuthentication);
 
         // Add an existing profile id to the request
-        $paymentprofilerequest->setCustomerProfileId($cim_id);
+        $paymentprofilerequest->setCustomerProfileId($this->user->cim_profile_id);
         $paymentprofilerequest->setPaymentProfile($paymentprofile);
-        $paymentprofilerequest->setValidationMode("liveMode"); // Use 'testMode' to perform a Luhn mod-10 check on the card number, without further validation. Use liveMode to submit a zero-dollar or one-cent transaction (depending on card type and processor support) to confirm the card number belongs to an active credit or debit account.
+        $paymentprofilerequest->setValidationMode("testMode"); // Use 'testMode' to perform a Luhn mod-10 check on the card number, without further validation. Use liveMode to submit a zero-dollar or one-cent transaction (depending on card type and processor support) to confirm the card number belongs to an active credit or debit account.
 
         // Create the controller and get the response
         $controller = new AnetController\CreateCustomerPaymentProfileController($paymentprofilerequest);
         $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
 
         if (($response != null) && ($response->getMessages()->getResultCode() == "Ok") ) {
-            echo "Create Customer Payment Profile SUCCESS: " . $response->getCustomerPaymentProfileId() . "\n";
+            // echo "Create Customer Payment Profile SUCCESS: " . $response->getCustomerPaymentProfileId() . "\n";
+            $cim_payment_profile_id = $response->getCustomerPaymentProfileId();
+
+            // Create profile info for the WP DB
+            $cim_payment_profile = array(
+                'id' => $cim_payment_profile_id,
+                'last4' => substr($data['card_number'], -4),
+                'expires' => zeroise($data['card_month'],2) . "/" . substr($data['card_year'],-2),
+                'default' => true // Since this would be the first.
+            );
+            // TODO!!! - There should be some logic here on the default... otherwise, we can have mulitple items with default selected.
+
+            // Save to the WP DB
+            add_user_meta($this->user->ID, 'cim_payment_profile', $cim_payment_profile);
+
+            // Now return the ID
+            return $cim_payment_profile_id;
+
         } else {
+            // TODO!! - Log this as an error!
             echo "Create Customer Payment Profile: ERROR Invalid response\n";
             $errorMessages = $response->getMessages()->getMessage();
             echo "Response : " . $errorMessages[0]->getCode() . "  " .$errorMessages[0]->getText() . "\n";
-
         }
-        return $response;
+        return false; // If we got here, we didn't create an id. :(
     }
-
 
     /**
      * Look up the card details for a given payment profile ID. - This has been primarily used as part of the lasso import script.
@@ -398,6 +407,7 @@ class Jzugc_Payment
 
                 return $jz_payment_profile;
            } else {
+                // TODO! - Log this error.
                 $errorMessages = $response->getMessages()->getMessage();
             }
         }

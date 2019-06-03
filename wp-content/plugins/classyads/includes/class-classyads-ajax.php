@@ -53,12 +53,26 @@ class Classyads_Ajax {
 
                 // PC::debug($data['cim_payment_profile_id']);
                 if(isset($data['cim_payment_profile_id'])) {
-                    // PC::debug('charging profile');
-                    // They've chosen to bill an existing card.
-                    $payment_success = $payment->chargeCustomerProfile($data, $data['cim_payment_profile_id']);
+                    // They have an existing payment profile.
+                    $cim_payment_profile_id = $data['cim_payment_profile_id'];
+
+                    // If they are requesting to use a new payment method, we need to create a new payment profile first before charging the card.
+                    if($cim_payment_profile_id == 'new_payment_method') {
+                        $ready = $payment->validateFields($data);
+                        if($ready) {
+                            $cim_payment_profile_id = $payment->createCustomerPaymentProfile($data);
+                        } else { // FAILED CARD INITIAL VALIDATION
+                            $json_response['errors'] = $payment->errors;
+                            $json_response['msg'] = "Your payment information does not seem to be valid. Please check the fields and try again";
+                            wp_send_json_error($json_response);
+                        }
+                    }
+
+                    // Now let's charge that payment profile ID.
+                    $payment_success = $payment->chargeCustomerProfile($data, $cim_payment_profile_id);
+
                 } else {
-                    // PC::debug('charge card.');
-                    // Validate card details and bill directly
+                    //  No existing card on file. Validate card details and bill directly
                     $ready = $payment->validateFields($data);
                     if($ready) {
                         $payment_success = $payment->chargeCreditCard($data);

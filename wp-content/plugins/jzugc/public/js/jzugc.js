@@ -163,10 +163,10 @@ var Jzugc = (function($) {
 	 * Do stuff based on parameters within the image, do things like crop and what not.
      */
     function preProcessImage(evt) {
-
         var input = this;
         var name = input.name ? input.name : input.id;
         var preview = document.getElementById('_jzugc_preview_' + name);
+
         var async_option = $(this).data('async');
 
     	// Validate that it's not more than a certain size.

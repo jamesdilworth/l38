@@ -22,7 +22,6 @@ var ClassyadsForms = (function($) {
      * When the user selects a plan, this will configure the form.
      */
     var changePlan = function(evt) {
-        console.log('initialized plan');
         evt.preventDefault();
 
         var plan_type = $(this).data('plan'); // Link that kicks off this function defines the plan.
@@ -50,6 +49,9 @@ var ClassyadsForms = (function($) {
         // $('.plan_options .plan').removeClass('active').addClass('unselected').find('.btn.choose_plan').text('Choose');
         // $(this).parents('.plan').removeClass('unselected').addClass('active');
         // $(this).text('Selected');
+
+        // Initialize the payment fields first.... if they don't have a cim, you can show the cc fields.
+        changeCreatePayment();
 
         // Hide CC stuff if the plan is free.
         if(plan_options.amount === 0) {
@@ -156,6 +158,25 @@ var ClassyadsForms = (function($) {
 
     };
 
+    // Initialize and handle layout for changes with the payment method... this fires when the radio button changes
+    var changeCreatePayment = function() {
+        // This is the code that handles changing radio buttons for payment method.
+        var val = $('input[name=cim_payment_profile_id]:checked').val();
+
+        if(val === 'new_payment_method') {
+            $('#create_add_payment_fields').show();
+        } else {
+            $('#create_add_payment_fields').hide();
+        }
+    };
+
+    // Handle payment method...  this fires when the 'add new payment link is clicked.' - Connected to the above.
+    var addCreditCardFields = function(evt) {
+        // Show the cc fields and select the right radio button.
+        evt.preventDefault();
+        $('#create_add_payment_fields').show();
+        $("input:radio[value=new_payment_method]").attr('checked', true);
+    };
 
     /**
      * Fired on Place Classy Ad Form Submission. This is placed from the validator script in changePlan()
@@ -254,8 +275,6 @@ var ClassyadsForms = (function($) {
             }
         });
     };
-
-
 
     /**
      * Handles form submission from a user wishing to upgrade the plan of the account they have.
@@ -374,6 +393,10 @@ var ClassyadsForms = (function($) {
         $('form#renew_classyad').submit(renewClassyAd);
         $('form#remove_classyad').submit(removeClassyAd);
 
+        // Add New Payment Method Interaction
+        $('input[name=cim_payment_profile_id]').change(changeCreatePayment);
+        $('.add-payment-link').click(addCreditCardFields);
+
         // Create Form Interractions
         $('#card_admin_override').change(function() {
             if(this.checked) {
@@ -425,7 +448,7 @@ jQuery(document).ready(function($) {
         type: 'inline',
         closeOnContentClick: false,
         closeOnBgClick: false,
-        showCloseBtn: true,
+        showCloseBtn: true
     });
 
     $('.remove-modal').magnificPopup({
